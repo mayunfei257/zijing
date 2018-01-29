@@ -1,0 +1,16 @@
+[
+{
+  "modid": "zijingmod",
+  "name": "zijingmod",
+  "description": "The mod from Shepherd.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Shepherd"],
+  "credits": "Thanks",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
