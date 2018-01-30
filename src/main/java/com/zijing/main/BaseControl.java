@@ -4,6 +4,7 @@ import com.zijing.ZijingMod;
 import com.zijing.blocks.BlockGuhuaNiunaiKuai;
 import com.zijing.blocks.BlockZijingKuai;
 import com.zijing.blocks.BlockZilingCao;
+import com.zijing.blocks.tool.BlockMagicEnergySwitch;
 import com.zijing.blocks.tool.BlockZilingMieshaZhen;
 import com.zijing.blocks.tool.BlockZilingZhaohuanZhen;
 import com.zijing.entity.EntityArrowBingDan;
@@ -65,6 +66,8 @@ public class BaseControl{
 	public static Block blockZijingKuai;
 	public static Block blockZilingMieshaZhen;
 	public static Block blockZilingZhaohuanZhen;
+	public static Block blockMagicEnergySwitch;
+	
 	//item
 	public static Item itemGuhuaNiunai;
 	public static Item itemZiqi;
@@ -105,6 +108,7 @@ public class BaseControl{
 		blockZijingKuai = new BlockZijingKuai();
 		blockZilingMieshaZhen = new BlockZilingMieshaZhen();
 		blockZilingZhaohuanZhen = new BlockZilingZhaohuanZhen();
+		blockMagicEnergySwitch = new BlockMagicEnergySwitch();
 		//item
 		itemGuhuaNiunai = new ItemGuhuaNiunai();
 		itemZiqi = new ItemZiqi();
@@ -154,6 +158,8 @@ public class BaseControl{
 		GameData.register_impl(new ItemBlock(blockZilingMieshaZhen).setRegistryName(blockZilingMieshaZhen.getRegistryName()));
 		GameData.register_impl(blockZilingZhaohuanZhen);
 		GameData.register_impl(new ItemBlock(blockZilingZhaohuanZhen).setRegistryName(blockZilingZhaohuanZhen.getRegistryName()));
+		GameData.register_impl(blockMagicEnergySwitch);
+		GameData.register_impl(new ItemBlock(blockMagicEnergySwitch).setRegistryName(blockMagicEnergySwitch.getRegistryName()));
 
 //		ForgeRegistries.ITEMS.register(itemGuhuaNiunai);
 		//item
@@ -203,6 +209,7 @@ public class BaseControl{
 		bolckResourceLoad(blockZijingKuai);
 		bolckResourceLoad(blockZilingMieshaZhen);
 		bolckResourceLoad(blockZilingZhaohuanZhen);
+		bolckResourceLoad(blockMagicEnergySwitch);
 		//item
 		itemResourceLoad(itemGuhuaNiunai);
 		itemResourceLoad(itemZiqi);

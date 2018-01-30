@@ -71,6 +71,7 @@ public class GuiBookChuansongUse {
 							player.world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 							zhilingZhuTag.setInteger(ZijingMod.MODID + ":magicEnergy", zhilingZhuTag.getInteger(ZijingMod.MODID + ":magicEnergy") - 3);
 							items.get(0).setItemDamage(zhilingZhuTag.getInteger(ZijingMod.MODID + ":maxMagicEnergy") - zhilingZhuTag.getInteger(ZijingMod.MODID + ":magicEnergy"));
+							ItemStackHelper.saveAllItems(bookTag, items, true);
 						}else if(player.dimension != chuansongCardTag.getInteger(ZijingMod.MODID + ":world")){
 							player.sendMessage(new TextComponentString("Not the same world!"));
 						}else if(zhilingZhuTag.getInteger(ZijingMod.MODID + ":magicEnergy") < 2){
@@ -97,6 +98,13 @@ public class GuiBookChuansongUse {
 		protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		}
+
+		@Override
+		public void drawScreen(int mouseX, int mouseY, float partialTicks){
+	        this.drawDefaultBackground();
+	        super.drawScreen(mouseX, mouseY, partialTicks);
+	        this.renderHoveredToolTip(mouseX, mouseY);
+	    }
 		
 		@Override
 		public void initGui() {

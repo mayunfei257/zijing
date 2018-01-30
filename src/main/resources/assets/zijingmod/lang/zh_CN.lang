@@ -5,6 +5,7 @@ tile.blockZilingCao.name = 紫灵草
 tile.blockZijingKuai.name = 紫晶块
 tile.blockZilingZhaohuanZhen.name = 紫灵召唤阵
 tile.blockZilingMieshaZhen.name = 紫灵灭杀阵
+tile.blockMagicEnergySwitch.name = 魔能转换器
 
 #Item----------------------------------------------------------------------
 item.itemGuhuaNiunai.name = 固化牛奶

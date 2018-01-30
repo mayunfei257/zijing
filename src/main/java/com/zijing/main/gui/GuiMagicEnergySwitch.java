@@ -23,15 +23,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class GuiBookChuansong {
-	public static final int GUIID = 2;
+public class GuiMagicEnergySwitch {
+	public static final int GUIID = 4;
 
-	public static class GuiBookChuansongContainer extends Container {
+	public static class GuiMagicEnergySwitchContainer extends Container {
 		private IInventory bookInv;
 		private NonNullList<ItemStack> items;
 		private NBTTagCompound bookTag;
 		
-		public GuiBookChuansongContainer(World world, int i, int j, int k, EntityPlayer player) {
+		public GuiMagicEnergySwitchContainer(World world, int i, int j, int k, EntityPlayer player) {
 			this.bookTag = player.getHeldItemMainhand().getItem() instanceof ItemBookChuansong ? player.getHeldItemMainhand().getTagCompound() : player.getHeldItemOffhand().getTagCompound();
 			this.bookInv = new InventoryBasic(ZijingMod.MODID + ":itembookchuansong", true, 29);
 			this.items = NonNullList.<ItemStack>withSize(29, ItemStack.EMPTY);
@@ -80,13 +80,13 @@ public class GuiBookChuansong {
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public static class GuiBookChuansongWindow extends GuiContainer {
+	public static class GuiMagicEnergySwitchWindow extends GuiContainer {
 		private final ResourceLocation texture = new ResourceLocation(ZijingMod.MODID + ":featurebook.png");
 	    private final InventoryPlayer playerInventory;
 		private IInventory bookInv;
 
-		public GuiBookChuansongWindow(World world, int i, int j, int k, EntityPlayer player) {
-			super(new GuiBookChuansongContainer(world, i, j, k, player));
+		public GuiMagicEnergySwitchWindow(World world, int i, int j, int k, EntityPlayer player) {
+			super(new GuiMagicEnergySwitchContainer(world, i, j, k, player));
 			this.xSize = 176;
 			this.ySize = 166;
 			playerInventory = player.inventory;
@@ -112,5 +112,12 @@ public class GuiBookChuansong {
 			this.mc.renderEngine.bindTexture(texture);
 			this.drawTexturedModalRect((this.width-this.xSize)/2, (this.height-this.ySize)/2, 0, 0, this.xSize, this.ySize);
 		}
+
+		@Override
+	    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
+	        String s = this.bookInv.getDisplayName().getUnformattedText();
+	        this.fontRenderer.drawString(s, this.xSize / 2 - this.fontRenderer.getStringWidth(s) / 2, 6, 4210752);
+	        this.fontRenderer.drawString(this.playerInventory.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
+	    }
 	}
 }
