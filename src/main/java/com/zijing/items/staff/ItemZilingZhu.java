@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import com.zijing.ZijingMod;
 import com.zijing.main.ZijingTab;
 import com.zijing.main.itf.MagicConsumer;
+import com.zijing.util.PlayerUtil;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -49,19 +50,16 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 			itemStack.setTagCompound(nbt);
 		}
 		if(!world.isRemote && itemStack.hasTagCompound() && null != itemStack.getTagCompound()) {
-			NBTTagCompound nbt = itemStack.getTagCompound();
-			if(nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR) >= 1) {
+			if(itemStack.getTagCompound().getInteger(MagicConsumer.MAGIC_ENERGY_STR) >= 1) {
 				if(player.isSneaking()) {
 					Collection<PotionEffect> potionEffects = player.getActivePotionEffects();
 					for(PotionEffect potionEffect:potionEffects) {
 						player.removePotionEffect(potionEffect.getPotion());
 					}
-					nbt.setInteger(MagicConsumer.MAGIC_ENERGY_STR, nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR) - 1);
-					itemStack.setItemDamage(nbt.getInteger(MagicConsumer.MAX_MAGIC_ENERGY_STR) - nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR));
+					PlayerUtil.minusMagic(itemStack, 1);
 				}else {
 					player.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 60, 0));
-					nbt.setInteger(MagicConsumer.MAGIC_ENERGY_STR, nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR) - 1);
-					itemStack.setItemDamage(nbt.getInteger(MagicConsumer.MAX_MAGIC_ENERGY_STR) - nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR));
+					PlayerUtil.minusMagic(itemStack, 1);
 				}
 			}else {
 				player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 1!"));
@@ -85,8 +83,7 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 			itemStack.setTagCompound(nbt);
 		}
 		if(!worldIn.isRemote && Blocks.AIR != worldIn.getBlockState(new BlockPos(x, y, z)).getBlock() && itemStack.hasTagCompound() && null != itemStack.getTagCompound()) {
-			NBTTagCompound nbt = itemStack.getTagCompound();
-			if(nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR) >= 2) {
+			if(itemStack.getTagCompound().getInteger(MagicConsumer.MAGIC_ENERGY_STR) >= 2) {
 				if(player.isSneaking()) {
 					for(; y > 0; y--) {
 						if(worldIn.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.BEDROCK) {
@@ -97,8 +94,7 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 								worldIn.setBlockState(new BlockPos(x, y - 1, z), Blocks.STONE.getDefaultState());
 							}
 							player.setPositionAndUpdate(x + 0.5, y, z + 0.5);
-							nbt.setInteger(MagicConsumer.MAGIC_ENERGY_STR, nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR) - 2);
-							itemStack.setItemDamage(nbt.getInteger(MagicConsumer.MAX_MAGIC_ENERGY_STR) - nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR));
+							PlayerUtil.minusMagic(itemStack, 2);
 							break;
 						}
 					}
@@ -112,8 +108,7 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 								worldIn.setBlockState(new BlockPos(x, y - 1, z), Blocks.STONE.getDefaultState());
 							}
 							player.setPositionAndUpdate(x + 0.5, y, z + 0.5);
-							nbt.setInteger(MagicConsumer.MAGIC_ENERGY_STR, nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR) - 2);
-							itemStack.setItemDamage(nbt.getInteger(MagicConsumer.MAX_MAGIC_ENERGY_STR) - nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR));
+							PlayerUtil.minusMagic(itemStack, 2);
 							break;
 						}
 					}

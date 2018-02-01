@@ -8,6 +8,7 @@ import com.zijing.ZijingMod;
 import com.zijing.entity.EntityArrowFengyinDan;
 import com.zijing.main.ZijingTab;
 import com.zijing.main.itf.MagicConsumer;
+import com.zijing.util.PlayerUtil;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -49,19 +50,16 @@ public class ItemStaffFengyin extends Item implements MagicConsumer{
 			itemStack.setTagCompound(nbt);
 		}
 		if (!world.isRemote && itemStack.hasTagCompound() && null != itemStack.getTagCompound()) {
-			NBTTagCompound nbt = itemStack.getTagCompound();
-			if(nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR) >= 3) {
+			if(itemStack.getTagCompound().getInteger(MagicConsumer.MAGIC_ENERGY_STR) >= 3) {
 				if(player.isSneaking()) {
 					world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("block.end_portal.spawn")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-					nbt.setInteger(MagicConsumer.MAGIC_ENERGY_STR, nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR) - 3);
-					itemStack.setItemDamage(nbt.getInteger(MagicConsumer.MAX_MAGIC_ENERGY_STR) - nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR));
+					PlayerUtil.minusMagic(itemStack, 3);
 				}else {
 					EntityArrowFengyinDan fengyinDan = new EntityArrowFengyinDan(world, player);
 					fengyinDan.shoot(player.getLookVec().x, player.getLookVec().y, player.getLookVec().z, 4.0F, 0);
 					world.spawnEntity(fengyinDan);
 					world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation(("entity.snowball.throw"))), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-					nbt.setInteger(MagicConsumer.MAGIC_ENERGY_STR, nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR) - 1);
-					itemStack.setItemDamage(nbt.getInteger(MagicConsumer.MAX_MAGIC_ENERGY_STR) - nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR));
+					PlayerUtil.minusMagic(itemStack, 1);
 				}
 			}else {
 				player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 3!"));
