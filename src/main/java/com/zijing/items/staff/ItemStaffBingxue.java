@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 import com.zijing.ZijingMod;
 import com.zijing.entity.EntityArrowBingDan;
 import com.zijing.main.ZijingTab;
-import com.zijing.main.itf.MagicEnergyConsumer;
+import com.zijing.main.itf.MagicConsumer;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.monster.EntitySnowman;
@@ -30,7 +30,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemStaffBingxue extends Item implements MagicEnergyConsumer{
+public class ItemStaffBingxue extends Item implements MagicConsumer{
 
 	public ItemStaffBingxue() {
 		super();
@@ -47,13 +47,13 @@ public class ItemStaffBingxue extends Item implements MagicEnergyConsumer{
 		if(null == itemStack || ItemStack.EMPTY == itemStack || null == itemStack.getItem()) return super.onItemRightClick(world, player, hand);
 		if(!itemStack.hasTagCompound() || null == itemStack.getTagCompound()){
 			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setInteger(ZijingMod.MODID + ":magicEnergy", ZijingMod.config.getSTAFF_MAX_MAGIC_ENERGY());
-			nbt.setInteger(ZijingMod.MODID + ":maxMagicEnergy", ZijingMod.config.getSTAFF_MAX_MAGIC_ENERGY());
+			nbt.setInteger(MagicConsumer.MAGIC_ENERGY_STR, ZijingMod.config.getSTAFF_MAX_MAGIC_ENERGY());
+			nbt.setInteger(MagicConsumer.MAX_MAGIC_ENERGY_STR, ZijingMod.config.getSTAFF_MAX_MAGIC_ENERGY());
 			itemStack.setTagCompound(nbt);
 		}
 		if (!world.isRemote && itemStack.hasTagCompound() && null != itemStack.getTagCompound()) {
 			NBTTagCompound nbt = itemStack.getTagCompound();
-			if(nbt.getInteger(ZijingMod.MODID + ":magicEnergy") >= 3) {
+			if(nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR) >= 3) {
 				if(player.isSneaking()) {
 					List<BlockPos> blockPosList = new ArrayList<BlockPos>();
 					for(int i = -5; i <= 5; i++) {
@@ -79,15 +79,15 @@ public class ItemStaffBingxue extends Item implements MagicEnergyConsumer{
 						snowman2.playLivingSound();
 					}
 					world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-					nbt.setInteger(ZijingMod.MODID + ":magicEnergy", nbt.getInteger(ZijingMod.MODID + ":magicEnergy") - 3);
-					itemStack.setItemDamage(nbt.getInteger(ZijingMod.MODID + ":maxMagicEnergy") - nbt.getInteger(ZijingMod.MODID + ":magicEnergy"));
+					nbt.setInteger(MagicConsumer.MAGIC_ENERGY_STR, nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR) - 3);
+					itemStack.setItemDamage(nbt.getInteger(MagicConsumer.MAX_MAGIC_ENERGY_STR) - nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR));
 				}else {
 					EntityArrowBingDan bingDan = new EntityArrowBingDan(world, player);
 					bingDan.shoot(player.getLookVec().x, player.getLookVec().y, player.getLookVec().z, 4.0F, 0);
 					world.spawnEntity(bingDan);
 					world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-					nbt.setInteger(ZijingMod.MODID + ":magicEnergy", nbt.getInteger(ZijingMod.MODID + ":magicEnergy") - 1);
-					itemStack.setItemDamage(nbt.getInteger(ZijingMod.MODID + ":maxMagicEnergy") - nbt.getInteger(ZijingMod.MODID + ":magicEnergy"));
+					nbt.setInteger(MagicConsumer.MAGIC_ENERGY_STR, nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR) - 1);
+					itemStack.setItemDamage(nbt.getInteger(MagicConsumer.MAX_MAGIC_ENERGY_STR) - nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR));
 				}
 			}else {
 				player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 3!"));
@@ -117,7 +117,7 @@ public class ItemStaffBingxue extends Item implements MagicEnergyConsumer{
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
 		if(stack.hasTagCompound() && null != stack.getTagCompound()){
 			NBTTagCompound nbt = stack.getTagCompound();
-			tooltip.add("Magic energy: " + nbt.getInteger(ZijingMod.MODID + ":magicEnergy") + "/" + nbt.getInteger(ZijingMod.MODID + ":maxMagicEnergy"));
+			tooltip.add("Magic energy: " + nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR) + "/" + nbt.getInteger(MagicConsumer.MAX_MAGIC_ENERGY_STR));
 		}else{
 			tooltip.add("TagCompound Data Error!");
 		}

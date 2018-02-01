@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import com.zijing.ZijingMod;
 import com.zijing.main.ZijingTab;
 import com.zijing.main.gui.GuiCardChuansong;
+import com.zijing.util.PlayerUtil;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,7 +17,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.FoodStats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -52,31 +52,25 @@ public class ItemCardChuansong extends Item{
 		}
 		if(!world.isRemote && itemStack.hasTagCompound() && null != itemStack.getTagCompound()){
 			NBTTagCompound chuansongCardTag = itemStack.getTagCompound();
-			FoodStats playerFoodStats = player.getFoodStats();
 			if(player.isSneaking()){
-				if(playerFoodStats.getFoodLevel() + playerFoodStats.getSaturationLevel() >= foodConsume) {
+				if(PlayerUtil.getAllFoodlevel(player) >= foodConsume) {
 					player.openGui(ZijingMod.instance, GuiCardChuansong.GUIID, world, (int) player.posX, (int) (player.posY + 1.62D), (int) player.posZ);
 				}else {
 					player.sendMessage(new TextComponentString("You are hungry!"));
 				}
 			}else {
-				if(player.dimension == chuansongCardTag.getInteger(ZijingMod.MODID + ":world") && chuansongCardTag.getBoolean(ZijingMod.MODID + ":isbind") && playerFoodStats.getFoodLevel() + playerFoodStats.getSaturationLevel() >= foodConsume) {
+				if(player.dimension == chuansongCardTag.getInteger(ZijingMod.MODID + ":world") && chuansongCardTag.getBoolean(ZijingMod.MODID + ":isbind") && PlayerUtil.getAllFoodlevel(player) >= foodConsume) {
 					double x = chuansongCardTag.getDouble(ZijingMod.MODID + ":lx");
 					double y = chuansongCardTag.getDouble(ZijingMod.MODID + ":ly");
 					double z = chuansongCardTag.getDouble(ZijingMod.MODID + ":lz");
 					player.setPositionAndUpdate(x, y, z);
 					world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-					if(playerFoodStats.getSaturationLevel() >= foodConsume) {
-						playerFoodStats.setFoodSaturationLevel(playerFoodStats.getSaturationLevel() - foodConsume);
-					}else {
-						playerFoodStats.setFoodLevel(playerFoodStats.getFoodLevel() - foodConsume + (int)playerFoodStats.getSaturationLevel());
-						playerFoodStats.setFoodSaturationLevel(0);
-					}
+					PlayerUtil.minusFoodlevel(player, foodConsume);
 				}else if(!chuansongCardTag.getBoolean(ZijingMod.MODID + ":isbind")){
 					player.sendMessage(new TextComponentString("Not yet bound!"));
 				}else if(player.dimension != chuansongCardTag.getInteger(ZijingMod.MODID + ":world")){
 					player.sendMessage(new TextComponentString("Not the same world!"));
-				}else if(playerFoodStats.getFoodLevel() + playerFoodStats.getSaturationLevel() < foodConsume){
+				}else if(PlayerUtil.getAllFoodlevel(player) < foodConsume){
 					player.sendMessage(new TextComponentString("You are hungry!"));
 				}
 			}

@@ -5,7 +5,7 @@ tile.blockZilingCao.name = zilingCao
 tile.blockZijingKuai.name = zijingKuai
 tile.blockZilingZhaohuanZhen.name = zilingZhaohuanZhen
 tile.blockZilingMieshaZhen.name = zilingMieshaZhen
-tile.blockMagicEnergySwitch.name = magicEnergySwitch
+tile.blockZhulingTai.name = zhulingTai
 
 #Item----------------------------------------------------------------------
 item.itemGuhuaNiunai.name = guhuaNiunai

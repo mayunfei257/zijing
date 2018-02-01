@@ -1,5 +1,5 @@
 package com.zijing.main.itf;
 
-public interface MagicEnergySource {
+public interface MagicSource {
 	public int getMagicEnergy();
 }

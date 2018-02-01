@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.zijing.ZijingMod;
 import com.zijing.items.card.ItemCardChuansong;
+import com.zijing.util.PlayerUtil;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -11,7 +12,6 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.FoodStats;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -19,11 +19,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class GuiCardChuansong {
 	public static final int GUIID = 1;
 
-	public static class GuiCardChuansongContainer extends Container {
+	public static class MyContainer extends Container {
 		private EntityPlayer player;
 		private NBTTagCompound chuansongCardTag;
 		
-		public GuiCardChuansongContainer(World world, int i, int j, int k, EntityPlayer player) {
+		public MyContainer(World world, int i, int j, int k, EntityPlayer player) {
 			this.chuansongCardTag = player.getHeldItemMainhand().getItem() instanceof ItemCardChuansong ? player.getHeldItemMainhand().getTagCompound() : player.getHeldItemOffhand().getTagCompound();
 			this.player = player;
 		}
@@ -41,22 +41,16 @@ public class GuiCardChuansong {
 			chuansongCardTag.setInteger(ZijingMod.MODID + ":world", player.dimension);
 			chuansongCardTag.setString(ZijingMod.MODID + ":name", name);
 			chuansongCardTag.setBoolean(ZijingMod.MODID + ":isbind", true);
-			FoodStats playerFoodStats = player.getFoodStats();
-			if(playerFoodStats.getSaturationLevel() >= ItemCardChuansong.foodConsume) {
-				playerFoodStats.setFoodSaturationLevel(playerFoodStats.getSaturationLevel() - ItemCardChuansong.foodConsume);
-			}else {
-				playerFoodStats.setFoodLevel(playerFoodStats.getFoodLevel() + playerFoodStats.getSaturationLevel() >= ItemCardChuansong.foodConsume ? playerFoodStats.getFoodLevel() - ItemCardChuansong.foodConsume + (int)playerFoodStats.getSaturationLevel() : 0);
-				playerFoodStats.setFoodSaturationLevel(0);
-			}
+			PlayerUtil.minusFoodlevel(player, ItemCardChuansong.foodConsume);
 		}
 	}
 
 	@SideOnly(Side.CLIENT)	//TODO
-	public static class GuiCardChuansongWindow extends GuiContainer {
+	public static class MyGuiContainer extends GuiContainer {
 		private GuiTextField paperName;
 		
-		public GuiCardChuansongWindow(World world, int i, int j, int k, EntityPlayer player) {
-			super(new GuiCardChuansongContainer(world, i, j, k, player));
+		public MyGuiContainer(World world, int i, int j, int k, EntityPlayer player) {
+			super(new MyContainer(world, i, j, k, player));
 		}
 
 		@Override
@@ -110,7 +104,7 @@ public class GuiCardChuansong {
 		@Override
 		protected void actionPerformed(GuiButton button) {
 			if (button.id == 1) {
-				((GuiCardChuansongContainer)this.inventorySlots).saveDate(this.paperName.getText());
+				((MyContainer)this.inventorySlots).saveDate(this.paperName.getText());
 				this.mc.player.closeScreen();
 			}
 			if (button.id == 2) {

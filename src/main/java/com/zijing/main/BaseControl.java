@@ -4,7 +4,6 @@ import com.zijing.ZijingMod;
 import com.zijing.blocks.BlockGuhuaNiunaiKuai;
 import com.zijing.blocks.BlockZijingKuai;
 import com.zijing.blocks.BlockZilingCao;
-import com.zijing.blocks.tool.BlockMagicEnergySwitch;
 import com.zijing.blocks.tool.BlockZilingMieshaZhen;
 import com.zijing.blocks.tool.BlockZilingZhaohuanZhen;
 import com.zijing.entity.EntityArrowBingDan;
@@ -27,7 +26,6 @@ import com.zijing.items.staff.ItemStaffBingxue;
 import com.zijing.items.staff.ItemStaffFengyin;
 import com.zijing.items.staff.ItemStaffKongjian;
 import com.zijing.items.staff.ItemStaffLieyan;
-import com.zijing.items.staff.ItemStaffWaigua;
 import com.zijing.items.staff.ItemZilingZhu;
 import com.zijing.items.tool.ItemArmorZijingBody;
 import com.zijing.items.tool.ItemArmorZijingBoots;
@@ -38,6 +36,7 @@ import com.zijing.items.tool.ItemToolZijingChu;
 import com.zijing.items.tool.ItemToolZijingFu;
 import com.zijing.items.tool.ItemToolZijingGao;
 import com.zijing.items.tool.ItemToolZijingJian;
+import com.zijing.main.itf.MagicConsumer;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -66,7 +65,7 @@ public class BaseControl{
 	public static Block blockZijingKuai;
 	public static Block blockZilingMieshaZhen;
 	public static Block blockZilingZhaohuanZhen;
-	public static Block blockMagicEnergySwitch;
+//	public static Block blockZhulingTai;
 	
 	//item
 	public static Item itemGuhuaNiunai;
@@ -88,7 +87,7 @@ public class BaseControl{
 	public static Item itemArrowHuoDan;
 	public static Item itemArrowXukongDan;
 	public static Item itemArrowFengyinDan;
-	public static Item itemStaffWaigua;
+//	public static Item itemStaffWaigua;
 	//tool
 	public static Item itemToolZijingJian;
 	public static Item itemToolZijingFu;
@@ -108,7 +107,7 @@ public class BaseControl{
 		blockZijingKuai = new BlockZijingKuai();
 		blockZilingMieshaZhen = new BlockZilingMieshaZhen();
 		blockZilingZhaohuanZhen = new BlockZilingZhaohuanZhen();
-		blockMagicEnergySwitch = new BlockMagicEnergySwitch();
+//		blockZhulingTai = new BlockZhulingTai(false);
 		//item
 		itemGuhuaNiunai = new ItemGuhuaNiunai();
 		itemZiqi = new ItemZiqi();
@@ -129,7 +128,7 @@ public class BaseControl{
 		itemArrowHuoDan = new ItemArrowHuoDan();
 		itemArrowXukongDan = new ItemArrowXukongDan();
 		itemArrowFengyinDan = new ItemArrowFengyinDan();
-		itemStaffWaigua = new ItemStaffWaigua();
+//		itemStaffWaigua = new ItemStaffWaigua();
 		//tool
 		itemToolZijingJian = new ItemToolZijingJian();
 		itemToolZijingFu = new ItemToolZijingFu();
@@ -158,8 +157,8 @@ public class BaseControl{
 		GameData.register_impl(new ItemBlock(blockZilingMieshaZhen).setRegistryName(blockZilingMieshaZhen.getRegistryName()));
 		GameData.register_impl(blockZilingZhaohuanZhen);
 		GameData.register_impl(new ItemBlock(blockZilingZhaohuanZhen).setRegistryName(blockZilingZhaohuanZhen.getRegistryName()));
-		GameData.register_impl(blockMagicEnergySwitch);
-		GameData.register_impl(new ItemBlock(blockMagicEnergySwitch).setRegistryName(blockMagicEnergySwitch.getRegistryName()));
+//		GameData.register_impl(blockZhulingTai);
+//		GameData.register_impl(new ItemBlock(blockZhulingTai).setRegistryName(blockZhulingTai.getRegistryName()));
 
 //		ForgeRegistries.ITEMS.register(itemGuhuaNiunai);
 		//item
@@ -182,7 +181,7 @@ public class BaseControl{
 		GameData.register_impl(itemArrowHuoDan);
 		GameData.register_impl(itemArrowXukongDan);
 		GameData.register_impl(itemArrowFengyinDan);
-		GameData.register_impl(itemStaffWaigua);
+//		GameData.register_impl(itemStaffWaigua);
 		//tool
 		GameData.register_impl(itemToolZijingJian);
 		GameData.register_impl(itemToolZijingFu);
@@ -209,7 +208,7 @@ public class BaseControl{
 		bolckResourceLoad(blockZijingKuai);
 		bolckResourceLoad(blockZilingMieshaZhen);
 		bolckResourceLoad(blockZilingZhaohuanZhen);
-		bolckResourceLoad(blockMagicEnergySwitch);
+//		bolckResourceLoad(blockZhulingTai);
 		//item
 		itemResourceLoad(itemGuhuaNiunai);
 		itemResourceLoad(itemZiqi);
@@ -230,7 +229,7 @@ public class BaseControl{
 		itemResourceLoad(itemArrowHuoDan);
 		itemResourceLoad(itemArrowXukongDan);
 		itemResourceLoad(itemArrowFengyinDan);
-		itemResourceLoad(itemStaffWaigua);
+//		itemResourceLoad(itemStaffWaigua);
 		//tool
 		itemResourceLoad(itemToolZijingJian);
 		itemResourceLoad(itemToolZijingFu);
@@ -270,8 +269,8 @@ public class BaseControl{
 		addRecipe(ZijingMod.MODID + ":HC_itemBookChuansong", ZijingMod.MODID, new ItemStack(itemBookChuansong, 1), itemZiqi, Items.BOOK, itemZiqi, Items.BOOK, Items.ENDER_PEARL, Items.BOOK, itemZiqi, Items.BOOK, itemZiqi);
 		//staff
 		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setInteger(ZijingMod.MODID + ":magicEnergy", ZijingMod.config.getSTAFF_MAX_MAGIC_ENERGY());
-		nbt.setInteger(ZijingMod.MODID + ":maxMagicEnergy", ZijingMod.config.getSTAFF_MAX_MAGIC_ENERGY());
+		nbt.setInteger(MagicConsumer.MAGIC_ENERGY_STR, ZijingMod.config.getSTAFF_MAX_MAGIC_ENERGY());
+		nbt.setInteger(MagicConsumer.MAX_MAGIC_ENERGY_STR, ZijingMod.config.getSTAFF_MAX_MAGIC_ENERGY());
 		ItemStack itemZilingZhuStack = new ItemStack(itemZilingZhu, 1);
 		ItemStack itemStaffBingxueStack = new ItemStack(itemStaffBingxue, 1);
 		ItemStack itemStaffLieyanStack = new ItemStack(itemStaffLieyan, 1);

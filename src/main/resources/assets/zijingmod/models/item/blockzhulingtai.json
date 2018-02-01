@@ -1,5 +1,5 @@
 {
-    "parent": "zijingmod:block/blockmagicenergyswitch",
+    "parent": "zijingmod:block/blockzhulingtai",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

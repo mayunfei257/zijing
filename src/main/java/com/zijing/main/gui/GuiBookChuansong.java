@@ -26,12 +26,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class GuiBookChuansong {
 	public static final int GUIID = 2;
 
-	public static class GuiBookChuansongContainer extends Container {
+	public static class MyContainer extends Container {
 		private IInventory bookInv;
 		private NonNullList<ItemStack> items;
 		private NBTTagCompound bookTag;
 		
-		public GuiBookChuansongContainer(World world, int i, int j, int k, EntityPlayer player) {
+		public MyContainer(World world, int i, int j, int k, EntityPlayer player) {
 			this.bookTag = player.getHeldItemMainhand().getItem() instanceof ItemBookChuansong ? player.getHeldItemMainhand().getTagCompound() : player.getHeldItemOffhand().getTagCompound();
 			this.bookInv = new InventoryBasic(ZijingMod.MODID + ":itembookchuansong", true, 29);
 			this.items = NonNullList.<ItemStack>withSize(29, ItemStack.EMPTY);
@@ -80,13 +80,13 @@ public class GuiBookChuansong {
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public static class GuiBookChuansongWindow extends GuiContainer {
+	public static class MyGuiContainer extends GuiContainer {
 		private final ResourceLocation texture = new ResourceLocation(ZijingMod.MODID + ":featurebook.png");
 	    private final InventoryPlayer playerInventory;
 		private IInventory bookInv;
 
-		public GuiBookChuansongWindow(World world, int i, int j, int k, EntityPlayer player) {
-			super(new GuiBookChuansongContainer(world, i, j, k, player));
+		public MyGuiContainer(World world, int i, int j, int k, EntityPlayer player) {
+			super(new MyContainer(world, i, j, k, player));
 			this.xSize = 176;
 			this.ySize = 166;
 			playerInventory = player.inventory;
