@@ -2,7 +2,6 @@ package com.zijing.main.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.zijing.ZijingMod;
 import com.zijing.items.card.ItemCardChuansong;
 import com.zijing.util.PlayerUtil;
 
@@ -35,12 +34,12 @@ public class GuiCardChuansong {
 		public void onContainerClosed(EntityPlayer playerIn) {}
 		
 		public void saveDate(String name){
-			chuansongCardTag.setDouble(ZijingMod.MODID + ":lx", player.posX);
-			chuansongCardTag.setDouble(ZijingMod.MODID + ":ly", player.posY);
-			chuansongCardTag.setDouble(ZijingMod.MODID + ":lz", player.posZ);
-			chuansongCardTag.setInteger(ZijingMod.MODID + ":world", player.dimension);
-			chuansongCardTag.setString(ZijingMod.MODID + ":name", name);
-			chuansongCardTag.setBoolean(ZijingMod.MODID + ":isbind", true);
+			chuansongCardTag.setDouble(ItemCardChuansong.BIND_LX, player.posX);
+			chuansongCardTag.setDouble(ItemCardChuansong.BIND_LY, player.posY);
+			chuansongCardTag.setDouble(ItemCardChuansong.BIND_LZ, player.posZ);
+			chuansongCardTag.setInteger(ItemCardChuansong.BIND_WORLD, player.dimension);
+			chuansongCardTag.setString(ItemCardChuansong.BIND_NAME, name);
+			chuansongCardTag.setBoolean(ItemCardChuansong.IS_BIND, true);
 			PlayerUtil.minusFoodlevel(player, ItemCardChuansong.foodConsume);
 		}
 	}

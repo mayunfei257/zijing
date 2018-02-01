@@ -1,4 +1,4 @@
-package com.zijing.util;
+package com.zijing.test;
 
 import net.minecraft.block.BlockAnvil;
 import net.minecraft.block.BlockCauldron;

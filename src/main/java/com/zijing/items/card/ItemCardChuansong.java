@@ -27,7 +27,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemCardChuansong extends Item{
 	public static final int foodConsume = 5;
-	
+	public static final String BIND_LX = ZijingMod.MODID + ":lx";
+	public static final String BIND_LY = ZijingMod.MODID + ":ly";
+	public static final String BIND_LZ = ZijingMod.MODID + ":lz";
+	public static final String BIND_WORLD = ZijingMod.MODID + ":world";
+	public static final String BIND_NAME = ZijingMod.MODID + ":name";
+	public static final String IS_BIND = ZijingMod.MODID + ":isbind";
+
 	public ItemCardChuansong() {
 		super();
 		maxStackSize = 1;
@@ -42,12 +48,12 @@ public class ItemCardChuansong extends Item{
 		if(null == itemStack || ItemStack.EMPTY == itemStack || null == itemStack.getItem()) return super.onItemRightClick(world, player, hand);
 		if(!itemStack.hasTagCompound() || null == itemStack.getTagCompound()){
 			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setDouble(ZijingMod.MODID + ":lx", 0);
-			nbt.setDouble(ZijingMod.MODID + ":ly", 0);
-			nbt.setDouble(ZijingMod.MODID + ":lz", 0);
-			nbt.setInteger(ZijingMod.MODID + ":world", -999);
-			nbt.setString(ZijingMod.MODID + ":name", "NULL");
-			nbt.setBoolean(ZijingMod.MODID + ":isbind", false);
+			nbt.setDouble(BIND_LX, 0);
+			nbt.setDouble(BIND_LY, 0);
+			nbt.setDouble(BIND_LZ, 0);
+			nbt.setInteger(BIND_WORLD, -999);
+			nbt.setString(BIND_NAME, "NULL");
+			nbt.setBoolean(IS_BIND, false);
 			itemStack.setTagCompound(nbt);
 		}
 		if(!world.isRemote && itemStack.hasTagCompound() && null != itemStack.getTagCompound()){
@@ -59,16 +65,16 @@ public class ItemCardChuansong extends Item{
 					player.sendMessage(new TextComponentString("You are hungry!"));
 				}
 			}else {
-				if(player.dimension == chuansongCardTag.getInteger(ZijingMod.MODID + ":world") && chuansongCardTag.getBoolean(ZijingMod.MODID + ":isbind") && PlayerUtil.getAllFoodlevel(player) >= foodConsume) {
-					double x = chuansongCardTag.getDouble(ZijingMod.MODID + ":lx");
-					double y = chuansongCardTag.getDouble(ZijingMod.MODID + ":ly");
-					double z = chuansongCardTag.getDouble(ZijingMod.MODID + ":lz");
+				if(player.dimension == chuansongCardTag.getInteger(BIND_WORLD) && chuansongCardTag.getBoolean(IS_BIND) && PlayerUtil.getAllFoodlevel(player) >= foodConsume) {
+					double x = chuansongCardTag.getDouble(BIND_LX);
+					double y = chuansongCardTag.getDouble(BIND_LY);
+					double z = chuansongCardTag.getDouble(BIND_LZ);
 					player.setPositionAndUpdate(x, y, z);
 					world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 					PlayerUtil.minusFoodlevel(player, foodConsume);
-				}else if(!chuansongCardTag.getBoolean(ZijingMod.MODID + ":isbind")){
+				}else if(!chuansongCardTag.getBoolean(IS_BIND)){
 					player.sendMessage(new TextComponentString("Not yet bound!"));
-				}else if(player.dimension != chuansongCardTag.getInteger(ZijingMod.MODID + ":world")){
+				}else if(player.dimension != chuansongCardTag.getInteger(BIND_WORLD)){
 					player.sendMessage(new TextComponentString("Not the same world!"));
 				}else if(PlayerUtil.getAllFoodlevel(player) < foodConsume){
 					player.sendMessage(new TextComponentString("You are hungry!"));
@@ -81,10 +87,10 @@ public class ItemCardChuansong extends Item{
 	@Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		if(stack.hasTagCompound() && null != stack.getTagCompound() && stack.getTagCompound().getBoolean(ZijingMod.MODID + ":isbind")){
+		if(stack.hasTagCompound() && null != stack.getTagCompound() && stack.getTagCompound().getBoolean(IS_BIND)){
 			NBTTagCompound nbt  = stack.getTagCompound();
-			tooltip.add("Position X:" + (int)nbt.getDouble(ZijingMod.MODID + ":lx") + " Y:" + (int)nbt.getDouble(ZijingMod.MODID + ":ly") + " Z:" + (int)nbt.getDouble(ZijingMod.MODID + ":lz") + " World:" + nbt.getInteger(ZijingMod.MODID + ":world"));
-			tooltip.add("Name:"+ nbt.getString(ZijingMod.MODID + ":name"));
+			tooltip.add("Position X:" + (int)nbt.getDouble(BIND_LX) + " Y:" + (int)nbt.getDouble(BIND_LY) + " Z:" + (int)nbt.getDouble(BIND_LZ) + " World:" + nbt.getInteger(BIND_WORLD));
+			tooltip.add("Name:"+ nbt.getString(BIND_NAME));
 		}else{
 			tooltip.add("Is not binded!");
 		}

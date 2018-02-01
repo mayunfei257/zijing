@@ -2,8 +2,8 @@ package com.zijing.main.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.zijing.ZijingMod;
 import com.zijing.items.card.ItemBookChuansong;
+import com.zijing.items.card.ItemCardChuansong;
 import com.zijing.items.staff.ItemZilingZhu;
 import com.zijing.main.itf.MagicConsumer;
 
@@ -51,8 +51,8 @@ public class GuiBookChuansongUse {
 		public String getCardName(int index) {
 			if(index > 0 && index < 29 && null != items.get(index) && ItemStack.EMPTY != items.get(index) && items.get(index).hasTagCompound()) {
 				NBTTagCompound cardTag = items.get(index).getTagCompound();
-				if(null != cardTag && cardTag.getBoolean(ZijingMod.MODID + ":isbind")) {
-					return cardTag.getString(ZijingMod.MODID + ":name");
+				if(null != cardTag && cardTag.getBoolean(ItemCardChuansong.IS_BIND)) {
+					return cardTag.getString(ItemCardChuansong.BIND_NAME);
 				}
 			}
 			return null;
@@ -61,19 +61,19 @@ public class GuiBookChuansongUse {
 		public void teleportEntity(int index) {
 			if(index > 0 && index < 29 && null != items.get(index) && ItemStack.EMPTY != items.get(index)) {
 				NBTTagCompound chuansongCardTag = items.get(index).getTagCompound();
-				if(items.get(index).hasTagCompound() && null != chuansongCardTag && chuansongCardTag.getBoolean(ZijingMod.MODID + ":isbind")) {
+				if(items.get(index).hasTagCompound() && null != chuansongCardTag && chuansongCardTag.getBoolean(ItemCardChuansong.IS_BIND)) {
 					if(null != items.get(0) && ItemStack.EMPTY != items.get(0) && items.get(0).getItem() instanceof ItemZilingZhu && items.get(0).hasTagCompound()) {
 						NBTTagCompound zhilingZhuTag = items.get(0).getTagCompound();
-						if(player.dimension == chuansongCardTag.getInteger(ZijingMod.MODID + ":world") && zhilingZhuTag.getInteger(MagicConsumer.MAGIC_ENERGY_STR) >= 3) {
-							double x = chuansongCardTag.getDouble(ZijingMod.MODID + ":lx");
-							double y = chuansongCardTag.getDouble(ZijingMod.MODID + ":ly");
-							double z = chuansongCardTag.getDouble(ZijingMod.MODID + ":lz");
+						if(player.dimension == chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD) && zhilingZhuTag.getInteger(MagicConsumer.MAGIC_ENERGY_STR) >= 3) {
+							double x = chuansongCardTag.getDouble(ItemCardChuansong.BIND_LX);
+							double y = chuansongCardTag.getDouble(ItemCardChuansong.BIND_LY);
+							double z = chuansongCardTag.getDouble(ItemCardChuansong.BIND_LZ);
 							player.setPositionAndUpdate(x, y, z);
 							player.world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 							zhilingZhuTag.setInteger(MagicConsumer.MAGIC_ENERGY_STR, zhilingZhuTag.getInteger(MagicConsumer.MAGIC_ENERGY_STR) - 3);
 							items.get(0).setItemDamage(zhilingZhuTag.getInteger(MagicConsumer.MAX_MAGIC_ENERGY_STR) - zhilingZhuTag.getInteger(MagicConsumer.MAGIC_ENERGY_STR));
 							ItemStackHelper.saveAllItems(bookTag, items, true);
-						}else if(player.dimension != chuansongCardTag.getInteger(ZijingMod.MODID + ":world")){
+						}else if(player.dimension != chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)){
 							player.sendMessage(new TextComponentString("Not the same world!"));
 						}else if(zhilingZhuTag.getInteger(MagicConsumer.MAGIC_ENERGY_STR) < 3){
 							player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 3!"));

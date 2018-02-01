@@ -1,4 +1,4 @@
-package com.zijing.items.staff;
+package com.zijing.test;
 
 import java.util.List;
 
@@ -7,7 +7,6 @@ import javax.annotation.Nullable;
 import com.zijing.ZijingMod;
 import com.zijing.main.ZijingTab;
 import com.zijing.main.itf.MagicConsumer;
-import com.zijing.util.Building;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
