@@ -1,0 +1,48 @@
+﻿itemGroup.ZhijingTab = 紫晶标签
+#Block----------------------------------------------------------------------
+tile.blockGuhuaNiunaiKuai.name = 固化牛奶块
+tile.blockZilingCao.name = 紫灵草
+tile.blockZijingKuai.name = 紫晶块
+tile.blockZilingZhaohuanZhen.name = 紫灵召唤阵
+tile.blockZilingMieshaZhen.name = 紫灵灭杀阵
+tile.blockZhulingTai.name = 注灵台
+
+#Item----------------------------------------------------------------------
+item.itemGuhuaNiunai.name = 固化牛奶
+item.itemZiqi.name = 紫气
+item.itemZijing.name = 紫晶
+item.itemDanZiling.name = 紫灵丹
+item.itemDanShenshu.name = 神速丹
+item.itemZilingZhu.name = 紫灵珠
+
+#Card-------------------------------------------------------------------------
+item.itemCardFengyin.name = 封印卡
+item.itemCardChuansong.name = 传送卡
+item.itemBookChuansong.name = 传送书
+
+#Staff-------------------------------------------------------------------------
+item.itemStaffBingxue.name = 冰雪法杖
+item.itemStaffLieyan.name = 烈焰法杖
+item.itemStaffKongjian.name = 空间法杖
+item.itemStaffFengyin.name = 封印法杖
+item.itemArrowBingDan.name = 冰弹
+item.itemArrowHuoDan.name = 火弹
+item.itemArrowXukongDan.name = 虚空弹
+item.itemArrowFengyinDan.name = 封印弹
+entity.entityArrowBingDan.name = 冰弹
+entity.entityArrowHuoDan.name = 火弹
+entity.entityArrowXukongDan.name = 虚空弹
+entity.entityArrowFengyinDan.name =  封印弹
+item.itemStaffWaigua.name = 外挂法杖
+
+#Tool-------------------------------------------------------------------------
+item.itemToolZijingJian.name = 紫晶剑
+item.itemToolZijingFu.name = 紫晶斧
+item.itemToolZijingGao.name = 紫晶镐
+item.itemToolZijingChan.name = 紫晶铲
+item.itemToolZijingChu.name = 紫晶锄
+item.itemToolZijingDun.name = 紫晶盾
+item.itemArmorZijingHelmet.name = 紫晶头盔
+item.itemArmorZijingBody.name = 紫晶胸甲
+item.itemArmorZijingLegs.name = 紫晶护腿
+item.itemArmorZijingBoots.name = 紫晶靴
