@@ -113,9 +113,8 @@ public class ItemStaffKongjian extends Item implements MagicConsumer{
 			}else {
 				player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 3!"));
 			}
-			return new ActionResult(EnumActionResult.SUCCESS, itemStack);
 		}
-		return new ActionResult(EnumActionResult.PASS, itemStack);
+		return new ActionResult(EnumActionResult.SUCCESS, itemStack);
 	}
 
 	@Override

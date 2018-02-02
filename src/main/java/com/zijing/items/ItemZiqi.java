@@ -17,6 +17,9 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -37,6 +40,15 @@ public class ItemZiqi extends Item implements MagicSource{
 			return 16000;
 		return 0;
     }
+	
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World world, final EntityPlayer player, EnumHand hand){
+		if(player.isSneaking()) {
+			player.setActiveHand(hand);
+			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, player.getHeldItem(hand));
+		}
+		return new ActionResult<ItemStack>(EnumActionResult.PASS, player.getHeldItem(hand));
+	}
 	
 	@Override
 	public int getMaxItemUseDuration(ItemStack par1ItemStack) {

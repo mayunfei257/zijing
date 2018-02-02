@@ -16,6 +16,9 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -28,6 +31,15 @@ public class ItemZijing extends Item implements MagicSource{
 		setUnlocalizedName("itemZijing");
 		setRegistryName(ZijingMod.MODID + ":itemzijing");
 		setCreativeTab(ZijingTab.zijingTab);
+	}
+	
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World world, final EntityPlayer player, EnumHand hand){
+		if(player.isSneaking()) {
+			player.setActiveHand(hand);
+			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, player.getHeldItem(hand));
+		}
+		return new ActionResult<ItemStack>(EnumActionResult.PASS, player.getHeldItem(hand));
 	}
 	
 	@Override

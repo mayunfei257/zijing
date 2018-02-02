@@ -21,7 +21,9 @@ public class ItemToolZijingJian extends ItemSword{
 	@Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker){
 		target.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 60, 4));
-		attacker.setHealth(attacker.getHealth() + 1 >= attacker.getMaxHealth() ? attacker.getMaxHealth() : attacker.getHealth() + 1);
+		if(attacker.getHealth() + 1 <= attacker.getMaxHealth()) {
+			attacker.setHealth(attacker.getHealth() + 1);
+		}
 		if(null == attacker.getActivePotionEffect(MobEffects.STRENGTH))
 			attacker.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 60, 0));
 		return super.hitEntity(stack, target, attacker);

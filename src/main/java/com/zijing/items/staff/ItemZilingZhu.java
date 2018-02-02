@@ -64,7 +64,6 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 			}else {
 				player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 1!"));
 			}
-			return new ActionResult(EnumActionResult.SUCCESS, player.getHeldItem(hand));
 		}
 		return new ActionResult(EnumActionResult.SUCCESS, player.getHeldItem(hand));
 	}
@@ -116,7 +115,6 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 			}else {
 				player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 2!"));
 			}
-			return EnumActionResult.SUCCESS;
 		}
 		return EnumActionResult.SUCCESS;
 	}
