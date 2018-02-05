@@ -5,7 +5,9 @@ import org.lwjgl.opengl.GL11;
 import com.zijing.items.card.ItemBookChuansong;
 import com.zijing.items.card.ItemCardChuansong;
 import com.zijing.items.staff.ItemZilingZhu;
+import com.zijing.main.BaseControl;
 import com.zijing.main.itf.MagicConsumer;
+import com.zijing.message.ChuansongBookMessage;
 import com.zijing.util.PlayerUtil;
 
 import net.minecraft.client.gui.GuiButton;
@@ -15,10 +17,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -29,14 +29,17 @@ public class GuiBookChuansongUse {
 
 	public static class MyContainer extends Container {
 		private EntityPlayer player;
-		private NBTTagCompound bookTag;
+		private NBTTagCompound chuansongBookTag;
 		private NonNullList<ItemStack> items;
+		private EnumHand hand;
 		
 		public MyContainer(World world, int i, int j, int k, EntityPlayer player) {
-			this.bookTag = player.getHeldItemMainhand().getItem() instanceof ItemBookChuansong ? player.getHeldItemMainhand().getTagCompound() : player.getHeldItemOffhand().getTagCompound();
+			this.hand = null == player.getActiveHand() ? EnumHand.MAIN_HAND : player.getActiveHand();
+			this.hand = player.getHeldItem(this.hand).getItem() instanceof ItemBookChuansong ? this.hand : (this.hand == EnumHand.MAIN_HAND ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND);
+			this.chuansongBookTag = player.getHeldItem(this.hand).getTagCompound();
 			this.items = NonNullList.<ItemStack>withSize(29, ItemStack.EMPTY);
 			this.player = player;
-			ItemStackHelper.loadAllItems(bookTag, items);
+			ItemStackHelper.loadAllItems(chuansongBookTag, items);
 		}
 		
 		@Override
@@ -46,11 +49,11 @@ public class GuiBookChuansongUse {
 
 		@Override
 		public void onContainerClosed(EntityPlayer playerIn) {
-			ItemStackHelper.saveAllItems(bookTag, items, true);
+			ItemStackHelper.saveAllItems(chuansongBookTag, items, true);
 		}
 		
 		public String getCardName(int index) {
-			if(index > 0 && index < 29 && null != items.get(index) && ItemStack.EMPTY != items.get(index) && items.get(index).hasTagCompound()) {
+			if(index > 0 && index < 29 && null != items.get(index) && !items.get(index).isEmpty() && items.get(index).hasTagCompound()) {
 				NBTTagCompound cardTag = items.get(index).getTagCompound();
 				if(null != cardTag && cardTag.getBoolean(ItemCardChuansong.IS_BIND)) {
 					return cardTag.getString(ItemCardChuansong.BIND_NAME);
@@ -60,29 +63,31 @@ public class GuiBookChuansongUse {
 		}
 		
 		public void teleportEntity(int index) {
-			if(index > 0 && index < 29 && null != items.get(index) && !items.get(index).isEmpty()) {
-				if(items.get(index).hasTagCompound() && items.get(index).getTagCompound().getBoolean(ItemCardChuansong.IS_BIND)) {
-					if(null != items.get(0) && !items.get(0).isEmpty() && items.get(0).getItem() instanceof ItemZilingZhu && items.get(0).hasTagCompound()) {
-						NBTTagCompound chuansongCardTag = items.get(index).getTagCompound();
-						NBTTagCompound zhilingZhuTag = items.get(0).getTagCompound();
-						if(player.dimension == chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD) && zhilingZhuTag.getInteger(MagicConsumer.MAGIC_ENERGY_STR) >= 3) {
-							PlayerUtil.minusMagic(items.get(0), 3);
-							ItemStackHelper.saveAllItems(bookTag, items, true);
-							double x = chuansongCardTag.getDouble(ItemCardChuansong.BIND_LX);
-							double y = chuansongCardTag.getDouble(ItemCardChuansong.BIND_LY);
-							double z = chuansongCardTag.getDouble(ItemCardChuansong.BIND_LZ);
-							player.setPositionAndUpdate(x, y, z);
-							player.world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-						}else if(player.dimension != chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)){
-							player.sendMessage(new TextComponentString("Not the same world!"));
-						}else if(zhilingZhuTag.getInteger(MagicConsumer.MAGIC_ENERGY_STR) < 3){
-							player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 3!"));
+			if(index > 0 && index < 29 && null != items.get(index)) {
+				ItemStack cardStack = items.get(index);
+				if(null != cardStack && !cardStack.isEmpty()) {
+					NBTTagCompound chuansongCardTag = cardStack.getTagCompound();
+					if(cardStack.hasTagCompound() && chuansongCardTag.getBoolean(ItemCardChuansong.IS_BIND)) {
+						ItemStack zhilingZhuStack = items.get(0);
+						if(null != zhilingZhuStack && !zhilingZhuStack.isEmpty() && zhilingZhuStack.getItem() instanceof ItemZilingZhu && zhilingZhuStack.hasTagCompound()) {
+							if(zhilingZhuStack.getTagCompound().getInteger(MagicConsumer.MAGIC_ENERGY_STR) >= 3) {
+								if(player.dimension == chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)) {
+									PlayerUtil.minusMagic(zhilingZhuStack, 3);
+									ItemStackHelper.saveAllItems(chuansongBookTag, items, true);
+									System.out.println("------ will send data");
+									BaseControl.netWorkWrapper.sendToServer(new ChuansongBookMessage(chuansongBookTag, chuansongCardTag, hand, player.getUniqueID()));
+								}else {
+									player.sendMessage(new TextComponentString("Not the same world! -1 = the Nether, 0 = normal world , this is " + chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)));
+								}
+							}else {
+								player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 3!"));
+							}
+						}else {
+							player.sendMessage(new TextComponentString("No magic energy!"));
 						}
 					}else {
-						player.sendMessage(new TextComponentString("No magic energy!"));
+						player.sendMessage(new TextComponentString("Not yet bound!"));
 					}
-				}else {
-					player.sendMessage(new TextComponentString("Not yet bound!"));
 				}
 			}
 		}
@@ -101,6 +106,11 @@ public class GuiBookChuansongUse {
 		}
 
 		@Override
+		protected void drawGuiContainerForegroundLayer(int par1, int par2) {
+			this.fontRenderer.drawString("Some text",this.width/2 + 125, this.height/2 + 70, 0xffffff);
+		}
+
+		@Override
 		public void drawScreen(int mouseX, int mouseY, float partialTicks){
 	        this.drawDefaultBackground();
 	        super.drawScreen(mouseX, mouseY, partialTicks);
@@ -114,9 +124,9 @@ public class GuiBookChuansongUse {
 			for(int index = 1; index < 29; index++) {
 				String name = ((MyContainer)this.inventorySlots).getCardName(index);
 				if(null != name) {
-					int x = (index - 1) % 7;
-					int y = (index - 1) / 7;
-					this.buttonList.add(new GuiButton(index, this.width/2 + ((x - 3)*50 - 20), this.height/2 + ((y - 1)*40 - 30), 40, 20, name));
+					int x = (index - 1) % 6;
+					int y = (index - 1) / 6;
+					this.buttonList.add(new GuiButton(index, this.width/2 + (60 * x - 175), this.height/2 + (40 * y - 90), 50, 20, name));
 				}
 			}
 		}

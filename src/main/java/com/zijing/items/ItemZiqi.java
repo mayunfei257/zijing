@@ -11,15 +11,14 @@ import com.zijing.main.itf.MagicConsumer;
 import com.zijing.main.itf.MagicSource;
 
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -44,40 +43,28 @@ public class ItemZiqi extends Item implements MagicSource{
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, final EntityPlayer player, EnumHand hand){
 		if(player.isSneaking()) {
-			player.setActiveHand(hand);
+			if(!world.isRemote) {
+				ItemStack mainHandStack = player.getHeldItemMainhand();
+				ItemStack offHandStack = player.getHeldItemOffhand();
+				if(!mainHandStack.isEmpty() && mainHandStack.getItem() instanceof MagicSource && !offHandStack.isEmpty() && offHandStack.getItem() instanceof MagicConsumer) {
+					NBTTagCompound offHandNBT = offHandStack.getTagCompound();
+					int offHandMagic = offHandNBT.getInteger(MagicConsumer.MAGIC_ENERGY_STR);
+					int offHandMaxMagic = offHandNBT.getInteger(MagicConsumer.MAX_MAGIC_ENERGY_STR);
+					if(offHandMaxMagic > offHandMagic) {
+						int magic = getMagicEnergy() > offHandMaxMagic - offHandMagic ? offHandMaxMagic - offHandMagic : getMagicEnergy();
+						offHandNBT.setInteger(MagicConsumer.MAGIC_ENERGY_STR,  offHandMagic + magic);
+						offHandStack.setItemDamage(offHandNBT.getInteger(MagicConsumer.MAX_MAGIC_ENERGY_STR) - offHandNBT.getInteger(MagicConsumer.MAGIC_ENERGY_STR));
+						mainHandStack.shrink(1);
+						player.sendMessage(new TextComponentString("Magic injection success! + " + magic));
+					}else {
+						player.sendMessage(new TextComponentString("Magic is full!"));
+					}
+				}
+			}
 			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, player.getHeldItem(hand));
 		}
 		return new ActionResult<ItemStack>(EnumActionResult.PASS, player.getHeldItem(hand));
 	}
-	
-	@Override
-	public int getMaxItemUseDuration(ItemStack par1ItemStack) {
-		return getMagicEnergy()/30;
-	}
-	
-	@Override
-	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
-		return EnumAction.BOW;
-	}
-
-	@Override
-    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving){
-		if(!worldIn.isRemote && entityLiving instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer)entityLiving;
-			ItemStack mainHandStack = player.getHeldItemMainhand();
-			ItemStack offHandStack = player.getHeldItemOffhand();
-			if(!mainHandStack.isEmpty() && mainHandStack.getItem() instanceof MagicSource && !offHandStack.isEmpty() && offHandStack.getItem() instanceof MagicConsumer) {
-				NBTTagCompound offHandNBT = offHandStack.getTagCompound();
-				int offHandMagic = offHandNBT.getInteger(MagicConsumer.MAGIC_ENERGY_STR);
-				int offHandMaxMagic = offHandNBT.getInteger(MagicConsumer.MAX_MAGIC_ENERGY_STR);
-				if(offHandMaxMagic > offHandMagic) {
-					offHandNBT.setInteger(MagicConsumer.MAGIC_ENERGY_STR, getMagicEnergy() > offHandMaxMagic - offHandMagic ? offHandMaxMagic : offHandMagic + getMagicEnergy());
-					mainHandStack.shrink(1);
-				}
-			}
-		}
-        return stack;
-    }
 	
 	@Override
 	public int getMagicEnergy() {

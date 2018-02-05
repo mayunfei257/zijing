@@ -8,7 +8,6 @@ import javax.annotation.Nullable;
 import com.zijing.ZijingMod;
 import com.zijing.main.ZijingTab;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -35,10 +35,11 @@ public class ItemToolZijingChu extends ItemHoe{
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
 		super.onItemUse(player, world, pos, hand, facing, hitX, hitY, hitZ);
 		if(!world.isRemote) {
+			Random random = new Random();
 			IBlockState iBlockState = world.getBlockState(pos);
-			Block block = iBlockState.getBlock();
-			block.updateTick(world, pos, iBlockState, new Random());
+			iBlockState.getBlock().updateTick(world, pos, iBlockState, random);
 			player.getHeldItem(hand).damageItem(1, player);
+			world.spawnParticle(EnumParticleTypes.HEART, pos.getX() + random.nextFloat(), pos.getY() + random.nextFloat()/2.0D + 0.5D, pos.getZ() + random.nextFloat(), 0.0D, 0.5D, 0.0D);
 		}
 		return EnumActionResult.SUCCESS;
 	}

@@ -37,6 +37,7 @@ import com.zijing.items.tool.ItemToolZijingFu;
 import com.zijing.items.tool.ItemToolZijingGao;
 import com.zijing.items.tool.ItemToolZijingJian;
 import com.zijing.main.itf.MagicConsumer;
+import com.zijing.message.ChuansongCardMessage;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -54,11 +55,17 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.registries.GameData;
 
 public class BaseControl{
+    private static int nextID = 0;
+	public static SimpleNetworkWrapper netWorkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(ZijingMod.MODID);
+	
 	//TODO Instantiate mod item ---
 	public static Block blockGuhuaNiunaiKuai;
 	public static Block blockZilingCao;
@@ -144,6 +151,7 @@ public class BaseControl{
 	}
 	
 	public static void register(FMLPreInitializationEvent event){
+    	netWorkWrapper.registerMessage(ChuansongCardMessage.Handler.class, ChuansongCardMessage.class, nextID++, Side.SERVER);
 		//TODO In this registration items and blocks ---
 //		ForgeRegistries.BLOCKS.register(blockGuhuaNiunaiKuai);;
 //		ForgeRegistries.ITEMS.register(new ItemBlock(blockGuhuaNiunaiKuai).setRegistryName(blockGuhuaNiunaiKuai.getRegistryName()));

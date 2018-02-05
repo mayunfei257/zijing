@@ -35,6 +35,7 @@ public class ItemBookChuansong extends Item{
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, final EntityPlayer player, EnumHand hand){
+		player.setActiveHand(hand);
 		ItemStack itemStack = player.getHeldItem(hand);
 		if(null == itemStack || ItemStack.EMPTY == itemStack || null == itemStack.getItem()) return super.onItemRightClick(world, player, hand);
 		if(!itemStack.hasTagCompound() || null == itemStack.getTagCompound()){

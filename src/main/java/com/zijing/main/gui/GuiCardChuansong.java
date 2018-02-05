@@ -3,7 +3,8 @@ package com.zijing.main.gui;
 import org.lwjgl.opengl.GL11;
 
 import com.zijing.items.card.ItemCardChuansong;
-import com.zijing.util.PlayerUtil;
+import com.zijing.main.BaseControl;
+import com.zijing.message.ChuansongCardMessage;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -11,6 +12,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -21,9 +23,12 @@ public class GuiCardChuansong {
 	public static class MyContainer extends Container {
 		private EntityPlayer player;
 		private NBTTagCompound chuansongCardTag;
+		private EnumHand hand;
 		
 		public MyContainer(World world, int i, int j, int k, EntityPlayer player) {
-			this.chuansongCardTag = player.getHeldItemMainhand().getItem() instanceof ItemCardChuansong ? player.getHeldItemMainhand().getTagCompound() : player.getHeldItemOffhand().getTagCompound();
+			this.hand = null == player.getActiveHand() ? EnumHand.MAIN_HAND : player.getActiveHand();
+			this.hand = player.getHeldItem(this.hand).getItem() instanceof ItemCardChuansong ? this.hand : (this.hand == EnumHand.MAIN_HAND ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND);
+			this.chuansongCardTag = player.getHeldItem(this.hand).getTagCompound();
 			this.player = player;
 		}
 		
@@ -31,7 +36,9 @@ public class GuiCardChuansong {
 		public boolean canInteractWith(EntityPlayer playerIn) {return true;}
 		
 		@Override
-		public void onContainerClosed(EntityPlayer playerIn) {}
+		public void onContainerClosed(EntityPlayer playerIn) {
+			playerIn.world.updateEntity(playerIn);
+		}
 		
 		public void saveDate(String name){
 			chuansongCardTag.setDouble(ItemCardChuansong.BIND_LX, player.posX);
@@ -40,7 +47,7 @@ public class GuiCardChuansong {
 			chuansongCardTag.setInteger(ItemCardChuansong.BIND_WORLD, player.dimension);
 			chuansongCardTag.setString(ItemCardChuansong.BIND_NAME, name);
 			chuansongCardTag.setBoolean(ItemCardChuansong.IS_BIND, true);
-			PlayerUtil.minusFoodlevel(player, ItemCardChuansong.foodConsume);
+			BaseControl.netWorkWrapper.sendToServer(new ChuansongCardMessage(chuansongCardTag, hand, player.getUniqueID()));
 		}
 	}
 
