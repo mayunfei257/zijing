@@ -49,8 +49,6 @@ public class ChuansongBookMessage implements IMessage{
 				NBTTagCompound chuansongBookTag = (NBTTagCompound)message.dataTag.getTag("ChuansongBookTag");
 				NBTTagCompound chuansongCardTag = (NBTTagCompound)message.dataTag.getTag("ChuansongCardTag");
 				EnumHand hand = "MAIN_HAND".equals(message.dataTag.getString("Hand")) ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
-//				UUID uuid = UUID.fromString(message.dataTag.getString("UUID"));
-				String uuid = message.dataTag.getString("UUID");
 				((WorldServer) ctx.getServerHandler().player.world).addScheduledTask(new Runnable(){
 					@Override
 					public void run(){
@@ -63,11 +61,7 @@ public class ChuansongBookMessage implements IMessage{
 								double z = chuansongCardTag.getDouble(ItemCardChuansong.BIND_LZ);
 								player.setPositionAndUpdate(x, y, z);
 								player.world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-								System.out.println("------ set end");
 							}
-							System.out.println("------" + hand);
-							System.out.println("------" + uuid);
-							System.out.println("------" + player.getUniqueID());
 						}catch(Exception e) {
 							player.sendMessage(new TextComponentString("Exception :" + e.getMessage()));
 						}
@@ -77,4 +71,5 @@ public class ChuansongBookMessage implements IMessage{
 			return null;
 		}
 	}
+//	UUID uuid = UUID.fromString(message.dataTag.getString("UUID"));
 }

@@ -37,7 +37,10 @@ import com.zijing.items.tool.ItemToolZijingFu;
 import com.zijing.items.tool.ItemToolZijingGao;
 import com.zijing.items.tool.ItemToolZijingJian;
 import com.zijing.main.itf.MagicConsumer;
+import com.zijing.message.ChuansongBookMessage;
 import com.zijing.message.ChuansongCardMessage;
+import com.zijing.player.ShepherdCapability;
+import com.zijing.player.ShepherdMessage;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -52,6 +55,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -151,7 +155,10 @@ public class BaseControl{
 	}
 	
 	public static void register(FMLPreInitializationEvent event){
+		CapabilityManager.INSTANCE.register(ShepherdCapability.class, ShepherdCapability.storage, ShepherdCapability.class);
     	netWorkWrapper.registerMessage(ChuansongCardMessage.Handler.class, ChuansongCardMessage.class, nextID++, Side.SERVER);
+    	netWorkWrapper.registerMessage(ChuansongBookMessage.Handler.class, ChuansongBookMessage.class, nextID++, Side.SERVER);
+    	netWorkWrapper.registerMessage(ShepherdMessage.Handler.class, ShepherdMessage.class, nextID++, Side.CLIENT);
 		//TODO In this registration items and blocks ---
 //		ForgeRegistries.BLOCKS.register(blockGuhuaNiunaiKuai);;
 //		ForgeRegistries.ITEMS.register(new ItemBlock(blockGuhuaNiunaiKuai).setRegistryName(blockGuhuaNiunaiKuai.getRegistryName()));
@@ -308,13 +315,16 @@ public class BaseControl{
 		
 		
 		addSmelting(Blocks.GRAVEL, new ItemStack(Items.FLINT, 1), 1);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_CLAY", ZijingMod.MODID, new ItemStack(Items.CLAY_BALL, 4),Blocks.CLAY);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_QUARTZ_BLOCK", ZijingMod.MODID, new ItemStack(Items.QUARTZ, 4),Blocks.QUARTZ_BLOCK);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_WOOL", ZijingMod.MODID, new ItemStack(Items.STRING, 4),Blocks.WOOL);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_GLOWSTONE", ZijingMod.MODID, new ItemStack(Items.GLOWSTONE_DUST, 4),Blocks.GLOWSTONE);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_MELON_BLOCK", ZijingMod.MODID, new ItemStack(Items.MELON, 9),Blocks.MELON_BLOCK);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_LEATHER", ZijingMod.MODID, new ItemStack(Items.RABBIT_HIDE, 4),Items.LEATHER);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_NETHER_WART_BLOCK", ZijingMod.MODID, new ItemStack(Items.NETHER_WART, 9),Blocks.NETHER_WART_BLOCK);
+		addShapelessRecipe(ZijingMod.MODID + ":HC_GUNPOWDER", ZijingMod.MODID, new ItemStack(Items.GUNPOWDER, 3),Items.FLINT, Items.COAL, Items.DYE);
+		addShapelessRecipe(ZijingMod.MODID + ":FJ_CLAY", ZijingMod.MODID, new ItemStack(Items.CLAY_BALL, 4), Blocks.CLAY);
+		addShapelessRecipe(ZijingMod.MODID + ":FJ_QUARTZ_BLOCK", ZijingMod.MODID, new ItemStack(Items.QUARTZ, 4), Blocks.QUARTZ_BLOCK);
+		addShapelessRecipe(ZijingMod.MODID + ":FJ_WOOL", ZijingMod.MODID, new ItemStack(Items.STRING, 4), Blocks.WOOL);
+		addShapelessRecipe(ZijingMod.MODID + ":FJ_GLOWSTONE", ZijingMod.MODID, new ItemStack(Items.GLOWSTONE_DUST, 4), Blocks.GLOWSTONE);
+		addShapelessRecipe(ZijingMod.MODID + ":FJ_MELON_BLOCK", ZijingMod.MODID, new ItemStack(Items.MELON, 9), Blocks.MELON_BLOCK);
+		addShapelessRecipe(ZijingMod.MODID + ":FJ_LEATHER", ZijingMod.MODID, new ItemStack(Items.RABBIT_HIDE, 4), Items.LEATHER);
+		addShapelessRecipe(ZijingMod.MODID + ":FJ_NETHER_WART_BLOCK", ZijingMod.MODID, new ItemStack(Items.NETHER_WART, 9), Blocks.NETHER_WART_BLOCK);
+		addShapelessRecipe(ZijingMod.MODID + ":FJ_SNOW_BLOCK", ZijingMod.MODID, new ItemStack(Items.SNOWBALL, 4), Blocks.SNOW);
+		addShapelessRecipe(ZijingMod.MODID + ":FJ_MAGMA_BLOCK", ZijingMod.MODID, new ItemStack(Items.MAGMA_CREAM, 4), Blocks.MAGMA);
 		
 	}
 	
@@ -339,9 +349,9 @@ public class BaseControl{
   		Ingredient[] ingredient = new Ingredient[items.length];
   		for (int i = 0; i < items.length; ++i){
   			if(items[i] instanceof Block) {
-  	  			ingredient[i] = Ingredient.fromStacks(new ItemStack(Item.getItemFromBlock((Block)items[i]),1));
+  	  			ingredient[i] = Ingredient.fromStacks(new ItemStack(Item.getItemFromBlock((Block)items[i]), 1));
   			}else {
-  	  			ingredient[i] = Ingredient.fromStacks(new ItemStack((Item)items[i],1));
+  	  			ingredient[i] = Ingredient.fromStacks(new ItemStack((Item)items[i], 1));
   			}
         }
   		GameRegistry.addShapelessRecipe(new ResourceLocation(nameStr), new ResourceLocation(groupStr), itemStack, ingredient);

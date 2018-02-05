@@ -74,7 +74,6 @@ public class GuiBookChuansongUse {
 								if(player.dimension == chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)) {
 									PlayerUtil.minusMagic(zhilingZhuStack, 3);
 									ItemStackHelper.saveAllItems(chuansongBookTag, items, true);
-									System.out.println("------ will send data");
 									BaseControl.netWorkWrapper.sendToServer(new ChuansongBookMessage(chuansongBookTag, chuansongCardTag, hand, player.getUniqueID()));
 								}else {
 									player.sendMessage(new TextComponentString("Not the same world! -1 = the Nether, 0 = normal world , this is " + chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)));

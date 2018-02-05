@@ -1,13 +1,21 @@
 package com.zijing.main;
 
+import com.zijing.player.ShepherdCapability;
+import com.zijing.player.ShepherdProvider;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ZijingEvent {
@@ -69,5 +77,40 @@ public class ZijingEvent {
 			}
 		}
 	}
+
+	@SubscribeEvent
+	public void playerClone(PlayerEvent.Clone event){
+		if(event.isWasDeath() && !event.getEntity().world.isRemote){
+			EntityPlayer player = event.getEntityPlayer();
+			ShepherdCapability newCapb = ShepherdProvider.getCapabilityFromPlayer(player);
+			ShepherdCapability oldCapb = ShepherdProvider.getCapabilityFromPlayer(event.getOriginal());
+			newCapb.readNBT(null, oldCapb.writeNBT(null));
+			newCapb.setBlood(0);
+			newCapb.setMagic(0);
+			player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(newCapb.getMaxBlood());
+			player.setHealth(newCapb.getBlood());
+			ShepherdProvider.updateChange(player);
+		}
+	}
 	
+    @SubscribeEvent
+    public void entityJoinWorld(EntityJoinWorldEvent event) {
+        if (event.getEntity() instanceof EntityPlayer && !event.getEntity().world.isRemote) {
+        	EntityPlayer player = (EntityPlayer) event.getEntity();
+        	if(player.hasCapability(ShepherdProvider.SHE_CAP, null)){
+    			ShepherdCapability newCapb = ShepherdProvider.getCapabilityFromPlayer(player);
+    			player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(newCapb.getMaxBlood());
+    			player.setHealth(newCapb.getBlood());
+                ShepherdProvider.updateChange(player);
+        	}
+        }
+    }
+
+    @SubscribeEvent
+    public void attachCapability(AttachCapabilitiesEvent<EntityPlayer> event){
+    	EntityPlayer player = event.getObject();
+    	if(!player.hasCapability(ShepherdProvider.SHE_CAP, null)) {
+    		event.addCapability(new ResourceLocation(ShepherdCapability.name), new ShepherdProvider());
+    	}
+    }
 }
