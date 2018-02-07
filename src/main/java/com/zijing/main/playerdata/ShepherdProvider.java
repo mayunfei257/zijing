@@ -1,7 +1,10 @@
-package com.zijing.player;
+package com.zijing.main.playerdata;
 
 import com.zijing.main.BaseControl;
+import com.zijing.main.message.ShepherdToClientMessage;
+import com.zijing.main.message.UpgradeToServerMessage;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTBase;
@@ -45,14 +48,30 @@ public class ShepherdProvider implements ICapabilityProvider, INBTSerializable {
     public void deserializeNBT(NBTBase nbt) {
         shepherdCapability.readNBT(null, nbt);
     }
+
+    public static boolean hasCapabilityFromPlayer(Entity player) {
+    	if(null != player) {
+            return player.hasCapability(SHE_CAP, null);
+    	}
+        return false;
+    }
     
-    public static ShepherdCapability getCapabilityFromPlayer(EntityPlayer player) {
-        return player.hasCapability(SHE_CAP, null)? player.getCapability(SHE_CAP, null): null;
+    public static ShepherdCapability getCapabilityFromPlayer(Entity player) {
+    	if(null != player && player.hasCapability(SHE_CAP, null)) {
+            return  player.getCapability(SHE_CAP, null);
+    	}
+    	return null;
     }
 
-    public static void updateChange(EntityPlayer player) {
-        if(player != null){
-        	BaseControl.netWorkWrapper.sendTo(new ShepherdMessage(player.getCapability(SHE_CAP, null).writeNBT(null)), (EntityPlayerMP) player);
+    public static void updateChangeToClient(EntityPlayer player) {
+        if(null != player && player instanceof EntityPlayerMP && player.hasCapability(SHE_CAP, null)){
+        	BaseControl.netWorkWrapper.sendTo(new ShepherdToClientMessage(player.getCapability(SHE_CAP, null).writeNBT(null)), (EntityPlayerMP) player);
+        }
+    }
+    
+    public static void upgradeToServer(EntityPlayer player, int upLevel) {
+        if(null != player && player.hasCapability(SHE_CAP, null)){
+        	BaseControl.netWorkWrapper.sendToServer(new UpgradeToServerMessage(player.getCapability(SHE_CAP, null).writeNBT(null), upLevel, player.getUniqueID()));
         }
     }
 }

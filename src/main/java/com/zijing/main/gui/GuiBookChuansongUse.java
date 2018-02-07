@@ -7,7 +7,7 @@ import com.zijing.items.card.ItemCardChuansong;
 import com.zijing.items.staff.ItemZilingZhu;
 import com.zijing.main.BaseControl;
 import com.zijing.main.itf.MagicConsumer;
-import com.zijing.message.ChuansongBookMessage;
+import com.zijing.main.message.ChuansongBookToServerMessage;
 import com.zijing.util.PlayerUtil;
 
 import net.minecraft.client.gui.GuiButton;
@@ -74,7 +74,7 @@ public class GuiBookChuansongUse {
 								if(player.dimension == chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)) {
 									PlayerUtil.minusMagic(zhilingZhuStack, 3);
 									ItemStackHelper.saveAllItems(chuansongBookTag, items, true);
-									BaseControl.netWorkWrapper.sendToServer(new ChuansongBookMessage(chuansongBookTag, chuansongCardTag, hand, player.getUniqueID()));
+									BaseControl.netWorkWrapper.sendToServer(new ChuansongBookToServerMessage(chuansongBookTag, chuansongCardTag, hand, player.getUniqueID()));
 								}else {
 									player.sendMessage(new TextComponentString("Not the same world! -1 = the Nether, 0 = normal world , this is " + chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)));
 								}

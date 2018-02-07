@@ -1,4 +1,4 @@
-package com.zijing.message;
+package com.zijing.main.message;
 
 import java.util.UUID;
 
@@ -17,11 +17,11 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class ChuansongCardMessage implements IMessage{
+public class ChuansongCardToServerMessage implements IMessage{
 	private NBTTagCompound dataTag;
 	
-	public ChuansongCardMessage() {}
-	public ChuansongCardMessage(NBTTagCompound chuansongCardTag, EnumHand hand, UUID uuid) {
+	public ChuansongCardToServerMessage() {}
+	public ChuansongCardToServerMessage(NBTTagCompound chuansongCardTag, EnumHand hand, UUID uuid) {
 		this.dataTag = new NBTTagCompound();
 		dataTag.setTag("ChuansongCardTag", chuansongCardTag);
 		dataTag.setString("Hand", hand == EnumHand.MAIN_HAND ? "MAIN_HAND" : "OFF_HAND");
@@ -38,9 +38,9 @@ public class ChuansongCardMessage implements IMessage{
 		ByteBufUtils.writeTag(buf, dataTag);
 	}
 
-	public static class Handler implements IMessageHandler<ChuansongCardMessage, IMessage>{
+	public static class Handler implements IMessageHandler<ChuansongCardToServerMessage, IMessage>{
 		@Override
-		public IMessage onMessage(ChuansongCardMessage message, MessageContext ctx){
+		public IMessage onMessage(ChuansongCardToServerMessage message, MessageContext ctx){
 			if (ctx.side == Side.SERVER){
 				NBTTagCompound chuansongCardTag = (NBTTagCompound)message.dataTag.getTag("ChuansongCardTag");
 				EnumHand hand = "MAIN_HAND".equals(message.dataTag.getString("Hand")) ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;

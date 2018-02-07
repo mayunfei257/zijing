@@ -37,10 +37,11 @@ import com.zijing.items.tool.ItemToolZijingFu;
 import com.zijing.items.tool.ItemToolZijingGao;
 import com.zijing.items.tool.ItemToolZijingJian;
 import com.zijing.main.itf.MagicConsumer;
-import com.zijing.message.ChuansongBookMessage;
-import com.zijing.message.ChuansongCardMessage;
-import com.zijing.player.ShepherdCapability;
-import com.zijing.player.ShepherdMessage;
+import com.zijing.main.message.ChuansongBookToServerMessage;
+import com.zijing.main.message.ChuansongCardToServerMessage;
+import com.zijing.main.message.ShepherdToClientMessage;
+import com.zijing.main.message.UpgradeToServerMessage;
+import com.zijing.main.playerdata.ShepherdCapability;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -156,9 +157,10 @@ public class BaseControl{
 	
 	public static void register(FMLPreInitializationEvent event){
 		CapabilityManager.INSTANCE.register(ShepherdCapability.class, ShepherdCapability.storage, ShepherdCapability.class);
-    	netWorkWrapper.registerMessage(ChuansongCardMessage.Handler.class, ChuansongCardMessage.class, nextID++, Side.SERVER);
-    	netWorkWrapper.registerMessage(ChuansongBookMessage.Handler.class, ChuansongBookMessage.class, nextID++, Side.SERVER);
-    	netWorkWrapper.registerMessage(ShepherdMessage.Handler.class, ShepherdMessage.class, nextID++, Side.CLIENT);
+    	netWorkWrapper.registerMessage(ChuansongCardToServerMessage.Handler.class, ChuansongCardToServerMessage.class, nextID++, Side.SERVER);
+    	netWorkWrapper.registerMessage(ChuansongBookToServerMessage.Handler.class, ChuansongBookToServerMessage.class, nextID++, Side.SERVER);
+    	netWorkWrapper.registerMessage(ShepherdToClientMessage.Handler.class, ShepherdToClientMessage.class, nextID++, Side.CLIENT);
+    	netWorkWrapper.registerMessage(UpgradeToServerMessage.Handler.class, UpgradeToServerMessage.class, nextID++, Side.SERVER);
 		//TODO In this registration items and blocks ---
 //		ForgeRegistries.BLOCKS.register(blockGuhuaNiunaiKuai);;
 //		ForgeRegistries.ITEMS.register(new ItemBlock(blockGuhuaNiunaiKuai).setRegistryName(blockGuhuaNiunaiKuai.getRegistryName()));

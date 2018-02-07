@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.zijing.items.card.ItemCardChuansong;
 import com.zijing.main.BaseControl;
-import com.zijing.message.ChuansongCardMessage;
+import com.zijing.main.message.ChuansongCardToServerMessage;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -47,7 +47,7 @@ public class GuiCardChuansong {
 			chuansongCardTag.setInteger(ItemCardChuansong.BIND_WORLD, player.dimension);
 			chuansongCardTag.setString(ItemCardChuansong.BIND_NAME, name);
 			chuansongCardTag.setBoolean(ItemCardChuansong.IS_BIND, true);
-			BaseControl.netWorkWrapper.sendToServer(new ChuansongCardMessage(chuansongCardTag, hand, player.getUniqueID()));
+			BaseControl.netWorkWrapper.sendToServer(new ChuansongCardToServerMessage(chuansongCardTag, hand, player.getUniqueID()));
 		}
 	}
 

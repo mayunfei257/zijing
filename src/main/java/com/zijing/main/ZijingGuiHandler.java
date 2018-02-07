@@ -3,6 +3,7 @@ package com.zijing.main;
 import com.zijing.main.gui.GuiBookChuansong;
 import com.zijing.main.gui.GuiBookChuansongUse;
 import com.zijing.main.gui.GuiCardChuansong;
+import com.zijing.main.gui.GuiUpgrade;
 import com.zijing.main.gui.GuiZhulingTai;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,6 +21,8 @@ public class ZijingGuiHandler implements IGuiHandler {
 			return new GuiBookChuansongUse.MyContainer(world, x, y, z, player);
 		if (id == GuiZhulingTai.GUIID)//4
 			return new GuiZhulingTai.MyContainer(world, x, y, z, player);
+		if (id == GuiUpgrade.GUIID)//5
+			return new GuiUpgrade.MyContainer(world, x, y, z, player);
 		return null;
 	}
 
@@ -33,6 +36,8 @@ public class ZijingGuiHandler implements IGuiHandler {
 			return new GuiBookChuansongUse.MyGuiContainer(world, x, y, z, player);
 		if (id == GuiZhulingTai.GUIID)//4
 			return new GuiZhulingTai.MyGuiContainer(world, x, y, z, player);
+		if (id == GuiUpgrade.GUIID)//5
+			return new GuiUpgrade.MyGuiContainer(world, x, y, z, player);
 		return null;
 	}
 }

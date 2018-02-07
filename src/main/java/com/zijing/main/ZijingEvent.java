@@ -1,8 +1,14 @@
 package com.zijing.main;
 
-import com.zijing.player.ShepherdCapability;
-import com.zijing.player.ShepherdProvider;
+import org.lwjgl.input.Keyboard;
 
+import com.zijing.ZijingMod;
+import com.zijing.main.gui.GuiUpgrade;
+import com.zijing.main.playerdata.ShepherdCapability;
+import com.zijing.main.playerdata.ShepherdProvider;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -16,7 +22,12 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class ZijingEvent {
 	
@@ -81,15 +92,18 @@ public class ZijingEvent {
 	@SubscribeEvent
 	public void playerClone(PlayerEvent.Clone event){
 		if(event.isWasDeath() && !event.getEntity().world.isRemote){
-			EntityPlayer player = event.getEntityPlayer();
-			ShepherdCapability newCapb = ShepherdProvider.getCapabilityFromPlayer(player);
-			ShepherdCapability oldCapb = ShepherdProvider.getCapabilityFromPlayer(event.getOriginal());
-			newCapb.readNBT(null, oldCapb.writeNBT(null));
-			newCapb.setBlood(0);
-			newCapb.setMagic(0);
-			player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(newCapb.getMaxBlood());
-			player.setHealth(newCapb.getBlood());
-			ShepherdProvider.updateChange(player);
+			EntityPlayer newPlayer = event.getEntityPlayer();
+			EntityPlayer oldPlayer = event.getOriginal();
+			if(ShepherdProvider.hasCapabilityFromPlayer(newPlayer) && ShepherdProvider.hasCapabilityFromPlayer(oldPlayer)) {
+				ShepherdCapability newCapb = ShepherdProvider.getCapabilityFromPlayer(newPlayer);
+				ShepherdCapability oldCapb = ShepherdProvider.getCapabilityFromPlayer(event.getOriginal());
+				newCapb.readNBT(null, oldCapb.writeNBT(null));
+				newCapb.setBlood(1);
+				newCapb.setMagic(0);
+				newPlayer.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(newCapb.getMaxBlood());
+				newPlayer.setHealth((float) newCapb.getBlood());
+				ShepherdProvider.updateChangeToClient(newPlayer);
+			}
 		}
 	}
 	
@@ -97,20 +111,48 @@ public class ZijingEvent {
     public void entityJoinWorld(EntityJoinWorldEvent event) {
         if (event.getEntity() instanceof EntityPlayer && !event.getEntity().world.isRemote) {
         	EntityPlayer player = (EntityPlayer) event.getEntity();
-        	if(player.hasCapability(ShepherdProvider.SHE_CAP, null)){
+        	if(ShepherdProvider.hasCapabilityFromPlayer(player)){
     			ShepherdCapability newCapb = ShepherdProvider.getCapabilityFromPlayer(player);
     			player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(newCapb.getMaxBlood());
-    			player.setHealth(newCapb.getBlood());
-                ShepherdProvider.updateChange(player);
+    			player.setHealth((float) newCapb.getBlood());
+                ShepherdProvider.updateChangeToClient(player);
         	}
         }
     }
 
     @SubscribeEvent
-    public void attachCapability(AttachCapabilitiesEvent<EntityPlayer> event){
-    	EntityPlayer player = event.getObject();
-    	if(!player.hasCapability(ShepherdProvider.SHE_CAP, null)) {
-    		event.addCapability(new ResourceLocation(ShepherdCapability.name), new ShepherdProvider());
-    	}
+    public void attachCapability(AttachCapabilitiesEvent<Entity> event){
+        if(event.getObject() instanceof EntityPlayer && !ShepherdProvider.hasCapabilityFromPlayer(event.getObject()))
+    		event.addCapability(new ResourceLocation(ShepherdCapability.NAME), new ShepherdProvider());
     }
+
+	public static final KeyBinding key1 = new KeyBinding("key.zijingmod", Keyboard.KEY_R, "key.categories.misc");
+	
+	@SubscribeEvent
+	public void bindingKeys(InputEvent.KeyInputEvent event) {
+		if (!FMLClientHandler.instance().isGUIOpen(GuiUpgrade.MyGuiContainer.class)) {
+			if (Keyboard.isKeyDown(key1.getKeyCode())) {
+				EntityPlayer player = Minecraft.getMinecraft().player;
+				player.openGui(ZijingMod.instance, GuiUpgrade.GUIID, player.world, (int) player.posX, (int) (player.posY + 1.62D), (int) player.posZ);
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void restore(TickEvent.PlayerTickEvent event) {
+		if(event.phase == Phase.START && event.side ==  Side.SERVER ) {
+			EntityPlayer player = event.player;
+			if(ShepherdProvider.hasCapabilityFromPlayer(player)) {
+				ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
+				if(player.getHealth() < player.getMaxHealth()) {
+					player.setHealth(player.getHealth() + (float)shepherdCapability.getBloodRestore());
+					shepherdCapability.setBlood(player.getHealth());
+				}
+				if(shepherdCapability.getMagic() < shepherdCapability.getMaxMagic()) {
+					shepherdCapability.setMagic(shepherdCapability.getMagic() + shepherdCapability.getMagicRestore());
+				}
+//				ShepherdProvider.updateChangeToClient(player);
+			}
+		}
+	}
 }
