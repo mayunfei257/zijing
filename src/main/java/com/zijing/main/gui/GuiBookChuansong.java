@@ -17,6 +17,7 @@ import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -30,9 +31,12 @@ public class GuiBookChuansong {
 		private IInventory bookInv;
 		private NonNullList<ItemStack> items;
 		private NBTTagCompound bookTag;
+		private EnumHand hand;
 		
 		public MyContainer(World world, int i, int j, int k, EntityPlayer player) {
-			this.bookTag = player.getHeldItemMainhand().getItem() instanceof ItemBookChuansong ? player.getHeldItemMainhand().getTagCompound() : player.getHeldItemOffhand().getTagCompound();
+			this.hand = null == player.getActiveHand() ? EnumHand.MAIN_HAND : player.getActiveHand();
+			this.hand = player.getHeldItem(this.hand).getItem() instanceof ItemBookChuansong ? this.hand : (this.hand == EnumHand.MAIN_HAND ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND);
+			this.bookTag = player.getHeldItem(this.hand).getTagCompound();
 			this.bookInv = new InventoryBasic(ZijingMod.MODID + ":itembookchuansong", true, 29);
 			this.items = NonNullList.<ItemStack>withSize(29, ItemStack.EMPTY);
 			ItemStackHelper.loadAllItems(bookTag, items);
@@ -54,10 +58,22 @@ public class GuiBookChuansong {
 				}
 			}
 			InventoryPlayer inventory = player.inventory;
+			
 			for (int m = 0; m < 4; ++m) {
 				for (int n = 0; n < 9; ++n) {
 					if(m == 0) {
-						this.addSlotToContainer(new Slot(inventory, n, 8 + n*18, 142));
+						if(this.hand == EnumHand.MAIN_HAND && n == inventory.currentItem) {
+							this.addSlotToContainer(new Slot(inventory, n, 8 + n*18, 142) {
+								public boolean isItemValid(ItemStack stack) {
+									return false;
+								}
+								public boolean canTakeStack(EntityPlayer playerIn){
+							        return false;
+							    }
+							});
+						}else {
+							this.addSlotToContainer(new Slot(inventory, n, 8 + n*18, 142));
+						}
 					}else {
 						this.addSlotToContainer(new Slot(inventory, n + m*9, 8 + n*18, 66 + m*18));
 					}

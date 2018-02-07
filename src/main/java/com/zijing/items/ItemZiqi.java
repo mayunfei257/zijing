@@ -46,7 +46,7 @@ public class ItemZiqi extends Item implements MagicSource{
 			if(!world.isRemote) {
 				ItemStack mainHandStack = player.getHeldItemMainhand();
 				ItemStack offHandStack = player.getHeldItemOffhand();
-				if(!mainHandStack.isEmpty() && mainHandStack.getItem() instanceof MagicSource && !offHandStack.isEmpty() && offHandStack.getItem() instanceof MagicConsumer) {
+				if(!mainHandStack.isEmpty() && mainHandStack.getItem() instanceof MagicSource && !offHandStack.isEmpty() && offHandStack.getItem() instanceof MagicConsumer && offHandStack.hasTagCompound()) {
 					NBTTagCompound offHandNBT = offHandStack.getTagCompound();
 					int offHandMagic = offHandNBT.getInteger(MagicConsumer.MAGIC_ENERGY_STR);
 					int offHandMaxMagic = offHandNBT.getInteger(MagicConsumer.MAX_MAGIC_ENERGY_STR);

@@ -34,6 +34,7 @@ public class Config {
 	private int STAFF_MAX_DISTANCE;
 	
 	private int CARD_MAX_USES;
+	private int MAX_LEVEL;
 	
 	private Item.ToolMaterial zijingToolMaterial;
 	private ItemArmor.ArmorMaterial zijingArmorMaterial;
@@ -98,6 +99,7 @@ public class Config {
 		this.STAFF_MAX_DISTANCE = configuration.get("STAFF", "STAFF_MAX_DISTANCE", 10000, "The max distance of staff to teleport.").getInt();
 		
 		this.CARD_MAX_USES = configuration.get("CARD", "CARD_MAX_USES", 0, "The maximum number of card to use.").getInt();
+		this.MAX_LEVEL = configuration.get("PLAYER", "MAX_LEVEL", 50, "The player max level.").getInt();
 	}
 
 
@@ -159,6 +161,14 @@ public class Config {
 
 	public int getCARD_MAX_USES() {
 		return CARD_MAX_USES;
+	}
+
+	public int getMAX_LEVEL() {
+		return MAX_LEVEL;
+	}
+
+	public void setMAX_LEVEL(int mAX_LEVEL) {
+		MAX_LEVEL = mAX_LEVEL;
 	}
 
 	public Item.ToolMaterial getZijingToolMaterial() {

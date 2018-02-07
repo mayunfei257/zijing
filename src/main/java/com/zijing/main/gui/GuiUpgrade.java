@@ -1,5 +1,7 @@
 package com.zijing.main.gui;
 
+import java.text.DecimalFormat;
+
 import org.lwjgl.opengl.GL11;
 
 import com.zijing.main.playerdata.ShepherdCapability;
@@ -55,11 +57,13 @@ public class GuiUpgrade {
 		private EntityPlayer player;
 		private ShepherdCapability shepherdCapability;
 		private GuiLabel guiLabel;
-
+		private DecimalFormat df;
+		
 		public MyGuiContainer(World world, int i, int j, int k, EntityPlayer player) {
 			super(new MyContainer(world, i, j, k, player));
 			this.player = player;
 			shepherdCapability = ShepherdProvider.hasCapabilityFromPlayer(player) ? ShepherdProvider.getCapabilityFromPlayer(player) : null;
+			df = new DecimalFormat("#0.00");
 		}
 
 		@Override
@@ -81,39 +85,42 @@ public class GuiUpgrade {
 		@Override
 		protected void drawGuiContainerForegroundLayer(int par1, int par2) {
 			if(null != shepherdCapability) {
-//				this.fontRenderer.drawString("level:" + shepherdCapability.getLevel(), this.width / 2 - 40, this.height / 2 - 90, 0xffffff);
-//				this.fontRenderer.drawString("race:" + shepherdCapability.getRace(), this.width / 2 - 40, this.height / 2 - 75, 0xffffff);
-//				this.fontRenderer.drawString("blood:" + shepherdCapability.getBlood() + "/" + shepherdCapability.getMaxBlood(), this.width / 2 - 60, this.height / 2 - 80, 0xffffff);
-//				this.fontRenderer.drawString("magic:" + shepherdCapability.getMagic() + "/" + shepherdCapability.getMaxMagic(), this.width / 2 - 45, this.height / 2 - 60, 0xffffff);
-//				this.fontRenderer.drawString("speed:" + shepherdCapability.getSpeed(), this.width / 2 - 40, this.height / 2 - 30, 0xffffff);
-//				this.fontRenderer.drawString("power:" + shepherdCapability.getPower(), this.width / 2 - 40, this.height / 2 - 15, 0xffffff);
-//				this.fontRenderer.drawString("intellect:" + shepherdCapability.getIntellect(), this.width / 2 - 40, this.height / 2 + 0, 0xffffff);
-//				this.fontRenderer.drawString("bloodRestore:" + shepherdCapability.getBloodRestore(), this.width / 2 - 40, this.height / 2 + 15, 0xffffff);
-//				this.fontRenderer.drawString("magicRestore:" + shepherdCapability.getMagicRestore(), this.width / 2 - 40, this.height / 2 + 30, 0xffffff);
-//				this.fontRenderer.drawString("physicalDefense:" + shepherdCapability.getPhysicalDefense(), this.width / 2 - 40, this.height / 2 + 45, 0xffffff);
-//				this.fontRenderer.drawString("magicDefense:" + shepherdCapability.getMagicDefense(), this.width / 2 - 40, this.height / 2 + 60, 0xffffff);
+				this.fontRenderer.drawString("level: " + shepherdCapability.getLevel(), 0, 0, 0xFFCC33);
+				this.fontRenderer.drawString("race: " + shepherdCapability.getRace(), 0, 10, 0xFFCC33);
+				this.fontRenderer.drawString("blood: " + df.format(shepherdCapability.getBlood()) + "/" + df.format(shepherdCapability.getMaxBlood()), 0, 20, 0xFFCC33);
+				this.fontRenderer.drawString("magic: " + df.format(shepherdCapability.getMagic()) + "/" + df.format(shepherdCapability.getMaxMagic()), 0, 30, 0xFFCC33);
+				this.fontRenderer.drawString("speed: " + df.format(shepherdCapability.getSpeed()), 0, 40, 0xFFCC33);
+				this.fontRenderer.drawString("power: " + df.format(shepherdCapability.getPower()), 0, 50, 0xFFCC33);
+				this.fontRenderer.drawString("intellect: " + df.format(shepherdCapability.getIntellect()), 0, 60, 0xFFCC33);
+				this.fontRenderer.drawString("bloodRestore: " + df.format(shepherdCapability.getBloodRestore()), 0, 70, 0xFFCC33);
+				this.fontRenderer.drawString("magicRestore: " + df.format(shepherdCapability.getMagicRestore()), 0, 80, 0xFFCC33);
+				this.fontRenderer.drawString("physicalDefense: " + df.format(shepherdCapability.getPhysicalDefense()), 0, 90, 0xFFCC33);
+				this.fontRenderer.drawString("magicDefense: " + df.format(shepherdCapability.getMagicDefense()), 0, 100, 0xFFCC33);
+				this.fontRenderer.drawString("needExperience: " + player.experienceTotal + "/" + (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), 1) * ShepherdCapability.UPGRADE_NEED_XP_K, 0, 110, 0xFFCC33);
 			}
 		}
 
 		@Override
 		public void initGui() {
 			super.initGui();
-			guiLabel = new GuiLabel(this.fontRenderer, 1, this.width / 2 - 40, this.height / 2 - 90, 120, 150, 0xffffff);
-			if(null != shepherdCapability) {
-				guiLabel.addLine("level:" + shepherdCapability.getLevel());
-				guiLabel.addLine("race:" + shepherdCapability.getRace());
-				guiLabel.addLine("blood:" + shepherdCapability.getBlood() + "/" + shepherdCapability.getMaxBlood());
-				guiLabel.addLine("magic:" + shepherdCapability.getMagic() + "/" + shepherdCapability.getMaxMagic());
-				guiLabel.addLine("speed:" + shepherdCapability.getSpeed());
-				guiLabel.addLine("power:" + shepherdCapability.getPower());
-				guiLabel.addLine("intellect:" + shepherdCapability.getIntellect());
-				guiLabel.addLine("bloodRestore:" + shepherdCapability.getBloodRestore());
-				guiLabel.addLine("magicRestore:" + shepherdCapability.getMagicRestore());
-				guiLabel.addLine("physicalDefense:" + shepherdCapability.getPhysicalDefense());
-				guiLabel.addLine("magicDefense:" + shepherdCapability.getMagicDefense());
-			}
-			this.labelList.clear();
-			this.labelList.add(guiLabel);
+//			guiLabel = new GuiLabel(this.fontRenderer, 1, this.width / 2 - 40, this.height / 2 - 90, 120, 150, 0xffffff);
+//			if(null != shepherdCapability) {
+//				DecimalFormat df = new DecimalFormat("#0.00");
+//				guiLabel.addLine("level:" + shepherdCapability.getLevel());
+//				guiLabel.addLine("race:" + shepherdCapability.getRace());
+//				guiLabel.addLine("blood:" + df.format(shepherdCapability.getBlood()) + "/" + df.format(shepherdCapability.getMaxBlood()));
+//				guiLabel.addLine("magic:" + df.format(shepherdCapability.getMagic()) + "/" + df.format(shepherdCapability.getMaxMagic()));
+//				guiLabel.addLine("speed:" + df.format(shepherdCapability.getSpeed()));
+//				guiLabel.addLine("power:" + df.format(shepherdCapability.getPower()));
+//				guiLabel.addLine("intellect:" + df.format(shepherdCapability.getIntellect()));
+//				guiLabel.addLine("bloodRestore:" + df.format(shepherdCapability.getBloodRestore()));
+//				guiLabel.addLine("magicRestore:" + df.format(shepherdCapability.getMagicRestore()));
+//				guiLabel.addLine("physicalDefense:" + df.format(shepherdCapability.getPhysicalDefense()));
+//				guiLabel.addLine("magicDefense:" + df.format(shepherdCapability.getMagicDefense()));
+//				guiLabel.addLine("needExperience:" + player.experienceTotal + "/" + (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), 1) * ShepherdCapability.UPGRADE_NEED_XP_K);
+//			}
+//			this.labelList.clear();
+//			this.labelList.add(guiLabel);
 			this.buttonList.clear();
 			this.buttonList.add(new GuiButton(1, this.width / 2 - 30, this.height / 2 + 60, 60, 20, "Upgrade"));
 		}

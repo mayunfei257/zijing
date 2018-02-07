@@ -11,26 +11,19 @@ public class ShepherdCapability{
 	public static ShepherdStorage storage = new ShepherdCapability.ShepherdStorage();
 	public static final String NAME = ZijingMod.MODID + "shepherd_capability";
 	public static final int UPGRADE_NEED_XP_K = 200;
-	public static final int UPGRADE_NEED_MAGIC_K = 20;
-	public static final int UPGRADE_MAXMAGIC_K = 20;
+	public static final int UPGRADE_NEED_MAGIC_K = 50;
+	public static final int UPGRADE_MAXMAGIC_K = 50;
 	public static final int UPGRADE_MAXBLOOD_K = 2;
-	public static final double UPGRADE_POWER_K = 0.5;
-	public static final double UPGRADE_BLOODRESTORE_K = 0.01;
-	public static final double UPGRADE_MAGICRESTORE_K = 0.01;
+	public static final double UPGRADE_POWER_K = 0.5D;
+	public static final double UPGRADE_BLOODRESTORE_K = 0.001D;
+	public static final double UPGRADE_MAGICRESTORE_K = 0.001D;
 	
-	public static final double BASE_BLOOD = 2;
-	public static final double BASE_MAGIC = 20;
 	public static final int BASE_RACE = 0;
 	public static final int BASE_LEVEL = 1;
-	public static final double BASE_MAXBLOOD = 2;
-	public static final double BASE_MAXMAGIC = 20;
-	public static final double BASE_SPEED = 0;
-	public static final double BASE_POWER = 0;
-	public static final double BASE_INTELLECT = 0;
-	public static final double BASE_BLOODRESTORE = 0.01;
-	public static final double BASE_MAGICRESTORE = 0.01;
-	public static final double BASE_PHYSICALDEFENSE = 0;
-	public static final double BASE_MAGICDEFENSE = 0;
+	public static final double BASE_SPEED = 0D;
+	public static final double BASE_INTELLECT = 0D;
+	public static final double BASE_PHYSICALDEFENSE = 0D;
+	public static final double BASE_MAGICDEFENSE = 0D;
 
 	private double blood;
 	private double magic;
@@ -47,19 +40,19 @@ public class ShepherdCapability{
 	private double magicDefense;
 
 	public ShepherdCapability(){
-		blood = ShepherdCapability.BASE_BLOOD;
-		magic = ShepherdCapability.BASE_MAGIC;
-		race = ShepherdCapability.BASE_RACE;
-		level = ShepherdCapability.BASE_LEVEL;
-		maxBlood = ShepherdCapability.BASE_MAXBLOOD;
-		maxMagic = ShepherdCapability.BASE_MAXMAGIC;
-		speed = ShepherdCapability.BASE_SPEED;
-		power = ShepherdCapability.BASE_POWER;
-		intellect = ShepherdCapability.BASE_INTELLECT;
-		bloodRestore = ShepherdCapability.BASE_BLOODRESTORE;
-		magicRestore = ShepherdCapability.BASE_MAGICRESTORE;
-		physicalDefense = ShepherdCapability.BASE_PHYSICALDEFENSE;
-		magicDefense = ShepherdCapability.BASE_MAGICDEFENSE;
+		this.level = ShepherdCapability.BASE_LEVEL;
+		this.race = ShepherdCapability.BASE_RACE;
+		this.blood = ShepherdCapability.UPGRADE_MAXBLOOD_K * this.level;
+		this.magic = ShepherdCapability.UPGRADE_MAXMAGIC_K * this.level;
+		this.maxBlood = ShepherdCapability.UPGRADE_MAXBLOOD_K * this.level;
+		this.maxMagic = ShepherdCapability.UPGRADE_MAXMAGIC_K * this.level;
+		this.speed = ShepherdCapability.BASE_SPEED;
+		this.power = ShepherdCapability.UPGRADE_POWER_K * (this.level - 1);
+		this.intellect = ShepherdCapability.BASE_INTELLECT;
+		this.bloodRestore = ShepherdCapability.UPGRADE_BLOODRESTORE_K * this.level;
+		this.magicRestore = ShepherdCapability.UPGRADE_MAGICRESTORE_K * this.level;
+		this.physicalDefense = ShepherdCapability.BASE_PHYSICALDEFENSE;
+		this.magicDefense = ShepherdCapability.BASE_MAGICDEFENSE;
 	}
 	
 	public void readNBT(EnumFacing side, NBTBase nbt){

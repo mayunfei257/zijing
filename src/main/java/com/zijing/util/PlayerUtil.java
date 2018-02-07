@@ -1,5 +1,6 @@
 package com.zijing.util;
 
+import com.zijing.ZijingMod;
 import com.zijing.main.itf.MagicConsumer;
 import com.zijing.main.playerdata.ShepherdCapability;
 import com.zijing.main.playerdata.ShepherdProvider;
@@ -53,7 +54,7 @@ public class PlayerUtil {
     		int needXP = (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), upLevel) * ShepherdCapability.UPGRADE_NEED_XP_K;
     		double needMagic = MathUtil.getUpgradeK(shepherdCapability.getLevel(), upLevel) * ShepherdCapability.UPGRADE_NEED_MAGIC_K;
     		int level = shepherdCapability.getLevel() + upLevel;
-			if(shepherdCapability.getMagic() >= needMagic && player.experienceTotal >= needXP && level <= 50) {
+			if(shepherdCapability.getMagic() >= needMagic && player.experienceTotal >= needXP && level <= ZijingMod.config.getMAX_LEVEL()) {
     			int remainingXP = player.experienceTotal - needXP;
     			player.experience = 0.0F;
     			player.experienceLevel = 0;
@@ -66,20 +67,21 @@ public class PlayerUtil {
     			shepherdCapability.setMaxBlood(level * ShepherdCapability.UPGRADE_MAXBLOOD_K);
     			shepherdCapability.setMaxMagic(level * ShepherdCapability.UPGRADE_MAXMAGIC_K);
 //    			shepherdCapability.setSpeed(level * 0.1 + 1);
-    			shepherdCapability.setPower(level * ShepherdCapability.UPGRADE_POWER_K);
+    			shepherdCapability.setPower((level - 1) * ShepherdCapability.UPGRADE_POWER_K);
 //            	shepherdCapability.setIntellect(intellect);
     			shepherdCapability.setBloodRestore(level * ShepherdCapability.UPGRADE_BLOODRESTORE_K);
     			shepherdCapability.setMagicRestore(level * ShepherdCapability.UPGRADE_MAGICRESTORE_K);
 //            	shepherdCapability.setPhysicalDefense(physicalDefense);
 //            	shepherdCapability.setMagicDefense(magicDefense);
     			player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(shepherdCapability.getMaxBlood());
+    			player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D + shepherdCapability.getPower());
     			player.world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("block.end_portal.spawn")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
     			ShepherdProvider.updateChangeToClient(player);
 			}else {
 				player.sendMessage(new TextComponentString("Magic energy or experience is not enough!"));
 			}
     	}else if(upLevel < 0){
-			player.sendMessage(new TextComponentString("Error Level!"));
+			player.sendMessage(new TextComponentString("Error upLevel! upLevel < 0"));
     	}else {
 			player.sendMessage(new TextComponentString("You have not the capability!"));
     	}

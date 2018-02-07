@@ -289,20 +289,12 @@ public class BaseControl{
 		nbt.setInteger(MagicConsumer.MAGIC_ENERGY_STR, ZijingMod.config.getSTAFF_MAX_MAGIC_ENERGY());
 		nbt.setInteger(MagicConsumer.MAX_MAGIC_ENERGY_STR, ZijingMod.config.getSTAFF_MAX_MAGIC_ENERGY());
 		ItemStack itemZilingZhuStack = new ItemStack(itemZilingZhu, 1);
-		ItemStack itemStaffBingxueStack = new ItemStack(itemStaffBingxue, 1);
-		ItemStack itemStaffLieyanStack = new ItemStack(itemStaffLieyan, 1);
-		ItemStack itemStaffKongjianStack = new ItemStack(itemStaffKongjian, 1);
-		ItemStack itemStaffFengyinStack = new ItemStack(itemStaffFengyin, 1);
 		itemZilingZhuStack.setTagCompound(nbt.copy());
-		itemStaffBingxueStack.setTagCompound(nbt.copy());
-		itemStaffLieyanStack.setTagCompound(nbt.copy());
-		itemStaffKongjianStack.setTagCompound(nbt.copy());
-		itemStaffFengyinStack.setTagCompound(nbt.copy());
 		addRecipe(ZijingMod.MODID + ":HC_itemZilingZhu", ZijingMod.MODID, itemZilingZhuStack, Items.DIAMOND, itemZijing, Items.DIAMOND, itemZijing, Items.ENDER_PEARL, itemZijing, Items.DIAMOND, itemZijing, Items.DIAMOND);
-		addRecipe(ZijingMod.MODID + ":HC_itemStaffBingxue", ZijingMod.MODID, itemStaffBingxueStack, null, Blocks.ICE, itemZilingZhu, null, Blocks.ICE, Blocks.ICE, Blocks.ICE, null, null);
-		addRecipe(ZijingMod.MODID + ":HC_itemStaffLieyan", ZijingMod.MODID, itemStaffLieyanStack, null, Blocks.MAGMA, itemZilingZhu, null, Blocks.MAGMA, Blocks.MAGMA, Blocks.MAGMA, null, null);
-		addRecipe(ZijingMod.MODID + ":HC_itemStaffKongjian", ZijingMod.MODID, itemStaffKongjianStack, null, Items.ENDER_EYE, itemZilingZhu, null, Items.ENDER_EYE, Items.ENDER_EYE, Items.ENDER_EYE, null, null);
-		addRecipe(ZijingMod.MODID + ":HC_itemStaffFengyin", ZijingMod.MODID, itemStaffFengyinStack, null, Blocks.GOLD_BLOCK, itemZilingZhu, null, Blocks.GOLD_BLOCK, Blocks.GOLD_BLOCK, Blocks.GOLD_BLOCK, null, null);
+		addRecipe(ZijingMod.MODID + ":HC_itemStaffBingxue", ZijingMod.MODID, new ItemStack(itemStaffBingxue, 1), null, Blocks.ICE, itemZilingZhu, null, Blocks.ICE, Blocks.ICE, Blocks.ICE, null, null);
+		addRecipe(ZijingMod.MODID + ":HC_itemStaffLieyan", ZijingMod.MODID, new ItemStack(itemStaffLieyan, 1), null, Blocks.MAGMA, itemZilingZhu, null, Blocks.MAGMA, Blocks.MAGMA, Blocks.MAGMA, null, null);
+		addRecipe(ZijingMod.MODID + ":HC_itemStaffKongjian", ZijingMod.MODID, new ItemStack(itemStaffKongjian, 1), null, Items.ENDER_EYE, itemZilingZhu, null, Items.ENDER_EYE, Items.ENDER_EYE, Items.ENDER_EYE, null, null);
+		addRecipe(ZijingMod.MODID + ":HC_itemStaffFengyin", ZijingMod.MODID, new ItemStack(itemStaffFengyin, 1), null, Blocks.GOLD_BLOCK, itemZilingZhu, null, Blocks.GOLD_BLOCK, Blocks.GOLD_BLOCK, Blocks.GOLD_BLOCK, null, null);
 		//tool
 		addRecipe(ZijingMod.MODID + ":HC_itemToolZijingJian", ZijingMod.MODID, new ItemStack(itemToolZijingJian, 1), null, itemZijing, null, null, itemZijing, null, null, Items.STICK, null);
 		addRecipe(ZijingMod.MODID + ":HC_itemToolZijingFu", ZijingMod.MODID, new ItemStack(itemToolZijingFu, 1), itemZijing, itemZijing, null, itemZijing, Items.STICK, null, null, Items.STICK, null);

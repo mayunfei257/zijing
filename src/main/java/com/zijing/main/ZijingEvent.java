@@ -44,25 +44,10 @@ public class ZijingEvent {
 	}
 
 //	@SubscribeEvent
-//	public void entityAttack(AttackEntityEvent event) {
+//	public void entityAttack(CriticalHitEvent event) {
 //		Entity target = event.getTarget();
-//		if (!target.world.isRemote && target instanceof EntityPlayer) {
-//			EntityPlayer player = (EntityPlayer)target;
-//			Iterable<ItemStack> armorList = player.getArmorInventoryList();
-//			for(ItemStack stack: armorList) {
-//				if(null != stack && stack.getItem() == BaseControl.itemArmorZijingHelmet) {
-//					player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 60, 1));
-//				}
-//				if(null != stack && stack.getItem() == BaseControl.itemArmorZijingBody) {
-//					player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 60, 1));
-//				}
-//				if(null != stack && stack.getItem() == BaseControl.itemArmorZijingLegs) {
-//					player.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 1));
-//				}
-//				if(null != stack && stack.getItem() == BaseControl.itemArmorZijingBoots) {
-//					player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 60, 1));
-//				}
-//			}
+//		if (!target.world.isRemote) {
+//			EntityPlayer player = event.getEntityPlayer();
 //		}
 //	}
 
@@ -144,14 +129,22 @@ public class ZijingEvent {
 			EntityPlayer player = event.player;
 			if(ShepherdProvider.hasCapabilityFromPlayer(player)) {
 				ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
-				if(player.getHealth() < player.getMaxHealth()) {
-					player.setHealth(player.getHealth() + (float)shepherdCapability.getBloodRestore());
-					shepherdCapability.setBlood(player.getHealth());
+				if(player.getHealth() < player.getMaxHealth() || player.getHealth() != shepherdCapability.getBlood() || shepherdCapability.getMagic() < shepherdCapability.getMaxMagic()) {
+					if(player.getHealth() < player.getMaxHealth()) {
+						player.setHealth(player.getHealth() + (float)shepherdCapability.getBloodRestore());
+						shepherdCapability.setBlood(player.getHealth());
+					}
+					if(player.getHealth() != shepherdCapability.getBlood()) {
+						shepherdCapability.setBlood(player.getHealth());
+					}
+					if(shepherdCapability.getMagic() < shepherdCapability.getMaxMagic()) {
+						shepherdCapability.setMagic(shepherdCapability.getMagic() + shepherdCapability.getMagicRestore());
+						if(shepherdCapability.getMagic() > shepherdCapability.getMaxMagic()) {
+							shepherdCapability.setMagic(shepherdCapability.getMaxMagic());
+						}
+					}
+					ShepherdProvider.updateChangeToClient(player);
 				}
-				if(shepherdCapability.getMagic() < shepherdCapability.getMaxMagic()) {
-					shepherdCapability.setMagic(shepherdCapability.getMagic() + shepherdCapability.getMagicRestore());
-				}
-//				ShepherdProvider.updateChangeToClient(player);
 			}
 		}
 	}
