@@ -14,8 +14,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class Config {
 	private static Configuration configuration;
 	private static Config config;
-
-	private int ZIQI_MAGIC_ENERGY;
 	
 	private int TOOL_HARVEST_LEVEL;
 	private int TOOL_MAX_USES;
@@ -29,12 +27,21 @@ public class Config {
 	private int[] ARMOR_REDUCTION_AMOUNTS;
 	private int ARMOR_ENCHANTABILITY;
 	private int ARMOR_TOUGHNESS;
-	
+
+	private int ZIQI_MAGIC_ENERGY;
 	private int STAFF_MAX_MAGIC_ENERGY;
 	private int STAFF_MAX_DISTANCE;
 	
-	private int CARD_MAX_USES;
 	private int MAX_LEVEL;
+	private float RESTORE_NEED_FOOD;
+	private int UPGRADE_NEED_XP_K;
+	private int UPGRADE_NEED_MAGIC_K;
+	private int UPGRADE_MAXMAGIC_K;
+	private int UPGRADE_MAXBLOOD_K;
+	private double UPGRADE_POWER_K;
+	private double UPGRADE_BLOODRESTORE_K;
+	private double UPGRADE_MAGICRESTORE_K;
+	
 	
 	private Item.ToolMaterial zijingToolMaterial;
 	private ItemArmor.ArmorMaterial zijingArmorMaterial;
@@ -81,8 +88,6 @@ public class Config {
 	
 	
 	private void load(){
-		this.ZIQI_MAGIC_ENERGY = configuration.get("BASE", "ZIQI_MAGIC_ENERGY", 30, "The ZIQI magic energy.").getInt();
-		
 		this.TOOL_HARVEST_LEVEL = configuration.get("Tool", "TOOL_HARVEST_LEVEL", 3, "Tools level.").getInt();
 		this.TOOL_MAX_USES = configuration.get("Tool", "TOOL_MAX_USES", 1024, "The maximum number of tools to use.").getInt();
 		this.TOOL_EFFICIENCY = configuration.get("Tool", "TOOL_EFFICIENCY", 12, "The efficiency of tools.").getInt();
@@ -95,11 +100,19 @@ public class Config {
 		this.ARMOR_ENCHANTABILITY = configuration.get("Armor", "ARMOR_ENCHANTABILITY", 50, "Tools enchant probability.").getInt();
 		this.ARMOR_TOUGHNESS = configuration.get("Armor", "ARMOR_TOUGHNESS", 4, "Armor toughness value.").getInt();
 
-		this.STAFF_MAX_MAGIC_ENERGY = configuration.get("STAFF", "STAFF_MAX_MAGIC_ENERGY", 512, "The max magic energy of the staff.").getInt();
-		this.STAFF_MAX_DISTANCE = configuration.get("STAFF", "STAFF_MAX_DISTANCE", 10000, "The max distance of staff to teleport.").getInt();
+		this.ZIQI_MAGIC_ENERGY = configuration.get("MAGIC", "ZIQI_MAGIC_ENERGY", 30, "The ZIQI magic energy.").getInt();
+		this.STAFF_MAX_MAGIC_ENERGY = configuration.get("MAGIC", "STAFF_MAX_MAGIC_ENERGY", 512, "The max magic energy of the staff.").getInt();
+		this.STAFF_MAX_DISTANCE = configuration.get("MAGIC", "STAFF_MAX_DISTANCE", 10000, "The max distance of staff to teleport.").getInt();
 		
-		this.CARD_MAX_USES = configuration.get("CARD", "CARD_MAX_USES", 0, "The maximum number of card to use.").getInt();
-		this.MAX_LEVEL = configuration.get("PLAYER", "MAX_LEVEL", 50, "The player max level.").getInt();
+		this.MAX_LEVEL = configuration.get("PLAYER", "MAX_LEVEL", 512, "The player max level.").getInt();
+		this.RESTORE_NEED_FOOD = (float) configuration.get("PLAYER", "RESTORE_NEED_FOOD", 0.003D, "The player max level.").getDouble();
+		this.UPGRADE_NEED_XP_K = configuration.get("PLAYER", "UPGRADE_NEED_XP_K", 50, "The player max level.").getInt();
+		this.UPGRADE_NEED_MAGIC_K = configuration.get("PLAYER", "UPGRADE_NEED_MAGIC_K", 50, "The player max level.").getInt();
+		this.UPGRADE_MAXMAGIC_K = configuration.get("PLAYER", "UPGRADE_MAXMAGIC_K", 50, "The player max level.").getInt();
+		this.UPGRADE_MAXBLOOD_K = configuration.get("PLAYER", "UPGRADE_MAXBLOOD_K", 2, "The player max level.").getInt();
+		this.UPGRADE_POWER_K = configuration.get("PLAYER", "UPGRADE_POWER_K", 0.25D, "The player max level.").getDouble();
+		this.UPGRADE_BLOODRESTORE_K = configuration.get("PLAYER", "UPGRADE_BLOODRESTORE_K", 0.001D, "The player max level.").getDouble();
+		this.UPGRADE_MAGICRESTORE_K = configuration.get("PLAYER", "UPGRADE_MAGICRESTORE_K", 0.001D, "The player max level.").getDouble();
 	}
 
 
@@ -159,18 +172,42 @@ public class Config {
 		return STAFF_MAX_DISTANCE;
 	}
 
-	public int getCARD_MAX_USES() {
-		return CARD_MAX_USES;
-	}
-
 	public int getMAX_LEVEL() {
 		return MAX_LEVEL;
 	}
-
-	public void setMAX_LEVEL(int mAX_LEVEL) {
-		MAX_LEVEL = mAX_LEVEL;
+	
+	public float getRESTORE_NEED_FOOD() {
+		return RESTORE_NEED_FOOD;
 	}
 
+	public int getUPGRADE_NEED_XP_K() {
+		return UPGRADE_NEED_XP_K;
+	}
+
+	public int getUPGRADE_NEED_MAGIC_K() {
+		return UPGRADE_NEED_MAGIC_K;
+	}
+
+	public int getUPGRADE_MAXMAGIC_K() {
+		return UPGRADE_MAXMAGIC_K;
+	}
+
+	public int getUPGRADE_MAXBLOOD_K() {
+		return UPGRADE_MAXBLOOD_K;
+	}
+
+	public double getUPGRADE_POWER_K() {
+		return UPGRADE_POWER_K;
+	}
+
+	public double getUPGRADE_BLOODRESTORE_K() {
+		return UPGRADE_BLOODRESTORE_K;
+	}
+
+	public double getUPGRADE_MAGICRESTORE_K() {
+		return UPGRADE_MAGICRESTORE_K;
+	}
+	
 	public Item.ToolMaterial getZijingToolMaterial() {
 		return zijingToolMaterial;
 	}

@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import com.zijing.items.card.ItemBookChuansong;
 import com.zijing.items.card.ItemCardChuansong;
+import com.zijing.main.playerdata.ShepherdCapability;
+import com.zijing.main.playerdata.ShepherdProvider;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,7 +24,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class ChuansongBookToServerMessage implements IMessage{
 	private NBTTagCompound dataTag;
-	
+
 	public ChuansongBookToServerMessage() {}
 	public ChuansongBookToServerMessage(NBTTagCompound chuansongBookTag, NBTTagCompound chuansongCardTag, EnumHand hand, UUID uuid) {
 		this.dataTag = new NBTTagCompound();
@@ -31,7 +33,7 @@ public class ChuansongBookToServerMessage implements IMessage{
 		dataTag.setString("Hand", hand == EnumHand.MAIN_HAND ? "MAIN_HAND" : "OFF_HAND");
 		dataTag.setString("UUID", uuid.toString());
 	}
-	
+
 	@Override
 	public void fromBytes(ByteBuf buf){
 		dataTag = ByteBufUtils.readTag(buf);
@@ -53,17 +55,30 @@ public class ChuansongBookToServerMessage implements IMessage{
 					@Override
 					public void run(){
 						EntityPlayer player = ctx.getServerHandler().player;
-						try {
-							if(player.getHeldItem(hand).getItem() instanceof ItemBookChuansong) {
-								player.getHeldItem(hand).setTagCompound(chuansongBookTag);
-								double x = chuansongCardTag.getDouble(ItemCardChuansong.BIND_LX);
-								double y = chuansongCardTag.getDouble(ItemCardChuansong.BIND_LY);
-								double z = chuansongCardTag.getDouble(ItemCardChuansong.BIND_LZ);
-								player.setPositionAndUpdate(x, y, z);
-								player.world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+						if(null != chuansongCardTag && chuansongCardTag.getBoolean(ItemCardChuansong.IS_BIND) && player.dimension == chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)) {
+							if(ShepherdProvider.hasCapabilityFromPlayer(player) && ShepherdProvider.getCapabilityFromPlayer(player).getMagic() >= 3) {
+								ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
+								try {
+									if(player.getHeldItem(hand).getItem() instanceof ItemBookChuansong) {
+										player.getHeldItem(hand).setTagCompound(chuansongBookTag);
+										double x = chuansongCardTag.getDouble(ItemCardChuansong.BIND_LX);
+										double y = chuansongCardTag.getDouble(ItemCardChuansong.BIND_LY);
+										double z = chuansongCardTag.getDouble(ItemCardChuansong.BIND_LZ);
+										player.setPositionAndUpdate(x, y, z);
+										player.world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+										shepherdCapability.setMagic(shepherdCapability.getMagic() - 3.0D);
+										ShepherdProvider.updateChangeToClient(player);
+									}
+								}catch(Exception e) {
+									player.sendMessage(new TextComponentString("Exception :" + e.getMessage()));
+								}
+							}else {
+								player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 3!"));
 							}
-						}catch(Exception e) {
-							player.sendMessage(new TextComponentString("Exception :" + e.getMessage()));
+						}else if(player.dimension != chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)){
+							player.sendMessage(new TextComponentString("Not the same world! -1 = the Nether, 0 = normal world , this is " + chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)));
+						}else {
+							player.sendMessage(new TextComponentString("Not yet bound!"));
 						}
 					}
 				});
@@ -71,5 +86,5 @@ public class ChuansongBookToServerMessage implements IMessage{
 			return null;
 		}
 	}
-//	UUID uuid = UUID.fromString(message.dataTag.getString("UUID"));
+	//	UUID uuid = UUID.fromString(message.dataTag.getString("UUID"));
 }

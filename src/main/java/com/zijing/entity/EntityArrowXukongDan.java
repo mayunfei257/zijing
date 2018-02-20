@@ -55,10 +55,11 @@ public class EntityArrowXukongDan extends EntityThrowable {
 					}
 				}
 				if(null != blockPosTem) {
-					try {
-						this.thrower.setPositionAndUpdate(blockPosTem.getX() + 0.5D, blockPosTem.getY(), blockPosTem.getZ() + 0.5D);
-					}catch(Exception e) {
-						//
+					this.thrower.setPositionAndUpdate(blockPosTem.getX() + 0.5D, blockPosTem.getY(), blockPosTem.getZ() + 0.5D);
+				}else {
+					BlockPos blockPosTem2 = blockPos.offset(raytraceResultIn.sideHit);
+					if(blockPosTem2.getY() > 0) {
+						this.thrower.setPositionAndUpdate(blockPosTem2.getX() + 0.5D, blockPosTem2.getY(), blockPosTem2.getZ() + 0.5D);
 					}
 				}
 			}
@@ -67,6 +68,9 @@ public class EntityArrowXukongDan extends EntityThrowable {
     }
 	
 	private boolean checkCanStandBlock(World world, BlockPos blockPos) {
+		if(world.getBlockState(blockPos).getBlock() == Blocks.END_GATEWAY) {
+			return true;
+		}
 		if((world.getBlockState(blockPos).getBlock() == Blocks.AIR
 				|| world.getBlockState(blockPos).getBlock() == Blocks.END_GATEWAY
 				|| world.getBlockState(blockPos).getBlock() == Blocks.PORTAL

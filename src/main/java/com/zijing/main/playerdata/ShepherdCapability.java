@@ -10,14 +10,6 @@ import net.minecraftforge.common.capabilities.Capability;
 public class ShepherdCapability{
 	public static ShepherdStorage storage = new ShepherdCapability.ShepherdStorage();
 	public static final String NAME = ZijingMod.MODID + "shepherd_capability";
-	public static final int UPGRADE_NEED_XP_K = 200;
-	public static final int UPGRADE_NEED_MAGIC_K = 50;
-	public static final int UPGRADE_MAXMAGIC_K = 50;
-	public static final int UPGRADE_MAXBLOOD_K = 2;
-	public static final double UPGRADE_POWER_K = 0.5D;
-	public static final double UPGRADE_BLOODRESTORE_K = 0.001D;
-	public static final double UPGRADE_MAGICRESTORE_K = 0.001D;
-	
 	public static final int BASE_RACE = 0;
 	public static final int BASE_LEVEL = 1;
 	public static final double BASE_SPEED = 0D;
@@ -42,15 +34,15 @@ public class ShepherdCapability{
 	public ShepherdCapability(){
 		this.level = ShepherdCapability.BASE_LEVEL;
 		this.race = ShepherdCapability.BASE_RACE;
-		this.blood = ShepherdCapability.UPGRADE_MAXBLOOD_K * this.level;
-		this.magic = ShepherdCapability.UPGRADE_MAXMAGIC_K * this.level;
-		this.maxBlood = ShepherdCapability.UPGRADE_MAXBLOOD_K * this.level;
-		this.maxMagic = ShepherdCapability.UPGRADE_MAXMAGIC_K * this.level;
+		this.blood = ZijingMod.config.getUPGRADE_MAXBLOOD_K() * this.level;
+		this.magic = ZijingMod.config.getUPGRADE_MAXMAGIC_K() * this.level;
+		this.maxBlood = ZijingMod.config.getUPGRADE_MAXBLOOD_K() * this.level;
+		this.maxMagic = ZijingMod.config.getUPGRADE_MAXMAGIC_K() * this.level;
 		this.speed = ShepherdCapability.BASE_SPEED;
-		this.power = ShepherdCapability.UPGRADE_POWER_K * (this.level - 1);
+		this.power = ZijingMod.config.getUPGRADE_POWER_K() * (this.level - 1);
 		this.intellect = ShepherdCapability.BASE_INTELLECT;
-		this.bloodRestore = ShepherdCapability.UPGRADE_BLOODRESTORE_K * this.level;
-		this.magicRestore = ShepherdCapability.UPGRADE_MAGICRESTORE_K * this.level;
+		this.bloodRestore = ZijingMod.config.getUPGRADE_BLOODRESTORE_K() * this.level;
+		this.magicRestore = ZijingMod.config.getUPGRADE_MAGICRESTORE_K() * this.level;
 		this.physicalDefense = ShepherdCapability.BASE_PHYSICALDEFENSE;
 		this.magicDefense = ShepherdCapability.BASE_MAGICDEFENSE;
 	}

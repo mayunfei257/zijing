@@ -51,8 +51,8 @@ public class PlayerUtil {
 	public static boolean upGrade(EntityPlayerMP player, int upLevel) {
     	if(ShepherdProvider.hasCapabilityFromPlayer(player) && upLevel >= 0) {
 			ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
-    		int needXP = (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), upLevel) * ShepherdCapability.UPGRADE_NEED_XP_K;
-    		double needMagic = MathUtil.getUpgradeK(shepherdCapability.getLevel(), upLevel) * ShepherdCapability.UPGRADE_NEED_MAGIC_K;
+    		int needXP = (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), upLevel) * ZijingMod.config.getUPGRADE_NEED_XP_K();
+    		double needMagic = MathUtil.getUpgradeK(shepherdCapability.getLevel(), upLevel) * ZijingMod.config.getUPGRADE_NEED_MAGIC_K();
     		int level = shepherdCapability.getLevel() + upLevel;
 			if(shepherdCapability.getMagic() >= needMagic && player.experienceTotal >= needXP && level <= ZijingMod.config.getMAX_LEVEL()) {
     			int remainingXP = player.experienceTotal - needXP;
@@ -64,13 +64,13 @@ public class PlayerUtil {
     			shepherdCapability.setLevel(level);
     			shepherdCapability.setBlood(shepherdCapability.getBlood());
     			shepherdCapability.setMagic(shepherdCapability.getMagic() - needMagic);
-    			shepherdCapability.setMaxBlood(level * ShepherdCapability.UPGRADE_MAXBLOOD_K);
-    			shepherdCapability.setMaxMagic(level * ShepherdCapability.UPGRADE_MAXMAGIC_K);
+    			shepherdCapability.setMaxBlood(level * ZijingMod.config.getUPGRADE_MAXBLOOD_K());
+    			shepherdCapability.setMaxMagic(level * ZijingMod.config.getUPGRADE_MAXMAGIC_K());
 //    			shepherdCapability.setSpeed(level * 0.1 + 1);
-    			shepherdCapability.setPower((level - 1) * ShepherdCapability.UPGRADE_POWER_K);
+    			shepherdCapability.setPower((level - 1) * ZijingMod.config.getUPGRADE_POWER_K());
 //            	shepherdCapability.setIntellect(intellect);
-    			shepherdCapability.setBloodRestore(level * ShepherdCapability.UPGRADE_BLOODRESTORE_K);
-    			shepherdCapability.setMagicRestore(level * ShepherdCapability.UPGRADE_MAGICRESTORE_K);
+    			shepherdCapability.setBloodRestore(level * ZijingMod.config.getUPGRADE_BLOODRESTORE_K());
+    			shepherdCapability.setMagicRestore(level * ZijingMod.config.getUPGRADE_MAGICRESTORE_K());
 //            	shepherdCapability.setPhysicalDefense(physicalDefense);
 //            	shepherdCapability.setMagicDefense(magicDefense);
     			player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(shepherdCapability.getMaxBlood());

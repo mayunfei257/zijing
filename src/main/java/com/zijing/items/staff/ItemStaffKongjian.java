@@ -137,6 +137,7 @@ public class ItemStaffKongjian extends Item implements MagicConsumer{
 	@Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		tooltip.add("TagCompound Data Error!");
+		tooltip.add("Skill 1: Throw transmission ball. (M : 1)");
+		tooltip.add("Skill 2: Random transmission. (M : 3)");
 	}
 }

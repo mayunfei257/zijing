@@ -4,11 +4,9 @@ import org.lwjgl.opengl.GL11;
 
 import com.zijing.items.card.ItemBookChuansong;
 import com.zijing.items.card.ItemCardChuansong;
-import com.zijing.items.staff.ItemZilingZhu;
 import com.zijing.main.BaseControl;
-import com.zijing.main.itf.MagicConsumer;
 import com.zijing.main.message.ChuansongBookToServerMessage;
-import com.zijing.util.PlayerUtil;
+import com.zijing.main.playerdata.ShepherdProvider;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -63,30 +61,19 @@ public class GuiBookChuansongUse {
 		}
 		
 		public void teleportEntity(int index) {
-			if(index > 0 && index < 29 && null != items.get(index)) {
-				ItemStack cardStack = items.get(index);
-				if(null != cardStack && !cardStack.isEmpty()) {
-					NBTTagCompound chuansongCardTag = cardStack.getTagCompound();
-					if(cardStack.hasTagCompound() && chuansongCardTag.getBoolean(ItemCardChuansong.IS_BIND)) {
-						ItemStack zhilingZhuStack = items.get(0);
-						if(null != zhilingZhuStack && !zhilingZhuStack.isEmpty() && zhilingZhuStack.getItem() instanceof ItemZilingZhu && zhilingZhuStack.hasTagCompound()) {
-							if(zhilingZhuStack.getTagCompound().getInteger(MagicConsumer.MAGIC_ENERGY_STR) >= 3) {
-								if(player.dimension == chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)) {
-									PlayerUtil.minusMagic(zhilingZhuStack, 3);
-									ItemStackHelper.saveAllItems(chuansongBookTag, items, true);
-									BaseControl.netWorkWrapper.sendToServer(new ChuansongBookToServerMessage(chuansongBookTag, chuansongCardTag, hand, player.getUniqueID()));
-								}else {
-									player.sendMessage(new TextComponentString("Not the same world! -1 = the Nether, 0 = normal world , this is " + chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)));
-								}
-							}else {
-								player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 3!"));
-							}
-						}else {
-							player.sendMessage(new TextComponentString("No magic energy!"));
-						}
+			if(index > 0 && index < 29 && null != items.get(index) && !items.get(index).isEmpty()) {
+				NBTTagCompound chuansongCardTag = items.get(index).getTagCompound();
+				if(null != chuansongCardTag && chuansongCardTag.getBoolean(ItemCardChuansong.IS_BIND) && player.dimension == chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)) {
+					if(ShepherdProvider.hasCapabilityFromPlayer(player) && ShepherdProvider.getCapabilityFromPlayer(player).getMagic() >= 3) {
+						ItemStackHelper.saveAllItems(chuansongBookTag, items, true);
+						BaseControl.netWorkWrapper.sendToServer(new ChuansongBookToServerMessage(chuansongBookTag, chuansongCardTag, hand, player.getUniqueID()));
 					}else {
-						player.sendMessage(new TextComponentString("Not yet bound!"));
+						player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 3!"));
 					}
+				}else if(player.dimension != chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)){
+					player.sendMessage(new TextComponentString("Not the same world! -1 = the Nether, 0 = normal world , this is " + chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)));
+				}else {
+					player.sendMessage(new TextComponentString("Not yet bound!"));
 				}
 			}
 		}

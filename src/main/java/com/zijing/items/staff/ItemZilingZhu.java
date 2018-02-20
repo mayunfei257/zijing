@@ -8,7 +8,8 @@ import javax.annotation.Nullable;
 import com.zijing.ZijingMod;
 import com.zijing.main.ZijingTab;
 import com.zijing.main.itf.MagicConsumer;
-import com.zijing.util.PlayerUtil;
+import com.zijing.main.playerdata.ShepherdCapability;
+import com.zijing.main.playerdata.ShepherdProvider;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,7 +17,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -43,23 +43,20 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand){
 		ItemStack itemStack = player.getHeldItem(hand);
 		if(null == itemStack || ItemStack.EMPTY == itemStack || null == itemStack.getItem()) return super.onItemRightClick(world, player, hand);
-		if(!itemStack.hasTagCompound() || null == itemStack.getTagCompound()){
-			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setInteger(MagicConsumer.MAGIC_ENERGY_STR, ZijingMod.config.getSTAFF_MAX_MAGIC_ENERGY());
-			nbt.setInteger(MagicConsumer.MAX_MAGIC_ENERGY_STR, ZijingMod.config.getSTAFF_MAX_MAGIC_ENERGY());
-			itemStack.setTagCompound(nbt);
-		}
-		if(!world.isRemote && itemStack.hasTagCompound() && null != itemStack.getTagCompound()) {
-			if(itemStack.getTagCompound().getInteger(MagicConsumer.MAGIC_ENERGY_STR) >= 1) {
+		if(!world.isRemote && ShepherdProvider.hasCapabilityFromPlayer(player)) {
+			ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
+			if(shepherdCapability.getMagic() >= 1) {
 				if(player.isSneaking()) {
 					Collection<PotionEffect> potionEffects = player.getActivePotionEffects();
 					for(PotionEffect potionEffect:potionEffects) {
 						player.removePotionEffect(potionEffect.getPotion());
 					}
-					PlayerUtil.minusMagic(itemStack, 1);
+					shepherdCapability.setMagic(shepherdCapability.getMagic() - 1.0D);
+					ShepherdProvider.updateChangeToClient(player);
 				}else {
-					player.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 60, 0));
-					PlayerUtil.minusMagic(itemStack, 1);
+					player.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 80, 0));
+					shepherdCapability.setMagic(shepherdCapability.getMagic() - 1.0D);
+					ShepherdProvider.updateChangeToClient(player);
 				}
 			}else {
 				player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 1!"));
@@ -75,14 +72,9 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 		int z = pos.getZ();
 		ItemStack itemStack = player.getHeldItem(hand);
 		if(null == itemStack || ItemStack.EMPTY == itemStack || null == itemStack.getItem()) return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
-		if(!itemStack.hasTagCompound() || null == itemStack.getTagCompound()){
-			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setInteger(MagicConsumer.MAGIC_ENERGY_STR, ZijingMod.config.getSTAFF_MAX_MAGIC_ENERGY());
-			nbt.setInteger(MagicConsumer.MAX_MAGIC_ENERGY_STR, ZijingMod.config.getSTAFF_MAX_MAGIC_ENERGY());
-			itemStack.setTagCompound(nbt);
-		}
-		if(!worldIn.isRemote && Blocks.AIR != worldIn.getBlockState(new BlockPos(x, y, z)).getBlock() && itemStack.hasTagCompound() && null != itemStack.getTagCompound()) {
-			if(itemStack.getTagCompound().getInteger(MagicConsumer.MAGIC_ENERGY_STR) >= 2) {
+		if(!worldIn.isRemote && ShepherdProvider.hasCapabilityFromPlayer(player)) {
+			ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
+			if(shepherdCapability.getMagic() >= 2) {
 				if(player.isSneaking()) {
 					for(; y > 0; y--) {
 						if(worldIn.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.BEDROCK) {
@@ -93,7 +85,8 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 								worldIn.setBlockState(new BlockPos(x, y - 1, z), Blocks.STONE.getDefaultState());
 							}
 							player.setPositionAndUpdate(x + 0.5, y, z + 0.5);
-							PlayerUtil.minusMagic(itemStack, 2);
+							shepherdCapability.setMagic(shepherdCapability.getMagic() - 2.0D);
+							ShepherdProvider.updateChangeToClient(player);
 							break;
 						}
 					}
@@ -107,7 +100,8 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 								worldIn.setBlockState(new BlockPos(x, y - 1, z), Blocks.STONE.getDefaultState());
 							}
 							player.setPositionAndUpdate(x + 0.5, y, z + 0.5);
-							PlayerUtil.minusMagic(itemStack, 2);
+							shepherdCapability.setMagic(shepherdCapability.getMagic() - 2.0D);
+							ShepherdProvider.updateChangeToClient(player);
 							break;
 						}
 					}
@@ -132,11 +126,10 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 	@Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		if(stack.hasTagCompound() && null != stack.getTagCompound()){
-			NBTTagCompound nbt = stack.getTagCompound();
-			tooltip.add("Magic energy: " + nbt.getInteger(MagicConsumer.MAGIC_ENERGY_STR) + "/" + nbt.getInteger(MagicConsumer.MAX_MAGIC_ENERGY_STR));
-		}else{
-			tooltip.add("TagCompound Data Error!");
-		}
+		tooltip.add("Skill 1: Levitation. (M : 1)");
+		tooltip.add("Skill 2: Remove all PotionEffect. (M : 1)");
+		tooltip.add("Skill 3: Send up. (M : 2)");
+		tooltip.add("Skill 4: Send down. (M : 2)");
+		tooltip.add("Skill 5: Immune drop injury. (M : 1)");
 	}
 }

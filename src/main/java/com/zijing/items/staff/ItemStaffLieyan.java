@@ -123,6 +123,7 @@ public class ItemStaffLieyan extends Item implements MagicConsumer{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		tooltip.add("TagCompound Data Error!");
+		tooltip.add("Skill 1: Throw fire ball. (M : 1)");
+		tooltip.add("Skill 2: Flames surround. (M : 3)");
 	}
 }

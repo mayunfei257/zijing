@@ -16,7 +16,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.FoodStats;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -33,12 +35,19 @@ public class ZijingEvent {
 	
 	@SubscribeEvent
 	public void entityFall(LivingFallEvent event) {
-		Entity entity = event.getEntity();
-		if (!entity.world.isRemote && entity instanceof EntityPlayer) {
-			ItemStack mainHand = ((EntityLivingBase) entity).getHeldItemMainhand();
-			ItemStack offhand = ((EntityLivingBase) entity).getHeldItemOffhand();
-			if((null != mainHand && mainHand.getItem() == BaseControl.itemZilingZhu) || (null != offhand && offhand.getItem() == BaseControl.itemZilingZhu)) {
-				event.setDistance(0);
+		if (!event.getEntity().world.isRemote && event.getEntity() instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer)event.getEntity();
+			ItemStack mainHandStack = player.getHeldItemMainhand();
+			ItemStack offhandStack =  player.getHeldItemOffhand();
+			if(event.getDistance() > 3 && ((null != mainHandStack && mainHandStack.getItem() == BaseControl.itemZilingZhu) || (null != offhandStack && offhandStack.getItem() == BaseControl.itemZilingZhu)) && ShepherdProvider.hasCapabilityFromPlayer(player)) {
+				ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
+				if(shepherdCapability.getMagic() >= 1) {
+					event.setDistance(0);
+					shepherdCapability.setMagic(shepherdCapability.getMagic() - 1.0D);
+					ShepherdProvider.updateChangeToClient(player);
+				}else {
+					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 1!"));
+				}
 			}
 		}
 	}
@@ -127,22 +136,23 @@ public class ZijingEvent {
 	public void restore(TickEvent.PlayerTickEvent event) {
 		if(event.phase == Phase.START && event.side ==  Side.SERVER ) {
 			EntityPlayer player = event.player;
-			if(ShepherdProvider.hasCapabilityFromPlayer(player)) {
+			if(ShepherdProvider.hasCapabilityFromPlayer(player) && !player.isDead && player.getHealth() > 0) {
 				ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
-				if(player.getHealth() < player.getMaxHealth() || player.getHealth() != shepherdCapability.getBlood() || shepherdCapability.getMagic() < shepherdCapability.getMaxMagic()) {
+				FoodStats playerFoodStats = player.getFoodStats();
+				if((player.getHealth() < player.getMaxHealth() || shepherdCapability.getMagic() < shepherdCapability.getMaxMagic()) && playerFoodStats.getFoodLevel() + playerFoodStats.getSaturationLevel() > 1) {
 					if(player.getHealth() < player.getMaxHealth()) {
 						player.setHealth(player.getHealth() + (float)shepherdCapability.getBloodRestore());
 						shepherdCapability.setBlood(player.getHealth());
-					}
-					if(player.getHealth() != shepherdCapability.getBlood()) {
-						shepherdCapability.setBlood(player.getHealth());
+						playerFoodStats.addExhaustion(ZijingMod.config.getRESTORE_NEED_FOOD());
 					}
 					if(shepherdCapability.getMagic() < shepherdCapability.getMaxMagic()) {
-						shepherdCapability.setMagic(shepherdCapability.getMagic() + shepherdCapability.getMagicRestore());
-						if(shepherdCapability.getMagic() > shepherdCapability.getMaxMagic()) {
-							shepherdCapability.setMagic(shepherdCapability.getMaxMagic());
-						}
+						shepherdCapability.setMagic(Math.min(shepherdCapability.getMagic() + shepherdCapability.getMagicRestore(), shepherdCapability.getMaxMagic()));
+						playerFoodStats.addExhaustion(ZijingMod.config.getRESTORE_NEED_FOOD());
 					}
+					ShepherdProvider.updateChangeToClient(player);
+				}
+				if(player.getHealth() != shepherdCapability.getBlood()) {
+					shepherdCapability.setBlood(player.getHealth());
 					ShepherdProvider.updateChangeToClient(player);
 				}
 			}

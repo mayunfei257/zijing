@@ -36,7 +36,6 @@ import com.zijing.items.tool.ItemToolZijingChu;
 import com.zijing.items.tool.ItemToolZijingFu;
 import com.zijing.items.tool.ItemToolZijingGao;
 import com.zijing.items.tool.ItemToolZijingJian;
-import com.zijing.main.itf.MagicConsumer;
 import com.zijing.main.message.ChuansongBookToServerMessage;
 import com.zijing.main.message.ChuansongCardToServerMessage;
 import com.zijing.main.message.ShepherdToClientMessage;
@@ -53,7 +52,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -285,12 +283,7 @@ public class BaseControl{
 		addRecipe(ZijingMod.MODID + ":HC_itemCardChuansong", ZijingMod.MODID, new ItemStack(itemCardChuansong, 1), itemZiqi, Items.PAPER, itemZiqi, Items.PAPER, Items.ENDER_PEARL, Items.PAPER, itemZiqi, Items.PAPER, itemZiqi);
 		addRecipe(ZijingMod.MODID + ":HC_itemBookChuansong", ZijingMod.MODID, new ItemStack(itemBookChuansong, 1), itemZiqi, Items.BOOK, itemZiqi, Items.BOOK, Items.ENDER_PEARL, Items.BOOK, itemZiqi, Items.BOOK, itemZiqi);
 		//staff
-		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setInteger(MagicConsumer.MAGIC_ENERGY_STR, ZijingMod.config.getSTAFF_MAX_MAGIC_ENERGY());
-		nbt.setInteger(MagicConsumer.MAX_MAGIC_ENERGY_STR, ZijingMod.config.getSTAFF_MAX_MAGIC_ENERGY());
-		ItemStack itemZilingZhuStack = new ItemStack(itemZilingZhu, 1);
-		itemZilingZhuStack.setTagCompound(nbt.copy());
-		addRecipe(ZijingMod.MODID + ":HC_itemZilingZhu", ZijingMod.MODID, itemZilingZhuStack, Items.DIAMOND, itemZijing, Items.DIAMOND, itemZijing, Items.ENDER_PEARL, itemZijing, Items.DIAMOND, itemZijing, Items.DIAMOND);
+		addRecipe(ZijingMod.MODID + ":HC_itemZilingZhu", ZijingMod.MODID, new ItemStack(itemZilingZhu, 1), Items.DIAMOND, itemZijing, Items.DIAMOND, itemZijing, Items.ENDER_PEARL, itemZijing, Items.DIAMOND, itemZijing, Items.DIAMOND);
 		addRecipe(ZijingMod.MODID + ":HC_itemStaffBingxue", ZijingMod.MODID, new ItemStack(itemStaffBingxue, 1), null, Blocks.ICE, itemZilingZhu, null, Blocks.ICE, Blocks.ICE, Blocks.ICE, null, null);
 		addRecipe(ZijingMod.MODID + ":HC_itemStaffLieyan", ZijingMod.MODID, new ItemStack(itemStaffLieyan, 1), null, Blocks.MAGMA, itemZilingZhu, null, Blocks.MAGMA, Blocks.MAGMA, Blocks.MAGMA, null, null);
 		addRecipe(ZijingMod.MODID + ":HC_itemStaffKongjian", ZijingMod.MODID, new ItemStack(itemStaffKongjian, 1), null, Items.ENDER_EYE, itemZilingZhu, null, Items.ENDER_EYE, Items.ENDER_EYE, Items.ENDER_EYE, null, null);
@@ -307,18 +300,18 @@ public class BaseControl{
 		addRecipe(ZijingMod.MODID + ":HC_itemArmorZijingLegs", ZijingMod.MODID, new ItemStack(itemArmorZijingLegs, 1), itemZijing, itemZijing, itemZijing, itemZijing, null, itemZijing, itemZijing, null, itemZijing);
 		addRecipe(ZijingMod.MODID + ":HC_itemArmorZijingBoots", ZijingMod.MODID, new ItemStack(itemArmorZijingBoots, 1), null, null, null, itemZijing, null, itemZijing, itemZijing, null, itemZijing);
 		
-		
 		addSmelting(Blocks.GRAVEL, new ItemStack(Items.FLINT, 1), 1);
-		addShapelessRecipe(ZijingMod.MODID + ":HC_GUNPOWDER", ZijingMod.MODID, new ItemStack(Items.GUNPOWDER, 3),Items.FLINT, Items.COAL, Items.DYE);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_CLAY", ZijingMod.MODID, new ItemStack(Items.CLAY_BALL, 4), Blocks.CLAY);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_QUARTZ_BLOCK", ZijingMod.MODID, new ItemStack(Items.QUARTZ, 4), Blocks.QUARTZ_BLOCK);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_WOOL", ZijingMod.MODID, new ItemStack(Items.STRING, 4), Blocks.WOOL);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_GLOWSTONE", ZijingMod.MODID, new ItemStack(Items.GLOWSTONE_DUST, 4), Blocks.GLOWSTONE);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_MELON_BLOCK", ZijingMod.MODID, new ItemStack(Items.MELON, 9), Blocks.MELON_BLOCK);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_LEATHER", ZijingMod.MODID, new ItemStack(Items.RABBIT_HIDE, 4), Items.LEATHER);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_NETHER_WART_BLOCK", ZijingMod.MODID, new ItemStack(Items.NETHER_WART, 9), Blocks.NETHER_WART_BLOCK);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_SNOW_BLOCK", ZijingMod.MODID, new ItemStack(Items.SNOWBALL, 4), Blocks.SNOW);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_MAGMA_BLOCK", ZijingMod.MODID, new ItemStack(Items.MAGMA_CREAM, 4), Blocks.MAGMA);
+		addShapelessRecipe(ZijingMod.MODID + ":HC_GUNPOWDER1", "custom", new ItemStack(Items.GUNPOWDER, 3), new ItemStack(Items.FLINT, 1), new ItemStack(Items.DYE, 1, 15), new ItemStack(Items.COAL, 1));
+		addShapelessRecipe(ZijingMod.MODID + ":HC_GUNPOWDER2", "custom", new ItemStack(Items.GUNPOWDER, 3), new ItemStack(Items.FLINT, 1), new ItemStack(Items.DYE, 1, 15),new ItemStack(Items.COAL, 1, 1));
+		addShapelessRecipe(ZijingMod.MODID + ":FJ_CLAY", "custom", new ItemStack(Items.CLAY_BALL, 4), Blocks.CLAY);
+		addShapelessRecipe(ZijingMod.MODID + ":FJ_QUARTZ_BLOCK", "custom", new ItemStack(Items.QUARTZ, 4), Blocks.QUARTZ_BLOCK);
+		addShapelessRecipe(ZijingMod.MODID + ":FJ_WOOL", "custom", new ItemStack(Items.STRING, 4), Blocks.WOOL);
+		addShapelessRecipe(ZijingMod.MODID + ":FJ_GLOWSTONE", "custom", new ItemStack(Items.GLOWSTONE_DUST, 4), Blocks.GLOWSTONE);
+		addShapelessRecipe(ZijingMod.MODID + ":FJ_MELON_BLOCK", "custom", new ItemStack(Items.MELON, 9), Blocks.MELON_BLOCK);
+		addShapelessRecipe(ZijingMod.MODID + ":FJ_LEATHER", "custom", new ItemStack(Items.RABBIT_HIDE, 4), Items.LEATHER);
+		addShapelessRecipe(ZijingMod.MODID + ":FJ_NETHER_WART_BLOCK", "custom", new ItemStack(Items.NETHER_WART, 9), Blocks.NETHER_WART_BLOCK);
+		addShapelessRecipe(ZijingMod.MODID + ":FJ_SNOW_BLOCK", "custom", new ItemStack(Items.SNOWBALL, 4), Blocks.SNOW);
+		addShapelessRecipe(ZijingMod.MODID + ":FJ_MAGMA_BLOCK", "custom", new ItemStack(Items.MAGMA_CREAM, 4), Blocks.MAGMA);
 		
 	}
 	
@@ -344,8 +337,10 @@ public class BaseControl{
   		for (int i = 0; i < items.length; ++i){
   			if(items[i] instanceof Block) {
   	  			ingredient[i] = Ingredient.fromStacks(new ItemStack(Item.getItemFromBlock((Block)items[i]), 1));
-  			}else {
+  			}else if(items[i] instanceof Item){
   	  			ingredient[i] = Ingredient.fromStacks(new ItemStack((Item)items[i], 1));
+  			}else if(items[i] instanceof ItemStack){
+  	  			ingredient[i] = Ingredient.fromStacks((ItemStack)items[i]);
   			}
         }
   		GameRegistry.addShapelessRecipe(new ResourceLocation(nameStr), new ResourceLocation(groupStr), itemStack, ingredient);

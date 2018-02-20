@@ -7,7 +7,8 @@ import javax.annotation.Nullable;
 import com.zijing.ZijingMod;
 import com.zijing.main.ZijingTab;
 import com.zijing.main.gui.GuiCardChuansong;
-import com.zijing.util.PlayerUtil;
+import com.zijing.main.playerdata.ShepherdCapability;
+import com.zijing.main.playerdata.ShepherdProvider;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,7 +27,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemCardChuansong extends Item{
-	public static final int foodConsume = 5;
 	public static final String BIND_LX = ZijingMod.MODID + ":lx";
 	public static final String BIND_LY = ZijingMod.MODID + ":ly";
 	public static final String BIND_LZ = ZijingMod.MODID + ":lz";
@@ -57,28 +57,30 @@ public class ItemCardChuansong extends Item{
 			nbt.setBoolean(IS_BIND, false);
 			itemStack.setTagCompound(nbt);
 		}
-		if(!world.isRemote && itemStack.hasTagCompound() && null != itemStack.getTagCompound()){
+		if(!world.isRemote && itemStack.hasTagCompound() && ShepherdProvider.hasCapabilityFromPlayer(player)){
 			NBTTagCompound chuansongCardTag = itemStack.getTagCompound();
+			ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
 			if(player.isSneaking()){
-				if(PlayerUtil.getAllFoodlevel(player) >= foodConsume) {
+				if(shepherdCapability.getMagic() >= 3) {
 					player.openGui(ZijingMod.instance, GuiCardChuansong.GUIID, world, (int) player.posX, (int) (player.posY + 1.62D), (int) player.posZ);
 				}else {
-					player.sendMessage(new TextComponentString("You are hungry!"));
+					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 3!"));
 				}
 			}else {
-				if(player.dimension == chuansongCardTag.getInteger(BIND_WORLD) && chuansongCardTag.getBoolean(IS_BIND) && PlayerUtil.getAllFoodlevel(player) >= foodConsume) {
+				if(player.dimension == chuansongCardTag.getInteger(BIND_WORLD) && chuansongCardTag.getBoolean(IS_BIND) && shepherdCapability.getMagic() >= 3) {
 					double x = chuansongCardTag.getDouble(BIND_LX);
 					double y = chuansongCardTag.getDouble(BIND_LY);
 					double z = chuansongCardTag.getDouble(BIND_LZ);
 					player.setPositionAndUpdate(x, y, z);
 					world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-					PlayerUtil.minusFoodlevel(player, foodConsume);
+					shepherdCapability.setMagic(shepherdCapability.getMagic() - 3.0D);
+					ShepherdProvider.updateChangeToClient(player);
 				}else if(!chuansongCardTag.getBoolean(IS_BIND)){
 					player.sendMessage(new TextComponentString("Not yet bound!"));
 				}else if(player.dimension != chuansongCardTag.getInteger(BIND_WORLD)){
 					player.sendMessage(new TextComponentString("Not the same world!"));
-				}else if(PlayerUtil.getAllFoodlevel(player) < foodConsume){
-					player.sendMessage(new TextComponentString("You are hungry!"));
+				}else if(shepherdCapability.getMagic() < 3){
+					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 3!"));
 				}
 			}
 		}
@@ -90,10 +92,13 @@ public class ItemCardChuansong extends Item{
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
 		if(stack.hasTagCompound() && null != stack.getTagCompound() && stack.getTagCompound().getBoolean(IS_BIND)){
 			NBTTagCompound nbt  = stack.getTagCompound();
-			tooltip.add("Position X:" + (int)nbt.getDouble(BIND_LX) + " Y:" + (int)nbt.getDouble(BIND_LY) + " Z:" + (int)nbt.getDouble(BIND_LZ) + " World:" + nbt.getInteger(BIND_WORLD));
 			tooltip.add("Name:"+ nbt.getString(BIND_NAME));
+			tooltip.add("Position X:" + (int)nbt.getDouble(BIND_LX) + " Y:" + (int)nbt.getDouble(BIND_LY) + " Z:" + (int)nbt.getDouble(BIND_LZ) + " World:" + nbt.getInteger(BIND_WORLD));
 		}else{
 			tooltip.add("Is not binded!");
 		}
+		tooltip.add("------------------------------");
+		tooltip.add("Skill 1: Bind position. (M : 3)");
+		tooltip.add("Skill 2: Transmission. (M : 3)");
 	}
 }

@@ -1,9 +1,12 @@
 package com.zijing.main.gui;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 import org.lwjgl.opengl.GL11;
 
+import com.zijing.ZijingMod;
+import com.zijing.main.ZijingEvent;
 import com.zijing.main.playerdata.ShepherdCapability;
 import com.zijing.main.playerdata.ShepherdProvider;
 import com.zijing.util.MathUtil;
@@ -35,8 +38,8 @@ public class GuiUpgrade {
 
 		public void upgrade(int upLevel){
 			if(null != shepherdCapability) {
-	    		double needMagic = MathUtil.getUpgradeK(shepherdCapability.getLevel(), upLevel) * ShepherdCapability.UPGRADE_NEED_MAGIC_K;
-	    		int needXP = (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), upLevel) * ShepherdCapability.UPGRADE_NEED_XP_K;
+	    		double needMagic = MathUtil.getUpgradeK(shepherdCapability.getLevel(), upLevel) * ZijingMod.config.getUPGRADE_NEED_MAGIC_K();
+	    		int needXP = (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), upLevel) * ZijingMod.config.getUPGRADE_NEED_XP_K();
 				if(shepherdCapability.getMagic() >= needMagic) {
 					if(player.experienceTotal >= needXP) {
 						if(player.world.isRemote) {
@@ -57,13 +60,15 @@ public class GuiUpgrade {
 		private EntityPlayer player;
 		private ShepherdCapability shepherdCapability;
 		private GuiLabel guiLabel;
-		private DecimalFormat df;
+		private DecimalFormat df2;
+		private DecimalFormat df3;
 		
 		public MyGuiContainer(World world, int i, int j, int k, EntityPlayer player) {
 			super(new MyContainer(world, i, j, k, player));
 			this.player = player;
 			shepherdCapability = ShepherdProvider.hasCapabilityFromPlayer(player) ? ShepherdProvider.getCapabilityFromPlayer(player) : null;
-			df = new DecimalFormat("#0.00");
+			df2 = new DecimalFormat("#0.00");
+			df3 = new DecimalFormat("#0.000");
 		}
 
 		@Override
@@ -87,16 +92,16 @@ public class GuiUpgrade {
 			if(null != shepherdCapability) {
 				this.fontRenderer.drawString("level: " + shepherdCapability.getLevel(), 0, 0, 0xFFCC33);
 				this.fontRenderer.drawString("race: " + shepherdCapability.getRace(), 0, 10, 0xFFCC33);
-				this.fontRenderer.drawString("blood: " + df.format(shepherdCapability.getBlood()) + "/" + df.format(shepherdCapability.getMaxBlood()), 0, 20, 0xFFCC33);
-				this.fontRenderer.drawString("magic: " + df.format(shepherdCapability.getMagic()) + "/" + df.format(shepherdCapability.getMaxMagic()), 0, 30, 0xFFCC33);
-				this.fontRenderer.drawString("speed: " + df.format(shepherdCapability.getSpeed()), 0, 40, 0xFFCC33);
-				this.fontRenderer.drawString("power: " + df.format(shepherdCapability.getPower()), 0, 50, 0xFFCC33);
-				this.fontRenderer.drawString("intellect: " + df.format(shepherdCapability.getIntellect()), 0, 60, 0xFFCC33);
-				this.fontRenderer.drawString("bloodRestore: " + df.format(shepherdCapability.getBloodRestore()), 0, 70, 0xFFCC33);
-				this.fontRenderer.drawString("magicRestore: " + df.format(shepherdCapability.getMagicRestore()), 0, 80, 0xFFCC33);
-				this.fontRenderer.drawString("physicalDefense: " + df.format(shepherdCapability.getPhysicalDefense()), 0, 90, 0xFFCC33);
-				this.fontRenderer.drawString("magicDefense: " + df.format(shepherdCapability.getMagicDefense()), 0, 100, 0xFFCC33);
-				this.fontRenderer.drawString("needExperience: " + player.experienceTotal + "/" + (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), 1) * ShepherdCapability.UPGRADE_NEED_XP_K, 0, 110, 0xFFCC33);
+				this.fontRenderer.drawString("blood: " + df2.format(shepherdCapability.getBlood()) + "/" + df2.format(shepherdCapability.getMaxBlood()), 0, 20, 0xFFCC33);
+				this.fontRenderer.drawString("magic: " + df2.format(shepherdCapability.getMagic()) + "/" + df2.format(shepherdCapability.getMaxMagic()), 0, 30, 0xFFCC33);
+				this.fontRenderer.drawString("speed: " + df2.format(shepherdCapability.getSpeed()), 0, 40, 0xFFCC33);
+				this.fontRenderer.drawString("power: " + df2.format(shepherdCapability.getPower()), 0, 50, 0xFFCC33);
+				this.fontRenderer.drawString("intellect: " + df2.format(shepherdCapability.getIntellect()), 0, 60, 0xFFCC33);
+				this.fontRenderer.drawString("bloodRestore: " + df3.format(shepherdCapability.getBloodRestore()), 0, 70, 0xFFCC33);
+				this.fontRenderer.drawString("magicRestore: " + df3.format(shepherdCapability.getMagicRestore()), 0, 80, 0xFFCC33);
+				this.fontRenderer.drawString("physicalDefense: " + df2.format(shepherdCapability.getPhysicalDefense()), 0, 90, 0xFFCC33);
+				this.fontRenderer.drawString("magicDefense: " + df2.format(shepherdCapability.getMagicDefense()), 0, 100, 0xFFCC33);
+				this.fontRenderer.drawString("needExperience: " + player.experienceTotal + "/" + (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), 1) * ZijingMod.config.getUPGRADE_NEED_XP_K(), 0, 110, 0xFFCC33);
 			}
 		}
 
@@ -122,7 +127,7 @@ public class GuiUpgrade {
 //			this.labelList.clear();
 //			this.labelList.add(guiLabel);
 			this.buttonList.clear();
-			this.buttonList.add(new GuiButton(1, this.width / 2 - 30, this.height / 2 + 60, 60, 20, "Upgrade"));
+			this.buttonList.add(new GuiButton(1, this.width / 2 - 30, this.height / 2 + 60, 60, 20, "UpGrade"));
 		}
 
 		@Override
@@ -130,6 +135,14 @@ public class GuiUpgrade {
 			if (button.id == 1) {
 				((MyContainer)this.inventorySlots).upgrade(1);
 			}
+		}
+		
+		@Override
+		protected void keyTyped(char typedChar, int keyCode) throws IOException{
+			if(ZijingEvent.key1.getKeyCode() == keyCode) {
+				this.mc.player.closeScreen();
+			}
+			super.keyTyped(typedChar, keyCode);
 		}
 	}
 }

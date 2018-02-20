@@ -3,7 +3,8 @@ package com.zijing.main.message;
 import java.util.UUID;
 
 import com.zijing.items.card.ItemCardChuansong;
-import com.zijing.util.PlayerUtil;
+import com.zijing.main.playerdata.ShepherdCapability;
+import com.zijing.main.playerdata.ShepherdProvider;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
@@ -48,13 +49,15 @@ public class ChuansongCardToServerMessage implements IMessage{
 					@Override
 					public void run(){
 						EntityPlayer player = ctx.getServerHandler().player;
-						try {
-							if(player.getHeldItem(hand).getItem() instanceof ItemCardChuansong) {
+						if(ShepherdProvider.hasCapabilityFromPlayer(player) && player.getHeldItem(hand).getItem() instanceof ItemCardChuansong) {
+							ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
+							if(shepherdCapability.getMagic() >= 3) {
 								player.getHeldItem(hand).setTagCompound(chuansongCardTag);
-								PlayerUtil.minusFoodlevel(player, ItemCardChuansong.foodConsume);
+								shepherdCapability.setMagic(shepherdCapability.getMagic() - 3.0D);
+								ShepherdProvider.updateChangeToClient(player);
+							}else {
+								player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 3!"));
 							}
-						}catch(Exception e) {
-							player.sendMessage(new TextComponentString("Exception :" + e.getMessage()));
 						}
 					}
 				});

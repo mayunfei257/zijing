@@ -1,5 +1,6 @@
 package com.zijing.entity;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -42,10 +43,14 @@ public class EntityArrowHuoDan extends EntityThrowable {
 			this.setDead();
 		}else if(null != blockPos && !this.world.isRemote){
 			if(null != raytraceResultIn.sideHit) {
-				this.world.setBlockState(blockPos.offset(raytraceResultIn.sideHit), Blocks.FIRE.getDefaultState());
+				IBlockState blockState = this.world.getBlockState(blockPos.offset(raytraceResultIn.sideHit));
+				if(blockState.getBlock() == Blocks.AIR || blockState.getBlock() == Blocks.TALLGRASS) {
+					this.world.setBlockState(blockPos.offset(raytraceResultIn.sideHit), Blocks.FIRE.getDefaultState());
+				}
 			}
 			if(this.world.rand.nextFloat() < 0.125D) {
-				this.world.createExplosion(this, blockPos.getX(), blockPos.getY(), blockPos.getZ(), 1F, true);
+				BlockPos blockPosTemp = blockPos.offset(raytraceResultIn.sideHit);
+				this.world.createExplosion(this, blockPosTemp.getX(), blockPosTemp.getY(), blockPosTemp.getZ(), 1F, true);
 			}
 			this.setDead();
 		}
