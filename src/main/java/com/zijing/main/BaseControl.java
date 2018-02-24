@@ -275,10 +275,10 @@ public class BaseControl{
 		addRecipe(ZijingMod.MODID + ":HC_blockZilingZhaohuanZhen", ZijingMod.MODID, new ItemStack(blockZilingZhaohuanZhen, 1), itemZijing, Items.ENDER_PEARL, itemZijing, blockZijingKuai, Blocks.PUMPKIN, blockZijingKuai, blockZijingKuai, Blocks.IRON_BLOCK, blockZijingKuai);
 		//item and food
 		addShapelessRecipe(ZijingMod.MODID + ":HC_itemDanZiling1", ZijingMod.MODID, new ItemStack(itemDanZiling, 2), Items.WHEAT, itemZiqi, Items.WHEAT);
-		addShapelessRecipe(ZijingMod.MODID + ":HC_itemDanShenshu1", ZijingMod.MODID, new ItemStack(itemDanShenshu, 4), Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, itemZiqi, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS);
-		addShapelessRecipe(ZijingMod.MODID + ":HC_itemDanShenshu2", ZijingMod.MODID, new ItemStack(itemDanShenshu, 4), Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS, itemZiqi, Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS);
-		addShapelessRecipe(ZijingMod.MODID + ":HC_itemDanShenshu3", ZijingMod.MODID, new ItemStack(itemDanShenshu, 4), Items.MELON_SEEDS, Items.MELON_SEEDS, itemZiqi, Items.MELON_SEEDS, Items.MELON_SEEDS);
-		addShapelessRecipe(ZijingMod.MODID + ":HC_itemDanShenshu4", ZijingMod.MODID, new ItemStack(itemDanShenshu, 4), Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, itemZiqi, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS);
+		addRecipe(ZijingMod.MODID + ":HC_itemDanShenshu1", ZijingMod.MODID, new ItemStack(itemDanShenshu, 4), Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, itemZiqi, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS);
+		addRecipe(ZijingMod.MODID + ":HC_itemDanShenshu2", ZijingMod.MODID, new ItemStack(itemDanShenshu, 4), Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS, itemZiqi, Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS);
+		addRecipe(ZijingMod.MODID + ":HC_itemDanShenshu3", ZijingMod.MODID, new ItemStack(itemDanShenshu, 4), Items.MELON_SEEDS, Items.MELON_SEEDS, Items.MELON_SEEDS, Items.MELON_SEEDS, itemZiqi, Items.MELON_SEEDS, Items.MELON_SEEDS, Items.MELON_SEEDS, Items.MELON_SEEDS);
+		addRecipe(ZijingMod.MODID + ":HC_itemDanShenshu4", ZijingMod.MODID, new ItemStack(itemDanShenshu, 4), Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, itemZiqi, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS);
 		//card
 		addRecipe(ZijingMod.MODID + ":HC_itemCardChuansong", ZijingMod.MODID, new ItemStack(itemCardChuansong, 1), itemZiqi, Items.PAPER, itemZiqi, Items.PAPER, Items.ENDER_PEARL, Items.PAPER, itemZiqi, Items.PAPER, itemZiqi);
 		addRecipe(ZijingMod.MODID + ":HC_itemBookChuansong", ZijingMod.MODID, new ItemStack(itemBookChuansong, 1), itemZiqi, Items.BOOK, itemZiqi, Items.BOOK, Items.ENDER_PEARL, Items.BOOK, itemZiqi, Items.BOOK, itemZiqi);
