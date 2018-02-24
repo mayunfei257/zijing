@@ -32,6 +32,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemStaffBingxue extends Item implements MagicConsumer{
+	public static final int MagicSkill1 = 1;
+	public static final int MagicSkill2 = 3;
 
 	public ItemStaffBingxue() {
 		super();
@@ -49,7 +51,7 @@ public class ItemStaffBingxue extends Item implements MagicConsumer{
 		if (!world.isRemote && ShepherdProvider.hasCapabilityFromPlayer(player)) {
 			ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
 			if(player.isSneaking()) {
-				if(shepherdCapability.getMagic() >= 3) {
+				if(shepherdCapability.getMagic() >= MagicSkill2) {
 					List<BlockPos> blockPosList = new ArrayList<BlockPos>();
 					for(int i = -5; i <= 5; i++) {
 						for(int j = -3; j <= 3; j++) {
@@ -74,21 +76,21 @@ public class ItemStaffBingxue extends Item implements MagicConsumer{
 						snowman2.playLivingSound();
 					}
 					world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-					shepherdCapability.setMagic(shepherdCapability.getMagic() - 3.0D);
+					shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill2);
 					ShepherdProvider.updateChangeToClient(player);
 				}else {
-					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 3!"));
+					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + MagicSkill2 + " !"));
 				}
 			}else {
-				if(shepherdCapability.getMagic() >= 1) {
+				if(shepherdCapability.getMagic() >= MagicSkill1) {
 					EntityArrowBingDan bingDan = new EntityArrowBingDan(world, player);
 					bingDan.shoot(player.getLookVec().x, player.getLookVec().y, player.getLookVec().z, 4.0F, 0);
 					world.spawnEntity(bingDan);
 					world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-					shepherdCapability.setMagic(shepherdCapability.getMagic() - 1.0D);
+					shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill1);
 					ShepherdProvider.updateChangeToClient(player);
 				}else {
-					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 1!"));
+					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + MagicSkill1 + " !"));
 				}
 			}
 		}
@@ -113,8 +115,8 @@ public class ItemStaffBingxue extends Item implements MagicConsumer{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		tooltip.add("Skill 1: Throw ice ball. (M : 1)");
-		tooltip.add("Skill 2: Summons snowman. (M : 3)");
+		tooltip.add("Skill 1: Throw ice ball. (M : " + MagicSkill1 + ")");
+		tooltip.add("Skill 2: Summons snowman. (M : " + MagicSkill2 + ")(Sneaking)");
 	}
 	//	
 	//	@Override

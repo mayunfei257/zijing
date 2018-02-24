@@ -56,7 +56,7 @@ public class ChuansongBookToServerMessage implements IMessage{
 					public void run(){
 						EntityPlayer player = ctx.getServerHandler().player;
 						if(null != chuansongCardTag && chuansongCardTag.getBoolean(ItemCardChuansong.IS_BIND) && player.dimension == chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)) {
-							if(ShepherdProvider.hasCapabilityFromPlayer(player) && ShepherdProvider.getCapabilityFromPlayer(player).getMagic() >= 3) {
+							if(ShepherdProvider.hasCapabilityFromPlayer(player) && ShepherdProvider.getCapabilityFromPlayer(player).getMagic() >= ItemBookChuansong.MagicSkill1) {
 								ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
 								try {
 									if(player.getHeldItem(hand).getItem() instanceof ItemBookChuansong) {
@@ -66,17 +66,17 @@ public class ChuansongBookToServerMessage implements IMessage{
 										double z = chuansongCardTag.getDouble(ItemCardChuansong.BIND_LZ);
 										player.setPositionAndUpdate(x, y, z);
 										player.world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-										shepherdCapability.setMagic(shepherdCapability.getMagic() - 3.0D);
+										shepherdCapability.setMagic(shepherdCapability.getMagic() - ItemBookChuansong.MagicSkill1);
 										ShepherdProvider.updateChangeToClient(player);
 									}
 								}catch(Exception e) {
 									player.sendMessage(new TextComponentString("Exception :" + e.getMessage()));
 								}
 							}else {
-								player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 3!"));
+								player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + ItemBookChuansong.MagicSkill1 + " !"));
 							}
 						}else if(player.dimension != chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)){
-							player.sendMessage(new TextComponentString("Not the same world! -1 = the Nether, 0 = normal world , this is " + chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)));
+							player.sendMessage(new TextComponentString("Not the same world! the world is " + player.dimension + ", this card is " + chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)));
 						}else {
 							player.sendMessage(new TextComponentString("Not yet bound!"));
 						}

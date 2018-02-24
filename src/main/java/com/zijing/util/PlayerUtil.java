@@ -48,6 +48,12 @@ public class PlayerUtil {
 		return true;
 	}
 	
+	/**
+	 * Using
+	 * @param player
+	 * @param upLevel
+	 * @return
+	 */
 	public static boolean upGrade(EntityPlayerMP player, int upLevel) {
     	if(ShepherdProvider.hasCapabilityFromPlayer(player) && upLevel >= 0) {
 			ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
@@ -85,6 +91,19 @@ public class PlayerUtil {
     	}else {
 			player.sendMessage(new TextComponentString("You have not the capability!"));
     	}
+		return true;
+	}
+	
+	/**
+	 * Using
+	 * @param player
+	 * @param shepherdCapability
+	 * @return
+	 */
+	public static boolean setAllValueToPlayer(EntityPlayer player, ShepherdCapability shepherdCapability) {
+		player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D + shepherdCapability.getPower());
+		player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(shepherdCapability.getMaxBlood());
+		player.setHealth((float) shepherdCapability.getBlood());
 		return true;
 	}
 }

@@ -30,6 +30,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemStaffKongjian extends Item implements MagicConsumer{
+	public static final int MagicSkill1 = 1;
+	public static final int MagicSkill2 = 5;
 
 	public ItemStaffKongjian() {
 		super();
@@ -47,7 +49,7 @@ public class ItemStaffKongjian extends Item implements MagicConsumer{
 		if (!world.isRemote && ShepherdProvider.hasCapabilityFromPlayer(player)) {
 			ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
 				if(player.isSneaking()) {
-					if(shepherdCapability.getMagic() >= 3) {
+					if(shepherdCapability.getMagic() >= MagicSkill2) {
 						double y = 1 + Math.random() * 255;
 						double x = player.posX + Math.random() * ZijingMod.config.getSTAFF_MAX_DISTANCE() * (Math.random() < 0.5 ? -1 : 1);
 						double z = player.posZ + Math.random() * ZijingMod.config.getSTAFF_MAX_DISTANCE() * (Math.random() < 0.5 ? -1 : 1);
@@ -97,21 +99,21 @@ public class ItemStaffKongjian extends Item implements MagicConsumer{
 							player.setPositionAndUpdate(baseBlockPos.getX() + 0.5D, baseBlockPos.getY(), baseBlockPos.getZ() + 0.5D);
 						}
 						world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-						shepherdCapability.setMagic(shepherdCapability.getMagic() - 3.0D);
+						shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill2);
 						ShepherdProvider.updateChangeToClient(player);
 					}else {
-						player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 3!"));
+						player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + MagicSkill2 + " !"));
 					}
 				}else {
-					if(shepherdCapability.getMagic() >= 1) {
+					if(shepherdCapability.getMagic() >= MagicSkill1) {
 						EntityArrowXukongDan xukongDan = new EntityArrowXukongDan(world, player);
 						xukongDan.shoot(player.getLookVec().x, player.getLookVec().y, player.getLookVec().z, 4.0F, 0);
 						world.spawnEntity(xukongDan);
 						world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-						shepherdCapability.setMagic(shepherdCapability.getMagic() - 1.0D);
+						shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill1);
 						ShepherdProvider.updateChangeToClient(player);
 					}else {
-						player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 1!"));
+						player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + MagicSkill1 + " !"));
 					}
 						
 				}
@@ -137,7 +139,7 @@ public class ItemStaffKongjian extends Item implements MagicConsumer{
 	@Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		tooltip.add("Skill 1: Throw transmission ball. (M : 1)");
-		tooltip.add("Skill 2: Random transmission. (M : 3)");
+		tooltip.add("Skill 1: Throw transmission ball. (M : " + MagicSkill1 + ")");
+		tooltip.add("Skill 2: Random transmission. (M : " + MagicSkill2 + ")(Sneaking)");
 	}
 }

@@ -51,12 +51,12 @@ public class ChuansongCardToServerMessage implements IMessage{
 						EntityPlayer player = ctx.getServerHandler().player;
 						if(ShepherdProvider.hasCapabilityFromPlayer(player) && player.getHeldItem(hand).getItem() instanceof ItemCardChuansong) {
 							ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
-							if(shepherdCapability.getMagic() >= 3) {
+							if(shepherdCapability.getMagic() >= ItemCardChuansong.MagicSkill2) {
 								player.getHeldItem(hand).setTagCompound(chuansongCardTag);
-								shepherdCapability.setMagic(shepherdCapability.getMagic() - 3.0D);
+								shepherdCapability.setMagic(shepherdCapability.getMagic() - ItemCardChuansong.MagicSkill2);
 								ShepherdProvider.updateChangeToClient(player);
 							}else {
-								player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 3!"));
+								player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + ItemCardChuansong.MagicSkill2 + " !"));
 							}
 						}
 					}

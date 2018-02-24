@@ -60,15 +60,17 @@ public class GuiUpgrade {
 		private EntityPlayer player;
 		private ShepherdCapability shepherdCapability;
 		private GuiLabel guiLabel;
+		private DecimalFormat df1;
 		private DecimalFormat df2;
-		private DecimalFormat df3;
+		private DecimalFormat df4;
 		
 		public MyGuiContainer(World world, int i, int j, int k, EntityPlayer player) {
 			super(new MyContainer(world, i, j, k, player));
 			this.player = player;
 			shepherdCapability = ShepherdProvider.hasCapabilityFromPlayer(player) ? ShepherdProvider.getCapabilityFromPlayer(player) : null;
+			df1 = new DecimalFormat("#0.0");
 			df2 = new DecimalFormat("#0.00");
-			df3 = new DecimalFormat("#0.000");
+			df4 = new DecimalFormat("#0.0000");
 		}
 
 		@Override
@@ -92,13 +94,13 @@ public class GuiUpgrade {
 			if(null != shepherdCapability) {
 				this.fontRenderer.drawString("level: " + shepherdCapability.getLevel(), 0, 0, 0xFFCC33);
 				this.fontRenderer.drawString("race: " + shepherdCapability.getRace(), 0, 10, 0xFFCC33);
-				this.fontRenderer.drawString("blood: " + df2.format(shepherdCapability.getBlood()) + "/" + df2.format(shepherdCapability.getMaxBlood()), 0, 20, 0xFFCC33);
-				this.fontRenderer.drawString("magic: " + df2.format(shepherdCapability.getMagic()) + "/" + df2.format(shepherdCapability.getMaxMagic()), 0, 30, 0xFFCC33);
+				this.fontRenderer.drawString("blood: " + df1.format(shepherdCapability.getBlood()) + "/" + df1.format(shepherdCapability.getMaxBlood()), 0, 20, 0xFFCC33);
+				this.fontRenderer.drawString("magic: " + df1.format(shepherdCapability.getMagic()) + "/" + df1.format(shepherdCapability.getMaxMagic()), 0, 30, 0xFFCC33);
 				this.fontRenderer.drawString("speed: " + df2.format(shepherdCapability.getSpeed()), 0, 40, 0xFFCC33);
 				this.fontRenderer.drawString("power: " + df2.format(shepherdCapability.getPower()), 0, 50, 0xFFCC33);
 				this.fontRenderer.drawString("intellect: " + df2.format(shepherdCapability.getIntellect()), 0, 60, 0xFFCC33);
-				this.fontRenderer.drawString("bloodRestore: " + df3.format(shepherdCapability.getBloodRestore()), 0, 70, 0xFFCC33);
-				this.fontRenderer.drawString("magicRestore: " + df3.format(shepherdCapability.getMagicRestore()), 0, 80, 0xFFCC33);
+				this.fontRenderer.drawString("bloodRestore: " + df4.format(shepherdCapability.getBloodRestore()) + "/T", 0, 70, 0xFFCC33);
+				this.fontRenderer.drawString("magicRestore: " + df4.format(shepherdCapability.getMagicRestore()) + "/T", 0, 80, 0xFFCC33);
 				this.fontRenderer.drawString("physicalDefense: " + df2.format(shepherdCapability.getPhysicalDefense()), 0, 90, 0xFFCC33);
 				this.fontRenderer.drawString("magicDefense: " + df2.format(shepherdCapability.getMagicDefense()), 0, 100, 0xFFCC33);
 				this.fontRenderer.drawString("needExperience: " + player.experienceTotal + "/" + (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), 1) * ZijingMod.config.getUPGRADE_NEED_XP_K(), 0, 110, 0xFFCC33);

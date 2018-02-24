@@ -29,6 +29,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemZilingZhu extends Item implements MagicConsumer{
+	public static final int MagicSkill1 = 1;
+	public static final int MagicSkill2 = 2;
+	public static final int MagicSkill3 = 2;
+	public static final int MagicSkill4 = 2;
+	public static final int MagicSkill5 = 1;
 
 	public ItemZilingZhu() {
 		super();
@@ -45,21 +50,25 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 		if(null == itemStack || ItemStack.EMPTY == itemStack || null == itemStack.getItem()) return super.onItemRightClick(world, player, hand);
 		if(!world.isRemote && ShepherdProvider.hasCapabilityFromPlayer(player)) {
 			ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
-			if(shepherdCapability.getMagic() >= 1) {
-				if(player.isSneaking()) {
+			if(player.isSneaking()) {
+				if(shepherdCapability.getMagic() >= MagicSkill2) {
 					Collection<PotionEffect> potionEffects = player.getActivePotionEffects();
 					for(PotionEffect potionEffect:potionEffects) {
 						player.removePotionEffect(potionEffect.getPotion());
 					}
-					shepherdCapability.setMagic(shepherdCapability.getMagic() - 1.0D);
+					shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill2);
 					ShepherdProvider.updateChangeToClient(player);
 				}else {
-					player.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 80, 0));
-					shepherdCapability.setMagic(shepherdCapability.getMagic() - 1.0D);
-					ShepherdProvider.updateChangeToClient(player);
+					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + MagicSkill2 + " !"));
 				}
 			}else {
-				player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 1!"));
+				if(shepherdCapability.getMagic() >= MagicSkill1) {
+					player.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 80, 0));
+					shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill1);
+					ShepherdProvider.updateChangeToClient(player);
+				}else {
+					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + MagicSkill1 + " !"));
+				}
 			}
 		}
 		return new ActionResult(EnumActionResult.SUCCESS, player.getHeldItem(hand));
@@ -74,40 +83,40 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 		if(null == itemStack || ItemStack.EMPTY == itemStack || null == itemStack.getItem()) return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 		if(!worldIn.isRemote && ShepherdProvider.hasCapabilityFromPlayer(player)) {
 			ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
-			if(shepherdCapability.getMagic() >= 2) {
-				if(player.isSneaking()) {
+			if(player.isSneaking()) {
+				if(shepherdCapability.getMagic() >= MagicSkill4) {
 					for(; y > 0; y--) {
-						if(worldIn.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.BEDROCK) {
-							break;
-						}
+						if(worldIn.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.BEDROCK) { break; }
 						if(worldIn.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.AIR && worldIn.getBlockState(new BlockPos(x, y + 1, z)).getBlock() == Blocks.AIR && worldIn.getBlockState(new BlockPos(x, y - 1, z)).getBlock() != Blocks.AIR) {
 							if(worldIn.getBlockState(new BlockPos(x, y - 1, z)).getBlock() == Blocks.LAVA || worldIn.getBlockState(new BlockPos(x, y - 1, z)).getBlock() == Blocks.FLOWING_LAVA) {
 								worldIn.setBlockState(new BlockPos(x, y - 1, z), Blocks.STONE.getDefaultState());
 							}
 							player.setPositionAndUpdate(x + 0.5, y, z + 0.5);
-							shepherdCapability.setMagic(shepherdCapability.getMagic() - 2.0D);
+							shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill4);
 							ShepherdProvider.updateChangeToClient(player);
 							break;
 						}
 					}
-				}else{
-					for(; y <= 513; y++) {
-						if(worldIn.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.BEDROCK) {
-							break;
-						}
-						if(worldIn.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.AIR && worldIn.getBlockState(new BlockPos(x, y + 1, z)).getBlock() == Blocks.AIR && worldIn.getBlockState(new BlockPos(x, y - 1, z)).getBlock() != Blocks.AIR) {
-							if(worldIn.getBlockState(new BlockPos(x, y - 1, z)).getBlock() == Blocks.LAVA || worldIn.getBlockState(new BlockPos(x, y - 1, z)).getBlock() == Blocks.FLOWING_LAVA) {
-								worldIn.setBlockState(new BlockPos(x, y - 1, z), Blocks.STONE.getDefaultState());
-							}
-							player.setPositionAndUpdate(x + 0.5, y, z + 0.5);
-							shepherdCapability.setMagic(shepherdCapability.getMagic() - 2.0D);
-							ShepherdProvider.updateChangeToClient(player);
-							break;
-						}
-					}
+				}else {
+					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + MagicSkill4 + " !"));
 				}
-			}else {
-				player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 2!"));
+			}else{
+				if(shepherdCapability.getMagic() >= MagicSkill3) {
+					for(; y <= 513; y++) {
+						if(worldIn.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.BEDROCK) { break; }
+						if(worldIn.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.AIR && worldIn.getBlockState(new BlockPos(x, y + 1, z)).getBlock() == Blocks.AIR && worldIn.getBlockState(new BlockPos(x, y - 1, z)).getBlock() != Blocks.AIR) {
+							if(worldIn.getBlockState(new BlockPos(x, y - 1, z)).getBlock() == Blocks.LAVA || worldIn.getBlockState(new BlockPos(x, y - 1, z)).getBlock() == Blocks.FLOWING_LAVA) {
+								worldIn.setBlockState(new BlockPos(x, y - 1, z), Blocks.STONE.getDefaultState());
+							}
+							player.setPositionAndUpdate(x + 0.5, y, z + 0.5);
+							shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill3);
+							ShepherdProvider.updateChangeToClient(player);
+							break;
+						}
+					}
+				}else {
+					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + MagicSkill3 + " !"));
+				}
 			}
 		}
 		return EnumActionResult.SUCCESS;
@@ -126,10 +135,10 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 	@Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		tooltip.add("Skill 1: Levitation. (M : 1)");
-		tooltip.add("Skill 2: Remove all PotionEffect. (M : 1)");
-		tooltip.add("Skill 3: Send up. (M : 2)");
-		tooltip.add("Skill 4: Send down. (M : 2)");
-		tooltip.add("Skill 5: Immune drop injury. (M : 1)");
+		tooltip.add("Skill 1: Levitation. (M : " + MagicSkill1 + ")");
+		tooltip.add("Skill 2: Remove all PotionEffect. (M : " + MagicSkill2 + ")(Sneaking)");
+		tooltip.add("Skill 3: Send up. (M : " + MagicSkill3 + ")");
+		tooltip.add("Skill 4: Send down. (M : " + MagicSkill4 + ")(Sneaking)");
+		tooltip.add("Skill 5: Immune drop injury. (M : " + MagicSkill5 + ")");
 	}
 }

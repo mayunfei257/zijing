@@ -1,48 +1,48 @@
-itemGroup.ZhijingTab = ZhijingTab
+itemGroup.ZhijingTab=ZhijingTab
 #Block----------------------------------------------------------------------
-tile.blockGuhuaNiunaiKuai.name = guhuaNiunaiKuai
-tile.blockZilingCao.name = zilingCao
-tile.blockZijingKuai.name = zijingKuai
-tile.blockZilingZhaohuanZhen.name = zilingZhaohuanZhen
-tile.blockZilingMieshaZhen.name = zilingMieshaZhen
-tile.blockZhulingTai.name = zhulingTai
+tile.blockGuhuaNiunaiKuai.name=guhuaNiunaiKuai
+tile.blockZilingCao.name=zilingCao
+tile.blockZijingKuai.name=zijingKuai
+tile.blockZilingZhaohuanZhen.name=zilingZhaohuanZhen
+tile.blockZilingMieshaZhen.name=zilingMieshaZhen
+tile.blockZhulingTai.name=zhulingTai
 
 #Item----------------------------------------------------------------------
-item.itemGuhuaNiunai.name = guhuaNiunai
-item.itemZiqi.name = ziqi
-item.itemZijing.name =zijing
-item.itemDanZiling.name = zilingDan
-item.itemDanShenshu.name = shenshuDan
-item.itemZilingZhu.name = zilingZhu
+item.itemGuhuaNiunai.name=guhuaNiunai
+item.itemZiqi.name=ziqi
+item.itemZijing.name=zijing
+item.itemDanZiling.name=zilingDan
+item.itemDanShenshu.name=shenshuDan
+item.itemZilingZhu.name=zilingZhu
 
 #Card-------------------------------------------------------------------------
-item.itemCardFengyin.name = fengyinKa
-item.itemCardChuansong.name = chuansongKa
-item.itemBookChuansong.name = chuansongShu
+item.itemCardFengyin.name=fengyinKa
+item.itemCardChuansong.name=chuansongKa
+item.itemBookChuansong.name=chuansongShu
 
 #Staff-------------------------------------------------------------------------
-item.itemStaffBingxue.name = bingxueFazhang
-item.itemStaffLieyan.name = lieyanFazhang
-item.itemStaffKongjian.name = kongjianFazhang
-item.itemStaffFengyin.name = fengyinFazhang
-item.itemArrowBingDan.name = bingDan
-item.itemArrowHuoDan.name = huoDan
-item.itemArrowXukongDan.name = xukongDan
-item.itemArrowFengyinDan.name = fengyinDan
-entity.entityArrowBingDan.name = bingDan
-entity.entityArrowHuoDan.name = huoDan
-entity.entityArrowXukongDan.name = xukongDan
-entity.entityArrowFengyinDan.name = fengyinDan
-item.itemStaffWaigua.name = waiguaFaZhang
+item.itemStaffBingxue.name=bingxueFazhang
+item.itemStaffLieyan.name=lieyanFazhang
+item.itemStaffKongjian.name=kongjianFazhang
+item.itemStaffFengyin.name=fengyinFazhang
+item.itemArrowBingDan.name=bingDan
+item.itemArrowHuoDan.name=huoDan
+item.itemArrowXukongDan.name=xukongDan
+item.itemArrowFengyinDan.name=fengyinDan
+entity.entityArrowBingDan.name=bingDan
+entity.entityArrowHuoDan.name=huoDan
+entity.entityArrowXukongDan.name=xukongDan
+entity.entityArrowFengyinDan.name=fengyinDan
+item.itemStaffWaigua.name=waiguaFaZhang
 
 #Tool-------------------------------------------------------------------------
-item.itemToolZijingJian.name = zijingJian
-item.itemToolZijingFu.name = zijingFu
-item.itemToolZijingGao.name = zijingGao
-item.itemToolZijingChan.name = zijingChan
-item.itemToolZijingChu.name = zijingChu
-item.itemToolZijingDun.name = zijingDun
-item.itemArmorZijingHelmet.name = ZijingHelmet
-item.itemArmorZijingBody.name = ZijingBody
-item.itemArmorZijingLegs.name = ZijingLegs
-item.itemArmorZijingBoots.name = ZijingBoots
+item.itemToolZijingJian.name=zijingJian
+item.itemToolZijingFu.name=zijingFu
+item.itemToolZijingGao.name=zijingGao
+item.itemToolZijingChan.name=zijingChan
+item.itemToolZijingChu.name=zijingChu
+item.itemToolZijingDun.name=zijingDun
+item.itemArmorZijingHelmet.name=ZijingHelmet
+item.itemArmorZijingBody.name=ZijingBody
+item.itemArmorZijingLegs.name=ZijingLegs
+item.itemArmorZijingBoots.name=ZijingBoots

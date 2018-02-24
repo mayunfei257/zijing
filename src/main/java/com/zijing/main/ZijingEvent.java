@@ -3,15 +3,16 @@ package com.zijing.main;
 import org.lwjgl.input.Keyboard;
 
 import com.zijing.ZijingMod;
+import com.zijing.items.staff.ItemZilingZhu;
 import com.zijing.main.gui.GuiUpgrade;
 import com.zijing.main.playerdata.ShepherdCapability;
 import com.zijing.main.playerdata.ShepherdProvider;
+import com.zijing.util.PlayerUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
@@ -41,12 +42,12 @@ public class ZijingEvent {
 			ItemStack offhandStack =  player.getHeldItemOffhand();
 			if(event.getDistance() > 3 && ((null != mainHandStack && mainHandStack.getItem() == BaseControl.itemZilingZhu) || (null != offhandStack && offhandStack.getItem() == BaseControl.itemZilingZhu)) && ShepherdProvider.hasCapabilityFromPlayer(player)) {
 				ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
-				if(shepherdCapability.getMagic() >= 1) {
+				if(shepherdCapability.getMagic() >= ItemZilingZhu.MagicSkill5) {
 					event.setDistance(0);
-					shepherdCapability.setMagic(shepherdCapability.getMagic() - 1.0D);
+					shepherdCapability.setMagic(shepherdCapability.getMagic() - ItemZilingZhu.MagicSkill5);
 					ShepherdProvider.updateChangeToClient(player);
 				}else {
-					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 1!"));
+					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + ItemZilingZhu.MagicSkill5 + " !"));
 				}
 			}
 		}
@@ -94,8 +95,7 @@ public class ZijingEvent {
 				newCapb.readNBT(null, oldCapb.writeNBT(null));
 				newCapb.setBlood(1);
 				newCapb.setMagic(0);
-				newPlayer.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(newCapb.getMaxBlood());
-				newPlayer.setHealth((float) newCapb.getBlood());
+    			PlayerUtil.setAllValueToPlayer(newPlayer, newCapb);
 				ShepherdProvider.updateChangeToClient(newPlayer);
 			}
 		}
@@ -107,8 +107,7 @@ public class ZijingEvent {
         	EntityPlayer player = (EntityPlayer) event.getEntity();
         	if(ShepherdProvider.hasCapabilityFromPlayer(player)){
     			ShepherdCapability newCapb = ShepherdProvider.getCapabilityFromPlayer(player);
-    			player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(newCapb.getMaxBlood());
-    			player.setHealth((float) newCapb.getBlood());
+    			PlayerUtil.setAllValueToPlayer(player, newCapb);
                 ShepherdProvider.updateChangeToClient(player);
         	}
         }

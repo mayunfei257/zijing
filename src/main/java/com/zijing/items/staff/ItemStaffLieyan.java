@@ -32,6 +32,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemStaffLieyan extends Item implements MagicConsumer{
+	public static final int MagicSkill1 = 1;
+	public static final int MagicSkill2 = 3;
 
 	public ItemStaffLieyan() {
 		super();
@@ -49,7 +51,7 @@ public class ItemStaffLieyan extends Item implements MagicConsumer{
 		if (!world.isRemote && ShepherdProvider.hasCapabilityFromPlayer(player)) {
 			ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
 			if(player.isSneaking()) {
-				if(shepherdCapability.getMagic() >= 3) {
+				if(shepherdCapability.getMagic() >= MagicSkill2) {
 					if(world.rand.nextFloat() < 0.125D) {
 						player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 100, 0));
 						for(int i = -5; i <= 5; i++) {
@@ -83,22 +85,22 @@ public class ItemStaffLieyan extends Item implements MagicConsumer{
 					}
 					world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.lightning.impact")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 					world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.lightning.thunder")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-					shepherdCapability.setMagic(shepherdCapability.getMagic() - 3.0D);
+					shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill2);
 					ShepherdProvider.updateChangeToClient(player);
 				}else {
-					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 3!"));
+					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + MagicSkill2 + " !"));
 				}
 			}else {
-				if(shepherdCapability.getMagic() >= 1) {
+				if(shepherdCapability.getMagic() >= MagicSkill1) {
 					EntityArrowHuoDan huoDan = new EntityArrowHuoDan(world, player);
 					huoDan.shoot(player.getLookVec().x, player.getLookVec().y, player.getLookVec().z, 4.0F, 0);
 					huoDan.setFire(5);
 					world.spawnEntity(huoDan);
 					world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation(("entity.snowball.throw"))), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-					shepherdCapability.setMagic(shepherdCapability.getMagic() - 1.0D);
+					shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill1);
 					ShepherdProvider.updateChangeToClient(player);
 				}else {
-					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 1!"));
+					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + MagicSkill1 + " !"));
 				}
 			}
 		}
@@ -123,7 +125,7 @@ public class ItemStaffLieyan extends Item implements MagicConsumer{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		tooltip.add("Skill 1: Throw fire ball. (M : 1)");
-		tooltip.add("Skill 2: Flames surround. (M : 3)");
+		tooltip.add("Skill 1: Throw fire ball. (M : " + MagicSkill1 + ")");
+		tooltip.add("Skill 2: Flames surround. (M : " + MagicSkill2 + ")(Sneaking)");
 	}
 }

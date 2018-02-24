@@ -64,14 +64,14 @@ public class GuiBookChuansongUse {
 			if(index > 0 && index < 29 && null != items.get(index) && !items.get(index).isEmpty()) {
 				NBTTagCompound chuansongCardTag = items.get(index).getTagCompound();
 				if(null != chuansongCardTag && chuansongCardTag.getBoolean(ItemCardChuansong.IS_BIND) && player.dimension == chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)) {
-					if(ShepherdProvider.hasCapabilityFromPlayer(player) && ShepherdProvider.getCapabilityFromPlayer(player).getMagic() >= 3) {
+					if(ShepherdProvider.hasCapabilityFromPlayer(player) && ShepherdProvider.getCapabilityFromPlayer(player).getMagic() >= ItemBookChuansong.MagicSkill1) {
 						ItemStackHelper.saveAllItems(chuansongBookTag, items, true);
 						BaseControl.netWorkWrapper.sendToServer(new ChuansongBookToServerMessage(chuansongBookTag, chuansongCardTag, hand, player.getUniqueID()));
 					}else {
-						player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 3!"));
+						player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + ItemBookChuansong.MagicSkill1 + " !"));
 					}
 				}else if(player.dimension != chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)){
-					player.sendMessage(new TextComponentString("Not the same world! -1 = the Nether, 0 = normal world , this is " + chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)));
+					player.sendMessage(new TextComponentString("Not the same world! the world is " + player.dimension + ", this card is " + chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)));
 				}else {
 					player.sendMessage(new TextComponentString("Not yet bound!"));
 				}

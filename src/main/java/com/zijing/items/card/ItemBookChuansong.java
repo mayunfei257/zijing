@@ -24,6 +24,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBookChuansong extends Item{
+	public static final int MagicSkill1 = 5;
+	public static final int MagicSkill2 = 0;
 
 	public ItemBookChuansong() {
 		super();
@@ -57,6 +59,7 @@ public class ItemBookChuansong extends Item{
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
 		NBTTagCompound compound = stack.getTagCompound();
-		tooltip.add("tagCount:" + (null == compound ? 0 : compound.getTagList("Items", 10).tagCount()));
+		tooltip.add("Skill 1: Open book GUI. (M : " + MagicSkill1 + ")");
+		tooltip.add("Skill 2: Transmission. (M : " + MagicSkill2 + ")(Sneaking)");
 	}
 }

@@ -33,6 +33,8 @@ public class ItemCardChuansong extends Item{
 	public static final String BIND_WORLD = ZijingMod.MODID + ":world";
 	public static final String BIND_NAME = ZijingMod.MODID + ":name";
 	public static final String IS_BIND = ZijingMod.MODID + ":isbind";
+	public static final int MagicSkill1 = 5;
+	public static final int MagicSkill2 = 5;
 
 	public ItemCardChuansong() {
 		super();
@@ -61,26 +63,26 @@ public class ItemCardChuansong extends Item{
 			NBTTagCompound chuansongCardTag = itemStack.getTagCompound();
 			ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
 			if(player.isSneaking()){
-				if(shepherdCapability.getMagic() >= 3) {
+				if(shepherdCapability.getMagic() >= MagicSkill2) {
 					player.openGui(ZijingMod.instance, GuiCardChuansong.GUIID, world, (int) player.posX, (int) (player.posY + 1.62D), (int) player.posZ);
 				}else {
-					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 3!"));
+					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + MagicSkill2 + " !"));
 				}
 			}else {
-				if(player.dimension == chuansongCardTag.getInteger(BIND_WORLD) && chuansongCardTag.getBoolean(IS_BIND) && shepherdCapability.getMagic() >= 3) {
+				if(player.dimension == chuansongCardTag.getInteger(BIND_WORLD) && chuansongCardTag.getBoolean(IS_BIND) && shepherdCapability.getMagic() >= MagicSkill1) {
 					double x = chuansongCardTag.getDouble(BIND_LX);
 					double y = chuansongCardTag.getDouble(BIND_LY);
 					double z = chuansongCardTag.getDouble(BIND_LZ);
 					player.setPositionAndUpdate(x, y, z);
 					world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-					shepherdCapability.setMagic(shepherdCapability.getMagic() - 3.0D);
+					shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill1);
 					ShepherdProvider.updateChangeToClient(player);
 				}else if(!chuansongCardTag.getBoolean(IS_BIND)){
 					player.sendMessage(new TextComponentString("Not yet bound!"));
 				}else if(player.dimension != chuansongCardTag.getInteger(BIND_WORLD)){
-					player.sendMessage(new TextComponentString("Not the same world!"));
+					player.sendMessage(new TextComponentString("Not the same world! the world is " + player.dimension + ", this card is " + chuansongCardTag.getInteger(BIND_WORLD)));
 				}else if(shepherdCapability.getMagic() < 3){
-					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 3!"));
+					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + MagicSkill1 + " !"));
 				}
 			}
 		}
@@ -98,7 +100,7 @@ public class ItemCardChuansong extends Item{
 			tooltip.add("Is not binded!");
 		}
 		tooltip.add("------------------------------");
-		tooltip.add("Skill 1: Bind position. (M : 3)");
-		tooltip.add("Skill 2: Transmission. (M : 3)");
+		tooltip.add("Skill 1: Bind position. (M : " + MagicSkill1 + ")");
+		tooltip.add("Skill 2: Transmission. (M : " + MagicSkill2 + ")(Sneaking)");
 	}
 }
