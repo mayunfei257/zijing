@@ -19,6 +19,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -58,8 +59,7 @@ public class ItemBookChuansong extends Item{
 	@Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		NBTTagCompound compound = stack.getTagCompound();
-		tooltip.add("Skill 1: Open book GUI. (M : " + MagicSkill1 + ")");
-		tooltip.add("Skill 2: Transmission. (M : " + MagicSkill2 + ")(Sneaking)");
+		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemBookChuansong.skill1", new Object[] {MagicSkill1}));
+		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemBookChuansong.skill2", new Object[] {MagicSkill2}));
 	}
 }

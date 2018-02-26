@@ -22,6 +22,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -94,13 +95,13 @@ public class ItemCardChuansong extends Item{
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
 		if(stack.hasTagCompound() && null != stack.getTagCompound() && stack.getTagCompound().getBoolean(IS_BIND)){
 			NBTTagCompound nbt  = stack.getTagCompound();
-			tooltip.add("Name:"+ nbt.getString(BIND_NAME));
-			tooltip.add("Position X:" + (int)nbt.getDouble(BIND_LX) + " Y:" + (int)nbt.getDouble(BIND_LY) + " Z:" + (int)nbt.getDouble(BIND_LZ) + " World:" + nbt.getInteger(BIND_WORLD));
+			tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemCardChuansong.name", new Object[] {nbt.getString(BIND_NAME)}));
+			tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemCardChuansong.position", new Object[] {(int)nbt.getDouble(BIND_LX), (int)nbt.getDouble(BIND_LY), (int)nbt.getDouble(BIND_LZ), nbt.getInteger(BIND_WORLD)}));
 		}else{
-			tooltip.add("Is not binded!");
+			tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemCardChuansong.notbinded", new Object[] {}));
 		}
-		tooltip.add("------------------------------");
-		tooltip.add("Skill 1: Bind position. (M : " + MagicSkill1 + ")");
-		tooltip.add("Skill 2: Transmission. (M : " + MagicSkill2 + ")(Sneaking)");
+		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".line.1", new Object[] {}));
+		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemCardChuansong.skill1", new Object[] {MagicSkill1}));
+		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemCardChuansong.skill2", new Object[] {MagicSkill2}));
 	}
 }

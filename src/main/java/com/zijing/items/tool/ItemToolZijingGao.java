@@ -1,15 +1,23 @@
 package com.zijing.items.tool;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import com.zijing.ZijingMod;
 import com.zijing.main.ZijingTab;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemToolZijingGao extends ItemPickaxe{
 
@@ -57,5 +65,11 @@ public class ItemToolZijingGao extends ItemPickaxe{
 			}
 		}
 		return amount;
+	}
+
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
+		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemToolZijingGao.skill1", new Object[] {ZijingMod.config.getTOOL_DMAMOUNT()}));
 	}
 }

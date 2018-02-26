@@ -25,11 +25,13 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemCardFengyin extends Item{
+	public static final int MagicSkill1 = 5;
 
 	public ItemCardFengyin() {
 		super();
@@ -51,7 +53,7 @@ public class ItemCardFengyin extends Item{
 		if(!world.isRemote && itemStack.hasTagCompound() && ShepherdProvider.hasCapabilityFromPlayer(player)) {
 			NBTTagCompound nbt = itemStack.getTagCompound();
 			ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
-			if(shepherdCapability.getMagic() >= 1) {
+			if(shepherdCapability.getMagic() >= MagicSkill1) {
 				String entityName = nbt.getString(ZijingMod.MODID + ":entityName");
 				NBTTagCompound entityNBT = (NBTTagCompound)nbt.getTag(ZijingMod.MODID + ":entityNBT");
 				try {
@@ -64,13 +66,13 @@ public class ItemCardFengyin extends Item{
 					world.spawnEntity(entity);
 					world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 					player.inventory.deleteStack(itemStack);
-					shepherdCapability.setMagic(shepherdCapability.getMagic() - 1.0D);
+					shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill1);
 					ShepherdProvider.updateChangeToClient(player);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}else {
-				player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 1!"));
+				player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + MagicSkill1 + " !"));
 			}
 		}
 		return EnumActionResult.SUCCESS;
@@ -80,9 +82,9 @@ public class ItemCardFengyin extends Item{
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
 		if(stack.hasTagCompound() && null != stack.getTagCompound()){
-			tooltip.add("EntityName : " + stack.getTagCompound().getString(ZijingMod.MODID + ":entityName") + ". (M : 1)");
+			tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemCardFengyin.skill1", new Object[] {stack.getTagCompound().getString(ZijingMod.MODID + ":entityName"), MagicSkill1}));
 		}else{
-			tooltip.add("NULL!");
+			tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemCardFengyin.null", new Object[] {}));
 		}
     }
 }

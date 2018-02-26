@@ -24,6 +24,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -33,7 +34,7 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 	public static final int MagicSkill2 = 2;
 	public static final int MagicSkill3 = 2;
 	public static final int MagicSkill4 = 2;
-	public static final int MagicSkill5 = 1;
+	public static final int MagicSkill5 = 2;
 
 	public ItemZilingZhu() {
 		super();
@@ -135,10 +136,10 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 	@Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		tooltip.add("Skill 1: Levitation. (M : " + MagicSkill1 + ")");
-		tooltip.add("Skill 2: Remove all PotionEffect. (M : " + MagicSkill2 + ")(Sneaking)");
-		tooltip.add("Skill 3: Send up. (M : " + MagicSkill3 + ")");
-		tooltip.add("Skill 4: Send down. (M : " + MagicSkill4 + ")(Sneaking)");
-		tooltip.add("Skill 5: Immune drop injury. (M : " + MagicSkill5 + ")");
+		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemZilingZhu.skill1", new Object[] {MagicSkill1}));
+		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemZilingZhu.skill2", new Object[] {MagicSkill2}));
+		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemZilingZhu.skill3", new Object[] {MagicSkill3}));
+		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemZilingZhu.skill4", new Object[] {MagicSkill4}));
+		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemZilingZhu.skill5", new Object[] {MagicSkill5}));
 	}
 }

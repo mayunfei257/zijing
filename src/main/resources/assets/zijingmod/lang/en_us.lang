@@ -46,3 +46,50 @@ item.itemArmorZijingHelmet.name=ZijingHelmet
 item.itemArmorZijingBody.name=ZijingBody
 item.itemArmorZijingLegs.name=ZijingLegs
 item.itemArmorZijingBoots.name=ZijingBoots
+
+#FY_BASE---------------------------------------------------------------------------
+zijingmod.line.1=----------------.
+zijingmod.line.2=--------------------------------.
+
+#FY_Item---------------------------------------------------------------------------
+zijingmod.itemZiqi.magic=Magic energy : %d.
+zijingmod.itemZijing.magic=Magic energy : %d.
+zijingmod.itemDanZiling.skill=%d seconds of various beneficial states, and restore %d magic.
+zijingmod.itemDanShenshu.skill=%d seconds speed effect.
+
+#FY_Card---------------------------------------------------------------------------
+zijingmod.itemCardFengyin.null=NULL!
+zijingmod.itemCardFengyin.skill1=Entity name : %s. (M : %d)
+zijingmod.itemCardChuansong.notbinded=Is not binded!
+zijingmod.itemCardChuansong.name=Name: %s.
+zijingmod.itemCardChuansong.position=Position X:%d Y:%d Z:%d World:%d.
+zijingmod.itemCardChuansong.skill1=Skill 1: Transmission. (M : %d)
+zijingmod.itemCardChuansong.skill2=Skill 2: Bind position. (M : %d) (Sneaking)
+zijingmod.itemBookChuansong.skill1=Skill 1: Transmission. (M : %d)
+zijingmod.itemBookChuansong.skill2=Skill 2: Open book GUI. (M : %d) (Sneaking)
+
+#FY_Staff---------------------------------------------------------------------------
+zijingmod.itemZilingZhu.skill1=Skill 1: Levitation. (M : %d)
+zijingmod.itemZilingZhu.skill2=Skill 2: Remove all PotionEffect. (M : %d) (Sneaking)
+zijingmod.itemZilingZhu.skill3=Skill 3: Send up. (M : %d)
+zijingmod.itemZilingZhu.skill4=Skill 4: Send down. (M : %d) (Sneaking)
+zijingmod.itemZilingZhu.skill5=¡ìcSkill 5: Immune drop injury. (M : %d)
+zijingmod.itemStaffBingxue.skill1=Skill 1: Throw ice ball. (M : %d)
+zijingmod.itemStaffBingxue.skill2=Skill 2: Summons snowman. (M : %d) (Sneaking)
+zijingmod.itemStaffLieyan.skill1=Skill 1: Throw fire ball. (M : %d)
+zijingmod.itemStaffLieyan.skill2=Skill 2: Flames surround. (M : %d) (Sneaking)
+zijingmod.itemStaffKongjian.skill1=Skill 1: Throw transmission ball. (M : %d)
+zijingmod.itemStaffKongjian.skill2=Skill 2: Random transmission. (M : %d) (Sneaking)
+zijingmod.itemStaffFengyin.skill1=Skill 1: Throw seal ball. (M : %d)
+zijingmod.itemStaffFengyin.skill2=Skill 2: Summons ironGolem. (M : %d) (Sneaking)
+
+#FY_Tool--------------------------------------------------------------------------- 
+zijingmod.itemToolZijingJian.skill1=Decelerate enemies for %d second, increase power for %d seconds, restore %d drops of blood.
+zijingmod.itemToolZijingFu.skill1=Break the block that needs to be broken with an axe, will have a chain drop, the maximum chain size %d.
+zijingmod.itemToolZijingGao.skill1=Break the block that needs to be broken with an pickaxe, will have a chain drop, the maximum chain size %d.
+zijingmod.itemToolZijingChan.skill1=Break the block that needs to be broken with an spade, will have a chain drop, the maximum chain size %d.
+zijingmod.itemToolZijingChu.skill1=Make the block updateTick once. (M : %d)
+zijingmod.itemArmorZijingHelmet.skill1=Injured will get water breathing for %d seconds.
+zijingmod.itemArmorZijingBody.skill1=Injured will get regeneration for %d seconds.
+zijingmod.itemArmorZijingLegs.skill1=Injured will get resistance for %d seconds.
+zijingmod.itemArmorZijingBoots.skill1=Injured will get speed for %d seconds.

@@ -4,6 +4,10 @@ import org.lwjgl.input.Keyboard;
 
 import com.zijing.ZijingMod;
 import com.zijing.items.staff.ItemZilingZhu;
+import com.zijing.items.tool.ItemArmorZijingBody;
+import com.zijing.items.tool.ItemArmorZijingBoots;
+import com.zijing.items.tool.ItemArmorZijingHelmet;
+import com.zijing.items.tool.ItemArmorZijingLegs;
 import com.zijing.main.gui.GuiUpgrade;
 import com.zijing.main.playerdata.ShepherdCapability;
 import com.zijing.main.playerdata.ShepherdProvider;
@@ -69,16 +73,16 @@ public class ZijingEvent {
 			Iterable<ItemStack> armorList = player.getArmorInventoryList();
 			for(ItemStack stack: armorList) {
 				if(null != stack && stack.getItem() == BaseControl.itemArmorZijingHelmet && null == player.getActivePotionEffect(MobEffects.WATER_BREATHING)) {
-					player.addPotionEffect(new PotionEffect(MobEffects.WATER_BREATHING, 60, 0));
+					player.addPotionEffect(new PotionEffect(MobEffects.WATER_BREATHING, ItemArmorZijingHelmet.effectTick, 0));
 				}
 				if(null != stack && stack.getItem() == BaseControl.itemArmorZijingBody && null == player.getActivePotionEffect(MobEffects.REGENERATION)) {
-					player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 60, 0));
+					player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, ItemArmorZijingBody.effectTick, 0));
 				}
 				if(null != stack && stack.getItem() == BaseControl.itemArmorZijingLegs && null == player.getActivePotionEffect(MobEffects.RESISTANCE)) {
-					player.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 60, 0));
+					player.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, ItemArmorZijingLegs.effectTick, 0));
 				}
 				if(null != stack && stack.getItem() == BaseControl.itemArmorZijingBoots && null == player.getActivePotionEffect(MobEffects.SPEED)) {
-					player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 60, 0));
+					player.addPotionEffect(new PotionEffect(MobEffects.SPEED, ItemArmorZijingBoots.effectTick, 0));
 				}
 			}
 		}

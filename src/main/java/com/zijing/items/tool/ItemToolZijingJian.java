@@ -1,15 +1,26 @@
 package com.zijing.items.tool;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import com.zijing.ZijingMod;
 import com.zijing.main.ZijingTab;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.text.translation.I18n;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemToolZijingJian extends ItemSword{
+	public static final int effectTick = 60;
+	public static final int bloodRestore = 1;
 
 	public ItemToolZijingJian() {
 		super(ZijingMod.config.getZijingToolMaterial());
@@ -20,12 +31,18 @@ public class ItemToolZijingJian extends ItemSword{
 
 	@Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker){
-		target.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 60, 4));
+		target.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, effectTick, 4));
 		if(attacker.getHealth() + 1 <= attacker.getMaxHealth()) {
-			attacker.setHealth(attacker.getHealth() + 1);
+			attacker.setHealth(attacker.getHealth() + bloodRestore);
 		}
 		if(null == attacker.getActivePotionEffect(MobEffects.STRENGTH))
-			attacker.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 60, 0));
+			attacker.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, effectTick, 0));
 		return super.hitEntity(stack, target, attacker);
+	}
+
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
+		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemToolZijingJian.skill1", new Object[] {effectTick/20, effectTick/20, bloodRestore}));
 	}
 }
