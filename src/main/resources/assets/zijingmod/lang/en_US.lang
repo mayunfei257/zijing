@@ -1,95 +1,100 @@
-itemGroup.ZhijingTab=ZhijingTab
+#ZijingMod-----------------------------------------------------------------
+itemGroup.zhijingTab=¡ì6zhijingTab
 #Block----------------------------------------------------------------------
-tile.blockGuhuaNiunaiKuai.name=guhuaNiunaiKuai
-tile.blockZilingCao.name=zilingCao
-tile.blockZijingKuai.name=zijingKuai
-tile.blockZilingZhaohuanZhen.name=zilingZhaohuanZhen
-tile.blockZilingMieshaZhen.name=zilingMieshaZhen
-tile.blockZhulingTai.name=zhulingTai
+tile.blockGuhuaNiunaiKuai.name=¡ì6guhuaNiunaiKuai
+tile.blockZilingCao.name=¡ì6zilingCao
+tile.blockZijingKuai.name=¡ì6zijingKuai
+tile.blockZilingZhaohuanZhen.name=¡ì6zilingZhaohuanZhen
+tile.blockZilingMieshaZhen.name=¡ì6zilingMieshaZhen
+tile.blockZhulingTai.name=¡ì6zhulingTai
 
 #Item----------------------------------------------------------------------
-item.itemGuhuaNiunai.name=guhuaNiunai
-item.itemZiqi.name=ziqi
-item.itemZijing.name=zijing
-item.itemDanZiling.name=zilingDan
-item.itemDanShenshu.name=shenshuDan
-item.itemZilingZhu.name=zilingZhu
+item.itemGuhuaNiunai.name=¡ì6guhuaNiunai
+item.itemZiqi.name=¡ì6ziqi
+item.itemZijing.name=¡ì6zijing
+item.itemDanZiling.name=¡ì6zilingDan
+item.itemDanShenshu.name=¡ì6shenshuDan
+item.itemZilingZhu.name=¡ì6zilingZhu
 
 #Card-------------------------------------------------------------------------
-item.itemCardFengyin.name=fengyinKa
-item.itemCardChuansong.name=chuansongKa
-item.itemBookChuansong.name=chuansongShu
+item.itemCardFengyin.name=¡ì6fengyinKa
+item.itemCardChuansong.name=¡ì6chuansongKa
+item.itemBookChuansong.name=¡ì6chuansongShu
 
 #Staff-------------------------------------------------------------------------
-item.itemStaffBingxue.name=bingxueFazhang
-item.itemStaffLieyan.name=lieyanFazhang
-item.itemStaffKongjian.name=kongjianFazhang
-item.itemStaffFengyin.name=fengyinFazhang
-item.itemArrowBingDan.name=bingDan
-item.itemArrowHuoDan.name=huoDan
-item.itemArrowXukongDan.name=xukongDan
-item.itemArrowFengyinDan.name=fengyinDan
-entity.entityArrowBingDan.name=bingDan
-entity.entityArrowHuoDan.name=huoDan
-entity.entityArrowXukongDan.name=xukongDan
-entity.entityArrowFengyinDan.name=fengyinDan
-item.itemStaffWaigua.name=waiguaFaZhang
+item.itemStaffBingxue.name=¡ì6bingxueFazhang
+item.itemStaffLieyan.name=¡ì6lieyanFazhang
+item.itemStaffKongjian.name=¡ì6kongjianFazhang
+item.itemStaffFengyin.name=¡ì6fengyinFazhang
+item.itemArrowBingDan.name=¡ì6bingDan
+item.itemArrowHuoDan.name=¡ì6huoDan
+item.itemArrowXukongDan.name=¡ì6xukongDan
+item.itemArrowFengyinDan.name=¡ì6fengyinDan
+entity.entityArrowBingDan.name=¡ì6bingDan
+entity.entityArrowHuoDan.name=¡ì6huoDan
+entity.entityArrowXukongDan.name=¡ì6xukongDan
+entity.entityArrowFengyinDan.name=¡ì6fengyinDan
+item.itemStaffWaigua.name=¡ì6waiguaFaZhang
 
 #Tool-------------------------------------------------------------------------
-item.itemToolZijingJian.name=zijingJian
-item.itemToolZijingFu.name=zijingFu
-item.itemToolZijingGao.name=zijingGao
-item.itemToolZijingChan.name=zijingChan
-item.itemToolZijingChu.name=zijingChu
-item.itemToolZijingDun.name=zijingDun
-item.itemArmorZijingHelmet.name=ZijingHelmet
-item.itemArmorZijingBody.name=ZijingBody
-item.itemArmorZijingLegs.name=ZijingLegs
-item.itemArmorZijingBoots.name=ZijingBoots
-
-#FY_BASE---------------------------------------------------------------------------
-zijingmod.line.1=----------------.
-zijingmod.line.2=--------------------------------.
+item.itemToolZijingJian.name=¡ì6zijingJian
+item.itemToolZijingFu.name=¡ì6zijingFu
+item.itemToolZijingGao.name=¡ì6zijingGao
+item.itemToolZijingChan.name=¡ì6zijingChan
+item.itemToolZijingChu.name=¡ì6zijingChu
+item.itemToolZijingDun.name=¡ì6zijingDun
+item.itemArmorZijingHelmet.name=¡ì6ZijingHelmet
+item.itemArmorZijingBody.name=¡ì6ZijingBody
+item.itemArmorZijingLegs.name=¡ì6ZijingLegs
+item.itemArmorZijingBoots.name=¡ì6ZijingBoots
 
 #FY_Item---------------------------------------------------------------------------
-zijingmod.itemZiqi.magic=Magic energy : %d.
-zijingmod.itemZijing.magic=Magic energy : %d.
-zijingmod.itemDanZiling.skill=%d seconds of various beneficial states, and restore %d magic.
-zijingmod.itemDanShenshu.skill=%d seconds speed effect.
+zijingmod.itemZiqi.magic=¡ìcMagic energy : %d.
+zijingmod.itemZijing.magic=¡ìcMagic energy : %d.
+zijingmod.itemDanZiling.1=¡ìc%d seconds of various beneficial states.
+zijingmod.itemDanZiling.2=¡ìcRestore %d magic.
+zijingmod.itemDanShenshu.1=¡ìc%d seconds speed effect.
 
 #FY_Card---------------------------------------------------------------------------
-zijingmod.itemCardFengyin.null=NULL!
-zijingmod.itemCardFengyin.skill1=Entity name : %s. (M : %d)
-zijingmod.itemCardChuansong.notbinded=Is not binded!
-zijingmod.itemCardChuansong.name=Name: %s.
-zijingmod.itemCardChuansong.position=Position X:%d Y:%d Z:%d World:%d.
-zijingmod.itemCardChuansong.skill1=Skill 1: Transmission. (M : %d)
-zijingmod.itemCardChuansong.skill2=Skill 2: Bind position. (M : %d) (Sneaking)
-zijingmod.itemBookChuansong.skill1=Skill 1: Transmission. (M : %d)
-zijingmod.itemBookChuansong.skill2=Skill 2: Open book GUI. (M : %d) (Sneaking)
+zijingmod.itemCardFengyin.null=¡ìcNULL!
+zijingmod.itemCardFengyin.skill1=¡ìcEntity name : %s. (M : %d)
+zijingmod.itemCardChuansong.notbinded=¡ìcIs not binded!
+zijingmod.itemCardChuansong.name=¡ìcName: %s.
+zijingmod.itemCardChuansong.position=¡ìcPosition X:%d Y:%d Z:%d World:%d.
+zijingmod.itemCardChuansong.skill1=¡ì4Skill 1: Transmission. (M : %d)
+zijingmod.itemCardChuansong.skill2=¡ì4Skill 2: Bind position. (M : %d) (Sneaking)
+zijingmod.itemBookChuansong.skill1=¡ì4Skill 1: Transmission. (M : %d)
+zijingmod.itemBookChuansong.skill2=¡ì4Skill 2: Open book GUI. (M : %d) (Sneaking)
 
 #FY_Staff---------------------------------------------------------------------------
-zijingmod.itemZilingZhu.skill1=Skill 1: Levitation. (M : %d)
-zijingmod.itemZilingZhu.skill2=Skill 2: Remove all PotionEffect. (M : %d) (Sneaking)
-zijingmod.itemZilingZhu.skill3=Skill 3: Send up. (M : %d)
-zijingmod.itemZilingZhu.skill4=Skill 4: Send down. (M : %d) (Sneaking)
-zijingmod.itemZilingZhu.skill5=¡ìcSkill 5: Immune drop injury. (M : %d)
-zijingmod.itemStaffBingxue.skill1=Skill 1: Throw ice ball. (M : %d)
-zijingmod.itemStaffBingxue.skill2=Skill 2: Summons snowman. (M : %d) (Sneaking)
-zijingmod.itemStaffLieyan.skill1=Skill 1: Throw fire ball. (M : %d)
-zijingmod.itemStaffLieyan.skill2=Skill 2: Flames surround. (M : %d) (Sneaking)
-zijingmod.itemStaffKongjian.skill1=Skill 1: Throw transmission ball. (M : %d)
-zijingmod.itemStaffKongjian.skill2=Skill 2: Random transmission. (M : %d) (Sneaking)
-zijingmod.itemStaffFengyin.skill1=Skill 1: Throw seal ball. (M : %d)
-zijingmod.itemStaffFengyin.skill2=Skill 2: Summons ironGolem. (M : %d) (Sneaking)
+zijingmod.itemZilingZhu.skill1=¡ì4Skill 1: Levitation. (M : %d)
+zijingmod.itemZilingZhu.skill2=¡ì4Skill 2: Remove all PotionEffect. (M : %d) (Sneaking)
+zijingmod.itemZilingZhu.skill3=¡ì4Skill 3: Send up. (M : %d)
+zijingmod.itemZilingZhu.skill4=¡ì4Skill 4: Send down. (M : %d) (Sneaking)
+zijingmod.itemZilingZhu.skill5=¡ì4Skill 5: Immune drop injury. (M : %d)
+zijingmod.itemStaffBingxue.skill1=¡ì4Skill 1: Throw ice ball. (M : %d)
+zijingmod.itemStaffBingxue.skill2=¡ì4Skill 2: Summons snowman. (M : %d) (Sneaking)
+zijingmod.itemStaffLieyan.skill1=¡ì4Skill 1: Throw fire ball. (M : %d)
+zijingmod.itemStaffLieyan.skill2=¡ì4Skill 2: Flames surround. (M : %d) (Sneaking)
+zijingmod.itemStaffKongjian.skill1=¡ì4Skill 1: Throw transmission ball. (M : %d)
+zijingmod.itemStaffKongjian.skill2=¡ì4Skill 2: Random transmission. (M : %d) (Sneaking)
+zijingmod.itemStaffFengyin.skill1=¡ì4Skill 1: Throw seal ball. (M : %d)
+zijingmod.itemStaffFengyin.skill2=¡ì4Skill 2: Summons ironGolem. (M : %d) (Sneaking)
 
 #FY_Tool--------------------------------------------------------------------------- 
-zijingmod.itemToolZijingJian.skill1=Decelerate enemies for %d second, increase power for %d seconds, restore %d drops of blood.
-zijingmod.itemToolZijingFu.skill1=Break the block that needs to be broken with an axe, will have a chain drop, the maximum chain size %d.
-zijingmod.itemToolZijingGao.skill1=Break the block that needs to be broken with an pickaxe, will have a chain drop, the maximum chain size %d.
-zijingmod.itemToolZijingChan.skill1=Break the block that needs to be broken with an spade, will have a chain drop, the maximum chain size %d.
-zijingmod.itemToolZijingChu.skill1=Make the block updateTick once. (M : %d)
-zijingmod.itemArmorZijingHelmet.skill1=Injured will get water breathing for %d seconds.
-zijingmod.itemArmorZijingBody.skill1=Injured will get regeneration for %d seconds.
-zijingmod.itemArmorZijingLegs.skill1=Injured will get resistance for %d seconds.
-zijingmod.itemArmorZijingBoots.skill1=Injured will get speed for %d seconds.
+zijingmod.itemToolZijingJian.1=¡ìcDecelerate enemies for %d second.
+zijingmod.itemToolZijingJian.2=¡ìcIncrease power for %d seconds.
+zijingmod.itemToolZijingJian.3=¡ìcRestore %d drops of blood.
+zijingmod.itemToolZijingFu.skill1=¡ìcBreak the block that needs to be broken with an axe, will have a chain drop, the maximum chain size %d.
+zijingmod.itemToolZijingGao.skill1=¡ìcBreak the block that needs to be broken with an pickaxe, will have a chain drop, the maximum chain size %d.
+zijingmod.itemToolZijingChan.skill1=¡ìcBreak the block that needs to be broken with an spade, will have a chain drop, the maximum chain size %d.
+zijingmod.itemToolZijingChu.skill1=¡ìcMake the block updateTick once. (M : %d)
+zijingmod.itemArmorZijingHelmet.skill1=¡ìcInjured will get water breathing for %d seconds.
+zijingmod.itemArmorZijingBody.skill1=¡ìcInjured will get regeneration for %d seconds.
+zijingmod.itemArmorZijingLegs.skill1=¡ìcInjured will get resistance for %d seconds.
+zijingmod.itemArmorZijingBoots.skill1=¡ìcInjured will get speed for %d seconds.
+
+#FY_BASE---------------------------------------------------------------------------
+zijingmod.line.1=¡ìd----------------.
+zijingmod.line.2=¡ìd--------------------------------.
+zijingmod.magic.notenough=¡ì3Magic energy is not enough, need at least %d !

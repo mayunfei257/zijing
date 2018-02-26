@@ -1,7 +1,6 @@
 package com.zijing.main;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -11,7 +10,7 @@ public class ZijingTab extends CreativeTabs{
 	public static final CreativeTabs zijingTab = new ZijingTab();
 
 	public ZijingTab() {
-		super("ZijingTab");
+		super("zijingTab");
 	}
 
 	@SideOnly(Side.CLIENT)

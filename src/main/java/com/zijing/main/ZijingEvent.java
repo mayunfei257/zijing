@@ -12,6 +12,7 @@ import com.zijing.main.gui.GuiUpgrade;
 import com.zijing.main.playerdata.ShepherdCapability;
 import com.zijing.main.playerdata.ShepherdProvider;
 import com.zijing.util.PlayerUtil;
+import com.zijing.util.StringUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
@@ -23,7 +24,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -51,7 +51,7 @@ public class ZijingEvent {
 					shepherdCapability.setMagic(shepherdCapability.getMagic() - ItemZilingZhu.MagicSkill5);
 					ShepherdProvider.updateChangeToClient(player);
 				}else {
-					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + ItemZilingZhu.MagicSkill5 + " !"));
+					player.sendMessage(StringUtil.MagicIsNotEnough(ItemZilingZhu.MagicSkill5));
 				}
 			}
 		}

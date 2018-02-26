@@ -1,95 +1,100 @@
-﻿itemGroup.ZhijingTab=紫晶标签
+﻿#ZijingMod-----------------------------------------------------------------
+itemGroup.zhijingTab=§6紫晶标签
 #Block----------------------------------------------------------------------
-tile.blockGuhuaNiunaiKuai.name=固化牛奶块
-tile.blockZilingCao.name=紫灵草
-tile.blockZijingKuai.name=紫晶块
-tile.blockZilingZhaohuanZhen.name=紫灵召唤阵
-tile.blockZilingMieshaZhen.name=紫灵灭杀阵
-tile.blockZhulingTai.name=注灵台
+tile.blockGuhuaNiunaiKuai.name=§6固化牛奶块
+tile.blockZilingCao.name=§6紫灵草
+tile.blockZijingKuai.name=§6紫晶块
+tile.blockZilingZhaohuanZhen.name=§6紫灵召唤阵
+tile.blockZilingMieshaZhen.name=§6紫灵灭杀阵
+tile.blockZhulingTai.name=§6注灵台
 
 #Item----------------------------------------------------------------------
-item.itemGuhuaNiunai.name=固化牛奶
-item.itemZiqi.name=紫气
-item.itemZijing.name=紫晶
-item.itemDanZiling.name=紫灵丹
-item.itemDanShenshu.name=神速丹
-item.itemZilingZhu.name=紫灵珠
+item.itemGuhuaNiunai.name=§6固化牛奶
+item.itemZiqi.name=§6紫气
+item.itemZijing.name=§6紫晶
+item.itemDanZiling.name=§6紫灵丹
+item.itemDanShenshu.name=§6神速丹
+item.itemZilingZhu.name=§6紫灵珠
 
 #Card-------------------------------------------------------------------------
-item.itemCardFengyin.name=封印卡
-item.itemCardChuansong.name=传送卡
-item.itemBookChuansong.name=传送书
+item.itemCardFengyin.name=§6封印卡
+item.itemCardChuansong.name=§6传送卡
+item.itemBookChuansong.name=§6传送书
 
 #Staff-------------------------------------------------------------------------
-item.itemStaffBingxue.name=冰雪法杖
-item.itemStaffLieyan.name=烈焰法杖
-item.itemStaffKongjian.name=空间法杖
-item.itemStaffFengyin.name=封印法杖
-item.itemArrowBingDan.name=冰弹
-item.itemArrowHuoDan.name=火弹
-item.itemArrowXukongDan.name=虚空弹
-item.itemArrowFengyinDan.name=封印弹
-entity.entityArrowBingDan.name=冰弹
-entity.entityArrowHuoDan.name=火弹
-entity.entityArrowXukongDan.name=虚空弹
-entity.entityArrowFengyinDan.name=封印弹
-item.itemStaffWaigua.name=外挂法杖
+item.itemStaffBingxue.name=§6冰雪法杖
+item.itemStaffLieyan.name=§6烈焰法杖
+item.itemStaffKongjian.name=§6空间法杖
+item.itemStaffFengyin.name=§6封印法杖
+item.itemArrowBingDan.name=§6冰弹
+item.itemArrowHuoDan.name=§6火弹
+item.itemArrowXukongDan.name=§6虚空弹
+item.itemArrowFengyinDan.name=§6封印弹
+entity.entityArrowBingDan.name=§6冰弹
+entity.entityArrowHuoDan.name=§6火弹
+entity.entityArrowXukongDan.name=§6虚空弹
+entity.entityArrowFengyinDan.name=§6封印弹
+item.itemStaffWaigua.name=§6外挂法杖
 
 #Tool-------------------------------------------------------------------------
-item.itemToolZijingJian.name=紫晶剑
-item.itemToolZijingFu.name=紫晶斧
-item.itemToolZijingGao.name=紫晶镐
-item.itemToolZijingChan.name=紫晶铲
-item.itemToolZijingChu.name=紫晶锄
-item.itemToolZijingDun.name=紫晶盾
-item.itemArmorZijingHelmet.name=紫晶头盔
-item.itemArmorZijingBody.name=紫晶胸甲
-item.itemArmorZijingLegs.name=紫晶护腿
-item.itemArmorZijingBoots.name=紫晶靴
-
-#FY_BASE---------------------------------------------------------------------------
-zijingmod.line.1=----------------.
-zijingmod.line.2=--------------------------------.
+item.itemToolZijingJian.name=§6紫晶剑
+item.itemToolZijingFu.name=§6紫晶斧
+item.itemToolZijingGao.name=§6紫晶镐
+item.itemToolZijingChan.name=§6紫晶铲
+item.itemToolZijingChu.name=§6紫晶锄
+item.itemToolZijingDun.name=§6紫晶盾
+item.itemArmorZijingHelmet.name=§6紫晶头盔
+item.itemArmorZijingBody.name=§6紫晶胸甲
+item.itemArmorZijingLegs.name=§6紫晶护腿
+item.itemArmorZijingBoots.name=§6紫晶靴
 
 #FY_Item---------------------------------------------------------------------------
-zijingmod.itemZiqi.magic=灵力值 : %d
-zijingmod.itemZijing.magic=灵力值 : %d
-zijingmod.itemDanZiling.skill=持续%d秒各种有益状态，并恢复%d点法力值
-zijingmod.itemDanShenshu.skill=持续%d秒急行效果
+zijingmod.itemZiqi.magic=§c灵力值 : %d
+zijingmod.itemZijing.magic=§c灵力值 : %d
+zijingmod.itemDanZiling.1=§c持续%d秒各种有益状态.
+zijingmod.itemDanZiling.2=§c恢复%d点法力值.
+zijingmod.itemDanShenshu.1=§c持续%d秒急行效果
 
 #FY_Card---------------------------------------------------------------------------
-zijingmod.itemCardFengyin.null=空!
-zijingmod.itemCardFengyin.skill1=实体名称 : %s. (M : %d)
-zijingmod.itemCardChuansong.notbinded=没有记录地点!
-zijingmod.itemCardChuansong.name=地名: %s.
-zijingmod.itemCardChuansong.position=坐标 X:%d Y:%d Z:%d 世界:%d.
-zijingmod.itemCardChuansong.skill1=技能1: 传送到卡片记录地点. (M : %d)
-zijingmod.itemCardChuansong.skill2=技能2: 记录当前地点到卡片. (M : %d) (潜行状态)
-zijingmod.itemBookChuansong.skill1=技能1: 传送到选中卡片记录的位置. (M : %d)
-zijingmod.itemBookChuansong.skill2=技能2: 打开传送书放置传送卡. (M : %d) (潜行状态)
+zijingmod.itemCardFengyin.null=§c空!
+zijingmod.itemCardFengyin.skill1=§c实体名称 : %s. (M : %d)
+zijingmod.itemCardChuansong.notbinded=§c没有记录地点!
+zijingmod.itemCardChuansong.name=§c地名: %s.
+zijingmod.itemCardChuansong.position=§c坐标 X:%d Y:%d Z:%d 世界:%d.
+zijingmod.itemCardChuansong.skill1=§4技能1: 传送到卡片记录地点. (M : %d)
+zijingmod.itemCardChuansong.skill2=§4技能2: 记录当前地点到卡片. (M : %d) (潜行状态)
+zijingmod.itemBookChuansong.skill1=§4技能1: 传送到选中卡片记录的位置. (M : %d)
+zijingmod.itemBookChuansong.skill2=§4技能2: 打开传送书放置传送卡. (M : %d) (潜行状态)
 
 #FY_Staff---------------------------------------------------------------------------
-zijingmod.itemZilingZhu.skill1=技能1: 漂浮. (M : %d)
-zijingmod.itemZilingZhu.skill2=技能2: 清除所有状态效果. (M : %d) (潜行状态)
-zijingmod.itemZilingZhu.skill3=技能3: 向上传送. (M : %d)
-zijingmod.itemZilingZhu.skill4=技能4: 向下传送. (M : %d) (潜行状态)
-zijingmod.itemZilingZhu.skill5=§c技能5: 免疫跌落伤害. (M : %d)
-zijingmod.itemStaffBingxue.skill1=技能1: 发射冰弹. (M : %d)
-zijingmod.itemStaffBingxue.skill2=技能2: 召唤雪人. (M : %d) (潜行状态)
-zijingmod.itemStaffLieyan.skill1=技能1: 发射火弹. (M : %d)
-zijingmod.itemStaffLieyan.skill2=技能2: 火海. (M : %d) (潜行状态)
-zijingmod.itemStaffKongjian.skill1=技能1: 发射传送弹. (M : %d)
-zijingmod.itemStaffKongjian.skill2=技能2: 随机传送. (M : %d) (潜行状态)
-zijingmod.itemStaffFengyin.skill1=技能1: 发射封印弹. (M : %d)
-zijingmod.itemStaffFengyin.skill2=技能2: 召唤铁傀儡. (M : %d) (潜行状态)
+zijingmod.itemZilingZhu.skill1=§4技能1: 漂浮. (M : %d)
+zijingmod.itemZilingZhu.skill2=§4技能2: 清除所有状态效果. (M : %d) (潜行状态)
+zijingmod.itemZilingZhu.skill3=§4技能3: 向上传送. (M : %d)
+zijingmod.itemZilingZhu.skill4=§4技能4: 向下传送. (M : %d) (潜行状态)
+zijingmod.itemZilingZhu.skill5=§4技能5: 免疫跌落伤害. (M : %d)
+zijingmod.itemStaffBingxue.skill1=§4技能1: 发射冰弹. (M : %d)
+zijingmod.itemStaffBingxue.skill2=§4技能2: 召唤雪人. (M : %d) (潜行状态)
+zijingmod.itemStaffLieyan.skill1=§4技能1: 发射火弹. (M : %d)
+zijingmod.itemStaffLieyan.skill2=§4技能2: 火海. (M : %d) (潜行状态)
+zijingmod.itemStaffKongjian.skill1=§4技能1: 发射传送弹. (M : %d)
+zijingmod.itemStaffKongjian.skill2=§4技能2: 随机传送. (M : %d) (潜行状态)
+zijingmod.itemStaffFengyin.skill1=§4技能1: 发射封印弹. (M : %d)
+zijingmod.itemStaffFengyin.skill2=§4技能2: 召唤铁傀儡. (M : %d) (潜行状态)
 
 #FY_Tool---------------------------------------------------------------------------
-zijingmod.itemToolZijingJian.skill1=减速敌人%d秒，增加力量%d秒，恢复%d滴血。
-zijingmod.itemToolZijingFu.skill1=打破需使用斧头类工具的方块时，连锁掉落，最大连锁量%d。
-zijingmod.itemToolZijingGao.skill1=打破需使用镐类工具的方块时，连锁掉落，最大连锁量%d。
-zijingmod.itemToolZijingChan.skill1=打破需使用铲类工具的方块时，连锁掉落，最大连锁量%d。
-zijingmod.itemToolZijingChu.skill1=触发一次方块的updateTick事件. (M : %d)
-zijingmod.itemArmorZijingHelmet.skill1=受伤会获得水下呼吸状态%d秒。
-zijingmod.itemArmorZijingBody.skill1=受伤会获得血量恢复状态%d秒。
-zijingmod.itemArmorZijingLegs.skill1=受伤会获得抗性提升状态%d秒。
-zijingmod.itemArmorZijingBoots.skill1=受伤会获得速度加成状态%d秒。
+zijingmod.itemToolZijingJian.1=§c减速敌人%d秒。
+zijingmod.itemToolZijingJian.2=§c增加力量%d秒。
+zijingmod.itemToolZijingJian.3=§c恢复%d滴血。
+zijingmod.itemToolZijingFu.skill1=§c打破需使用斧头类工具的方块时，连锁掉落，最大连锁量%d。
+zijingmod.itemToolZijingGao.skill1=§c打破需使用镐类工具的方块时，连锁掉落，最大连锁量%d。
+zijingmod.itemToolZijingChan.skill1=§c打破需使用铲类工具的方块时，连锁掉落，最大连锁量%d。
+zijingmod.itemToolZijingChu.skill1=§c触发一次方块的updateTick事件. (M : %d)
+zijingmod.itemArmorZijingHelmet.skill1=§c受伤会获得水下呼吸状态%d秒。
+zijingmod.itemArmorZijingBody.skill1=§c受伤会获得血量恢复状态%d秒。
+zijingmod.itemArmorZijingLegs.skill1=§c受伤会获得抗性提升状态%d秒。
+zijingmod.itemArmorZijingBoots.skill1=§c受伤会获得速度加成状态%d秒。
+
+#FY_BASE---------------------------------------------------------------------------
+zijingmod.line.1=§d----------------.
+zijingmod.line.2=§d--------------------------------.
+zijingmod.magic.notenough=§3法力值不足，需要至少 %d点!

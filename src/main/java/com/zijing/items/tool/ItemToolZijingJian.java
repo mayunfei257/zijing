@@ -43,6 +43,8 @@ public class ItemToolZijingJian extends ItemSword{
 	@Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemToolZijingJian.skill1", new Object[] {effectTick/20, effectTick/20, bloodRestore}));
+		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemToolZijingJian.1", new Object[] {effectTick/20}));
+		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemToolZijingJian.2", new Object[] {effectTick/20}));
+		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemToolZijingJian.3", new Object[] {bloodRestore}));
 	}
 }

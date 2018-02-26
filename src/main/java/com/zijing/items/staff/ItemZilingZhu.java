@@ -10,6 +10,7 @@ import com.zijing.main.ZijingTab;
 import com.zijing.main.itf.MagicConsumer;
 import com.zijing.main.playerdata.ShepherdCapability;
 import com.zijing.main.playerdata.ShepherdProvider;
+import com.zijing.util.StringUtil;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +24,6 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -60,7 +60,7 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 					shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill2);
 					ShepherdProvider.updateChangeToClient(player);
 				}else {
-					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + MagicSkill2 + " !"));
+					player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill2));
 				}
 			}else {
 				if(shepherdCapability.getMagic() >= MagicSkill1) {
@@ -68,7 +68,7 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 					shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill1);
 					ShepherdProvider.updateChangeToClient(player);
 				}else {
-					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + MagicSkill1 + " !"));
+					player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill1));
 				}
 			}
 		}
@@ -99,7 +99,7 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 						}
 					}
 				}else {
-					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + MagicSkill4 + " !"));
+					player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill4));
 				}
 			}else{
 				if(shepherdCapability.getMagic() >= MagicSkill3) {
@@ -116,7 +116,7 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 						}
 					}
 				}else {
-					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + MagicSkill3 + " !"));
+					player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill3));
 				}
 			}
 		}

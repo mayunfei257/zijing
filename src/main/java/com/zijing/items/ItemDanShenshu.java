@@ -41,6 +41,6 @@ public class ItemDanShenshu extends ItemFood {
 	@Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemDanShenshu.skill", new Object[] {effectTick/20}));
+		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemDanShenshu.1", new Object[] {effectTick/20}));
 	}
 }
