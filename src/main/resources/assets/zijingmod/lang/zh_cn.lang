@@ -49,52 +49,53 @@ item.itemArmorZijingLegs.name=§6紫晶护腿
 item.itemArmorZijingBoots.name=§6紫晶靴
 
 #FY_Item---------------------------------------------------------------------------
-zijingmod.itemZiqi.magic=§c灵力值 : %d
-zijingmod.itemZijing.magic=§c灵力值 : %d
-zijingmod.itemDanZiling.1=§c持续%d秒各种有益状态.
-zijingmod.itemDanZiling.2=§c恢复%d点法力值.
-zijingmod.itemDanShenshu.1=§c持续%d秒急行效果
+zijingmod.itemZiqi.magic=§4灵力值 : %d
+zijingmod.itemZijing.magic=§4灵力值 : %d
+zijingmod.itemDanZiling.1=§4持续%d秒各种有益状态.
+zijingmod.itemDanZiling.2=§4恢复%d点法力值.
+zijingmod.itemDanShenshu.1=§4持续%d秒急行效果
 
 #FY_Card---------------------------------------------------------------------------
-zijingmod.itemCardFengyin.null=§c空!
-zijingmod.itemCardFengyin.skill1=§c实体名称 : %s. (M : %d)
-zijingmod.itemCardChuansong.notbinded=§c没有记录地点!
-zijingmod.itemCardChuansong.name=§c地名: %s.
-zijingmod.itemCardChuansong.position=§c坐标 X:%d Y:%d Z:%d 世界:%d.
-zijingmod.itemCardChuansong.skill1=§4技能1: 传送到卡片记录地点. (M : %d)
-zijingmod.itemCardChuansong.skill2=§4技能2: 记录当前地点到卡片. (M : %d) (潜行状态)
-zijingmod.itemBookChuansong.skill1=§4技能1: 传送到选中卡片记录的位置. (M : %d)
-zijingmod.itemBookChuansong.skill2=§4技能2: 打开传送书放置传送卡. (M : %d) (潜行状态)
+zijingmod.itemCardFengyin.null=§4空!
+zijingmod.itemCardFengyin.skill1=§4实体名称 : %s. (M : %d)
+zijingmod.itemCardChuansong.notbinded=§4没有记录地点!
+zijingmod.itemCardChuansong.name=§4地名: %s.
+zijingmod.itemCardChuansong.position=§4坐标 X:%d Y:%d Z:%d 世界:%d.
+zijingmod.itemCardChuansong.skill1=§c技能1: 传送到卡片记录地点. (M : %d)
+zijingmod.itemCardChuansong.skill2=§c技能2: 记录当前地点到卡片. (M : %d) (潜行状态)
+zijingmod.itemBookChuansong.skill1=§c技能1: 传送到选中卡片记录的位置. (M : %d)
+zijingmod.itemBookChuansong.skill2=§c技能2: 打开传送书放置传送卡. (M : %d) (潜行状态)
 
 #FY_Staff---------------------------------------------------------------------------
-zijingmod.itemZilingZhu.skill1=§4技能1: 漂浮. (M : %d)
-zijingmod.itemZilingZhu.skill2=§4技能2: 清除所有状态效果. (M : %d) (潜行状态)
-zijingmod.itemZilingZhu.skill3=§4技能3: 向上传送. (M : %d)
-zijingmod.itemZilingZhu.skill4=§4技能4: 向下传送. (M : %d) (潜行状态)
-zijingmod.itemZilingZhu.skill5=§4技能5: 免疫跌落伤害. (M : %d)
-zijingmod.itemStaffBingxue.skill1=§4技能1: 发射冰弹. (M : %d)
-zijingmod.itemStaffBingxue.skill2=§4技能2: 召唤雪人. (M : %d) (潜行状态)
-zijingmod.itemStaffLieyan.skill1=§4技能1: 发射火弹. (M : %d)
-zijingmod.itemStaffLieyan.skill2=§4技能2: 火海. (M : %d) (潜行状态)
-zijingmod.itemStaffKongjian.skill1=§4技能1: 发射传送弹. (M : %d)
-zijingmod.itemStaffKongjian.skill2=§4技能2: 随机传送. (M : %d) (潜行状态)
-zijingmod.itemStaffFengyin.skill1=§4技能1: 发射封印弹. (M : %d)
-zijingmod.itemStaffFengyin.skill2=§4技能2: 召唤铁傀儡. (M : %d) (潜行状态)
+zijingmod.itemZilingZhu.skill1=§c技能1: 漂浮. (M : %d)
+zijingmod.itemZilingZhu.skill2=§c技能2: 清除所有状态效果. (M : %d) (潜行状态)
+zijingmod.itemZilingZhu.skill3=§c技能3: 向上传送. (M : %d)
+zijingmod.itemZilingZhu.skill4=§c技能4: 向下传送. (M : %d) (潜行状态)
+zijingmod.itemZilingZhu.skill5=§c技能5: 免疫跌落伤害. (M : %d)
+zijingmod.itemStaffBingxue.skill1=§c技能1: 发射冰弹. (M : %d)
+zijingmod.itemStaffBingxue.skill2=§c技能2: 召唤雪人. (M : %d) (潜行状态)
+zijingmod.itemStaffLieyan.skill1=§c技能1: 发射火弹. (M : %d)
+zijingmod.itemStaffLieyan.skill2=§c技能2: 火海. (M : %d) (潜行状态)
+zijingmod.itemStaffKongjian.skill1=§c技能1: 发射传送弹. (M : %d)
+zijingmod.itemStaffKongjian.skill2=§c技能2: 随机传送. (M : %d) (潜行状态)
+zijingmod.itemStaffFengyin.skill1=§c技能1: 发射封印弹. (M : %d)
+zijingmod.itemStaffFengyin.skill2=§c技能2: 召唤铁傀儡. (M : %d) (潜行状态)
 
 #FY_Tool---------------------------------------------------------------------------
-zijingmod.itemToolZijingJian.1=§c减速敌人%d秒。
-zijingmod.itemToolZijingJian.2=§c增加力量%d秒。
-zijingmod.itemToolZijingJian.3=§c恢复%d滴血。
-zijingmod.itemToolZijingFu.skill1=§c打破需使用斧头类工具的方块时，连锁掉落，最大连锁量%d。
-zijingmod.itemToolZijingGao.skill1=§c打破需使用镐类工具的方块时，连锁掉落，最大连锁量%d。
-zijingmod.itemToolZijingChan.skill1=§c打破需使用铲类工具的方块时，连锁掉落，最大连锁量%d。
-zijingmod.itemToolZijingChu.skill1=§c触发一次方块的updateTick事件. (M : %d)
-zijingmod.itemArmorZijingHelmet.skill1=§c受伤会获得水下呼吸状态%d秒。
-zijingmod.itemArmorZijingBody.skill1=§c受伤会获得血量恢复状态%d秒。
-zijingmod.itemArmorZijingLegs.skill1=§c受伤会获得抗性提升状态%d秒。
-zijingmod.itemArmorZijingBoots.skill1=§c受伤会获得速度加成状态%d秒。
+zijingmod.itemToolZijingJian.1=§4击中敌人，减速敌人%d秒。
+zijingmod.itemToolZijingJian.2=§4击中敌人，增加力量%d秒。
+zijingmod.itemToolZijingJian.3=§4击中敌人，恢复%d滴血。
+zijingmod.itemToolZijingJian.4=§4击中敌人，掉落%d点经验.
+zijingmod.itemToolZijingFu.skill1=§4打破需使用斧头类工具的方块时，连锁掉落，最大连锁量%d。
+zijingmod.itemToolZijingGao.skill1=§4打破需使用镐类工具的方块时，连锁掉落，最大连锁量%d。
+zijingmod.itemToolZijingChan.skill1=§4打破需使用铲类工具的方块时，连锁掉落，最大连锁量%d。
+zijingmod.itemToolZijingChu.skill1=§4触发一次方块的updateTick事件. (M : %d)
+zijingmod.itemArmorZijingHelmet.skill1=§4受伤会获得水下呼吸状态%d秒。
+zijingmod.itemArmorZijingBody.skill1=§4受伤会获得血量恢复状态%d秒。
+zijingmod.itemArmorZijingLegs.skill1=§4受伤会获得抗性提升状态%d秒。
+zijingmod.itemArmorZijingBoots.skill1=§4受伤会获得速度加成状态%d秒。
 
 #FY_BASE---------------------------------------------------------------------------
 zijingmod.line.1=§d----------------.
 zijingmod.line.2=§d--------------------------------.
-zijingmod.magic.notenough=§3法力值不足，需要至少 %d点!
+zijingmod.magic.notenough=§3法力值不足，需要至少%d点!
