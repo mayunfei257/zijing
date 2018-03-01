@@ -30,10 +30,6 @@ item.itemArrowBingDan.name=¡ì6bingDan
 item.itemArrowHuoDan.name=¡ì6huoDan
 item.itemArrowXukongDan.name=¡ì6xukongDan
 item.itemArrowFengyinDan.name=¡ì6fengyinDan
-entity.entityArrowBingDan.name=¡ì6bingDan
-entity.entityArrowHuoDan.name=¡ì6huoDan
-entity.entityArrowXukongDan.name=¡ì6xukongDan
-entity.entityArrowFengyinDan.name=¡ì6fengyinDan
 item.itemStaffWaigua.name=¡ì6waiguaFaZhang
 
 #Tool-------------------------------------------------------------------------
@@ -47,6 +43,13 @@ item.itemArmorZijingHelmet.name=¡ì6ZijingHelmet
 item.itemArmorZijingBody.name=¡ì6ZijingBody
 item.itemArmorZijingLegs.name=¡ì6ZijingLegs
 item.itemArmorZijingBoots.name=¡ì6ZijingBoots
+
+#Entity-------------------------------------------------------------------------
+entity.entityArrowBingDan.name=¡ì6bingDan
+entity.entityArrowHuoDan.name=¡ì6huoDan
+entity.entityArrowXukongDan.name=¡ì6xukongDan
+entity.entityArrowFengyinDan.name=¡ì6fengyinDan
+entity.entitySummonTaoistPriest.name=¡ì6soldier
 
 #FY_Item---------------------------------------------------------------------------
 zijingmod.itemZiqi.magic=¡ì4Magic energy : %d.

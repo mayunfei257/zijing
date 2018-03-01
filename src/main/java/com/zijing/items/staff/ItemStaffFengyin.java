@@ -7,21 +7,17 @@ import javax.annotation.Nullable;
 
 import com.zijing.ZijingMod;
 import com.zijing.entity.EntityArrowFengyinDan;
+import com.zijing.entity.EntitySummonTaoistPriest;
 import com.zijing.main.ZijingTab;
 import com.zijing.main.itf.MagicConsumer;
 import com.zijing.main.playerdata.ShepherdCapability;
 import com.zijing.main.playerdata.ShepherdProvider;
 
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -69,25 +65,30 @@ public class ItemStaffFengyin extends Item implements MagicConsumer{
 						}
 					}
 					BlockPos blockPos = blockPosList.get((int)(Math.random() * (blockPosList.size() - 1)));
-					EntityIronGolem entity = new EntityIronGolem(world);
-					entity.setPlayerCreated(true);
+					
+//					EntityIronGolem entity = new EntityIronGolem(world);
+//					entity.setPlayerCreated(true);
+//					entity.setLocationAndAngles(blockPos.getX(), blockPos.getY(), blockPos.getZ(), world.rand.nextFloat() * 360F, 0.0F);
+//					if(world.rand.nextFloat() < 0.125D) {
+//						entity.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(200.0D);
+//						entity.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.7D);
+//						entity.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(20.0D);
+//						entity.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(2.0D);
+//						entity.tasks.addTask(9, new EntityAISwimming(entity));
+//					}
+//					entity.addPotionEffect(new PotionEffect(MobEffects.SPEED, 400, 1));
+//					entity.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 400, 1));
+//					entity.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 400, 1));
+//					entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 400, 1));
+//					entity.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 400, 1));
+//					entity.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 400, 1));
+//					entity.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 400, 1));
+//					entity.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 400, 1));
+//					entity.playLivingSound();
+					
+					EntitySummonTaoistPriest entity = new EntitySummonTaoistPriest(world);
 					entity.setLocationAndAngles(blockPos.getX(), blockPos.getY(), blockPos.getZ(), world.rand.nextFloat() * 360F, 0.0F);
-					if(world.rand.nextFloat() < 0.125D) {
-						entity.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(200.0D);
-						entity.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.7D);
-						entity.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(20.0D);
-						entity.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(2.0D);
-						entity.tasks.addTask(9, new EntityAISwimming(entity));
-					}
-					entity.addPotionEffect(new PotionEffect(MobEffects.SPEED, 400, 1));
-					entity.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 400, 1));
-					entity.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 400, 1));
-					entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 400, 1));
-					entity.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 400, 1));
-					entity.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 400, 1));
-					entity.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 400, 1));
-					entity.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 400, 1));
-					entity.playLivingSound();
+					
 					world.spawnEntity(entity);
 					world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("block.end_portal.spawn")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 					shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill2);

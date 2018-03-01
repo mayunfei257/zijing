@@ -7,6 +7,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
@@ -40,6 +43,7 @@ public class EntityArrowHuoDan extends EntityThrowable {
 			if(this.world.rand.nextFloat() < 0.125D) {
 				this.world.createExplosion(this, entity.posX, entity.posY, entity.posZ, 1F, true);
 			}
+			world.playSound((EntityPlayer) null, entity.posX, entity.posY + 0.5D, entity.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.generic.explode")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 			this.setDead();
 		}else if(null != blockPos && !this.world.isRemote){
 			if(null != raytraceResultIn.sideHit) {
@@ -52,6 +56,7 @@ public class EntityArrowHuoDan extends EntityThrowable {
 				BlockPos blockPosTemp = blockPos.offset(raytraceResultIn.sideHit);
 				this.world.createExplosion(this, blockPosTemp.getX(), blockPosTemp.getY(), blockPosTemp.getZ(), 1F, true);
 			}
+			world.playSound((EntityPlayer) null, blockPos.getX() + 0.5D, blockPos.getY() + 0.5D, blockPos.getZ() + 0.5D, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.generic.explode")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 			this.setDead();
 		}
     }

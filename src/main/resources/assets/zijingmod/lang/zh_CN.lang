@@ -30,10 +30,6 @@ item.itemArrowBingDan.name=§6冰弹
 item.itemArrowHuoDan.name=§6火弹
 item.itemArrowXukongDan.name=§6虚空弹
 item.itemArrowFengyinDan.name=§6封印弹
-entity.entityArrowBingDan.name=§6冰弹
-entity.entityArrowHuoDan.name=§6火弹
-entity.entityArrowXukongDan.name=§6虚空弹
-entity.entityArrowFengyinDan.name=§6封印弹
 item.itemStaffWaigua.name=§6外挂法杖
 
 #Tool-------------------------------------------------------------------------
@@ -47,6 +43,13 @@ item.itemArmorZijingHelmet.name=§6紫晶头盔
 item.itemArmorZijingBody.name=§6紫晶胸甲
 item.itemArmorZijingLegs.name=§6紫晶护腿
 item.itemArmorZijingBoots.name=§6紫晶靴
+
+#Entity-------------------------------------------------------------------------
+entity.entityArrowBingDan.name=§6冰弹
+entity.entityArrowHuoDan.name=§6火弹
+entity.entityArrowXukongDan.name=§6虚空弹
+entity.entityArrowFengyinDan.name=§6封印弹
+entity.entitySummonTaoistPriest.name=§6战士
 
 #FY_Item---------------------------------------------------------------------------
 zijingmod.itemZiqi.magic=§4灵力值 : %d

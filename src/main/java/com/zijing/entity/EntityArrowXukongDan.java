@@ -6,6 +6,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
@@ -36,6 +39,7 @@ public class EntityArrowXukongDan extends EntityThrowable {
 		if(null != entity && !this.world.isRemote && entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer)) {
 			entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0);
 			this.thrower.setPositionAndUpdate(entity.posX, entity.posY, entity.posZ);
+			world.playSound((EntityPlayer) null, entity.posX, entity.posY + 0.5D, entity.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 			this.setDead();
 		}else if(null != blockPos && !this.world.isRemote){
 			if(checkCanStandBlock(this.world, blockPos)) {
@@ -63,6 +67,7 @@ public class EntityArrowXukongDan extends EntityThrowable {
 					}
 				}
 			}
+			world.playSound((EntityPlayer) null, blockPos.getX() + 0.5D, blockPos.getY() + 0.5D, blockPos.getZ() + 0.5D, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 			this.setDead();
 		}
     }
