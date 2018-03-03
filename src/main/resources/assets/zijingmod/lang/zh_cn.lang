@@ -49,7 +49,7 @@ entity.entityArrowBingDan.name=§6冰弹
 entity.entityArrowHuoDan.name=§6火弹
 entity.entityArrowXukongDan.name=§6虚空弹
 entity.entityArrowFengyinDan.name=§6封印弹
-entity.entitySummonTaoistPriest.name=§6战士
+entity.entitySummonTaoistPriest.name=§6蜀山弟子
 
 #FY_Item---------------------------------------------------------------------------
 zijingmod.itemZiqi.magic=§4灵力值 : %d
@@ -97,6 +97,9 @@ zijingmod.itemArmorZijingHelmet.skill1=§4受伤会获得水下呼吸状态%d秒
 zijingmod.itemArmorZijingBody.skill1=§4受伤会获得血量恢复状态%d秒。
 zijingmod.itemArmorZijingLegs.skill1=§4受伤会获得抗性提升状态%d秒。
 zijingmod.itemArmorZijingBoots.skill1=§4受伤会获得速度加成状态%d秒。
+
+#FY_Entity-------------------------------------------------------------------------
+zijingmod.entitySummonTaoistPriest.name=§6LV%d §6蜀山弟子
 
 #FY_BASE---------------------------------------------------------------------------
 zijingmod.line.1=§d----------------.

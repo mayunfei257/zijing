@@ -3,6 +3,7 @@ package com.zijing.main;
 import com.zijing.main.gui.GuiBookChuansong;
 import com.zijing.main.gui.GuiBookChuansongUse;
 import com.zijing.main.gui.GuiCardChuansong;
+import com.zijing.main.gui.GuiEntityTaoistPriest;
 import com.zijing.main.gui.GuiUpgrade;
 import com.zijing.main.gui.GuiZhulingTai;
 
@@ -23,6 +24,8 @@ public class ZijingGuiHandler implements IGuiHandler {
 			return new GuiZhulingTai.MyContainer(world, x, y, z, player);
 		if (id == GuiUpgrade.GUIID)//5
 			return new GuiUpgrade.MyContainer(world, x, y, z, player);
+		if (id == GuiEntityTaoistPriest.GUIID)//6
+			return new GuiEntityTaoistPriest.MyContainer(world, x, y, z, player);
 		return null;
 	}
 
@@ -38,6 +41,8 @@ public class ZijingGuiHandler implements IGuiHandler {
 			return new GuiZhulingTai.MyGuiContainer(world, x, y, z, player);
 		if (id == GuiUpgrade.GUIID)//5
 			return new GuiUpgrade.MyGuiContainer(world, x, y, z, player);
+		if (id == GuiEntityTaoistPriest.GUIID)//6
+			return new GuiEntityTaoistPriest.MyGuiContainer(world, x, y, z, player);
 		return null;
 	}
 }

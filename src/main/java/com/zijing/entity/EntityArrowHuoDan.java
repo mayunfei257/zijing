@@ -15,6 +15,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntityArrowHuoDan extends EntityThrowable {
+	private float attackDamage = 3;
 	
 	public EntityArrowHuoDan(World a) {
 		super(a);
@@ -27,6 +28,11 @@ public class EntityArrowHuoDan extends EntityThrowable {
 	public EntityArrowHuoDan(World worldIn, EntityLivingBase shooter) {
 		super(worldIn, shooter);
 	}
+	
+	public EntityArrowHuoDan(World worldIn, EntityLivingBase shooter, float attackDamage) {
+		super(worldIn, shooter);
+		this.attackDamage = attackDamage;
+	}
 
 	@Override
 	public void onUpdate() {
@@ -37,8 +43,8 @@ public class EntityArrowHuoDan extends EntityThrowable {
     protected void onImpact(RayTraceResult raytraceResultIn) {
 		Entity entity = raytraceResultIn.entityHit;
 		BlockPos blockPos = raytraceResultIn.getBlockPos();
-		if(null != entity && !this.world.isRemote && entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer)) {
-			entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 3);
+		if(null != entity && !this.world.isRemote && entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer) && entity != this.thrower) {
+			entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), this.attackDamage);
 			entity.setFire(3);
 			if(this.world.rand.nextFloat() < 0.125D) {
 				this.world.createExplosion(this, entity.posX, entity.posY, entity.posZ, 1F, true);

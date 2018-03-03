@@ -19,6 +19,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntityArrowFengyinDan extends EntityThrowable {
+	private float attackDamage = 0;
 	
 	public EntityArrowFengyinDan(World a) {
 		super(a);
@@ -32,6 +33,11 @@ public class EntityArrowFengyinDan extends EntityThrowable {
 		super(worldIn, shooter);
 	}
 
+	public EntityArrowFengyinDan(World worldIn, EntityLivingBase shooter, float attackDamage) {
+		super(worldIn, shooter);
+		this.attackDamage = attackDamage;
+	}
+
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
@@ -41,8 +47,8 @@ public class EntityArrowFengyinDan extends EntityThrowable {
     protected void onImpact(RayTraceResult raytraceResultIn) {
 		Entity entity = raytraceResultIn.entityHit;
 		BlockPos blockPos = raytraceResultIn.getBlockPos();
-		if(null != entity && !this.world.isRemote && entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer)) {
-			entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0);
+		if(null != entity && !this.world.isRemote && entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer) && entity != this.thrower) {
+			entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), this.attackDamage);
 			if(this.world.rand.nextFloat() < 0.125D) {
 				ItemStack itemStack = new ItemStack(BaseControl.itemCardFengyin);
 				NBTTagCompound nbt = new NBTTagCompound();

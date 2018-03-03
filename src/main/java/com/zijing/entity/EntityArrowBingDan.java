@@ -16,6 +16,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntityArrowBingDan extends EntityThrowable {
+	private float attackDamage = 4;
 
 	public EntityArrowBingDan(World a) {
 		super(a);
@@ -29,6 +30,11 @@ public class EntityArrowBingDan extends EntityThrowable {
 		super(worldIn, shooter);
 	}
 
+	public EntityArrowBingDan(World worldIn, EntityLivingBase shooter, float attackDamage) {
+		super(worldIn, shooter);
+		this.attackDamage = attackDamage;
+	}
+	
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
@@ -38,11 +44,11 @@ public class EntityArrowBingDan extends EntityThrowable {
 	protected void onImpact(RayTraceResult raytraceResultIn) {
 		Entity entity = raytraceResultIn.entityHit;
 		BlockPos blockPos = raytraceResultIn.getBlockPos();
-		if(null != entity && !this.world.isRemote && entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer)) {
-			entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 4);
+		if(null != entity && !this.world.isRemote && entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer) && entity != this.thrower) {
+			entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), this.attackDamage);
 			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 60, this.world.rand.nextInt(4) + 2));
 			if(this.world.rand.nextFloat() < 0.125D) {
-				entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 4);
+				entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), this.attackDamage);
 				((EntityLivingBase) entity).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 100, 7));
 			}
 			world.playSound((EntityPlayer) null, entity.posX, entity.posY + 0.5D, entity.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.arrow.hit")), SoundCategory.NEUTRAL, 1.0F, 1.0F);

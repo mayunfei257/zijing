@@ -49,7 +49,7 @@ entity.entityArrowBingDan.name=¡ì6bingDan
 entity.entityArrowHuoDan.name=¡ì6huoDan
 entity.entityArrowXukongDan.name=¡ì6xukongDan
 entity.entityArrowFengyinDan.name=¡ì6fengyinDan
-entity.entitySummonTaoistPriest.name=¡ì6soldier
+entity.entitySummonTaoistPriest.name=¡ì6Shushan Disciples
 
 #FY_Item---------------------------------------------------------------------------
 zijingmod.itemZiqi.magic=¡ì4Magic energy : %d.
@@ -97,6 +97,9 @@ zijingmod.itemArmorZijingHelmet.skill1=¡ì4Injured will get water breathing for %
 zijingmod.itemArmorZijingBody.skill1=¡ì4Injured will get regeneration for %d seconds.
 zijingmod.itemArmorZijingLegs.skill1=¡ì4Injured will get resistance for %d seconds.
 zijingmod.itemArmorZijingBoots.skill1=¡ì4Injured will get speed for %d seconds.
+
+#FY_Entity-------------------------------------------------------------------------
+zijingmod.entitySummonTaoistPriest.name=¡ì6LV%d Shushan Disciples
 
 #FY_BASE---------------------------------------------------------------------------
 zijingmod.line.1=¡ìd----------------.

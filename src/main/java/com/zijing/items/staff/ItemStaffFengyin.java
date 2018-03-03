@@ -34,7 +34,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemStaffFengyin extends Item implements MagicConsumer{
 	public static final int MagicSkill1 = 1;
-	public static final int MagicSkill2 = 50;
+	public static final int MagicSkill2 = 1000;
 
 	public ItemStaffFengyin() {
 		super();
@@ -65,32 +65,11 @@ public class ItemStaffFengyin extends Item implements MagicConsumer{
 						}
 					}
 					BlockPos blockPos = blockPosList.get((int)(Math.random() * (blockPosList.size() - 1)));
-					
-//					EntityIronGolem entity = new EntityIronGolem(world);
-//					entity.setPlayerCreated(true);
-//					entity.setLocationAndAngles(blockPos.getX(), blockPos.getY(), blockPos.getZ(), world.rand.nextFloat() * 360F, 0.0F);
-//					if(world.rand.nextFloat() < 0.125D) {
-//						entity.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(200.0D);
-//						entity.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.7D);
-//						entity.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(20.0D);
-//						entity.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(2.0D);
-//						entity.tasks.addTask(9, new EntityAISwimming(entity));
-//					}
-//					entity.addPotionEffect(new PotionEffect(MobEffects.SPEED, 400, 1));
-//					entity.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 400, 1));
-//					entity.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 400, 1));
-//					entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 400, 1));
-//					entity.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 400, 1));
-//					entity.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 400, 1));
-//					entity.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 400, 1));
-//					entity.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 400, 1));
-//					entity.playLivingSound();
-					
 					EntitySummonTaoistPriest entity = new EntitySummonTaoistPriest(world);
 					entity.setLocationAndAngles(blockPos.getX(), blockPos.getY(), blockPos.getZ(), world.rand.nextFloat() * 360F, 0.0F);
-					
+					entity.setHomePosAndDistance(blockPos, 128);
 					world.spawnEntity(entity);
-					world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("block.end_portal.spawn")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+					world.playSound((EntityPlayer) null, player.posX, player.posY + 1D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("block.end_portal.spawn")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 					shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill2);
 					ShepherdProvider.updateChangeToClient(player);
 				}else {
@@ -101,7 +80,7 @@ public class ItemStaffFengyin extends Item implements MagicConsumer{
 					EntityArrowFengyinDan fengyinDan = new EntityArrowFengyinDan(world, player);
 					fengyinDan.shoot(player.getLookVec().x, player.getLookVec().y, player.getLookVec().z, 4.0F, 0);
 					world.spawnEntity(fengyinDan);
-					world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation(("entity.snowball.throw"))), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+					world.playSound((EntityPlayer) null, player.posX, player.posY + 1D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation(("entity.snowball.throw"))), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 					shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill1);
 					ShepherdProvider.updateChangeToClient(player);
 				}else {

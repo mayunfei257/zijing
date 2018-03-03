@@ -14,6 +14,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntityArrowXukongDan extends EntityThrowable {
+	private float attackDamage = 0;
 	
 	public EntityArrowXukongDan(World a) {
 		super(a);
@@ -27,6 +28,11 @@ public class EntityArrowXukongDan extends EntityThrowable {
 		super(worldIn, shooter);
 	}
 
+	public EntityArrowXukongDan(World worldIn, EntityLivingBase shooter, float attackDamage) {
+		super(worldIn, shooter);
+		this.attackDamage = attackDamage;
+	}
+
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
@@ -36,8 +42,8 @@ public class EntityArrowXukongDan extends EntityThrowable {
     protected void onImpact(RayTraceResult raytraceResultIn) {
 		Entity entity = raytraceResultIn.entityHit;
 		BlockPos blockPos = raytraceResultIn.getBlockPos();
-		if(null != entity && !this.world.isRemote && entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer)) {
-			entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0);
+		if(null != entity && !this.world.isRemote && entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer) && entity != this.thrower) {
+			entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), this.attackDamage);
 			this.thrower.setPositionAndUpdate(entity.posX, entity.posY, entity.posZ);
 			world.playSound((EntityPlayer) null, entity.posX, entity.posY + 0.5D, entity.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 			this.setDead();
