@@ -7,9 +7,11 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
 import com.zijing.ZijingMod;
+import com.zijing.entity.ai.EntityAIAttackMeleeZJ;
 import com.zijing.items.staff.ItemStaffBingxue;
 import com.zijing.main.BaseControl;
 import com.zijing.main.itf.EntityHasShepherdCapability;
+import com.zijing.main.itf.MagicSource;
 import com.zijing.main.playerdata.ShepherdCapability;
 import com.zijing.util.MathUtil;
 import com.zijing.util.PlayerUtil;
@@ -20,7 +22,6 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIAttackRanged;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -80,7 +81,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 	        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
 //		if(this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED) == null)
 //			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_SPEED);
-//		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(8.0D);
+//		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(1024D);
 		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(16.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(4.0D);
 	}
@@ -97,20 +98,20 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 	
 	private void setAI() {
 		this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAITempt(this, 1.0D, false, Sets.newHashSet(BaseControl.itemZijing)));
-        this.tasks.addTask(2, new EntityAIAttackRanged(this, 1.25D, 20, 32.0F) {
+        this.tasks.addTask(1, new EntityAITempt(this, 1.0D, false, Sets.newHashSet(BaseControl.itemZiqi, BaseControl.itemZijing)));
+        this.tasks.addTask(2, new EntityAIAttackRanged(this, 1.25D, 15, 32.0F) {
             public boolean shouldExecute(){
                 EntityLivingBase entitylivingbase = getAttackTarget();
                 if(null != entitylivingbase) {
                     double distance = Math.sqrt(Math.pow(entitylivingbase.posX - posX, 2) + Math.pow(entitylivingbase.posY - posY, 2) + Math.pow(entitylivingbase.posZ - posZ, 2));
-                    if(distance > 3) {
+                    if(distance > 2.83) {
                 		return shepherdCapability.getMagic() >= ItemStaffBingxue.MagicSkill1 ? super.shouldExecute() : false;
                     }
                 }
         		return false;
             }
         });
-        this.tasks.addTask(3, new EntityAIAttackMelee(this, 1.1D, true));
+        this.tasks.addTask(3, new EntityAIAttackMeleeZJ(this, 1D, 10, false));
         this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
         this.tasks.addTask(4, new EntityAIMoveTowardsTarget(this, 1D, 32.0F));
 		this.tasks.addTask(5, new EntityAIWander(this, 0.9D));
@@ -193,6 +194,11 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 
 	@Override
 	public boolean processInteract(EntityPlayer player, EnumHand hand) {
+		ItemStack itemStack = player.getHeldItem(hand);
+		if(itemStack.getItem() instanceof MagicSource && shepherdCapability.getMagic() < shepherdCapability.getMaxMagic()) {
+			shepherdCapability.setMagic(Math.min(shepherdCapability.getMagic(), shepherdCapability.getMagic() + ((MagicSource)itemStack.getItem()).getMagicEnergy()));
+			itemStack.shrink(1);
+		}
 		DecimalFormat df1 = new DecimalFormat("#0.0");
 		DecimalFormat df2 = new DecimalFormat("#0.00");
 		DecimalFormat df4 = new DecimalFormat("#0.0000");

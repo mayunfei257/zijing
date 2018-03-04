@@ -2,6 +2,7 @@ package com.zijing.entity;
 
 import com.zijing.main.itf.EntityHasShepherdCapability;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -56,11 +57,23 @@ public class EntityArrowBingDan extends EntityThrowable {
 			world.playSound((EntityPlayer) null, entity.posX, entity.posY + 0.5D, entity.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.arrow.hit")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 			this.setDead();
 		}else if(null != blockPos && !this.world.isRemote && null != raytraceResultIn.sideHit){
-			if(Blocks.SNOW_LAYER.canPlaceBlockAt(this.world, blockPos.offset(raytraceResultIn.sideHit))) {
-				this.world.setBlockState(blockPos.offset(raytraceResultIn.sideHit), Blocks.SNOW_LAYER.getDefaultState());
+			Block block = this.world.getBlockState(blockPos).getBlock();
+			if(block != Blocks.TALLGRASS && block != Blocks.WEB && block != Blocks.DEADBUSH && block != Blocks.RED_FLOWER 
+				&& block != Blocks.YELLOW_FLOWER && block != Blocks.BROWN_MUSHROOM && block != Blocks.RED_MUSHROOM && block != Blocks.TORCH 
+				&& block != Blocks.LADDER && block != Blocks.SNOW_LAYER && block != Blocks.VINE && block != Blocks.WATERLILY 
+				&& block != Blocks.CARPET && block != Blocks.DOUBLE_PLANT && block != Blocks.END_ROD && block != Blocks.STANDING_SIGN 
+				&& block != Blocks.WALL_SIGN && block != Blocks.FLOWER_POT && block != Blocks.STANDING_BANNER && block != Blocks.WALL_BANNER 
+				&& block != Blocks.RAIL && block != Blocks.ACTIVATOR_RAIL && block != Blocks.DETECTOR_RAIL && block != Blocks.GOLDEN_RAIL 
+				&& block != Blocks.WHEAT && block != Blocks.REEDS && block != Blocks.CARROTS && block != Blocks.POTATOES 
+				&& block != Blocks.BEETROOTS && block != Blocks.REDSTONE_TORCH && block != Blocks.UNLIT_REDSTONE_TORCH && block != Blocks.WOODEN_BUTTON 
+				&& block != Blocks.STONE_BUTTON && block != Blocks.POWERED_REPEATER && block != Blocks.UNPOWERED_REPEATER && block != Blocks.POWERED_COMPARATOR 
+				&& block != Blocks.UNPOWERED_COMPARATOR && block != Blocks.REDSTONE_BLOCK && block != Blocks.SAPLING){
+				if(Blocks.SNOW_LAYER.canPlaceBlockAt(this.world, blockPos.offset(raytraceResultIn.sideHit)) && (this.world.getBlockState(blockPos.offset(raytraceResultIn.sideHit)).getBlock() == Blocks.AIR || this.world.getBlockState(blockPos.offset(raytraceResultIn.sideHit)).getBlock() == Blocks.TALLGRASS)) {
+					this.world.setBlockState(blockPos.offset(raytraceResultIn.sideHit), Blocks.SNOW_LAYER.getDefaultState());
+				}
+				world.playSound((EntityPlayer) null, blockPos.getX() + 0.5D, blockPos.getY() + 0.5D, blockPos.getZ() + 0.5D, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.arrow.hit")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+				this.setDead();
 			}
-			world.playSound((EntityPlayer) null, blockPos.getX() + 0.5D, blockPos.getY() + 0.5D, blockPos.getZ() + 0.5D, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.arrow.hit")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-			this.setDead();
 		}
 	}
 }

@@ -128,7 +128,7 @@ public class PlayerUtil {
     			shepherdCapability.setMagic(shepherdCapability.getMagic());
     			shepherdCapability.setMaxBlood(level * ZijingMod.config.getUPGRADE_MAXBLOOD_K() * 2);
     			shepherdCapability.setMaxMagic(level * ZijingMod.config.getUPGRADE_MAXMAGIC_K() * 2);
-    			shepherdCapability.setSpeed(level * 0.01D + 0.2D);
+    			shepherdCapability.setSpeed(level * 0.005D + 0.2D);
     			shepherdCapability.setPower((level - 1) * ZijingMod.config.getUPGRADE_POWER_K() * 2);
 //            	shepherdCapability.setIntellect(intellect);
     			shepherdCapability.setBloodRestore(level * ZijingMod.config.getUPGRADE_BLOODRESTORE_K() * 2);
