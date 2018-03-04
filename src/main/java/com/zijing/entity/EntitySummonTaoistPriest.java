@@ -34,6 +34,7 @@ import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -68,6 +69,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 		this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(BaseControl.itemToolZijingJian));
 		this.setNoAI(false);
 		this.setAI();
+		this.enablePersistence();
 		this.setAlwaysRenderNameTag(true);
 	}
 
@@ -76,8 +78,11 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 		super.applyEntityAttributes();
 		if (this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE) == null)
 	        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-		if(this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED) == null)
-			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_SPEED);
+//		if(this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED) == null)
+//			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_SPEED);
+//		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(8.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(16.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(4.0D);
 	}
 	
 	private void setBaseShepherdCapability() {
@@ -112,7 +117,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
         this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1D));
 		this.tasks.addTask(7, new EntityAILookIdle(this));
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
+        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[0]));
         this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, true, false, new Predicate<EntityLiving>(){
             public boolean apply(@Nullable EntityLiving target){
                 return target != null && IMob.VISIBLE_MOB_SELECTOR.apply(target);
@@ -132,6 +137,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
         super.readEntityFromNBT(compound);
         this.experience = compound.getDouble(ZijingMod.MODID + ":experience");
         shepherdCapability.readNBT(null, compound.getTag(ZijingMod.MODID + ":shepherdCapability"));
+		this.nextLevelNeedExperience = (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), 1) * ZijingMod.config.getUPGRADE_NEED_XP_K();
     }
 
 	@Override
@@ -208,9 +214,11 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
             return false;
         }else if(EntityHasShepherdCapability.class.isAssignableFrom(cls)){
         	return false;
-        }else if(cls == EntitySkeleton.class && shepherdCapability.getLevel() < 5){
+        }else if(cls == EntitySkeleton.class && shepherdCapability.getLevel() < 10){
         	return false;
-        }else if(cls == EntityCreeper.class && shepherdCapability.getLevel() < 10){
+        }else if(cls == EntityCreeper.class && shepherdCapability.getLevel() < 20){
+            return false;
+        }else if(cls == EntityEnderman.class && shepherdCapability.getLevel() < 30){
             return false;
         }else {
             return super.canAttackClass(cls);
@@ -277,7 +285,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 //	        double d2 = target.posZ - this.posZ;
 //	        double d3 = (double)MathHelper.sqrt(d0 * d0 + d2 * d2);
 //	        bingDan.shoot(d0, d1 + d3 * 0.10000000298023224D, d2, 3.0F, 0);
-    		bingDan.shoot(target.posX - this.posX, target.getEntityBoundingBox().minY + target.height/2.0D - bingDan.posY, target.posZ - this.posZ, 3.0F, 0);
+    		bingDan.shoot(target.posX - this.posX, target.getEntityBoundingBox().minY + target.height * 0.75D - bingDan.posY, target.posZ - this.posZ, 3.0F, 0);
 //    		bingDan.shoot(this.getLookVec().x, this.getLookVec().y, this.getLookVec().z, 3.0F, 0);
     		this.world.spawnEntity(bingDan);
     		this.world.playSound((EntityPlayer) null, this.posX, this.posY + 1D, this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
