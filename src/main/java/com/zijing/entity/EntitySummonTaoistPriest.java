@@ -82,6 +82,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 //		if(this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED) == null)
 //			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_SPEED);
 //		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(1024D);
+        this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(16.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(4.0D);
 	}
