@@ -8,6 +8,8 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
 import com.zijing.ZijingMod;
 import com.zijing.entity.ai.EntityAIAttackMeleeZJ;
+import com.zijing.entity.ai.EntityAIAttackRangedZJ;
+import com.zijing.items.ItemDanZiling;
 import com.zijing.items.staff.ItemStaffBingxue;
 import com.zijing.main.BaseControl;
 import com.zijing.main.itf.EntityHasShepherdCapability;
@@ -22,7 +24,6 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackRanged;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsTarget;
@@ -34,6 +35,7 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntitySkeleton;
@@ -68,10 +70,33 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 		this.isImmuneToFire = false;
 		this.setBaseShepherdCapability();
 		this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(BaseControl.itemToolZijingJian));
+		this.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
+		this.setItemStackToSlot(EntityEquipmentSlot.CHEST, new ItemStack(Items.DIAMOND_CHESTPLATE));
+		this.setItemStackToSlot(EntityEquipmentSlot.LEGS, new ItemStack(Items.DIAMOND_LEGGINGS));
+		this.setItemStackToSlot(EntityEquipmentSlot.FEET, new ItemStack(Items.DIAMOND_BOOTS));
 		this.setNoAI(false);
-		this.setAI();
 		this.enablePersistence();
 		this.setAlwaysRenderNameTag(true);
+	}
+
+	@Override
+	protected void initEntityAI() {
+		this.tasks.addTask(0, new EntityAISwimming(this));
+        this.tasks.addTask(1, new EntityAITempt(this, 1.0D, false, Sets.newHashSet(BaseControl.itemZiqi, BaseControl.itemZijing, BaseControl.itemDanZiling)));
+        this.tasks.addTask(2, new EntityAIAttackRangedZJ(this, 1.0D, 15, 2.83D, 32.0F, ItemStaffBingxue.MagicSkill1));
+        this.tasks.addTask(3, new EntityAIAttackMeleeZJ(this, 1.0D, 10, false));
+        this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
+        this.tasks.addTask(4, new EntityAIMoveTowardsTarget(this, 1D, 32.0F));
+		this.tasks.addTask(5, new EntityAIWander(this, 0.9D));
+        this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1D));
+		this.tasks.addTask(7, new EntityAILookIdle(this));
+        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[0]));
+        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, true, false, new Predicate<EntityLiving>(){
+            public boolean apply(@Nullable EntityLiving target){
+                return target != null && IMob.VISIBLE_MOB_SELECTOR.apply(target);
+            }
+        }));
 	}
 
 	@Override
@@ -79,9 +104,6 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 		super.applyEntityAttributes();
 		if (this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE) == null)
 	        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-//		if(this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED) == null)
-//			this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_SPEED);
-//		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(1024D);
         this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(16.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(4.0D);
@@ -95,36 +117,6 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 		this.setCustomNameTag(I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonTaoistPriest.name", new Object[] {shepherdCapability.getLevel()}));
 		shepherdCapability.setMagic(shepherdCapability.getMaxMagic());
 		this.nextLevelNeedExperience = (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), 1) * ZijingMod.config.getUPGRADE_NEED_XP_K();
-	}
-	
-	private void setAI() {
-		this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAITempt(this, 1.0D, false, Sets.newHashSet(BaseControl.itemZiqi, BaseControl.itemZijing)));
-        this.tasks.addTask(2, new EntityAIAttackRanged(this, 1.25D, 15, 32.0F) {
-            public boolean shouldExecute(){
-                EntityLivingBase entitylivingbase = getAttackTarget();
-                if(null != entitylivingbase) {
-                    double distance = Math.sqrt(Math.pow(entitylivingbase.posX - posX, 2) + Math.pow(entitylivingbase.posY - posY, 2) + Math.pow(entitylivingbase.posZ - posZ, 2));
-                    if(distance > 2.83) {
-                		return shepherdCapability.getMagic() >= ItemStaffBingxue.MagicSkill1 ? super.shouldExecute() : false;
-                    }
-                }
-        		return false;
-            }
-        });
-        this.tasks.addTask(3, new EntityAIAttackMeleeZJ(this, 1D, 10, false));
-        this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
-        this.tasks.addTask(4, new EntityAIMoveTowardsTarget(this, 1D, 32.0F));
-		this.tasks.addTask(5, new EntityAIWander(this, 0.9D));
-        this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1D));
-		this.tasks.addTask(7, new EntityAILookIdle(this));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[0]));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, true, false, new Predicate<EntityLiving>(){
-            public boolean apply(@Nullable EntityLiving target){
-                return target != null && IMob.VISIBLE_MOB_SELECTOR.apply(target);
-            }
-        }));
 	}
 
 	@Override
@@ -190,15 +182,39 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 	@Override
 	public void onDeath(DamageSource source) {
 		super.onDeath(source);
-		world.playSound((EntityPlayer) null, this.posX, this.posY + 1D, this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation(("entity.villager.death"))), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+		if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND)) {
+			this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND)));
+		}
+		if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.OFFHAND)) {
+			this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.OFFHAND)));
+		}
+		if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.HEAD)) {
+			this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.HEAD)));
+		}
+		if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.CHEST)) {
+			this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.CHEST)));
+		}
+		if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.LEGS)) {
+			this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.LEGS)));
+		}
+		if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.FEET)) {
+			this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.FEET)));
+		}
 	}
 
 	@Override
 	public boolean processInteract(EntityPlayer player, EnumHand hand) {
-		ItemStack itemStack = player.getHeldItem(hand);
-		if(itemStack.getItem() instanceof MagicSource && shepherdCapability.getMagic() < shepherdCapability.getMaxMagic()) {
-			shepherdCapability.setMagic(Math.min(shepherdCapability.getMagic(), shepherdCapability.getMagic() + ((MagicSource)itemStack.getItem()).getMagicEnergy()));
-			itemStack.shrink(1);
+		if(!this.world.isRemote) {
+			ItemStack itemStack = player.getHeldItem(hand);
+			if(itemStack.getItem() instanceof MagicSource && shepherdCapability.getMagic() < shepherdCapability.getMaxMagic()) {
+				shepherdCapability.setMagic(Math.min(shepherdCapability.getMaxMagic(), shepherdCapability.getMagic() + ((MagicSource)itemStack.getItem()).getMagicEnergy()));
+				itemStack.shrink(1);
+			}else if(itemStack.getItem() == BaseControl.itemDanZiling){
+				shepherdCapability.setBlood(Math.min(shepherdCapability.getMaxBlood(), shepherdCapability.getBlood() + ((ItemDanZiling)itemStack.getItem()).effectTick/40.0D));
+				shepherdCapability.setMagic(Math.min(shepherdCapability.getMaxMagic(), shepherdCapability.getMagic() + ((ItemDanZiling)itemStack.getItem()).magicRestore));
+				this.setHealth((float)shepherdCapability.getBlood());
+				itemStack.shrink(1);
+			}
 		}
 		DecimalFormat df1 = new DecimalFormat("#0.0");
 		DecimalFormat df2 = new DecimalFormat("#0.00");
@@ -238,7 +254,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 	        this.world.setEntityState(this, (byte)4);
 	    	float attackDamage =  (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
 	    	ItemStack itemStack = this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
-	    	if(itemStack.getItem() instanceof ItemSword) {
+	    	if(null != itemStack && ItemStack.EMPTY != itemStack && itemStack.getItem() instanceof ItemSword) {
 	    		attackDamage += ((ItemSword)itemStack.getItem()).getAttackDamage();
 	    	}
 	    	boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), attackDamage);

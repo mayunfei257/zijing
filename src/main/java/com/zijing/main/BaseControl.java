@@ -10,7 +10,12 @@ import com.zijing.entity.EntityArrowBingDan;
 import com.zijing.entity.EntityArrowFengyinDan;
 import com.zijing.entity.EntityArrowHuoDan;
 import com.zijing.entity.EntityArrowXukongDan;
+import com.zijing.entity.EntitySummonIronGolem;
+import com.zijing.entity.EntitySummonSnowman;
 import com.zijing.entity.EntitySummonTaoistPriest;
+import com.zijing.entity.render.RenderSummonIronGolem;
+import com.zijing.entity.render.RenderSummonSnowman;
+import com.zijing.entity.render.RenderSummonTaoistPriest;
 import com.zijing.items.ItemDanShenshu;
 import com.zijing.items.ItemDanZiling;
 import com.zijing.items.ItemGuhuaNiunai;
@@ -45,12 +50,8 @@ import com.zijing.main.playerdata.ShepherdCapability;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderSnowball;
-import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
-import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -220,6 +221,8 @@ public class BaseControl{
 		EntityRegistry.registerModEntity(new ResourceLocation(ZijingMod.MODID + ":entityarrowxukongdan"), EntityArrowXukongDan.class, "entityArrowXukongDan", 259, ZijingMod.instance, 64, 1, true);
 		EntityRegistry.registerModEntity(new ResourceLocation(ZijingMod.MODID + ":entityarrowfengyindan"), EntityArrowFengyinDan.class, "entityArrowFengyinDan", 260, ZijingMod.instance, 64, 1, true);
 		EntityRegistry.registerModEntity(new ResourceLocation(ZijingMod.MODID + ":entitysummontaoistpriest"), EntitySummonTaoistPriest.class, "entitySummonTaoistPriest", 261, ZijingMod.instance,64, 1, true, (204 << 16) + (0 << 8) + 204, (255 << 16) + (102 << 8) + 255);
+		EntityRegistry.registerModEntity(new ResourceLocation(ZijingMod.MODID + ":entitysummonirongolem"), EntitySummonIronGolem.class, "entitySummonIronGolem", 262, ZijingMod.instance,64, 1, true, (204 << 16) + (0 << 8) + 204, (255 << 16) + (102 << 8) + 255);
+		EntityRegistry.registerModEntity(new ResourceLocation(ZijingMod.MODID + ":entitysummonsnowman"), EntitySummonSnowman.class, "entitySummonSnowman", 263, ZijingMod.instance,64, 1, true, (204 << 16) + (0 << 8) + 204, (255 << 16) + (102 << 8) + 255);
 	}
     
     public static void resourceLoad(FMLPreInitializationEvent event){
@@ -326,14 +329,9 @@ public class BaseControl{
 		RenderingRegistry.registerEntityRenderingHandler(EntityArrowHuoDan.class, new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), itemArrowHuoDan, Minecraft.getMinecraft().getRenderItem()));
 		RenderingRegistry.registerEntityRenderingHandler(EntityArrowXukongDan.class, new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), itemArrowXukongDan, Minecraft.getMinecraft().getRenderItem()));
 		RenderingRegistry.registerEntityRenderingHandler(EntityArrowFengyinDan.class, new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), itemArrowFengyinDan, Minecraft.getMinecraft().getRenderItem()));
-		RenderLiving customRender = new RenderLiving(Minecraft.getMinecraft().getRenderManager(), new ModelZombie(), 0) {
-			@Override
-			protected ResourceLocation getEntityTexture(Entity par1Entity) {
-				return new ResourceLocation(ZijingMod.MODID + ":taoistpriest.png");
-			}
-		};
-		customRender.addLayer(new LayerHeldItem(customRender));
-		RenderingRegistry.registerEntityRenderingHandler(EntitySummonTaoistPriest.class, customRender);
+		RenderingRegistry.registerEntityRenderingHandler(EntitySummonTaoistPriest.class, new RenderSummonTaoistPriest(Minecraft.getMinecraft().getRenderManager()));
+		RenderingRegistry.registerEntityRenderingHandler(EntitySummonIronGolem.class, new RenderSummonIronGolem(Minecraft.getMinecraft().getRenderManager()));
+		RenderingRegistry.registerEntityRenderingHandler(EntitySummonSnowman.class, new RenderSummonSnowman(Minecraft.getMinecraft().getRenderManager()));
 	}
 
 	//*****************************************************************************************************************************************************//

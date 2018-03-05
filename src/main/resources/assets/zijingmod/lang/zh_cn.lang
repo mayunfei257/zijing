@@ -50,6 +50,8 @@ entity.entityArrowHuoDan.name=§6火弹
 entity.entityArrowXukongDan.name=§6虚空弹
 entity.entityArrowFengyinDan.name=§6封印弹
 entity.entitySummonTaoistPriest.name=§6蜀山弟子
+entity.entitySummonIronGolem.name=§6超级铁傀儡
+entity.entitySummonSnowman.name=§6超级雪人
 
 #FY_Item---------------------------------------------------------------------------
 zijingmod.itemZiqi.magic=§4灵力值 : %d
@@ -100,6 +102,8 @@ zijingmod.itemArmorZijingBoots.skill1=§4受伤会获得速度加成状态%d秒�
 
 #FY_Entity-------------------------------------------------------------------------
 zijingmod.entitySummonTaoistPriest.name=§6LV%d §6蜀山弟子
+zijingmod.entitySummonIronGolem.name=§6LV%d §6超级铁傀儡
+zijingmod.entitySummonSnowman.name=§6LV%d §6超级雪人
 
 #FY_BASE---------------------------------------------------------------------------
 zijingmod.line.1=§d----------------.

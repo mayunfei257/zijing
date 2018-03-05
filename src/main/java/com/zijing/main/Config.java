@@ -111,7 +111,7 @@ public class Config {
 		this.UPGRADE_MAXMAGIC_K = configuration.get("PLAYER", "UPGRADE_MAXMAGIC_K", 50, "The player upgrade maxmagic K every level.").getInt();
 		this.UPGRADE_MAXBLOOD_K = configuration.get("PLAYER", "UPGRADE_MAXBLOOD_K", 2, "The player upgrade maxblood K every level.").getInt();
 		this.UPGRADE_POWER_K = configuration.get("PLAYER", "UPGRADE_POWER_K", 0.25D, "The player upgrade power K every level.").getDouble();
-		this.UPGRADE_BLOODRESTORE_K = configuration.get("PLAYER", "UPGRADE_BLOODRESTORE_K", 0.0001D, "The player upgrade bloodrestore K every tick.").getDouble();
+		this.UPGRADE_BLOODRESTORE_K = configuration.get("PLAYER", "UPGRADE_BLOODRESTORE_K", 0.0002D, "The player upgrade bloodrestore K every tick.").getDouble();
 		this.UPGRADE_MAGICRESTORE_K = configuration.get("PLAYER", "UPGRADE_MAGICRESTORE_K", 0.001D, "The player upgrade magicrestore K every tick.").getDouble();
 	}
 

@@ -8,13 +8,11 @@ import javax.annotation.Nullable;
 import com.zijing.ZijingMod;
 import com.zijing.entity.EntityArrowBingDan;
 import com.zijing.main.ZijingTab;
-import com.zijing.main.itf.EntityHasShepherdCapability;
 import com.zijing.main.itf.MagicConsumer;
 import com.zijing.main.playerdata.ShepherdCapability;
 import com.zijing.main.playerdata.ShepherdProvider;
 
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -67,21 +65,13 @@ public class ItemStaffBingxue extends Item implements MagicConsumer{
 						}
 					}
 					BlockPos blockPos = blockPosList.get((int)(Math.random() * (blockPosList.size() - 1)));
-					EntitySnowman snowman = new EntitySnowman(world) {
-					    public boolean canAttackClass(Class <? extends EntityLivingBase > cls){
-					    	return EntityHasShepherdCapability.class.isAssignableFrom(cls) ? false : super.canAttackClass(cls);
-					    }
-					};
+					EntitySnowman snowman = new EntitySnowman(world);
 					snowman.setLocationAndAngles(blockPos.getX(), blockPos.getY(), blockPos.getZ(), world.rand.nextFloat() * 360F, 0.0F);
 					world.spawnEntity(snowman);
 					snowman.playLivingSound();
 					if(world.rand.nextFloat() < 0.125D) {
 						BlockPos blockPos2 = blockPosList.get((int)(Math.random() * (blockPosList.size() - 1)));
-						EntitySnowman snowman2 = new EntitySnowman(world) {
-						    public boolean canAttackClass(Class <? extends EntityLivingBase > cls){
-						    	return EntityHasShepherdCapability.class.isAssignableFrom(cls) ? false : super.canAttackClass(cls);
-						    }
-						};
+						EntitySnowman snowman2 = new EntitySnowman(world);
 						snowman2.setLocationAndAngles(blockPos2.getX(), blockPos2.getY(), blockPos2.getZ(), world.rand.nextFloat() * 360F, 0.0F);
 						world.spawnEntity(snowman2);
 						snowman2.playLivingSound();

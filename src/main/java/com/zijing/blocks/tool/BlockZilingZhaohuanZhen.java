@@ -3,8 +3,8 @@ package com.zijing.blocks.tool;
 import java.util.Random;
 
 import com.zijing.ZijingMod;
+import com.zijing.entity.EntitySummonIronGolem;
 import com.zijing.main.ZijingTab;
-import com.zijing.main.itf.EntityHasShepherdCapability;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -14,11 +14,7 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumFacing;
@@ -50,19 +46,8 @@ public class BlockZilingZhaohuanZhen extends Block{
 		if(!worldIn.isRemote) {
 			int age = ((Integer) state.getValue(AGE)).intValue();
 			if (age >= 15) {
-				EntityIronGolem entity = new EntityIronGolem(worldIn) {
-				    public boolean canAttackClass(Class <? extends EntityLivingBase > cls){
-				    	return EntityHasShepherdCapability.class.isAssignableFrom(cls) ? false : super.canAttackClass(cls);
-				    }
-				};
-				entity.setPlayerCreated(true);
+				EntitySummonIronGolem entity = new EntitySummonIronGolem(worldIn);
 				entity.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, worldIn.rand.nextFloat() * 360F, 0.0F);
-				entity.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(200.0D);
-				entity.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.7D);
-				entity.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(20.0D);
-		        entity.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(2.0D);
-		        entity.tasks.addTask(9, new EntityAISwimming(entity));
-		        
 				entity.addPotionEffect(new PotionEffect(MobEffects.SPEED, 400, 1));
 				entity.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 400, 1));
 				entity.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 400, 1));
