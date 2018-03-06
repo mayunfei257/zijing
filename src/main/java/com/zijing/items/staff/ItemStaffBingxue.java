@@ -67,14 +67,18 @@ public class ItemStaffBingxue extends Item implements MagicConsumer{
 					BlockPos blockPos = blockPosList.get((int)(Math.random() * (blockPosList.size() - 1)));
 					EntitySummonSnowman snowman = new EntitySummonSnowman(world);
 					snowman.setLocationAndAngles(blockPos.getX(), blockPos.getY(), blockPos.getZ(), world.rand.nextFloat() * 360F, 0.0F);
-					world.spawnEntity(snowman);
+					snowman.updataSwordDamageAndArmorValue();
+					snowman.setHomePosAndDistance(blockPos, 64);
 					snowman.playLivingSound();
+					world.spawnEntity(snowman);
 					if(world.rand.nextFloat() < 0.125D) {
 						BlockPos blockPos2 = blockPosList.get((int)(Math.random() * (blockPosList.size() - 1)));
 						EntitySummonSnowman snowman2 = new EntitySummonSnowman(world);
 						snowman2.setLocationAndAngles(blockPos2.getX(), blockPos2.getY(), blockPos2.getZ(), world.rand.nextFloat() * 360F, 0.0F);
-						world.spawnEntity(snowman2);
+						snowman2.updataSwordDamageAndArmorValue();
+						snowman2.setHomePosAndDistance(blockPos, 64);
 						snowman2.playLivingSound();
+						world.spawnEntity(snowman2);
 					}
 					world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 					shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill2);

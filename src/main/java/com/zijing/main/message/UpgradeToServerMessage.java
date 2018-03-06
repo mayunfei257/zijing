@@ -2,7 +2,7 @@ package com.zijing.main.message;
 
 import java.util.UUID;
 
-import com.zijing.util.PlayerUtil;
+import com.zijing.util.EntityUtil;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTBase;
@@ -43,7 +43,7 @@ public class UpgradeToServerMessage implements IMessage {
 				((WorldServer) ctx.getServerHandler().player.world).addScheduledTask(new Runnable(){
 					@Override
 					public void run() {
-						PlayerUtil.upGrade(ctx.getServerHandler().player, upLevel);
+						EntityUtil.upPlayerGrade(ctx.getServerHandler().player, upLevel);
 					}
 				});
 			}

@@ -10,8 +10,8 @@ import com.zijing.entity.ai.EntityAIPanicZJ;
 import com.zijing.items.staff.ItemStaffBingxue;
 import com.zijing.main.itf.EntityHasShepherdCapability;
 import com.zijing.main.playerdata.ShepherdCapability;
+import com.zijing.util.EntityUtil;
 import com.zijing.util.MathUtil;
-import com.zijing.util.PlayerUtil;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLiving;
@@ -24,7 +24,10 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntityGolem;
+import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityVillager;
@@ -50,16 +53,28 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntitySummonSnowman extends EntityGolem implements EntityHasShepherdCapability,IRangedAttackMob, net.minecraftforge.common.IShearable{
     private static final DataParameter<Byte> PUMPKIN_EQUIPPED = EntityDataManager.<Byte>createKey(EntitySnowman.class, DataSerializers.BYTE);
-	private static final int baseLevel = 1;
+	private int baseLevel = 1;
 	private int nextLevelNeedExperience;
 	private double experience;
 	private ShepherdCapability shepherdCapability;
+	private double swordDamage;
+	private double armorValue;
 
     public EntitySummonSnowman(World worldIn){
         super(worldIn);
+		this.swordDamage = 0;
+		this.armorValue = 0;
 		this.setBaseShepherdCapability();
+		this.setNoAI(false);
+		this.enablePersistence();
+		this.setAlwaysRenderNameTag(true);
         this.setSize(0.7F, 1.9F);
     }
+
+	public EntitySummonSnowman(World world, int baseLevel) {
+		this(world);
+		this.baseLevel = baseLevel;
+	}
 
 	@Override
     protected void initEntityAI(){
@@ -87,21 +102,21 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
     }
 	
 	private void setBaseShepherdCapability() {
-		shepherdCapability = new ShepherdCapability();
-		this.experience = (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), baseLevel - 1) * ZijingMod.config.getUPGRADE_NEED_XP_K();
-		PlayerUtil.upGradeFromEntity(this, baseLevel - 1);
-		PlayerUtil.setAllValueToEntity(this, shepherdCapability);
-		this.setCustomNameTag(I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonSnowman.name", new Object[] {shepherdCapability.getLevel()}));
-		shepherdCapability.setMagic(shepherdCapability.getMaxMagic());
-		this.nextLevelNeedExperience = (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), 1) * ZijingMod.config.getUPGRADE_NEED_XP_K();
+		this.shepherdCapability = new ShepherdCapability();
+		this.experience = (int) MathUtil.getUpgradeK(this.shepherdCapability.getLevel(), baseLevel - 1) * ZijingMod.config.getUPGRADE_NEED_XP_K()/2;
+		EntityUtil.upEntityGrade(this, baseLevel - 1);
+		this.setCustomNameTag(I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonSnowman.name", new Object[] {this.shepherdCapability.getLevel()}));
 	}
-
+	
 	@Override
     public void writeEntityToNBT(NBTTagCompound compound){
         super.writeEntityToNBT(compound);
         compound.setBoolean("Pumpkin", this.isPumpkinEquipped());
+        compound.setDouble(ZijingMod.MODID + ":swordDamage", this.swordDamage);
+        compound.setDouble(ZijingMod.MODID + ":armorValue", this.armorValue);
         compound.setDouble(ZijingMod.MODID + ":experience", this.experience);
-        compound.setTag(ZijingMod.MODID + ":shepherdCapability", shepherdCapability.writeNBT(null));
+        compound.setInteger(ZijingMod.MODID + ":nextLevelNeedExperience", this.nextLevelNeedExperience);
+        compound.setTag(ZijingMod.MODID + ":shepherdCapability", this.shepherdCapability.writeNBT(null));
     }
 
 	@Override
@@ -110,9 +125,11 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
         if (compound.hasKey("Pumpkin")){
             this.setPumpkinEquipped(compound.getBoolean("Pumpkin"));
         }
+        this.swordDamage = compound.getDouble(ZijingMod.MODID + ":swordDamage");
+        this.armorValue = compound.getDouble(ZijingMod.MODID + ":armorValue");
         this.experience = compound.getDouble(ZijingMod.MODID + ":experience");
-        shepherdCapability.readNBT(null, compound.getTag(ZijingMod.MODID + ":shepherdCapability"));
-		this.nextLevelNeedExperience = (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), 1) * ZijingMod.config.getUPGRADE_NEED_XP_K();
+        this.nextLevelNeedExperience = compound.getInteger(ZijingMod.MODID + ":nextLevelNeedExperience");
+        this.shepherdCapability.readNBT(null, compound.getTag(ZijingMod.MODID + ":shepherdCapability"));
     }
 
     /**
@@ -131,26 +148,19 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
             }
         }
 		if(!this.world.isRemote && !this.isDead && this.getHealth() > 0) {
-			boolean changed = false;
 			if(this.nextLevelNeedExperience <= this.experience) {
-				PlayerUtil.upGradeFromEntity(this, 1);
-				PlayerUtil.setAllValueToEntity(this, shepherdCapability);
-				this.setCustomNameTag(I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonSnowman.name", new Object[] {shepherdCapability.getLevel()}));
-				this.nextLevelNeedExperience = (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), 1) * ZijingMod.config.getUPGRADE_NEED_XP_K();
-				changed = true;
+				EntityUtil.upEntityGrade(this, 1);
+				this.setCustomNameTag(I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonSnowman.name", new Object[] {this.shepherdCapability.getLevel()}));
 			}
 			if(this.getHealth() < this.getMaxHealth()) {
-				this.setHealth(this.getHealth() + (float)shepherdCapability.getBloodRestore());
-				shepherdCapability.setBlood(this.getHealth());
-				changed = true;
+				this.setHealth(this.getHealth() + (float)this.shepherdCapability.getBloodRestore());
+				this.shepherdCapability.setBlood(this.getHealth());
 			}
-			if(shepherdCapability.getMagic() < shepherdCapability.getMaxMagic()) {
-				shepherdCapability.setMagic(Math.min(shepherdCapability.getMagic() + shepherdCapability.getMagicRestore(), shepherdCapability.getMaxMagic()));
-				changed = true;
+			if(this.shepherdCapability.getMagic() < this.shepherdCapability.getMaxMagic()) {
+				this.shepherdCapability.setMagic(Math.min(this.shepherdCapability.getMagic() + this.shepherdCapability.getMagicRestore(), this.shepherdCapability.getMaxMagic()));
 			}
-			if(this.getHealth() != shepherdCapability.getBlood()) {
-				shepherdCapability.setBlood(this.getHealth());
-				changed = true;
+			if(this.getHealth() != this.shepherdCapability.getBlood()) {
+				this.shepherdCapability.setBlood(this.getHealth());
 			}
 		}
     }
@@ -163,23 +173,27 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
     @Override
     public boolean canAttackClass(Class <? extends EntityLivingBase > cls){
         if (EntityPlayer.class.isAssignableFrom(cls) || EntityHasShepherdCapability.class.isAssignableFrom(cls)){
+        	return false;
+        }else if(cls == EntitySkeleton.class && this.shepherdCapability.getLevel() < 15){
+        	return false;
+        }else if(cls == EntityCreeper.class && this.shepherdCapability.getLevel() < 30){
             return false;
-        }else if(EntityVillager.class.isAssignableFrom(cls)){
+        }else if(EntityVillager.class.isAssignableFrom(cls) || EntityEnderman.class.isAssignableFrom(cls)) {
         	return false;
         }else{
-            return super.canAttackClass(cls);
+            return true;
         }
     }
 
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor){
-        if(!this.world.isRemote && shepherdCapability.getMagic() >= ItemStaffBingxue.MagicSkill1) {
+        if(!this.world.isRemote && this.shepherdCapability.getMagic() >= ItemStaffBingxue.MagicSkill1) {
         	float attackDamage =  (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
     		EntityArrowBingDan bingDan = new EntityArrowBingDan(world, this, attackDamage);
     		bingDan.shoot(target.posX - this.posX, target.getEntityBoundingBox().minY + target.height * 0.75D - bingDan.posY, target.posZ - this.posZ, 3.0F, 0);
     		this.world.spawnEntity(bingDan);
     		this.world.playSound((EntityPlayer) null, this.posX, this.posY + 1D, this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-    		shepherdCapability.setMagic(shepherdCapability.getMagic() - ItemStaffBingxue.MagicSkill1);
+    		this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - ItemStaffBingxue.MagicSkill1);
 			this.experience += attackDamage;
         }
     }
@@ -194,14 +208,14 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 		DecimalFormat df1 = new DecimalFormat("#0.0");
 		DecimalFormat df2 = new DecimalFormat("#0.00");
 		DecimalFormat df4 = new DecimalFormat("#0.0000");
-		player.sendMessage(new TextComponentString("level: " + shepherdCapability.getLevel()));
-		player.sendMessage(new TextComponentString("blood: " + df1.format(shepherdCapability.getBlood()) + "/" + df1.format(shepherdCapability.getMaxBlood())));
-		player.sendMessage(new TextComponentString("magic: " + df1.format(shepherdCapability.getMagic()) + "/" + df1.format(shepherdCapability.getMaxMagic())));
-		player.sendMessage(new TextComponentString("speed: " + df2.format(shepherdCapability.getSpeed())));
-		player.sendMessage(new TextComponentString("power: " + df2.format(shepherdCapability.getPower())));
-		player.sendMessage(new TextComponentString("bloodRestore: " + df4.format(shepherdCapability.getBloodRestore()) + "/T"));
-		player.sendMessage(new TextComponentString("magicRestore: " + df4.format(shepherdCapability.getMagicRestore()) + "/T"));
-		player.sendMessage(new TextComponentString("physicalDefense: " + df2.format(shepherdCapability.getPhysicalDefense())));
+		player.sendMessage(new TextComponentString("level: " + this.shepherdCapability.getLevel()));
+		player.sendMessage(new TextComponentString("blood: " + df1.format(this.shepherdCapability.getBlood()) + "/" + df1.format(this.shepherdCapability.getMaxBlood())));
+		player.sendMessage(new TextComponentString("magic: " + df1.format(this.shepherdCapability.getMagic()) + "/" + df1.format(this.shepherdCapability.getMaxMagic())));
+		player.sendMessage(new TextComponentString("speed: " + df2.format(this.shepherdCapability.getSpeed())));
+		player.sendMessage(new TextComponentString("power: " + df2.format(this.shepherdCapability.getPower()) + " + " + df2.format(this.swordDamage)));
+		player.sendMessage(new TextComponentString("bloodRestore: " + df4.format(this.shepherdCapability.getBloodRestore()) + "/T"));
+		player.sendMessage(new TextComponentString("magicRestore: " + df4.format(this.shepherdCapability.getMagicRestore()) + "/T"));
+		player.sendMessage(new TextComponentString("physicalDefense: " + df2.format(this.shepherdCapability.getPhysicalDefense())  + " + " + df2.format(this.armorValue)));
 		player.sendMessage(new TextComponentString("experience: " + df2.format(this.experience) + "/" + this.nextLevelNeedExperience));
 		return true;
     }
@@ -261,7 +275,43 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 	}
 
 	@Override
+	public int getNextLevelNeedExperience() {
+		return nextLevelNeedExperience;
+	}
+
+	@Override
+	public void setNextLevelNeedExperience(int nextLevelNeedExperience) {
+		this.nextLevelNeedExperience = nextLevelNeedExperience;
+	}
+
+	@Override
 	public ShepherdCapability getShepherdCapability() {
 		return this.shepherdCapability;
+	}
+
+	@Override
+	public double getSwordDamage() {
+		return swordDamage;
+	}
+
+	@Override
+	public double getArmorValue() {
+		return armorValue;
+	}
+
+	@Override
+	public void setSwordDamage(double swordDamage) {
+		this.swordDamage = swordDamage;
+	}
+
+	@Override
+	public void setArmorValue(double armorValue) {
+		this.armorValue = armorValue;
+	}
+
+	@Override
+	public boolean updataSwordDamageAndArmorValue() {
+		EntityUtil.setEntityArmorValueAndSwordDamage(this);
+		return true;
 	}
 }

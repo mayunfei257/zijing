@@ -75,6 +75,7 @@ public class ItemStaffFengyin extends Item implements MagicConsumer{
 					entity.setItemStackToSlot(EntityEquipmentSlot.FEET, new ItemStack(Items.LEATHER_BOOTS));
 					entity.setLocationAndAngles(blockPos.getX(), blockPos.getY(), blockPos.getZ(), world.rand.nextFloat() * 360F, 0.0F);
 					entity.setHomePosAndDistance(blockPos, 64);
+					entity.updataSwordDamageAndArmorValue();
 					world.spawnEntity(entity);
 					world.playSound((EntityPlayer) null, player.posX, player.posY + 1D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("block.end_portal.spawn")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 					shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill2);
