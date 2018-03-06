@@ -69,7 +69,7 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
     private int attackTimer;
     private int holdRoseTick;
     
-	private static final int baseLevel = 50;
+	private static final int baseLevel = 30;
 	private int nextLevelNeedExperience;
 	private double experience;
 	private ShepherdCapability shepherdCapability;
@@ -83,7 +83,7 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 	@Override
     protected void initEntityAI(){
 		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(1, new EntityAIAttackRangedZJ(this, 1.0D, 40, 8D, 32.0F, ItemStaffKongjian.MagicSkill1));
+		this.tasks.addTask(1, new EntityAIAttackRangedZJ(this, 1.0D, 40, 6D, 32.0F, ItemStaffKongjian.MagicSkill1));
         this.tasks.addTask(2, new EntityAIAttackMeleeZJ(this, 1.0D, 10, true));
         this.tasks.addTask(3, new EntityAIMoveTowardsTarget(this, 0.9D, 32.0F));
         this.tasks.addTask(4, new EntityAIMoveThroughVillage(this, 0.6D, true));
