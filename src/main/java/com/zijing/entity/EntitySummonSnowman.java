@@ -65,7 +65,7 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
     protected void initEntityAI(){
 		this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIPanicZJ(this, 1.5D, 16, 5, 8, 4, 4.3D));
-        this.tasks.addTask(2, new EntityAIAttackRangedZJ(this, 1.0D, 20, 4.3D, 32.0F, ItemStaffBingxue.MagicSkill1));
+        this.tasks.addTask(2, new EntityAIAttackRangedZJ(this, 1.0D, 15, 4.3D, 32.0F, ItemStaffBingxue.MagicSkill1));
         this.tasks.addTask(3, new EntityAIWanderAvoidWater(this, 1.0D, 1.0000001E-5F));
         this.tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(5, new EntityAILookIdle(this));

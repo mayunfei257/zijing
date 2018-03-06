@@ -7,6 +7,7 @@ import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
+import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -24,7 +25,7 @@ public class RenderSummonTaoistPriest extends RenderBiped<EntitySummonTaoistPrie
             }
         };
         this.addLayer(layerbipedarmor);
-//        this.addLayer(new LayerHeldItem(this));
+        this.addLayer(new LayerHeldItem(this));
 	}
 
 	@Override

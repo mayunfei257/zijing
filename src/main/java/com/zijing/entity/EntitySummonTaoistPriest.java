@@ -69,11 +69,6 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 		this.experienceValue = 0;
 		this.isImmuneToFire = false;
 		this.setBaseShepherdCapability();
-		this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(BaseControl.itemToolZijingJian));
-		this.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
-		this.setItemStackToSlot(EntityEquipmentSlot.CHEST, new ItemStack(Items.DIAMOND_CHESTPLATE));
-		this.setItemStackToSlot(EntityEquipmentSlot.LEGS, new ItemStack(Items.DIAMOND_LEGGINGS));
-		this.setItemStackToSlot(EntityEquipmentSlot.FEET, new ItemStack(Items.DIAMOND_BOOTS));
 		this.setNoAI(false);
 		this.enablePersistence();
 		this.setAlwaysRenderNameTag(true);
@@ -214,6 +209,8 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 				shepherdCapability.setMagic(Math.min(shepherdCapability.getMaxMagic(), shepherdCapability.getMagic() + ((ItemDanZiling)itemStack.getItem()).magicRestore));
 				this.setHealth((float)shepherdCapability.getBlood());
 				itemStack.shrink(1);
+			}else {
+				
 			}
 		}
 		DecimalFormat df1 = new DecimalFormat("#0.0");

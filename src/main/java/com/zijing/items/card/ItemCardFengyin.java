@@ -11,6 +11,7 @@ import com.zijing.main.playerdata.ShepherdCapability;
 import com.zijing.main.playerdata.ShepherdProvider;
 
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -53,6 +54,7 @@ public class ItemCardFengyin extends Item{
 		if(!world.isRemote && itemStack.hasTagCompound() && ShepherdProvider.hasCapabilityFromPlayer(player)) {
 			NBTTagCompound nbt = itemStack.getTagCompound();
 			ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
+			BlockPos entityPos = pos.offset(facing);
 			if(shepherdCapability.getMagic() >= MagicSkill1) {
 				String entityName = nbt.getString(ZijingMod.MODID + ":entityName");
 				NBTTagCompound entityNBT = (NBTTagCompound)nbt.getTag(ZijingMod.MODID + ":entityNBT");
@@ -61,8 +63,10 @@ public class ItemCardFengyin extends Item{
 					Constructor constructor = entityClass.getConstructor(new Class[] {World.class});
 					EntityLivingBase entity = (EntityLivingBase) constructor.newInstance(new Object[] {world});
 					entity.readFromNBT(entityNBT);
-					BlockPos entityPos = pos.offset(facing);
 					entity.setLocationAndAngles(entityPos.getX() + 0.5D, entityPos.getY(), entityPos.getZ() + 0.5D, entity.rotationYaw, entity.rotationPitch);
+					if(entity instanceof EntityCreature) {
+						((EntityCreature)entity).setHomePosAndDistance(entityPos, 64);
+					}
 					world.spawnEntity(entity);
 					world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 					player.inventory.deleteStack(itemStack);
