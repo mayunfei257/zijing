@@ -8,6 +8,7 @@ import com.zijing.items.card.ItemCardChuansong;
 import com.zijing.items.staff.ItemZilingZhu;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -33,7 +34,7 @@ public class GuiEntityTaoistPriest {
 		private NBTTagCompound bookTag;
 		private EnumHand hand;
 		
-		public MyContainer(World world, int i, int j, int k, EntityPlayer player) {
+		public MyContainer(World world, EntityLiving entity, EntityPlayer player) {
 			this.hand = null == player.getActiveHand() ? EnumHand.MAIN_HAND : player.getActiveHand();
 			this.hand = player.getHeldItem(this.hand).getItem() instanceof ItemBookChuansong ? this.hand : (this.hand == EnumHand.MAIN_HAND ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND);
 			this.bookTag = player.getHeldItem(this.hand).getTagCompound();
@@ -101,8 +102,8 @@ public class GuiEntityTaoistPriest {
 	    private final InventoryPlayer playerInventory;
 		private IInventory bookInv;
 
-		public MyGuiContainer(World world, int i, int j, int k, EntityPlayer player) {
-			super(new MyContainer(world, i, j, k, player));
+		public MyGuiContainer(World world, EntityLiving entity, EntityPlayer player) {
+			super(new MyContainer(world, entity, player));
 			this.xSize = 176;
 			this.ySize = 166;
 			playerInventory = player.inventory;

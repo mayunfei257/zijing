@@ -5,13 +5,17 @@ import java.text.DecimalFormat;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.Sets;
 import com.zijing.ZijingMod;
 import com.zijing.entity.ai.EntityAIAttackMeleeZJ;
 import com.zijing.entity.ai.EntityAIAttackRangedZJ;
 import com.zijing.entity.ai.EntityAIDefendVillageZJ;
 import com.zijing.entity.ai.EntityAILookAtVillagerZJ;
+import com.zijing.items.ItemDanZiling;
 import com.zijing.items.staff.ItemStaffKongjian;
+import com.zijing.main.BaseControl;
 import com.zijing.main.itf.EntityHasShepherdCapability;
+import com.zijing.main.itf.MagicSource;
 import com.zijing.main.playerdata.ShepherdCapability;
 import com.zijing.util.EntityUtil;
 import com.zijing.util.MathUtil;
@@ -31,6 +35,7 @@ import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAIMoveTowardsTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.boss.EntityDragon;
@@ -97,15 +102,16 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 	@Override
     protected void initEntityAI(){
 		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(1, new EntityAIAttackRangedZJ(this, 1.0D, 20, 6D, 32.0F, ItemStaffKongjian.MagicSkill1));
-        this.tasks.addTask(2, new EntityAIAttackMeleeZJ(this, 1.0D, 10, true));
-        this.tasks.addTask(3, new EntityAIMoveTowardsTarget(this, 0.9D, 32.0F));
-        this.tasks.addTask(4, new EntityAIMoveThroughVillage(this, 0.6D, true));
-        this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
-        this.tasks.addTask(6, new EntityAILookAtVillagerZJ(this));
-        this.tasks.addTask(7, new EntityAIWanderAvoidWater(this, 0.6D));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(9, new EntityAILookIdle(this));
+        this.tasks.addTask(1, new EntityAITempt(this, 1.0D, false, Sets.newHashSet(BaseControl.itemZiqi, BaseControl.itemZijing, BaseControl.itemDanZiling)));
+		this.tasks.addTask(2, new EntityAIAttackRangedZJ(this, 1.0D, 20, 6D, 32.0F, ItemStaffKongjian.MagicSkill1));
+        this.tasks.addTask(3, new EntityAIAttackMeleeZJ(this, 1.1D, 10, true));
+        this.tasks.addTask(4, new EntityAIMoveTowardsTarget(this, 0.9D, 32.0F));
+        this.tasks.addTask(5, new EntityAIMoveThroughVillage(this, 0.6D, true));
+        this.tasks.addTask(6, new EntityAIMoveTowardsRestriction(this, 1.0D));
+        this.tasks.addTask(7, new EntityAILookAtVillagerZJ(this));
+        this.tasks.addTask(8, new EntityAIWanderAvoidWater(this, 0.6D));
+        this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        this.tasks.addTask(10, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIDefendVillageZJ(this));
         this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false, new Class[0]));
         this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, true, false, new Predicate<EntityLiving>(){
@@ -332,6 +338,18 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
     
 	@Override
     protected boolean processInteract(EntityPlayer player, EnumHand hand){
+		if(!this.world.isRemote) {
+			ItemStack itemStack = player.getHeldItem(hand);
+			if(itemStack.getItem() instanceof MagicSource && this.shepherdCapability.getMagic() < this.shepherdCapability.getMaxMagic()) {
+				this.shepherdCapability.setMagic(Math.min(this.shepherdCapability.getMaxMagic(), this.shepherdCapability.getMagic() + ((MagicSource)itemStack.getItem()).getMagicEnergy()));
+				itemStack.shrink(1);
+			}else if(itemStack.getItem() == BaseControl.itemDanZiling){
+				((ItemDanZiling)BaseControl.itemDanZiling).onFoodEatenByEntityLivingBase(this);
+				itemStack.shrink(1);
+			}else {
+				
+			}
+		}
 		DecimalFormat df1 = new DecimalFormat("#0.0");
 		DecimalFormat df2 = new DecimalFormat("#0.00");
 		DecimalFormat df4 = new DecimalFormat("#0.0000");
@@ -339,10 +357,10 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 		player.sendMessage(new TextComponentString("blood: " + df1.format(this.shepherdCapability.getBlood()) + "/" + df1.format(this.shepherdCapability.getMaxBlood())));
 		player.sendMessage(new TextComponentString("magic: " + df1.format(this.shepherdCapability.getMagic()) + "/" + df1.format(this.shepherdCapability.getMaxMagic())));
 		player.sendMessage(new TextComponentString("speed: " + df2.format(this.shepherdCapability.getSpeed())));
-		player.sendMessage(new TextComponentString("power: " + df2.format(this.shepherdCapability.getPower()) + " + " + df2.format(this.swordDamage)));
+		player.sendMessage(new TextComponentString("power: " + df2.format(this.shepherdCapability.getPower())));
 		player.sendMessage(new TextComponentString("bloodRestore: " + df4.format(this.shepherdCapability.getBloodRestore()) + "/T"));
 		player.sendMessage(new TextComponentString("magicRestore: " + df4.format(this.shepherdCapability.getMagicRestore()) + "/T"));
-		player.sendMessage(new TextComponentString("physicalDefense: " + df2.format(this.shepherdCapability.getPhysicalDefense())  + " + " + df2.format(this.armorValue)));
+		player.sendMessage(new TextComponentString("physicalDefense: " + df2.format(this.shepherdCapability.getPhysicalDefense())));
 		player.sendMessage(new TextComponentString("experience: " + df2.format(this.experience) + "/" + this.nextLevelNeedExperience));
 		return true;
     }

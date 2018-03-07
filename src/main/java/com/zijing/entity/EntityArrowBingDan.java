@@ -20,6 +20,8 @@ import net.minecraft.world.World;
 
 public class EntityArrowBingDan extends EntityThrowable {
 	private float attackDamage = 4;
+	private float slownessProbability = 0.125F;
+	private int slownessStrength = 2;
 
 	public EntityArrowBingDan(World a) {
 		super(a);
@@ -33,9 +35,11 @@ public class EntityArrowBingDan extends EntityThrowable {
 		super(worldIn, shooter);
 	}
 
-	public EntityArrowBingDan(World worldIn, EntityLivingBase shooter, float attackDamage) {
+	public EntityArrowBingDan(World worldIn, EntityLivingBase shooter, float attackDamage, float slownessProbability, int slownessStrength) {
 		super(worldIn, shooter);
 		this.attackDamage = attackDamage;
+		this.slownessProbability = slownessProbability;
+		this.slownessStrength = slownessStrength;
 	}
 	
 	@Override
@@ -49,10 +53,8 @@ public class EntityArrowBingDan extends EntityThrowable {
 		BlockPos blockPos = raytraceResultIn.getBlockPos();
 		if(null != entity && !this.world.isRemote && entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer) && entity != this.thrower && !(entity instanceof EntityHasShepherdCapability)) {
 			entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), this.attackDamage);
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 60, this.world.rand.nextInt(4) + 2));
-			if(this.world.rand.nextFloat() < 0.125D) {
-				entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), this.attackDamage);
-				((EntityLivingBase) entity).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 100, 7));
+			if(this.world.rand.nextFloat() < this.slownessProbability) {
+				((EntityLivingBase) entity).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 80, this.slownessStrength));
 			}
 			world.playSound((EntityPlayer) null, entity.posX, entity.posY + 0.5D, entity.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.arrow.hit")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 			this.setDead();

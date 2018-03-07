@@ -41,7 +41,9 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -50,6 +52,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -86,7 +89,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 	@Override
 	protected void initEntityAI() {
 		this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAITempt(this, 1.0D, false, Sets.newHashSet(BaseControl.itemZiqi, BaseControl.itemZijing, BaseControl.itemDanZiling)));
+        this.tasks.addTask(1, new EntityAITempt(this, 1.0D, false, Sets.newHashSet(BaseControl.itemZiqi, BaseControl.itemZijing, BaseControl.itemDanZiling, Item.getItemFromBlock(Blocks.RED_FLOWER), Item.getItemFromBlock(Blocks.YELLOW_FLOWER))));
         this.tasks.addTask(2, new EntityAIAttackRangedZJ(this, 1.0D, 15, 2.83D, 32.0F, ItemStaffBingxue.MagicSkill1));
         this.tasks.addTask(3, new EntityAIAttackMeleeZJ(this, 1.0D, 10, false));
         this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
@@ -199,18 +202,32 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 
 	@Override
 	public boolean processInteract(EntityPlayer player, EnumHand hand) {
+		ItemStack itemStack = player.getHeldItem(hand);
 		if(!this.world.isRemote) {
-			ItemStack itemStack = player.getHeldItem(hand);
 			if(itemStack.getItem() instanceof MagicSource && this.shepherdCapability.getMagic() < this.shepherdCapability.getMaxMagic()) {
 				this.shepherdCapability.setMagic(Math.min(this.shepherdCapability.getMaxMagic(), this.shepherdCapability.getMagic() + ((MagicSource)itemStack.getItem()).getMagicEnergy()));
 				itemStack.shrink(1);
 			}else if(itemStack.getItem() == BaseControl.itemDanZiling){
-				this.shepherdCapability.setBlood(Math.min(this.shepherdCapability.getMaxBlood(), this.shepherdCapability.getBlood() + ((ItemDanZiling)itemStack.getItem()).effectTick/40.0D));
-				this.shepherdCapability.setMagic(Math.min(this.shepherdCapability.getMaxMagic(), this.shepherdCapability.getMagic() + ((ItemDanZiling)itemStack.getItem()).magicRestore));
-				this.setHealth((float)this.shepherdCapability.getBlood());
+				((ItemDanZiling)BaseControl.itemDanZiling).onFoodEatenByEntityLivingBase(this);
 				itemStack.shrink(1);
+			}else if(itemStack.getItem() == Item.getItemFromBlock(Blocks.RED_FLOWER) || itemStack.getItem() == Item.getItemFromBlock(Blocks.YELLOW_FLOWER)){
+				this.experience += 5;
+				itemStack.shrink(1);
+			}else if(player instanceof EntityPlayerMP){
+//				EntityPlayerMP playerMp = (EntityPlayerMP)player;
+//				playerMp.getNextWindowId();
+//				playerMp.openContainer = new GuiEntityTaoistPriest.MyContainer(world, this, playerMp);
+//				playerMp.openContainer.windowId = playerMp.currentWindowId;
+//				playerMp.openContainer.addListener(playerMp);
+//		        MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(playerMp, playerMp.openContainer));
+			}
+		}else {
+			if(itemStack.getItem() == Item.getItemFromBlock(Blocks.RED_FLOWER) || itemStack.getItem() == Item.getItemFromBlock(Blocks.YELLOW_FLOWER)){
+		        for (int i = 0; i < 5; ++i){
+		            this.world.spawnParticle(EnumParticleTypes.HEART, this.posX + (this.rand.nextFloat() * this.width * 2.0F) - this.width, this.posY + 1.0D + (this.rand.nextFloat() * this.height), this.posZ + (this.rand.nextFloat() * this.width * 2.0F) - this.width, this.rand.nextGaussian() * 0.02D, this.rand.nextGaussian() * 0.02D, this.rand.nextGaussian() * 0.02D);
+		        }
 			}else {
-				
+//				Minecraft.getMinecraft().displayGuiScreen(new GuiEntityTaoistPriest.MyGuiContainer(this.world, this, player));
 			}
 		}
 		DecimalFormat df1 = new DecimalFormat("#0.0");
@@ -268,7 +285,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
         	if(this.world.rand.nextFloat() < 0.25D) {
         		entityDan = new EntityArrowHuoDan(world, this, attackDamage, 0F, 0F);
         	}else {
-        		entityDan = new EntityArrowBingDan(world, this, attackDamage);
+        		entityDan = new EntityArrowBingDan(world, this, attackDamage, 0.125F, 2);
         	}
     		entityDan.shoot(target.posX - this.posX, target.getEntityBoundingBox().minY + target.height * 0.75D - entityDan.posY, target.posZ - this.posZ, 3.0F, 0);
     		this.world.spawnEntity(entityDan);

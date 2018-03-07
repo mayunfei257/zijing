@@ -49,7 +49,7 @@ entity.entityArrowBingDan.name=¡ì6bingDan
 entity.entityArrowHuoDan.name=¡ì6huoDan
 entity.entityArrowXukongDan.name=¡ì6xukongDan
 entity.entityArrowFengyinDan.name=¡ì6fengyinDan
-entity.entitySummonTaoistPriest.name=¡ì6Shushan Disciples
+entity.entitySummonTaoistPriest.name=¡ì6Shushan female disciple
 entity.entitySummonIronGolem.name=¡ì6Super IronGolem
 entity.entitySummonSnowman.name=¡ì6Super Snowman
 
@@ -101,7 +101,7 @@ zijingmod.itemArmorZijingLegs.skill1=¡ì4Injured will get resistance for %d secon
 zijingmod.itemArmorZijingBoots.skill1=¡ì4Injured will get speed for %d seconds.
 
 #FY_Entity-------------------------------------------------------------------------
-zijingmod.entitySummonTaoistPriest.name=¡ì6LV%d Shushan Disciples
+zijingmod.entitySummonTaoistPriest.name=¡ì6LV%d Shushan female disciple
 zijingmod.entitySummonIronGolem.name=¡ì6LV%d Super IronGolem
 zijingmod.entitySummonSnowman.name=¡ì6LV%d Super Snowman
 
