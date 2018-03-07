@@ -19,7 +19,8 @@ import net.minecraft.world.World;
 
 public class EntityArrowHuoDan extends EntityThrowable {
 	private float attackDamage = 3;
-	private boolean canExplosion = true;
+	private float explosionProbability = 0.125F;
+	private float explosionStrength = 1F;
 	
 	public EntityArrowHuoDan(World a) {
 		super(a);
@@ -33,10 +34,11 @@ public class EntityArrowHuoDan extends EntityThrowable {
 		super(worldIn, shooter);
 	}
 	
-	public EntityArrowHuoDan(World worldIn, EntityLivingBase shooter, float attackDamage, boolean canExplosion) {
+	public EntityArrowHuoDan(World worldIn, EntityLivingBase shooter, float attackDamage, float explosionProbability, float explosionStrength) {
 		super(worldIn, shooter);
 		this.attackDamage = attackDamage;
-		this.canExplosion = canExplosion;
+		this.explosionProbability = explosionProbability;
+		this.explosionStrength = explosionStrength;
 	}
 
 	@Override
@@ -51,8 +53,8 @@ public class EntityArrowHuoDan extends EntityThrowable {
 		if(null != entity && !this.world.isRemote && entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer) && entity != this.thrower && !(entity instanceof EntityHasShepherdCapability)) {
 			entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), this.attackDamage);
 			entity.setFire(3);
-			if(this.world.rand.nextFloat() < 0.125D && this.canExplosion) {
-				this.world.createExplosion(this, entity.posX, entity.posY, entity.posZ, 1F, true);
+			if(this.world.rand.nextFloat() < this.explosionProbability) {
+				this.world.createExplosion(this, entity.posX, entity.posY, entity.posZ, this.explosionStrength, true);
 			}
 			world.playSound((EntityPlayer) null, entity.posX, entity.posY + 0.5D, entity.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.generic.explode")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 			this.setDead();
@@ -74,9 +76,9 @@ public class EntityArrowHuoDan extends EntityThrowable {
 						this.world.setBlockState(blockPos.offset(raytraceResultIn.sideHit), Blocks.FIRE.getDefaultState());
 					}
 				}
-				if(this.world.rand.nextFloat() < 0.125D && this.canExplosion) {
+				if(this.world.rand.nextFloat() < this.explosionProbability) {
 					BlockPos blockPosTemp = blockPos.offset(raytraceResultIn.sideHit);
-					this.world.createExplosion(this, blockPosTemp.getX(), blockPosTemp.getY(), blockPosTemp.getZ(), 1F, true);
+					this.world.createExplosion(this, blockPosTemp.getX(), blockPosTemp.getY(), blockPosTemp.getZ(), this.explosionStrength, true);
 				}
 				world.playSound((EntityPlayer) null, blockPos.getX() + 0.5D, blockPos.getY() + 0.5D, blockPos.getZ() + 0.5D, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.generic.explode")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 				this.setDead();

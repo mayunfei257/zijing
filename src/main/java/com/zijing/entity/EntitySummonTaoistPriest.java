@@ -266,7 +266,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
         	float attackDamage =  (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
         	EntityThrowable entityDan;
         	if(this.world.rand.nextFloat() < 0.25D) {
-        		entityDan = new EntityArrowHuoDan(world, this, attackDamage, false);
+        		entityDan = new EntityArrowHuoDan(world, this, attackDamage, 0F, 0F);
         	}else {
         		entityDan = new EntityArrowBingDan(world, this, attackDamage);
         	}
