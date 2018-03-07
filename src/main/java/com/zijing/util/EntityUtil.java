@@ -202,7 +202,7 @@ public class EntityUtil {
         	shepherdEntity.setSwordDamage(0);
         	ItemStack itemStack5 = entity.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
         	if(null != itemStack5.getItem() && itemStack5.getItem() instanceof ItemSword) {
-        		shepherdEntity.setSwordDamage(shepherdEntity.getSwordDamage() + ((ItemSword)itemStack5.getItem()).getAttackDamage());
+        		shepherdEntity.setSwordDamage(shepherdEntity.getSwordDamage() + ((ItemSword)itemStack5.getItem()).getAttackDamage() + 4F);
         	}
 //			if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.OFFHAND)) {
 //				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.OFFHAND)));

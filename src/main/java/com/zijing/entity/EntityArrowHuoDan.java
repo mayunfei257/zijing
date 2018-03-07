@@ -19,6 +19,7 @@ import net.minecraft.world.World;
 
 public class EntityArrowHuoDan extends EntityThrowable {
 	private float attackDamage = 3;
+	private boolean canExplosion = true;
 	
 	public EntityArrowHuoDan(World a) {
 		super(a);
@@ -32,9 +33,10 @@ public class EntityArrowHuoDan extends EntityThrowable {
 		super(worldIn, shooter);
 	}
 	
-	public EntityArrowHuoDan(World worldIn, EntityLivingBase shooter, float attackDamage) {
+	public EntityArrowHuoDan(World worldIn, EntityLivingBase shooter, float attackDamage, boolean canExplosion) {
 		super(worldIn, shooter);
 		this.attackDamage = attackDamage;
+		this.canExplosion = canExplosion;
 	}
 
 	@Override
@@ -49,7 +51,7 @@ public class EntityArrowHuoDan extends EntityThrowable {
 		if(null != entity && !this.world.isRemote && entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer) && entity != this.thrower && !(entity instanceof EntityHasShepherdCapability)) {
 			entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), this.attackDamage);
 			entity.setFire(3);
-			if(this.world.rand.nextFloat() < 0.125D) {
+			if(this.world.rand.nextFloat() < 0.125D && this.canExplosion) {
 				this.world.createExplosion(this, entity.posX, entity.posY, entity.posZ, 1F, true);
 			}
 			world.playSound((EntityPlayer) null, entity.posX, entity.posY + 0.5D, entity.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.generic.explode")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
@@ -72,7 +74,7 @@ public class EntityArrowHuoDan extends EntityThrowable {
 						this.world.setBlockState(blockPos.offset(raytraceResultIn.sideHit), Blocks.FIRE.getDefaultState());
 					}
 				}
-				if(this.world.rand.nextFloat() < 0.125D) {
+				if(this.world.rand.nextFloat() < 0.125D && this.canExplosion) {
 					BlockPos blockPosTemp = blockPos.offset(raytraceResultIn.sideHit);
 					this.world.createExplosion(this, blockPosTemp.getX(), blockPosTemp.getY(), blockPosTemp.getZ(), 1F, true);
 				}

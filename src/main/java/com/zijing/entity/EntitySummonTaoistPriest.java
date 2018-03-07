@@ -41,6 +41,7 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -137,6 +138,8 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
         this.experience = compound.getDouble(ZijingMod.MODID + ":experience");
         this.nextLevelNeedExperience = compound.getInteger(ZijingMod.MODID + ":nextLevelNeedExperience");
         this.shepherdCapability.readNBT(null, compound.getTag(ZijingMod.MODID + ":shepherdCapability"));
+        this.updataSwordDamageAndArmorValue();
+        EntityUtil.setEntityAllValue(this);
     }
 	
 	@Override
@@ -172,23 +175,25 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 	@Override
 	public void onDeath(DamageSource source) {
 		super.onDeath(source);
-		if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND)) {
-			this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND)));
-		}
-		if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.OFFHAND)) {
-			this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.OFFHAND)));
-		}
-		if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.HEAD)) {
-			this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.HEAD)));
-		}
-		if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.CHEST)) {
-			this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.CHEST)));
-		}
-		if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.LEGS)) {
-			this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.LEGS)));
-		}
-		if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.FEET)) {
-			this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.FEET)));
+		if(!this.world.isRemote) {
+			if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND)) {
+				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND)));
+			}
+			if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.OFFHAND)) {
+				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.OFFHAND)));
+			}
+			if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.HEAD)) {
+				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.HEAD)));
+			}
+			if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.CHEST)) {
+				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.CHEST)));
+			}
+			if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.LEGS)) {
+				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.LEGS)));
+			}
+			if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.FEET)) {
+				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.FEET)));
+			}
 		}
 	}
 
@@ -215,10 +220,10 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 		player.sendMessage(new TextComponentString("blood: " + df1.format(this.shepherdCapability.getBlood()) + "/" + df1.format(this.shepherdCapability.getMaxBlood())));
 		player.sendMessage(new TextComponentString("magic: " + df1.format(this.shepherdCapability.getMagic()) + "/" + df1.format(this.shepherdCapability.getMaxMagic())));
 		player.sendMessage(new TextComponentString("speed: " + df2.format(this.shepherdCapability.getSpeed())));
-		player.sendMessage(new TextComponentString("power: " + df2.format(this.shepherdCapability.getPower()) + " + " + df2.format(this.swordDamage)));
+		player.sendMessage(new TextComponentString("power: " + df2.format(this.shepherdCapability.getPower() + this.swordDamage)  + " ( " + df2.format(this.shepherdCapability.getPower()) + " + " + df2.format(this.swordDamage) + " )"));
 		player.sendMessage(new TextComponentString("bloodRestore: " + df4.format(this.shepherdCapability.getBloodRestore()) + "/T"));
 		player.sendMessage(new TextComponentString("magicRestore: " + df4.format(this.shepherdCapability.getMagicRestore()) + "/T"));
-		player.sendMessage(new TextComponentString("physicalDefense: " + df2.format(this.shepherdCapability.getPhysicalDefense())  + " + " + df2.format(this.armorValue)));
+		player.sendMessage(new TextComponentString("physicalDefense: " + df2.format(shepherdCapability.getPhysicalDefense() + this.armorValue) + " ( " + df2.format(this.shepherdCapability.getPhysicalDefense())  + " + " + df2.format(this.armorValue) + " )"));
 		player.sendMessage(new TextComponentString("experience: " + df2.format(this.experience) + "/" + this.nextLevelNeedExperience));
 		return true;
 	}
@@ -259,9 +264,14 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 	public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
         if(!this.world.isRemote && this.shepherdCapability.getMagic() >= ItemStaffBingxue.MagicSkill1) {
         	float attackDamage =  (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
-    		EntityArrowBingDan bingDan = new EntityArrowBingDan(world, this, attackDamage);
-    		bingDan.shoot(target.posX - this.posX, target.getEntityBoundingBox().minY + target.height * 0.75D - bingDan.posY, target.posZ - this.posZ, 3.0F, 0);
-    		this.world.spawnEntity(bingDan);
+        	EntityThrowable entityDan;
+        	if(this.world.rand.nextFloat() < 0.25D) {
+        		entityDan = new EntityArrowHuoDan(world, this, attackDamage, false);
+        	}else {
+        		entityDan = new EntityArrowBingDan(world, this, attackDamage);
+        	}
+    		entityDan.shoot(target.posX - this.posX, target.getEntityBoundingBox().minY + target.height * 0.75D - entityDan.posY, target.posZ - this.posZ, 3.0F, 0);
+    		this.world.spawnEntity(entityDan);
     		this.world.playSound((EntityPlayer) null, this.posX, this.posY + 1D, this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
     		this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - ItemStaffBingxue.MagicSkill1);
 			this.experience += attackDamage;
@@ -340,7 +350,9 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 
 	@Override
 	public boolean updataSwordDamageAndArmorValue() {
-		EntityUtil.setEntityArmorValueAndSwordDamage(this);
+		if(!this.world.isRemote) {
+			EntityUtil.setEntityArmorValueAndSwordDamage(this);
+		}
 		return true;
 	}
 }

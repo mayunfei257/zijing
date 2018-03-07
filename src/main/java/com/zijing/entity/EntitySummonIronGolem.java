@@ -243,6 +243,8 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
         this.experience = compound.getDouble(ZijingMod.MODID + ":experience");
         this.nextLevelNeedExperience = compound.getInteger(ZijingMod.MODID + ":nextLevelNeedExperience");
         this.shepherdCapability.readNBT(null, compound.getTag(ZijingMod.MODID + ":shepherdCapability"));
+        this.updataSwordDamageAndArmorValue();
+        EntityUtil.setEntityAllValue(this);
     }
 
 	@Override
@@ -409,7 +411,9 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 
 	@Override
 	public boolean updataSwordDamageAndArmorValue() {
-		EntityUtil.setEntityArmorValueAndSwordDamage(this);
+		if(!this.world.isRemote) {
+			EntityUtil.setEntityArmorValueAndSwordDamage(this);
+		}
 		return true;
 	}
 }
