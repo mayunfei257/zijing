@@ -165,7 +165,7 @@ public class EntityUtil {
     		entity.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(shepherdCapability.getMaxBlood());
     		entity.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(shepherdCapability.getSpeed());
     		entity.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1D + shepherdCapability.getPower());
-    		entity.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(shepherdCapability.getPhysicalDefense() + shepherdEntity.getArmorValue());
+    		entity.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(shepherdCapability.getPhysicalDefense());// + shepherdEntity.getArmorValue()
     		entity.setHealth((float)shepherdCapability.getBlood());
     	}
 		return true;
@@ -197,7 +197,7 @@ public class EntityUtil {
         	if(null != itemStack4.getItem() && itemStack4.getItem() instanceof ItemArmor) {
         		shepherdEntity.setArmorValue(shepherdEntity.getArmorValue() + ((ItemArmor)itemStack4.getItem()).damageReduceAmount);
         	}
-    		entity.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(shepherdCapability.getPhysicalDefense() + shepherdEntity.getArmorValue());
+//    		entity.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(shepherdCapability.getPhysicalDefense() + shepherdEntity.getArmorValue());
     		
         	shepherdEntity.setSwordDamage(0);
         	ItemStack itemStack5 = entity.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);

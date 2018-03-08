@@ -95,8 +95,15 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
     }
 
 	public EntitySummonIronGolem(World world, int baseLevel) {
-		this(world);
+        super(world);
+		this.swordDamage = 0;
+		this.armorValue = 0;
 		this.baseLevel = baseLevel;
+		this.setBaseShepherdCapability();
+		this.setNoAI(false);
+		this.enablePersistence();
+		this.setAlwaysRenderNameTag(true);
+        this.setSize(1.4F, 2.7F);
 	}
 
 	@Override

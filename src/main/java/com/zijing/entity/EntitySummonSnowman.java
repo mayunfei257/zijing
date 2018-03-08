@@ -77,8 +77,15 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
     }
 
 	public EntitySummonSnowman(World world, int baseLevel) {
-		this(world);
+        super(world);
+		this.swordDamage = 0;
+		this.armorValue = 0;
 		this.baseLevel = baseLevel;
+		this.setBaseShepherdCapability();
+		this.setNoAI(false);
+		this.enablePersistence();
+		this.setAlwaysRenderNameTag(true);
+        this.setSize(0.7F, 1.9F);
 	}
 
 	@Override
