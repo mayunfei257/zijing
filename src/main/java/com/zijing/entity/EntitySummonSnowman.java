@@ -1,7 +1,5 @@
 package com.zijing.entity;
 
-import java.text.DecimalFormat;
-
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Sets;
@@ -11,8 +9,10 @@ import com.zijing.entity.ai.EntityAIPanicZJ;
 import com.zijing.items.ItemDanZiling;
 import com.zijing.items.staff.ItemStaffBingxue;
 import com.zijing.main.BaseControl;
+import com.zijing.main.gui.GuiEntityTaoistPriest;
 import com.zijing.main.itf.EntityHasShepherdCapability;
 import com.zijing.main.itf.MagicSource;
+import com.zijing.main.message.OpenClientGUIMessage;
 import com.zijing.main.playerdata.ShepherdCapability;
 import com.zijing.util.EntityUtil;
 import com.zijing.util.MathUtil;
@@ -37,6 +37,7 @@ import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -51,10 +52,11 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 
 public class EntitySummonSnowman extends EntityGolem implements EntityHasShepherdCapability,IRangedAttackMob, net.minecraftforge.common.IShearable{
     private static final DataParameter<Byte> PUMPKIN_EQUIPPED = EntityDataManager.<Byte>createKey(EntitySnowman.class, DataSerializers.BYTE);
@@ -228,22 +230,16 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 			}else if(itemStack.getItem() == BaseControl.itemDanZiling){
 				((ItemDanZiling)BaseControl.itemDanZiling).onFoodEatenByEntityLivingBase(this);
 				itemStack.shrink(1);
-			}else {
-				
+			}else if(player instanceof EntityPlayerMP){
+				EntityPlayerMP playerMp = (EntityPlayerMP)player;
+				playerMp.getNextWindowId();
+				playerMp.openContainer = new GuiEntityTaoistPriest.MyContainer(world, this, playerMp);
+				playerMp.openContainer.windowId = playerMp.currentWindowId;
+				playerMp.openContainer.addListener(playerMp);
+		        MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(playerMp, playerMp.openContainer));
+		        BaseControl.netWorkWrapper.sendTo(new OpenClientGUIMessage(GuiEntityTaoistPriest.GUIID, this.getEntityId()), (EntityPlayerMP)player);
 			}
 		}
-		DecimalFormat df1 = new DecimalFormat("#0.0");
-		DecimalFormat df2 = new DecimalFormat("#0.00");
-		DecimalFormat df4 = new DecimalFormat("#0.0000");
-		player.sendMessage(new TextComponentString("level: " + this.shepherdCapability.getLevel()));
-		player.sendMessage(new TextComponentString("blood: " + df1.format(this.shepherdCapability.getBlood()) + "/" + df1.format(this.shepherdCapability.getMaxBlood())));
-		player.sendMessage(new TextComponentString("magic: " + df1.format(this.shepherdCapability.getMagic()) + "/" + df1.format(this.shepherdCapability.getMaxMagic())));
-		player.sendMessage(new TextComponentString("speed: " + df2.format(this.shepherdCapability.getSpeed())));
-		player.sendMessage(new TextComponentString("power: " + df2.format(this.shepherdCapability.getPower())));
-		player.sendMessage(new TextComponentString("bloodRestore: " + df4.format(this.shepherdCapability.getBloodRestore()) + "/T"));
-		player.sendMessage(new TextComponentString("magicRestore: " + df4.format(this.shepherdCapability.getMagicRestore()) + "/T"));
-		player.sendMessage(new TextComponentString("physicalDefense: " + df2.format(this.shepherdCapability.getPhysicalDefense())));
-		player.sendMessage(new TextComponentString("experience: " + df2.format(this.experience) + "/" + this.nextLevelNeedExperience));
 		return true;
     }
 

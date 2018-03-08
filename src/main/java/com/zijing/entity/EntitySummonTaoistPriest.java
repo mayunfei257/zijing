@@ -13,11 +13,11 @@ import com.zijing.main.BaseControl;
 import com.zijing.main.gui.GuiEntityTaoistPriest;
 import com.zijing.main.itf.EntityHasShepherdCapability;
 import com.zijing.main.itf.MagicSource;
+import com.zijing.main.message.OpenClientGUIMessage;
 import com.zijing.main.playerdata.ShepherdCapability;
 import com.zijing.util.EntityUtil;
 import com.zijing.util.MathUtil;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
@@ -230,14 +230,13 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 				playerMp.openContainer.windowId = playerMp.currentWindowId;
 				playerMp.openContainer.addListener(playerMp);
 		        MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(playerMp, playerMp.openContainer));
+		        BaseControl.netWorkWrapper.sendTo(new OpenClientGUIMessage(GuiEntityTaoistPriest.GUIID, this.getEntityId()), (EntityPlayerMP)player);
 			}
 		}else {
 			if(itemStack.getItem() == Item.getItemFromBlock(Blocks.RED_FLOWER) || itemStack.getItem() == Item.getItemFromBlock(Blocks.YELLOW_FLOWER)){
 		        for (int i = 0; i < 5; ++i){
 		            this.world.spawnParticle(EnumParticleTypes.HEART, this.posX + (this.rand.nextFloat() * this.width * 2.0F) - this.width, this.posY + 1.0D + (this.rand.nextFloat() * this.height), this.posZ + (this.rand.nextFloat() * this.width * 2.0F) - this.width, this.rand.nextGaussian() * 0.02D, this.rand.nextGaussian() * 0.02D, this.rand.nextGaussian() * 0.02D);
 		        }
-			}else {
-				Minecraft.getMinecraft().displayGuiScreen(new GuiEntityTaoistPriest.MyGuiContainer(this.world, this, player));
 			}
 		}
 //		DecimalFormat df1 = new DecimalFormat("#0.0");

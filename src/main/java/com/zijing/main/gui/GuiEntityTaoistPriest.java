@@ -143,7 +143,7 @@ public class GuiEntityTaoistPriest {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.getTextureManager().bindTexture(texture);
 			this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-	        drawEntityOnScreen(this.guiLeft + 7, this.guiTop + 7, 30, (EntityLiving)this.shepherdEntity);
+	        drawEntityOnScreen(this.guiLeft + 33, this.guiTop + 78, 30, (EntityLiving)this.shepherdEntity);//7 7 , 58 77
 		}
 		
 		@Override
@@ -151,19 +151,19 @@ public class GuiEntityTaoistPriest {
 			if(null != shepherdCapability) {
 //				int tempFontSize = this.fontRenderer.FONT_HEIGHT;
 //				this.fontRenderer.FONT_HEIGHT = 7;
-				this.fontRenderer.drawString("name: " + ((EntityLiving)this.shepherdEntity).getCustomNameTag(), 63, 8, 0xFF9933);
-				this.fontRenderer.drawString("level: " + shepherdCapability.getLevel(), 63, 16, 0xFF9933);
-				this.fontRenderer.drawString("race: " + shepherdCapability.getRace(), 63, 24, 0xFF9933);
-				this.fontRenderer.drawString("blood: " + df1.format(shepherdCapability.getBlood()) + "/" + df1.format(shepherdCapability.getMaxBlood()), 63, 32, 0xFF9933);
-				this.fontRenderer.drawString("magic: " + df1.format(shepherdCapability.getMagic()) + "/" + df1.format(shepherdCapability.getMaxMagic()), 63, 40, 0xFF9933);
-				this.fontRenderer.drawString("speed: " + df2.format(shepherdCapability.getSpeed()), 63, 48, 0xFF9933);
-				this.fontRenderer.drawString("power: " + df2.format(shepherdCapability.getPower()), 63, 56, 0xFF9933);
+				this.fontRenderer.drawString("name: " + ((EntityLiving)this.shepherdEntity).getCustomNameTag(), 65, 8, 0xFF9933);
+				this.fontRenderer.drawString("level: " + shepherdCapability.getLevel(), 65, 16, 0xFF9933);
+				this.fontRenderer.drawString("race: " + shepherdCapability.getRace(), 65, 24, 0xFF9933);
+				this.fontRenderer.drawString("blood: " + df1.format(shepherdCapability.getBlood()) + "/" + df1.format(shepherdCapability.getMaxBlood()), 65, 32, 0xFF9933);
+				this.fontRenderer.drawString("magic: " + df1.format(shepherdCapability.getMagic()) + "/" + df1.format(shepherdCapability.getMaxMagic()), 65, 40, 0xFF9933);
+				this.fontRenderer.drawString("speed: " + df2.format(shepherdCapability.getSpeed()), 65, 48, 0xFF9933);
+				this.fontRenderer.drawString("power: " + df2.format(shepherdCapability.getPower()), 65, 56, 0xFF9933);
 				this.fontRenderer.drawString("intellect: " + df2.format(shepherdCapability.getIntellect()), 63, 64, 0xFF9933);
-				this.fontRenderer.drawString("bloodRestore: " + df4.format(shepherdCapability.getBloodRestore()) + "/T", 63, 72, 0xFF9933);
-				this.fontRenderer.drawString("magicRestore: " + df4.format(shepherdCapability.getMagicRestore()) + "/T", 63, 80, 0xFF9933);
-				this.fontRenderer.drawString("physicalDefense: " + df2.format(shepherdCapability.getPhysicalDefense()), 63, 88, 0xFF9933);
-				this.fontRenderer.drawString("magicDefense: " + df2.format(shepherdCapability.getMagicDefense()), 63, 96, 0xFF9933);
-				this.fontRenderer.drawString("needExperience: " + shepherdEntity.getExperience() + "/" + shepherdEntity.getNextLevelNeedExperience(), 63, 104, 0xFF9933);
+				this.fontRenderer.drawString("bloodRestore: " + df4.format(shepherdCapability.getBloodRestore()) + "/T", 65, 72, 0xFF9933);
+				this.fontRenderer.drawString("magicRestore: " + df4.format(shepherdCapability.getMagicRestore()) + "/T", 65, 80, 0xFF9933);
+				this.fontRenderer.drawString("physicalDefense: " + df2.format(shepherdCapability.getPhysicalDefense()), 65, 88, 0xFF9933);
+				this.fontRenderer.drawString("magicDefense: " + df2.format(shepherdCapability.getMagicDefense()), 65, 96, 0xFF9933);
+				this.fontRenderer.drawString("needExperience: " + shepherdEntity.getExperience() + "/" + shepherdEntity.getNextLevelNeedExperience(), 65, 104, 0xFF9933);
 //				this.fontRenderer.FONT_HEIGHT = tempFontSize;
 			}
 		}
