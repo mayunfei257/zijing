@@ -6,11 +6,11 @@ import com.google.common.collect.Sets;
 import com.zijing.ZijingMod;
 import com.zijing.entity.ai.EntityAIAttackRangedZJ;
 import com.zijing.entity.ai.EntityAIPanicZJ;
-import com.zijing.items.ItemDanZiling;
 import com.zijing.items.staff.ItemStaffBingxue;
 import com.zijing.main.BaseControl;
-import com.zijing.main.gui.GuiEntityTaoistPriest;
+import com.zijing.main.gui.GuiEntityCapability;
 import com.zijing.main.itf.EntityHasShepherdCapability;
+import com.zijing.main.itf.ItemDan;
 import com.zijing.main.itf.MagicSource;
 import com.zijing.main.message.OpenClientGUIMessage;
 import com.zijing.main.message.ShepherdEntityToClientMessage;
@@ -120,7 +120,7 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 		this.shepherdCapability = new ShepherdCapability();
 		this.experience = (int) MathUtil.getUpgradeK(this.shepherdCapability.getLevel(), baseLevel - 1) * ZijingMod.config.getUPGRADE_NEED_XP_K()/2;
 		EntityUtil.upEntityGrade(this, baseLevel - 1);
-		this.setCustomNameTag(I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonSnowman.name", new Object[] {this.shepherdCapability.getLevel()}));
+		this.setCustomNameTag(I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonSnowman.name", new Object[0]));
 	}
 	
 	@Override
@@ -159,7 +159,6 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 		if(!this.isDead && this.getHealth() > 0) {
 			if(this.nextLevelNeedExperience <= this.experience) {
 				EntityUtil.upEntityGrade(this, 1);
-				this.setCustomNameTag(I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonSnowman.name", new Object[] {this.shepherdCapability.getLevel()}));
 			}
 			if(this.getHealth() < this.getMaxHealth()) {
 				this.setHealth(this.getHealth() + (float)this.shepherdCapability.getBloodRestore());
@@ -228,17 +227,17 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 		if(itemStack.getItem() instanceof MagicSource && this.shepherdCapability.getMagic() < this.shepherdCapability.getMaxMagic()) {
 			this.shepherdCapability.setMagic(Math.min(this.shepherdCapability.getMaxMagic(), this.shepherdCapability.getMagic() + ((MagicSource)itemStack.getItem()).getMagicEnergy()));
 			itemStack.shrink(1);
-		}else if(itemStack.getItem() == BaseControl.itemDanZiling){
-			((ItemDanZiling)BaseControl.itemDanZiling).onFoodEatenByEntityLivingBase(this);
+		}else if(itemStack.getItem() instanceof ItemDan){
+			((ItemDan)itemStack.getItem()).onFoodEatenByEntityLivingBase(this);
 			itemStack.shrink(1);
 		}else if(!this.world.isRemote && player instanceof EntityPlayerMP) {
 			EntityPlayerMP playerMp = (EntityPlayerMP)player;
 			playerMp.getNextWindowId();
-			playerMp.openContainer = new GuiEntityTaoistPriest.MyContainer(world, this, playerMp);
+			playerMp.openContainer = new GuiEntityCapability.MyContainer(world, this, playerMp);
 			playerMp.openContainer.windowId = playerMp.currentWindowId;
 			playerMp.openContainer.addListener(playerMp);
 	        MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(playerMp, playerMp.openContainer));
-	        BaseControl.netWorkWrapper.sendTo(new OpenClientGUIMessage(GuiEntityTaoistPriest.GUIID, this.getEntityId()), (EntityPlayerMP)player);
+	        BaseControl.netWorkWrapper.sendTo(new OpenClientGUIMessage(GuiEntityCapability.GUIID, this.getEntityId()), (EntityPlayerMP)player);
 		}
 		return true;
     }
@@ -285,6 +284,10 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
     public void setSwingingArms(boolean swingingArms){
     }
 
+	@Override
+    public int getTalkInterval(){
+        return 80;
+    }
 
 	@Override
 	public double getExperience() {

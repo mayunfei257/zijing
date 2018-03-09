@@ -53,6 +53,9 @@ entity.entitySummonTaoistPriest.name=¡ì6Shushan female disciple
 entity.entitySummonIronGolem.name=¡ì6Super IronGolem
 entity.entitySummonSnowman.name=¡ì6Super Snowman
 
+#FY_Block----------------------------------------------------------------------
+zijingmod.blockZilingCao.1=¡ì4Important plant, Planted on arable land, burned to be ziqi
+
 #FY_Item---------------------------------------------------------------------------
 zijingmod.itemZiqi.magic=¡ì4Magic energy : %d.
 zijingmod.itemZijing.magic=¡ì4Magic energy : %d.
@@ -101,9 +104,25 @@ zijingmod.itemArmorZijingLegs.skill1=¡ì4Injured will get resistance for %d secon
 zijingmod.itemArmorZijingBoots.skill1=¡ì4Injured will get speed for %d seconds.
 
 #FY_Entity-------------------------------------------------------------------------
-zijingmod.entitySummonTaoistPriest.name=¡ì6LV%d Shushan female disciple
-zijingmod.entitySummonIronGolem.name=¡ì6LV%d Super IronGolem
-zijingmod.entitySummonSnowman.name=¡ì6LV%d Super Snowman
+zijingmod.entitySummonTaoistPriest.name=¡ì6Shushan female disciple
+zijingmod.entitySummonIronGolem.name=¡ì6Super IronGolem
+zijingmod.entitySummonSnowman.name=¡ì6Super Snowman
+
+#FY_GUI-------------------------------------------------------------------------
+zijingmod.gui.upGrade=¡ì6¡ìlUpGrade
+zijingmod.gui.name=¡ìlname: ¡ìr
+zijingmod.gui.level=¡ìllevel: ¡ìr
+zijingmod.gui.race=¡ìlrace: ¡ìr
+zijingmod.gui.blood=¡ìlblood: ¡ìr
+zijingmod.gui.magic=¡ìlmagic: ¡ìr
+zijingmod.gui.speed=¡ìlspeed: ¡ìr
+zijingmod.gui.power=¡ìlpower: ¡ìr
+zijingmod.gui.intellect=¡ìlintellect: ¡ìr
+zijingmod.gui.bloodRestore=¡ìlbloodRestore: ¡ìr
+zijingmod.gui.magicRestore=¡ìlmagicRestore: ¡ìr
+zijingmod.gui.physicalDefense=¡ìlphysicalDefense: ¡ìr
+zijingmod.gui.magicDefense=¡ìlmagicDefense: ¡ìr
+zijingmod.gui.needExperience=¡ìlneedExperience: ¡ìr
 
 #FY_BASE---------------------------------------------------------------------------
 zijingmod.line.1=¡ìd----------------.

@@ -1,6 +1,6 @@
 package com.zijing.main.message;
 
-import com.zijing.main.gui.GuiEntityTaoistPriest;
+import com.zijing.main.gui.GuiEntityCapability;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -43,8 +43,8 @@ public class OpenClientGUIMessage implements IMessage {
 					@Override
 					public void run() {
 						EntityPlayer player = Minecraft.getMinecraft().player;
-						if(GUIID == GuiEntityTaoistPriest.GUIID) {
-							Minecraft.getMinecraft().displayGuiScreen(new GuiEntityTaoistPriest.MyGuiContainer(player.world, (EntityLiving)player.world.getEntityByID(EntityId), player));
+						if(GUIID == GuiEntityCapability.GUIID) {
+							Minecraft.getMinecraft().displayGuiScreen(new GuiEntityCapability.MyGuiContainer(player.world, (EntityLiving)player.world.getEntityByID(EntityId), player));
 						}
 					}
 				});

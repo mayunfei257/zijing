@@ -1,12 +1,11 @@
 package com.zijing.items.tool;
 
 import com.zijing.ZijingMod;
+import com.zijing.main.BaseControl;
 import com.zijing.main.ZijingTab;
 
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityBanner;
 import net.minecraft.util.text.translation.I18n;
 
 public class ItemToolZijingDun extends ItemShield{
@@ -21,16 +20,11 @@ public class ItemToolZijingDun extends ItemShield{
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack){
-        if (stack.getSubCompound("BlockEntityTag") != null){
-            EnumDyeColor enumdyecolor = TileEntityBanner.getColor(stack);
-            return I18n.translateToLocal("item.itemToolZijingDun." + enumdyecolor.getUnlocalizedName() + ".name");
-        } else {
-            return I18n.translateToLocal("item.itemToolZijingDun.name");
-        }
+		return I18n.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name").trim();
     }
 
 	@Override
     public boolean getIsRepairable(ItemStack toRepair, ItemStack repair){
-        return true;
+        return repair.getItem() == BaseControl.itemZiqi ? true : super.getIsRepairable(toRepair, repair);
     }
 }

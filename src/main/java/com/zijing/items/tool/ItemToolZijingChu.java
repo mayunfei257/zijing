@@ -21,7 +21,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -57,6 +57,6 @@ public class ItemToolZijingChu extends ItemHoe{
 	@Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flagIn){
-		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemToolZijingChu.skill1", new Object[] {1}));
+		tooltip.add(I18n.format(ZijingMod.MODID + ".itemToolZijingChu.skill1", new Object[] {1}));
     }
 }

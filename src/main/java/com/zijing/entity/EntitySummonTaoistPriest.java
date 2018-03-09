@@ -7,11 +7,12 @@ import com.google.common.collect.Sets;
 import com.zijing.ZijingMod;
 import com.zijing.entity.ai.EntityAIAttackMeleeZJ;
 import com.zijing.entity.ai.EntityAIAttackRangedZJ;
-import com.zijing.items.ItemDanZiling;
 import com.zijing.items.staff.ItemStaffBingxue;
+import com.zijing.items.staff.ItemZilingZhu;
 import com.zijing.main.BaseControl;
-import com.zijing.main.gui.GuiEntityTaoistPriest;
+import com.zijing.main.gui.GuiEntityCapability;
 import com.zijing.main.itf.EntityHasShepherdCapability;
+import com.zijing.main.itf.ItemDan;
 import com.zijing.main.itf.MagicSource;
 import com.zijing.main.message.OpenClientGUIMessage;
 import com.zijing.main.message.ShepherdEntityToClientMessage;
@@ -142,7 +143,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 		this.shepherdCapability = new ShepherdCapability();
 		this.experience = (int) MathUtil.getUpgradeK(this.shepherdCapability.getLevel(), baseLevel - 1) * ZijingMod.config.getUPGRADE_NEED_XP_K()/2;
 		EntityUtil.upEntityGrade(this, baseLevel - 1);
-		this.setCustomNameTag(I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonTaoistPriest.name", new Object[] {this.shepherdCapability.getLevel()}));
+		this.setCustomNameTag(I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonTaoistPriest.name", new Object[0]));
 		if(this.shepherdCapability.getLevel() >= this.immuneFireLevel) {
 			this.isImmuneToFire = true;
 		}
@@ -196,13 +197,18 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 	}
 
 	@Override
-	public void fall(float l, float d) {
-		super.fall(l, d);
+	public void fall(float distance, float damageMultiplier) {
+		boolean mainHandFlag = null != this.getHeldItemMainhand() && this.getHeldItemMainhand().getItem() == BaseControl.itemZilingZhu;
+		boolean offHandFlag = null != this.getHeldItemOffhand() && this.getHeldItemOffhand().getItem() == BaseControl.itemZilingZhu;
+		if(distance > 3 && (mainHandFlag || offHandFlag) && this.shepherdCapability.getMagic() >= ItemZilingZhu.MagicSkill5) {
+			distance = 0;
+			this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - ItemZilingZhu.MagicSkill5);
+		}
+		super.fall(distance, damageMultiplier);
 	}
 
 	@Override
 	public void onDeath(DamageSource source) {
-		super.onDeath(source);
 		if(!this.world.isRemote) {
 			if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND)) {
 				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND)));
@@ -223,6 +229,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.FEET)));
 			}
 		}
+		super.onDeath(source);
 	}
 
 	@Override
@@ -231,8 +238,8 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 		if(itemStack.getItem() instanceof MagicSource && this.shepherdCapability.getMagic() < this.shepherdCapability.getMaxMagic()) {
 			this.shepherdCapability.setMagic(Math.min(this.shepherdCapability.getMaxMagic(), this.shepherdCapability.getMagic() + ((MagicSource)itemStack.getItem()).getMagicEnergy()));
 			itemStack.shrink(1);
-		}else if(itemStack.getItem() == BaseControl.itemDanZiling){
-			((ItemDanZiling)BaseControl.itemDanZiling).onFoodEatenByEntityLivingBase(this);
+		}else if(itemStack.getItem() instanceof ItemDan){
+			((ItemDan)itemStack.getItem()).onFoodEatenByEntityLivingBase(this);
 			itemStack.shrink(1);
 		}else if(itemStack.getItem() == Item.getItemFromBlock(Blocks.RED_FLOWER) || itemStack.getItem() == Item.getItemFromBlock(Blocks.YELLOW_FLOWER)){
 			this.experience += 5;
@@ -240,16 +247,16 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 	            this.world.spawnParticle(EnumParticleTypes.HEART, this.posX + (this.rand.nextFloat() * this.width * 2.0F) - this.width, this.posY + 1.0D + (this.rand.nextFloat() * this.height), this.posZ + (this.rand.nextFloat() * this.width * 2.0F) - this.width, this.rand.nextGaussian() * 0.02D, this.rand.nextGaussian() * 0.02D, this.rand.nextGaussian() * 0.02D);
 	        }
 			itemStack.shrink(1);
-		}else if(itemStack.getItem() == BaseControl.itemDanShenshu){
+		}else if(itemStack.getItem() == Items.DIAMOND && player.isSneaking()){
 			this.experience += 1000;
 		}else if(!this.world.isRemote && player instanceof EntityPlayerMP) {
 			EntityPlayerMP playerMp = (EntityPlayerMP)player;
 			playerMp.getNextWindowId();
-			playerMp.openContainer = new GuiEntityTaoistPriest.MyContainer(world, this, playerMp);
+			playerMp.openContainer = new GuiEntityCapability.MyContainer(world, this, playerMp);
 			playerMp.openContainer.windowId = playerMp.currentWindowId;
 			playerMp.openContainer.addListener(playerMp);
 	        MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(playerMp, playerMp.openContainer));
-	        BaseControl.netWorkWrapper.sendTo(new OpenClientGUIMessage(GuiEntityTaoistPriest.GUIID, this.getEntityId()), (EntityPlayerMP)player);
+	        BaseControl.netWorkWrapper.sendTo(new OpenClientGUIMessage(GuiEntityCapability.GUIID, this.getEntityId()), (EntityPlayerMP)player);
 		}
 		return true;
 	}
@@ -311,7 +318,6 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 		if(!this.isDead && this.getHealth() > 0) {
 			if(this.nextLevelNeedExperience <= this.experience) {
 				EntityUtil.upEntityGrade(this, 1);
-				this.setCustomNameTag(I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonTaoistPriest.name", new Object[] {this.shepherdCapability.getLevel()}));
 				if(this.shepherdCapability.getLevel() >= this.immuneFireLevel) {
 					this.isImmuneToFire = true;
 				}
@@ -340,6 +346,11 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 	@Override
 	public void setSwingingArms(boolean swingingArms) {
 	}
+
+	@Override
+    public int getTalkInterval(){
+        return 80;
+    }
 
 	@Override
 	public double getExperience() {
@@ -388,9 +399,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 
 	@Override
 	public boolean updataSwordDamageAndArmorValue() {
-		if(!this.world.isRemote) {
-			EntityUtil.setEntityArmorValueAndSwordDamage(this);
-		}
+		EntityUtil.setEntityArmorValueAndSwordDamage(this);
 		return true;
 	}
 }

@@ -53,6 +53,9 @@ entity.entitySummonTaoistPriest.name=§6蜀山女弟子
 entity.entitySummonIronGolem.name=§6超级铁傀儡
 entity.entitySummonSnowman.name=§6超级雪人
 
+#FY_Block----------------------------------------------------------------------
+zijingmod.blockZilingCao.1=§4重要植物，种在耕地上，可烧炼成紫气
+
 #FY_Item---------------------------------------------------------------------------
 zijingmod.itemZiqi.magic=§4灵力值 : %d
 zijingmod.itemZijing.magic=§4灵力值 : %d
@@ -101,9 +104,25 @@ zijingmod.itemArmorZijingLegs.skill1=§4受伤会获得抗性提升状态%d秒�
 zijingmod.itemArmorZijingBoots.skill1=§4受伤会获得速度加成状态%d秒。
 
 #FY_Entity-------------------------------------------------------------------------
-zijingmod.entitySummonTaoistPriest.name=§6LV%d §6蜀山女弟子
-zijingmod.entitySummonIronGolem.name=§6LV%d §6超级铁傀儡
-zijingmod.entitySummonSnowman.name=§6LV%d §6超级雪人
+zijingmod.entitySummonTaoistPriest.name=§6蜀山女弟子
+zijingmod.entitySummonIronGolem.name=§6超级铁傀儡
+zijingmod.entitySummonSnowman.name=§6超级雪人
+
+#FY_GUI-------------------------------------------------------------------------
+zijingmod.gui.upGrade=§6§l升级
+zijingmod.gui.name=§l名字: §r
+zijingmod.gui.level=§l等级: §r
+zijingmod.gui.race=§l种族: §r
+zijingmod.gui.blood=§l生命: §r
+zijingmod.gui.magic=§l法力: §r
+zijingmod.gui.speed=§l移速: §r
+zijingmod.gui.power=§l力量: §r
+zijingmod.gui.intellect=§l智力: §r
+zijingmod.gui.bloodRestore=§l生命恢复: §r
+zijingmod.gui.magicRestore=§l法力恢复: §r
+zijingmod.gui.physicalDefense=§l物理防御: §r
+zijingmod.gui.magicDefense=§l魔法防御: §r
+zijingmod.gui.needExperience=§l升级经验: §r
 
 #FY_BASE---------------------------------------------------------------------------
 zijingmod.line.1=§d----------------.

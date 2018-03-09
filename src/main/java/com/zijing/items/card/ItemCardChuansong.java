@@ -22,7 +22,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -95,13 +95,13 @@ public class ItemCardChuansong extends Item{
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
 		if(stack.hasTagCompound() && null != stack.getTagCompound() && stack.getTagCompound().getBoolean(IS_BIND)){
 			NBTTagCompound nbt  = stack.getTagCompound();
-			tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemCardChuansong.name", new Object[] {nbt.getString(BIND_NAME)}));
-			tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemCardChuansong.position", new Object[] {(int)nbt.getDouble(BIND_LX), (int)nbt.getDouble(BIND_LY), (int)nbt.getDouble(BIND_LZ), nbt.getInteger(BIND_WORLD)}));
+			tooltip.add(I18n.format(ZijingMod.MODID + ".itemCardChuansong.name", new Object[] {nbt.getString(BIND_NAME)}));
+			tooltip.add(I18n.format(ZijingMod.MODID + ".itemCardChuansong.position", new Object[] {(int)nbt.getDouble(BIND_LX), (int)nbt.getDouble(BIND_LY), (int)nbt.getDouble(BIND_LZ), nbt.getInteger(BIND_WORLD)}));
 		}else{
-			tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemCardChuansong.notbinded", new Object[] {}));
+			tooltip.add(I18n.format(ZijingMod.MODID + ".itemCardChuansong.notbinded", new Object[] {}));
 		}
-		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".line.1", new Object[] {}));
-		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemCardChuansong.skill1", new Object[] {MagicSkill1}));
-		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemCardChuansong.skill2", new Object[] {MagicSkill2}));
+		tooltip.add(I18n.format(ZijingMod.MODID + ".line.1", new Object[] {}));
+		tooltip.add(I18n.format(ZijingMod.MODID + ".itemCardChuansong.skill1", new Object[] {MagicSkill1}));
+		tooltip.add(I18n.format(ZijingMod.MODID + ".itemCardChuansong.skill2", new Object[] {MagicSkill2}));
 	}
 }

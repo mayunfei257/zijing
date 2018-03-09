@@ -8,7 +8,7 @@ import com.zijing.items.tool.ItemArmorZijingBody;
 import com.zijing.items.tool.ItemArmorZijingBoots;
 import com.zijing.items.tool.ItemArmorZijingHelmet;
 import com.zijing.items.tool.ItemArmorZijingLegs;
-import com.zijing.main.gui.GuiUpgrade;
+import com.zijing.main.gui.GuiPlayeryCapability;
 import com.zijing.main.itf.EntityHasShepherdCapability;
 import com.zijing.main.playerdata.ShepherdCapability;
 import com.zijing.main.playerdata.ShepherdProvider;
@@ -161,10 +161,10 @@ public class ZijingEvent {
 	
 	@SubscribeEvent
 	public void bindingKeys(InputEvent.KeyInputEvent event) {
-		if (!FMLClientHandler.instance().isGUIOpen(GuiUpgrade.MyGuiContainer.class)) {
+		if (!FMLClientHandler.instance().isGUIOpen(GuiPlayeryCapability.MyGuiContainer.class)) {
 			if (Keyboard.isKeyDown(key1.getKeyCode())) {
 				EntityPlayer player = Minecraft.getMinecraft().player;
-				player.openGui(ZijingMod.instance, GuiUpgrade.GUIID, player.world, (int) player.posX, (int) (player.posY + 1.62D), (int) player.posZ);
+				player.openGui(ZijingMod.instance, GuiPlayeryCapability.GUIID, player.world, (int) player.posX, (int) (player.posY + 1.62D), (int) player.posZ);
 			}
 		}
 	}

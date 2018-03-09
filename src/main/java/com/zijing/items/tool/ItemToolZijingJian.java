@@ -14,7 +14,7 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -48,9 +48,9 @@ public class ItemToolZijingJian extends ItemSword{
 	@Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemToolZijingJian.1", new Object[] {effectTick/20}));
-		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemToolZijingJian.2", new Object[] {effectTick/20}));
-		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemToolZijingJian.3", new Object[] {bloodRestore}));
-		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemToolZijingJian.4", new Object[] {xpDrop}));
+		tooltip.add(I18n.format(ZijingMod.MODID + ".itemToolZijingJian.1", new Object[] {effectTick/20}));
+		tooltip.add(I18n.format(ZijingMod.MODID + ".itemToolZijingJian.2", new Object[] {effectTick/20}));
+		tooltip.add(I18n.format(ZijingMod.MODID + ".itemToolZijingJian.3", new Object[] {bloodRestore}));
+		tooltip.add(I18n.format(ZijingMod.MODID + ".itemToolZijingJian.4", new Object[] {xpDrop}));
 	}
 }

@@ -12,6 +12,7 @@ import com.zijing.main.playerdata.ShepherdCapability;
 import com.zijing.main.playerdata.ShepherdProvider;
 import com.zijing.util.StringUtil;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -24,7 +25,6 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -136,10 +136,10 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 	@Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemZilingZhu.skill1", new Object[] {MagicSkill1}));
-		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemZilingZhu.skill2", new Object[] {MagicSkill2}));
-		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemZilingZhu.skill3", new Object[] {MagicSkill3}));
-		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemZilingZhu.skill4", new Object[] {MagicSkill4}));
-		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemZilingZhu.skill5", new Object[] {MagicSkill5}));
+		tooltip.add(I18n.format(ZijingMod.MODID + ".itemZilingZhu.skill1", new Object[] {MagicSkill1}));
+		tooltip.add(I18n.format(ZijingMod.MODID + ".itemZilingZhu.skill2", new Object[] {MagicSkill2}));
+		tooltip.add(I18n.format(ZijingMod.MODID + ".itemZilingZhu.skill3", new Object[] {MagicSkill3}));
+		tooltip.add(I18n.format(ZijingMod.MODID + ".itemZilingZhu.skill4", new Object[] {MagicSkill4}));
+		tooltip.add(I18n.format(ZijingMod.MODID + ".itemZilingZhu.skill5", new Object[] {MagicSkill5}));
 	}
 }

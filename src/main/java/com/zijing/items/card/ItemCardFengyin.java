@@ -26,7 +26,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -86,9 +86,9 @@ public class ItemCardFengyin extends Item{
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
 		if(stack.hasTagCompound() && null != stack.getTagCompound()){
-			tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemCardFengyin.skill1", new Object[] {stack.getTagCompound().getString(ZijingMod.MODID + ":entityName"), MagicSkill1}));
+			tooltip.add(I18n.format(ZijingMod.MODID + ".itemCardFengyin.skill1", new Object[] {stack.getTagCompound().getString(ZijingMod.MODID + ":entityName"), MagicSkill1}));
 		}else{
-			tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemCardFengyin.null", new Object[] {}));
+			tooltip.add(I18n.format(ZijingMod.MODID + ".itemCardFengyin.null", new Object[] {}));
 		}
     }
 }

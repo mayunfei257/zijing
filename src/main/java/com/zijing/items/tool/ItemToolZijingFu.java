@@ -14,7 +14,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -65,6 +65,6 @@ public class ItemToolZijingFu extends ItemAxe{
 	@Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemToolZijingFu.skill1", new Object[] {ZijingMod.config.getTOOL_DMAMOUNT()}));
+		tooltip.add(I18n.format(ZijingMod.MODID + ".itemToolZijingFu.skill1", new Object[] {ZijingMod.config.getTOOL_DMAMOUNT()}));
 	}
 }

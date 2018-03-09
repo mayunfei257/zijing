@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import com.zijing.ZijingMod;
 import com.zijing.main.ZijingTab;
 import com.zijing.main.itf.EntityHasShepherdCapability;
+import com.zijing.main.itf.ItemDan;
 import com.zijing.main.playerdata.ShepherdCapability;
 import com.zijing.main.playerdata.ShepherdProvider;
 
@@ -17,12 +18,12 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemDanZiling extends ItemFood {
+public class ItemDanZiling extends ItemFood implements ItemDan{
 	public static final int effectTick = 400;
 	public static final int magicRestore = 10;
 	
@@ -61,6 +62,7 @@ public class ItemDanZiling extends ItemFood {
 		}
 	}
 
+	@Override
 	public void onFoodEatenByEntityLivingBase(EntityLivingBase entity) {
 		if (!entity.world.isRemote && entity instanceof EntityHasShepherdCapability) {
 			entity.addPotionEffect(new PotionEffect(MobEffects.SPEED, effectTick, 0));
@@ -82,7 +84,7 @@ public class ItemDanZiling extends ItemFood {
 	@Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemDanZiling.1", new Object[] {effectTick/20}));
-		tooltip.add(I18n.translateToLocalFormatted(ZijingMod.MODID + ".itemDanZiling.2", new Object[] {magicRestore}));
+		tooltip.add(I18n.format(ZijingMod.MODID + ".itemDanZiling.1", new Object[] {effectTick/20}));
+		tooltip.add(I18n.format(ZijingMod.MODID + ".itemDanZiling.2", new Object[] {magicRestore}));
 	}
 }
