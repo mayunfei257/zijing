@@ -13,11 +13,11 @@ import com.zijing.main.gui.GuiEntityTaoistPriest;
 import com.zijing.main.itf.EntityHasShepherdCapability;
 import com.zijing.main.itf.MagicSource;
 import com.zijing.main.message.OpenClientGUIMessage;
+import com.zijing.main.message.ShepherdEntityToClientMessage;
 import com.zijing.main.playerdata.ShepherdCapability;
 import com.zijing.util.EntityUtil;
 import com.zijing.util.MathUtil;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
@@ -38,7 +38,6 @@ import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -51,7 +50,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
@@ -60,7 +58,9 @@ import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 
 public class EntitySummonSnowman extends EntityGolem implements EntityHasShepherdCapability,IRangedAttackMob, net.minecraftforge.common.IShearable{
     private static final DataParameter<Byte> PUMPKIN_EQUIPPED = EntityDataManager.<Byte>createKey(EntitySnowman.class, DataSerializers.BYTE);
+	private int nextConnectTick = 60;
 	private int baseLevel = 1;
+	
 	private int nextLevelNeedExperience;
 	private double experience;
 	private ShepherdCapability shepherdCapability;
@@ -156,15 +156,7 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 	@Override
     public void onLivingUpdate(){
         super.onLivingUpdate();
-        if (!this.world.isRemote){
-            for (int l = 0; l < 4; ++l){
-                BlockPos blockpos = new BlockPos(MathHelper.floor(this.posX + (double)((float)(l % 2 * 2 - 1) * 0.25F)), MathHelper.floor(this.posY), MathHelper.floor(this.posZ + (double)((float)(l / 2 % 2 * 2 - 1) * 0.25F)));
-                if (this.world.getBlockState(blockpos).getMaterial() == Material.AIR && this.world.getBiome(blockpos).getTemperature(blockpos) < 0.8F && Blocks.SNOW_LAYER.canPlaceBlockAt(this.world, blockpos)){
-                    this.world.setBlockState(blockpos, Blocks.SNOW_LAYER.getDefaultState());
-                }
-            }
-        }
-		if(!this.world.isRemote && !this.isDead && this.getHealth() > 0) {
+		if(!this.isDead && this.getHealth() > 0) {
 			if(this.nextLevelNeedExperience <= this.experience) {
 				EntityUtil.upEntityGrade(this, 1);
 				this.setCustomNameTag(I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonSnowman.name", new Object[] {this.shepherdCapability.getLevel()}));
@@ -178,6 +170,14 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 			}
 			if(this.getHealth() != this.shepherdCapability.getBlood()) {
 				this.shepherdCapability.setBlood(this.getHealth());
+			}
+			if(!this.world.isRemote) {
+				if(this.nextConnectTick <= 0) {
+					BaseControl.netWorkWrapper.sendToAll(new ShepherdEntityToClientMessage(this.getEntityId(), this.shepherdCapability.writeNBT(null), this.nextLevelNeedExperience, this.experience, this.swordDamage, this.armorValue));
+					this.nextConnectTick = 60 + this.getRNG().nextInt(60);
+				}else {
+					this.nextConnectTick--;
+				}
 			}
 		}
     }
@@ -204,11 +204,13 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor){
-        if(!this.world.isRemote && this.shepherdCapability.getMagic() >= ItemStaffBingxue.MagicSkill1) {
+        if(this.shepherdCapability.getMagic() >= ItemStaffBingxue.MagicSkill1) {
         	float attackDamage =  (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
-    		EntityArrowBingDan bingDan = new EntityArrowBingDan(world, this, attackDamage, 0.125F, 2);
-    		bingDan.shoot(target.posX - this.posX, target.getEntityBoundingBox().minY + target.height * 0.75D - bingDan.posY, target.posZ - this.posZ, 3.0F, 0);
-    		this.world.spawnEntity(bingDan);
+        	if(!this.world.isRemote) {
+        		EntityArrowBingDan bingDan = new EntityArrowBingDan(world, this, attackDamage, 0.125F, 2);
+        		bingDan.shoot(target.posX - this.posX, target.getEntityBoundingBox().minY + target.height * 0.75D - bingDan.posY, target.posZ - this.posZ, 3.0F, 0);
+        		this.world.spawnEntity(bingDan);
+        	}
     		this.world.playSound((EntityPlayer) null, this.posX, this.posY + 1D, this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
     		this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - ItemStaffBingxue.MagicSkill1);
 			this.experience += attackDamage;
@@ -222,23 +224,21 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 
 	@Override
     protected boolean processInteract(EntityPlayer player, EnumHand hand){
-		if(!this.world.isRemote) {
-			ItemStack itemStack = player.getHeldItem(hand);
-			if(itemStack.getItem() instanceof MagicSource && this.shepherdCapability.getMagic() < this.shepherdCapability.getMaxMagic()) {
-				this.shepherdCapability.setMagic(Math.min(this.shepherdCapability.getMaxMagic(), this.shepherdCapability.getMagic() + ((MagicSource)itemStack.getItem()).getMagicEnergy()));
-				itemStack.shrink(1);
-			}else if(itemStack.getItem() == BaseControl.itemDanZiling){
-				((ItemDanZiling)BaseControl.itemDanZiling).onFoodEatenByEntityLivingBase(this);
-				itemStack.shrink(1);
-			}else if(player instanceof EntityPlayerMP){
-				EntityPlayerMP playerMp = (EntityPlayerMP)player;
-				playerMp.getNextWindowId();
-				playerMp.openContainer = new GuiEntityTaoistPriest.MyContainer(world, this, playerMp);
-				playerMp.openContainer.windowId = playerMp.currentWindowId;
-				playerMp.openContainer.addListener(playerMp);
-		        MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(playerMp, playerMp.openContainer));
-		        BaseControl.netWorkWrapper.sendTo(new OpenClientGUIMessage(GuiEntityTaoistPriest.GUIID, this.getEntityId()), (EntityPlayerMP)player);
-			}
+		ItemStack itemStack = player.getHeldItem(hand);
+		if(itemStack.getItem() instanceof MagicSource && this.shepherdCapability.getMagic() < this.shepherdCapability.getMaxMagic()) {
+			this.shepherdCapability.setMagic(Math.min(this.shepherdCapability.getMaxMagic(), this.shepherdCapability.getMagic() + ((MagicSource)itemStack.getItem()).getMagicEnergy()));
+			itemStack.shrink(1);
+		}else if(itemStack.getItem() == BaseControl.itemDanZiling){
+			((ItemDanZiling)BaseControl.itemDanZiling).onFoodEatenByEntityLivingBase(this);
+			itemStack.shrink(1);
+		}else if(!this.world.isRemote && player instanceof EntityPlayerMP) {
+			EntityPlayerMP playerMp = (EntityPlayerMP)player;
+			playerMp.getNextWindowId();
+			playerMp.openContainer = new GuiEntityTaoistPriest.MyContainer(world, this, playerMp);
+			playerMp.openContainer.windowId = playerMp.currentWindowId;
+			playerMp.openContainer.addListener(playerMp);
+	        MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(playerMp, playerMp.openContainer));
+	        BaseControl.netWorkWrapper.sendTo(new OpenClientGUIMessage(GuiEntityTaoistPriest.GUIID, this.getEntityId()), (EntityPlayerMP)player);
 		}
 		return true;
     }
@@ -333,9 +333,7 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 
 	@Override
 	public boolean updataSwordDamageAndArmorValue() {
-		if(!this.world.isRemote) {
-			EntityUtil.setEntityArmorValueAndSwordDamage(this);
-		}
+		EntityUtil.setEntityArmorValueAndSwordDamage(this);
 		return true;
 	}
 }

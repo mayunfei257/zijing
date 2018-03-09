@@ -16,6 +16,7 @@ import com.zijing.main.gui.GuiEntityTaoistPriest;
 import com.zijing.main.itf.EntityHasShepherdCapability;
 import com.zijing.main.itf.MagicSource;
 import com.zijing.main.message.OpenClientGUIMessage;
+import com.zijing.main.message.ShepherdEntityToClientMessage;
 import com.zijing.main.playerdata.ShepherdCapability;
 import com.zijing.util.EntityUtil;
 import com.zijing.util.MathUtil;
@@ -75,8 +76,10 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
     Village village;
     private int attackTimer;
     private int holdRoseTick;
-    
+
+	private int nextConnectTick = 60;
 	private int baseLevel = 1;
+	
 	private int nextLevelNeedExperience;
 	private double experience;
 	private ShepherdCapability shepherdCapability;
@@ -169,7 +172,7 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 
 	@Override
     protected void collideWithEntity(Entity entityIn){
-        if (entityIn instanceof IMob && !(entityIn instanceof EntityCreeper) && this.getRNG().nextInt(20) == 0){
+        if (entityIn instanceof IMob && this.getRNG().nextInt(20) == 0){
             this.setAttackTarget((EntityLivingBase)entityIn);
         }
         super.collideWithEntity(entityIn);
@@ -194,7 +197,7 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
                 this.world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, this.posX + ((double)this.rand.nextFloat() - 0.5D) * (double)this.width, this.getEntityBoundingBox().minY + 0.1D, this.posZ + ((double)this.rand.nextFloat() - 0.5D) * (double)this.width, 4.0D * ((double)this.rand.nextFloat() - 0.5D), 0.5D, ((double)this.rand.nextFloat() - 0.5D) * 4.0D, Block.getStateId(iblockstate));
             }
         }
-		if(!this.world.isRemote && !this.isDead && this.getHealth() > 0) {
+		if(!this.isDead && this.getHealth() > 0) {
 			if(this.nextLevelNeedExperience <= this.experience) {
 				EntityUtil.upEntityGrade(this, 1);
 				this.setCustomNameTag(I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonIronGolem.name", new Object[] {this.shepherdCapability.getLevel()}));
@@ -208,6 +211,14 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 			}
 			if(this.getHealth() != this.shepherdCapability.getBlood()) {
 				this.shepherdCapability.setBlood(this.getHealth());
+			}
+			if(!this.world.isRemote) {
+				if(this.nextConnectTick <= 0) {
+					BaseControl.netWorkWrapper.sendToAll(new ShepherdEntityToClientMessage(this.getEntityId(), this.shepherdCapability.writeNBT(null), this.nextLevelNeedExperience, this.experience, this.swordDamage, this.armorValue));
+					this.nextConnectTick = 60 + this.getRNG().nextInt(60);
+				}else {
+					this.nextConnectTick--;
+				}
 			}
 		}
     }
@@ -341,34 +352,34 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
     
 	@Override
     protected boolean processInteract(EntityPlayer player, EnumHand hand){
-		if(!this.world.isRemote) {
-			ItemStack itemStack = player.getHeldItem(hand);
-			if(itemStack.getItem() instanceof MagicSource && this.shepherdCapability.getMagic() < this.shepherdCapability.getMaxMagic()) {
-				this.shepherdCapability.setMagic(Math.min(this.shepherdCapability.getMaxMagic(), this.shepherdCapability.getMagic() + ((MagicSource)itemStack.getItem()).getMagicEnergy()));
-				itemStack.shrink(1);
-			}else if(itemStack.getItem() == BaseControl.itemDanZiling){
-				((ItemDanZiling)BaseControl.itemDanZiling).onFoodEatenByEntityLivingBase(this);
-				itemStack.shrink(1);
-			}else if(player instanceof EntityPlayerMP){
-				EntityPlayerMP playerMp = (EntityPlayerMP)player;
-				playerMp.getNextWindowId();
-				playerMp.openContainer = new GuiEntityTaoistPriest.MyContainer(world, this, playerMp);
-				playerMp.openContainer.windowId = playerMp.currentWindowId;
-				playerMp.openContainer.addListener(playerMp);
-		        MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(playerMp, playerMp.openContainer));
-		        BaseControl.netWorkWrapper.sendTo(new OpenClientGUIMessage(GuiEntityTaoistPriest.GUIID, this.getEntityId()), (EntityPlayerMP)player);
-			}
+		ItemStack itemStack = player.getHeldItem(hand);
+		if(itemStack.getItem() instanceof MagicSource && this.shepherdCapability.getMagic() < this.shepherdCapability.getMaxMagic()) {
+			this.shepherdCapability.setMagic(Math.min(this.shepherdCapability.getMaxMagic(), this.shepherdCapability.getMagic() + ((MagicSource)itemStack.getItem()).getMagicEnergy()));
+			itemStack.shrink(1);
+		}else if(itemStack.getItem() == BaseControl.itemDanZiling){
+			((ItemDanZiling)BaseControl.itemDanZiling).onFoodEatenByEntityLivingBase(this);
+			itemStack.shrink(1);
+		}else if(!this.world.isRemote && player instanceof EntityPlayerMP) {
+			EntityPlayerMP playerMp = (EntityPlayerMP)player;
+			playerMp.getNextWindowId();
+			playerMp.openContainer = new GuiEntityTaoistPriest.MyContainer(world, this, playerMp);
+			playerMp.openContainer.windowId = playerMp.currentWindowId;
+			playerMp.openContainer.addListener(playerMp);
+	        MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(playerMp, playerMp.openContainer));
+	        BaseControl.netWorkWrapper.sendTo(new OpenClientGUIMessage(GuiEntityTaoistPriest.GUIID, this.getEntityId()), (EntityPlayerMP)player);
 		}
 		return true;
     }
 	
 	@Override
 	public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
-        if(!this.world.isRemote && this.shepherdCapability.getMagic() >= ItemStaffKongjian.MagicSkill1) {
+        if(this.shepherdCapability.getMagic() >= ItemStaffKongjian.MagicSkill1) {
         	float attackDamage =  (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
-        	EntityArrowXukongDan xukongDan = new EntityArrowXukongDan(world, this, attackDamage);
-    		xukongDan.shoot(target.posX - this.posX, target.getEntityBoundingBox().minY + target.height * 0.75D - xukongDan.posY, target.posZ - this.posZ, 3.0F, 0);
-    		this.world.spawnEntity(xukongDan);
+        	if(!this.world.isRemote) {
+            	EntityArrowXukongDan xukongDan = new EntityArrowXukongDan(world, this, attackDamage);
+        		xukongDan.shoot(target.posX - this.posX, target.getEntityBoundingBox().minY + target.height * 0.75D - xukongDan.posY, target.posZ - this.posZ, 3.0F, 0);
+        		this.world.spawnEntity(xukongDan);
+        	}
     		this.world.playSound((EntityPlayer) null, this.posX, this.posY + 1D, this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
     		this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - ItemStaffKongjian.MagicSkill1);
 			this.experience += attackDamage;

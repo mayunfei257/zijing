@@ -14,6 +14,7 @@ import com.zijing.main.gui.GuiEntityTaoistPriest;
 import com.zijing.main.itf.EntityHasShepherdCapability;
 import com.zijing.main.itf.MagicSource;
 import com.zijing.main.message.OpenClientGUIMessage;
+import com.zijing.main.message.ShepherdEntityToClientMessage;
 import com.zijing.main.playerdata.ShepherdCapability;
 import com.zijing.util.EntityUtil;
 import com.zijing.util.MathUtil;
@@ -62,7 +63,18 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 
 public class EntitySummonTaoistPriest extends EntityCreature implements EntityHasShepherdCapability, IRangedAttackMob{
+	private final static int canShootHuoDanLevel = 15;
+	private final static int immuneFireLevel = 30;
+	private final static int canLightningLevel = 45;
+	private final static int canExplosionLevel = 60;
+	
+	private final static float explosionProbabilityK = 0.05F;
+	private final static float slownessProbabilityK = 0.05F;
+	private final static float slownessStrengthK = 0.3F;
+	
+	private int nextConnectTick = 60;
 	private int baseLevel = 1;
+	
 	private int nextLevelNeedExperience;
 	private double experience;
 	private ShepherdCapability shepherdCapability;
@@ -131,6 +143,9 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 		this.experience = (int) MathUtil.getUpgradeK(this.shepherdCapability.getLevel(), baseLevel - 1) * ZijingMod.config.getUPGRADE_NEED_XP_K()/2;
 		EntityUtil.upEntityGrade(this, baseLevel - 1);
 		this.setCustomNameTag(I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonTaoistPriest.name", new Object[] {this.shepherdCapability.getLevel()}));
+		if(this.shepherdCapability.getLevel() >= this.immuneFireLevel) {
+			this.isImmuneToFire = true;
+		}
 	}
 
 	@Override
@@ -213,44 +228,29 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 	@Override
 	public boolean processInteract(EntityPlayer player, EnumHand hand) {
 		ItemStack itemStack = player.getHeldItem(hand);
-		if(!this.world.isRemote) {
-			if(itemStack.getItem() instanceof MagicSource && this.shepherdCapability.getMagic() < this.shepherdCapability.getMaxMagic()) {
-				this.shepherdCapability.setMagic(Math.min(this.shepherdCapability.getMaxMagic(), this.shepherdCapability.getMagic() + ((MagicSource)itemStack.getItem()).getMagicEnergy()));
-				itemStack.shrink(1);
-			}else if(itemStack.getItem() == BaseControl.itemDanZiling){
-				((ItemDanZiling)BaseControl.itemDanZiling).onFoodEatenByEntityLivingBase(this);
-				itemStack.shrink(1);
-			}else if(itemStack.getItem() == Item.getItemFromBlock(Blocks.RED_FLOWER) || itemStack.getItem() == Item.getItemFromBlock(Blocks.YELLOW_FLOWER)){
-				this.experience += 5;
-				itemStack.shrink(1);
-			}else if(player instanceof EntityPlayerMP){
-				EntityPlayerMP playerMp = (EntityPlayerMP)player;
-				playerMp.getNextWindowId();
-				playerMp.openContainer = new GuiEntityTaoistPriest.MyContainer(world, this, playerMp);
-				playerMp.openContainer.windowId = playerMp.currentWindowId;
-				playerMp.openContainer.addListener(playerMp);
-		        MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(playerMp, playerMp.openContainer));
-		        BaseControl.netWorkWrapper.sendTo(new OpenClientGUIMessage(GuiEntityTaoistPriest.GUIID, this.getEntityId()), (EntityPlayerMP)player);
-			}
-		}else {
-			if(itemStack.getItem() == Item.getItemFromBlock(Blocks.RED_FLOWER) || itemStack.getItem() == Item.getItemFromBlock(Blocks.YELLOW_FLOWER)){
-		        for (int i = 0; i < 5; ++i){
-		            this.world.spawnParticle(EnumParticleTypes.HEART, this.posX + (this.rand.nextFloat() * this.width * 2.0F) - this.width, this.posY + 1.0D + (this.rand.nextFloat() * this.height), this.posZ + (this.rand.nextFloat() * this.width * 2.0F) - this.width, this.rand.nextGaussian() * 0.02D, this.rand.nextGaussian() * 0.02D, this.rand.nextGaussian() * 0.02D);
-		        }
-			}
+		if(itemStack.getItem() instanceof MagicSource && this.shepherdCapability.getMagic() < this.shepherdCapability.getMaxMagic()) {
+			this.shepherdCapability.setMagic(Math.min(this.shepherdCapability.getMaxMagic(), this.shepherdCapability.getMagic() + ((MagicSource)itemStack.getItem()).getMagicEnergy()));
+			itemStack.shrink(1);
+		}else if(itemStack.getItem() == BaseControl.itemDanZiling){
+			((ItemDanZiling)BaseControl.itemDanZiling).onFoodEatenByEntityLivingBase(this);
+			itemStack.shrink(1);
+		}else if(itemStack.getItem() == Item.getItemFromBlock(Blocks.RED_FLOWER) || itemStack.getItem() == Item.getItemFromBlock(Blocks.YELLOW_FLOWER)){
+			this.experience += 5;
+	        for (int i = 0; i < 5; ++i){
+	            this.world.spawnParticle(EnumParticleTypes.HEART, this.posX + (this.rand.nextFloat() * this.width * 2.0F) - this.width, this.posY + 1.0D + (this.rand.nextFloat() * this.height), this.posZ + (this.rand.nextFloat() * this.width * 2.0F) - this.width, this.rand.nextGaussian() * 0.02D, this.rand.nextGaussian() * 0.02D, this.rand.nextGaussian() * 0.02D);
+	        }
+			itemStack.shrink(1);
+		}else if(itemStack.getItem() == BaseControl.itemDanShenshu){
+			this.experience += 1000;
+		}else if(!this.world.isRemote && player instanceof EntityPlayerMP) {
+			EntityPlayerMP playerMp = (EntityPlayerMP)player;
+			playerMp.getNextWindowId();
+			playerMp.openContainer = new GuiEntityTaoistPriest.MyContainer(world, this, playerMp);
+			playerMp.openContainer.windowId = playerMp.currentWindowId;
+			playerMp.openContainer.addListener(playerMp);
+	        MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(playerMp, playerMp.openContainer));
+	        BaseControl.netWorkWrapper.sendTo(new OpenClientGUIMessage(GuiEntityTaoistPriest.GUIID, this.getEntityId()), (EntityPlayerMP)player);
 		}
-//		DecimalFormat df1 = new DecimalFormat("#0.0");
-//		DecimalFormat df2 = new DecimalFormat("#0.00");
-//		DecimalFormat df4 = new DecimalFormat("#0.0000");
-//		player.sendMessage(new TextComponentString("level: " + this.shepherdCapability.getLevel()));
-//		player.sendMessage(new TextComponentString("blood: " + df1.format(this.shepherdCapability.getBlood()) + "/" + df1.format(this.shepherdCapability.getMaxBlood())));
-//		player.sendMessage(new TextComponentString("magic: " + df1.format(this.shepherdCapability.getMagic()) + "/" + df1.format(this.shepherdCapability.getMaxMagic())));
-//		player.sendMessage(new TextComponentString("speed: " + df2.format(this.shepherdCapability.getSpeed())));
-//		player.sendMessage(new TextComponentString("power: " + df2.format(this.shepherdCapability.getPower() + this.swordDamage)  + " ( " + df2.format(this.shepherdCapability.getPower()) + " + " + df2.format(this.swordDamage) + " )"));
-//		player.sendMessage(new TextComponentString("bloodRestore: " + df4.format(this.shepherdCapability.getBloodRestore()) + "/T"));
-//		player.sendMessage(new TextComponentString("magicRestore: " + df4.format(this.shepherdCapability.getMagicRestore()) + "/T"));
-//		player.sendMessage(new TextComponentString("physicalDefense: " + df2.format(shepherdCapability.getPhysicalDefense() + this.armorValue) + " ( " + df2.format(this.shepherdCapability.getPhysicalDefense())  + " + " + df2.format(this.armorValue) + " )"));
-//		player.sendMessage(new TextComponentString("experience: " + df2.format(this.experience) + "/" + this.nextLevelNeedExperience));
 		return true;
 	}
     
@@ -271,33 +271,34 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 
 	@Override
     public boolean attackEntityAsMob(Entity entityIn){
-		if(!this.world.isRemote) {
-	    	double attackDamage =  this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue() + this.swordDamage;
-	    	boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)attackDamage);
-			this.experience += attackDamage;
-	        if (flag){
-	            entityIn.motionY += 0.4000000059604645D;
-	            this.applyEnchantments(this, entityIn);
-		        this.playSound(SoundEvents.ENTITY_IRONGOLEM_ATTACK, 1.0F, 1.0F);
-	        }
-	        return flag;
-		}else {
-			return true;
-		}
+    	double attackDamage =  this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue() + this.swordDamage;
+    	boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)attackDamage);
+        if(this.shepherdCapability.getLevel() >= canLightningLevel) {
+        	entityIn.world.spawnEntity(new EntityLightningBolt(entityIn.world, entityIn.posX, entityIn.posY, entityIn.posZ, false));
+        }
+        if (flag){
+            entityIn.motionY += 0.4000000059604645D;
+            this.applyEnchantments(this, entityIn);
+	        this.playSound(SoundEvents.ENTITY_IRONGOLEM_ATTACK, 1.0F, 1.0F);
+        }
+		this.experience += attackDamage;
+        return flag;
     }
 
 	@Override
 	public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
-        if(!this.world.isRemote && this.shepherdCapability.getMagic() >= ItemStaffBingxue.MagicSkill1) {
+        if(this.shepherdCapability.getMagic() >= ItemStaffBingxue.MagicSkill1) {
         	float attackDamage =  (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
-        	EntityThrowable entityDan;
-        	if(this.world.rand.nextFloat() < 0.25D) {
-        		entityDan = new EntityArrowHuoDan(world, this, attackDamage, 0F, 0F);
-        	}else {
-        		entityDan = new EntityArrowBingDan(world, this, attackDamage, 0.125F, 2);
+        	if(!this.world.isRemote) {
+            	EntityThrowable entityDan;
+            	if(this.world.rand.nextFloat() < 0.5D && this.shepherdCapability.getLevel() >= this.canShootHuoDanLevel) {
+            		entityDan = new EntityArrowHuoDan(world, this, attackDamage, this.shepherdCapability.getLevel() >= this.canExplosionLevel ? (this.shepherdCapability.getLevel() - this.canExplosionLevel) * this.explosionProbabilityK : 0F, 1F, false);
+            	}else {
+            		entityDan = new EntityArrowBingDan(world, this, attackDamage, this.shepherdCapability.getLevel() * this.slownessProbabilityK, (int)(this.shepherdCapability.getLevel() * this.slownessStrengthK));
+            	}
+        		entityDan.shoot(target.posX - this.posX, target.getEntityBoundingBox().minY + target.height * 0.75D - entityDan.posY, target.posZ - this.posZ, 3.0F, 0);
+        		this.world.spawnEntity(entityDan);
         	}
-    		entityDan.shoot(target.posX - this.posX, target.getEntityBoundingBox().minY + target.height * 0.75D - entityDan.posY, target.posZ - this.posZ, 3.0F, 0);
-    		this.world.spawnEntity(entityDan);
     		this.world.playSound((EntityPlayer) null, this.posX, this.posY + 1D, this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
     		this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - ItemStaffBingxue.MagicSkill1);
 			this.experience += attackDamage;
@@ -307,10 +308,13 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 	@Override
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
-		if(!this.world.isRemote && !this.isDead && this.getHealth() > 0) {
+		if(!this.isDead && this.getHealth() > 0) {
 			if(this.nextLevelNeedExperience <= this.experience) {
 				EntityUtil.upEntityGrade(this, 1);
 				this.setCustomNameTag(I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonTaoistPriest.name", new Object[] {this.shepherdCapability.getLevel()}));
+				if(this.shepherdCapability.getLevel() >= this.immuneFireLevel) {
+					this.isImmuneToFire = true;
+				}
 			}
 			if(this.getHealth() < this.getMaxHealth()) {
 				this.setHealth(this.getHealth() + (float)this.shepherdCapability.getBloodRestore());
@@ -321,6 +325,14 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 			}
 			if(this.getHealth() != this.shepherdCapability.getBlood()) {
 				this.shepherdCapability.setBlood(this.getHealth());
+			}
+			if(!this.world.isRemote) {
+				if(this.nextConnectTick <= 0) {
+					BaseControl.netWorkWrapper.sendToAll(new ShepherdEntityToClientMessage(this.getEntityId(), this.shepherdCapability.writeNBT(null), this.nextLevelNeedExperience, this.experience, this.swordDamage, this.armorValue));
+					this.nextConnectTick = 60 + this.getRNG().nextInt(60);
+				}else {
+					this.nextConnectTick--;
+				}
 			}
 		}
 	}

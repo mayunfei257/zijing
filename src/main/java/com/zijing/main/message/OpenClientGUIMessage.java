@@ -17,7 +17,7 @@ public class OpenClientGUIMessage implements IMessage {
 	NBTTagCompound dataTag;
 
 	public OpenClientGUIMessage() {}
-	public OpenClientGUIMessage(Integer GUIID, Integer EntityId) {
+	public OpenClientGUIMessage(int GUIID, int EntityId) {
 		this.dataTag = new NBTTagCompound();
 		dataTag.setInteger("GUIID", GUIID);
 		dataTag.setInteger("EntityId", EntityId);
@@ -37,13 +37,12 @@ public class OpenClientGUIMessage implements IMessage {
 		@Override
 		public IMessage onMessage(final OpenClientGUIMessage message, final MessageContext ctx) {
 			if (ctx.side == Side.CLIENT){
-				Integer GUIID = message.dataTag.getInteger("GUIID");
-				Integer EntityId = message.dataTag.getInteger("EntityId");
+				int GUIID = message.dataTag.getInteger("GUIID");
+				int EntityId = message.dataTag.getInteger("EntityId");
 				Minecraft.getMinecraft().addScheduledTask(new Runnable() {
 					@Override
 					public void run() {
 						EntityPlayer player = Minecraft.getMinecraft().player;
-						System.out.println("____________________________");
 						if(GUIID == GuiEntityTaoistPriest.GUIID) {
 							Minecraft.getMinecraft().displayGuiScreen(new GuiEntityTaoistPriest.MyGuiContainer(player.world, (EntityLiving)player.world.getEntityByID(EntityId), player));
 						}

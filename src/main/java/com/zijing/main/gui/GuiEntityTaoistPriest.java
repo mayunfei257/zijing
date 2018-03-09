@@ -53,34 +53,70 @@ public class GuiEntityTaoistPriest {
 				}
 			}
 			this.addSlotToContainer(new Slot(entityInv, 3, 7, 81) {
+				@Override
 				public boolean isItemValid(ItemStack stack) {
 					return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemArmor && ((ItemArmor)stack.getItem()).armorType == EntityEquipmentSlot.HEAD;
 				}
+				@Override
+			    public void onSlotChange(ItemStack par1, ItemStack par2) {
+			    	super.onSlotChange(par1, par2);
+			    	upDateEntityArmor();
+			    }
 			});
 			this.addSlotToContainer(new Slot(entityInv, 2, 25, 81) {
+				@Override
 				public boolean isItemValid(ItemStack stack) {
 					return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemArmor && ((ItemArmor)stack.getItem()).armorType == EntityEquipmentSlot.CHEST;
 				}
+				@Override
+			    public void onSlotChange(ItemStack par1, ItemStack par2) {
+			    	super.onSlotChange(par1, par2);
+			    	upDateEntityArmor();
+			    }
 			});
 			this.addSlotToContainer(new Slot(entityInv, 1, 43, 81) {
+				@Override
 				public boolean isItemValid(ItemStack stack) {
 					return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemArmor && ((ItemArmor)stack.getItem()).armorType == EntityEquipmentSlot.LEGS;
 				}
+				@Override
+			    public void onSlotChange(ItemStack par1, ItemStack par2) {
+			    	super.onSlotChange(par1, par2);
+			    	upDateEntityArmor();
+			    }
 			});
 			this.addSlotToContainer(new Slot(entityInv, 0, 7, 99) {
+				@Override
 				public boolean isItemValid(ItemStack stack) {
 					return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemArmor && ((ItemArmor)stack.getItem()).armorType == EntityEquipmentSlot.FEET;
 				}
+				@Override
+			    public void onSlotChange(ItemStack par1, ItemStack par2) {
+			    	super.onSlotChange(par1, par2);
+			    	upDateEntityArmor();
+			    }
 			});
 			this.addSlotToContainer(new Slot(entityInv, 4, 25, 99) {
+				@Override
 				public boolean isItemValid(ItemStack stack) {
 					return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemSword;
 				}
+				@Override
+			    public void onSlotChange(ItemStack par1, ItemStack par2) {
+			    	super.onSlotChange(par1, par2);
+			    	upDateEntityArmor();
+			    }
 			});
 			this.addSlotToContainer(new Slot(entityInv, 5, 43, 99) {
+				@Override
 				public boolean isItemValid(ItemStack stack) {
 					return null != stack && null != stack.getItem() && stack.getItem() == BaseControl.itemZilingZhu;
 				}
+				@Override
+			    public void onSlotChange(ItemStack par1, ItemStack par2) {
+			    	super.onSlotChange(par1, par2);
+			    	upDateEntityArmor();
+			    }
 			});
 			InventoryPlayer inventory = player.inventory;
 			for (int m = 0; m < 4; ++m) {
@@ -102,6 +138,10 @@ public class GuiEntityTaoistPriest {
 		@Override
 		public void onContainerClosed(EntityPlayer player) {
 			super.onContainerClosed(player);
+			this.upDateEntityArmor();
+		}
+		
+		private void upDateEntityArmor() {
 			this.entity.setItemStackToSlot(EntityEquipmentSlot.HEAD, this.entityInv.getStackInSlot(3));
 			this.entity.setItemStackToSlot(EntityEquipmentSlot.CHEST, this.entityInv.getStackInSlot(2));
 			this.entity.setItemStackToSlot(EntityEquipmentSlot.LEGS, this.entityInv.getStackInSlot(1));
@@ -114,7 +154,7 @@ public class GuiEntityTaoistPriest {
 	@SideOnly(Side.CLIENT)
 	public static class MyGuiContainer extends GuiContainer {
 		private final ResourceLocation texture = new ResourceLocation(ZijingMod.MODID + ":entitycapabilitygui.png");
-		private EntityHasShepherdCapability shepherdEntity;
+		private EntityLiving shepherdEntity;
 		private ShepherdCapability shepherdCapability;
 		private DecimalFormat df1;
 		private DecimalFormat df2;
@@ -122,8 +162,8 @@ public class GuiEntityTaoistPriest {
 
 		public MyGuiContainer(World world, EntityLiving entity, EntityPlayer player) {
 			super(new MyContainer(world, entity, player));
-			this.shepherdEntity = (EntityHasShepherdCapability)entity;
-			this.shepherdCapability = shepherdEntity.getShepherdCapability();
+			this.shepherdEntity = entity;
+			this.shepherdCapability = ((EntityHasShepherdCapability)shepherdEntity).getShepherdCapability();
 			df1 = new DecimalFormat("#0.0");
 			df2 = new DecimalFormat("#0.00");
 			df4 = new DecimalFormat("#0.0000");
@@ -143,15 +183,13 @@ public class GuiEntityTaoistPriest {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.getTextureManager().bindTexture(texture);
 			this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-	        drawEntityOnScreen(this.guiLeft + 33, this.guiTop + 78, 30, (EntityLiving)this.shepherdEntity);//7 7 , 58 77
+	        drawEntityOnScreen(this.guiLeft + 33, this.guiTop + 78, 30, this.shepherdEntity);//7 7 , 58 77
 		}
 		
 		@Override
 		protected void drawGuiContainerForegroundLayer(int par1, int par2) {
 			if(null != shepherdCapability) {
-//				int tempFontSize = this.fontRenderer.FONT_HEIGHT;
-//				this.fontRenderer.FONT_HEIGHT = 7;
-				this.fontRenderer.drawString("name: " + ((EntityLiving)this.shepherdEntity).getCustomNameTag(), 65, 8, 0xFF9933);
+				this.fontRenderer.drawString("name: " + this.shepherdEntity.getCustomNameTag(), 65, 8, 0xFF9933);
 				this.fontRenderer.drawString("level: " + shepherdCapability.getLevel(), 65, 16, 0xFF9933);
 				this.fontRenderer.drawString("race: " + shepherdCapability.getRace(), 65, 24, 0xFF9933);
 				this.fontRenderer.drawString("blood: " + df1.format(shepherdCapability.getBlood()) + "/" + df1.format(shepherdCapability.getMaxBlood()), 65, 32, 0xFF9933);
@@ -163,8 +201,7 @@ public class GuiEntityTaoistPriest {
 				this.fontRenderer.drawString("magicRestore: " + df4.format(shepherdCapability.getMagicRestore()) + "/T", 65, 80, 0xFF9933);
 				this.fontRenderer.drawString("physicalDefense: " + df2.format(shepherdCapability.getPhysicalDefense()), 65, 88, 0xFF9933);
 				this.fontRenderer.drawString("magicDefense: " + df2.format(shepherdCapability.getMagicDefense()), 65, 96, 0xFF9933);
-				this.fontRenderer.drawString("needExperience: " + shepherdEntity.getExperience() + "/" + shepherdEntity.getNextLevelNeedExperience(), 65, 104, 0xFF9933);
-//				this.fontRenderer.FONT_HEIGHT = tempFontSize;
+				this.fontRenderer.drawString("needExperience: " + ((EntityHasShepherdCapability)shepherdEntity).getExperience() + "/" + ((EntityHasShepherdCapability)shepherdEntity).getNextLevelNeedExperience(), 65, 104, 0xFF9933);
 			}
 		}
 	    
@@ -181,7 +218,7 @@ public class GuiEntityTaoistPriest {
 	        GlStateManager.rotate(135.0F, 0.0F, 1.0F, 0.0F);
 	        RenderHelper.enableStandardItemLighting();
 	        GlStateManager.rotate(-135.0F, 0.0F, 1.0F, 0.0F);
-	        GlStateManager.rotate(-20.0F, 1.0F, 0.0F, 0.0F);
+	        GlStateManager.rotate(0.0F, 1.0F, 0.0F, 0.0F);
 
 	        GlStateManager.translate(0.0F, 0.0F, 0.0F);
 	        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
@@ -196,6 +233,13 @@ public class GuiEntityTaoistPriest {
 	        GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
 	        GlStateManager.disableTexture2D();
 	        GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
+	    }
+
+	    public void updateScreen(){
+	        super.updateScreen();
+	        if (!this.shepherdEntity.isEntityAlive()){
+	            this.mc.player.closeScreen();
+	        }
 	    }
 	}
 }

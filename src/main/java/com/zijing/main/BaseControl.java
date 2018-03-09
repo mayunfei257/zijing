@@ -45,6 +45,7 @@ import com.zijing.items.tool.ItemToolZijingJian;
 import com.zijing.main.message.ChuansongBookToServerMessage;
 import com.zijing.main.message.ChuansongCardToServerMessage;
 import com.zijing.main.message.OpenClientGUIMessage;
+import com.zijing.main.message.ShepherdEntityToClientMessage;
 import com.zijing.main.message.ShepherdToClientMessage;
 import com.zijing.main.message.UpgradeToServerMessage;
 import com.zijing.main.playerdata.ShepherdCapability;
@@ -167,6 +168,7 @@ public class BaseControl{
     	netWorkWrapper.registerMessage(ShepherdToClientMessage.Handler.class, ShepherdToClientMessage.class, nextID++, Side.CLIENT);
     	netWorkWrapper.registerMessage(UpgradeToServerMessage.Handler.class, UpgradeToServerMessage.class, nextID++, Side.SERVER);
     	netWorkWrapper.registerMessage(OpenClientGUIMessage.Handler.class, OpenClientGUIMessage.class, nextID++, Side.CLIENT);
+    	netWorkWrapper.registerMessage(ShepherdEntityToClientMessage.Handler.class, ShepherdEntityToClientMessage.class, nextID++, Side.CLIENT);
 		//TODO In this registration items and blocks ---
 //		ForgeRegistries.BLOCKS.register(blockGuhuaNiunaiKuai);;
 //		ForgeRegistries.ITEMS.register(new ItemBlock(blockGuhuaNiunaiKuai).setRegistryName(blockGuhuaNiunaiKuai.getRegistryName()));

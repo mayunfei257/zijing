@@ -21,6 +21,7 @@ public class EntityArrowHuoDan extends EntityThrowable {
 	private float attackDamage = 3;
 	private float explosionProbability = 0.125F;
 	private float explosionStrength = 1F;
+	private boolean canExplosionOnBlock = true;
 	
 	public EntityArrowHuoDan(World a) {
 		super(a);
@@ -34,11 +35,12 @@ public class EntityArrowHuoDan extends EntityThrowable {
 		super(worldIn, shooter);
 	}
 	
-	public EntityArrowHuoDan(World worldIn, EntityLivingBase shooter, float attackDamage, float explosionProbability, float explosionStrength) {
+	public EntityArrowHuoDan(World worldIn, EntityLivingBase shooter, float attackDamage, float explosionProbability, float explosionStrength, boolean canExplosionOnBlock) {
 		super(worldIn, shooter);
 		this.attackDamage = attackDamage;
 		this.explosionProbability = explosionProbability;
 		this.explosionStrength = explosionStrength;
+		this.canExplosionOnBlock = canExplosionOnBlock;
 	}
 
 	@Override
@@ -54,9 +56,9 @@ public class EntityArrowHuoDan extends EntityThrowable {
 			entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), this.attackDamage);
 			entity.setFire(3);
 			if(this.world.rand.nextFloat() < this.explosionProbability) {
-				this.world.createExplosion(this, entity.posX, entity.posY, entity.posZ, this.explosionStrength, true);
+				this.world.createExplosion(this, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, this.explosionStrength, true);
 			}
-			world.playSound((EntityPlayer) null, entity.posX, entity.posY + 0.5D, entity.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.generic.explode")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+			world.playSound((EntityPlayer) null, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.generic.explode")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 			this.setDead();
 		}else if(null != blockPos && !this.world.isRemote){
 			Block block = this.world.getBlockState(blockPos).getBlock();
@@ -76,7 +78,7 @@ public class EntityArrowHuoDan extends EntityThrowable {
 						this.world.setBlockState(blockPos.offset(raytraceResultIn.sideHit), Blocks.FIRE.getDefaultState());
 					}
 				}
-				if(this.world.rand.nextFloat() < this.explosionProbability) {
+				if(this.world.rand.nextFloat() < this.explosionProbability && this.canExplosionOnBlock) {
 					BlockPos blockPosTemp = blockPos.offset(raytraceResultIn.sideHit);
 					this.world.createExplosion(this, blockPosTemp.getX(), blockPosTemp.getY(), blockPosTemp.getZ(), this.explosionStrength, true);
 				}
