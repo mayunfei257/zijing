@@ -60,66 +60,36 @@ public class GuiEntityCapability {
 					public boolean isItemValid(ItemStack stack) {
 						return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemArmor && ((ItemArmor)stack.getItem()).armorType == EntityEquipmentSlot.HEAD;
 					}
-					@Override
-				    public void onSlotChange(ItemStack par1, ItemStack par2) {
-				    	super.onSlotChange(par1, par2);
-				    	upDateEntityArmor();
-				    }
 				});
 				this.addSlotToContainer(new Slot(entityInv, 2, 25, 81) {
 					@Override
 					public boolean isItemValid(ItemStack stack) {
 						return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemArmor && ((ItemArmor)stack.getItem()).armorType == EntityEquipmentSlot.CHEST;
 					}
-					@Override
-				    public void onSlotChange(ItemStack par1, ItemStack par2) {
-				    	super.onSlotChange(par1, par2);
-				    	upDateEntityArmor();
-				    }
 				});
 				this.addSlotToContainer(new Slot(entityInv, 1, 43, 81) {
 					@Override
 					public boolean isItemValid(ItemStack stack) {
 						return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemArmor && ((ItemArmor)stack.getItem()).armorType == EntityEquipmentSlot.LEGS;
 					}
-					@Override
-				    public void onSlotChange(ItemStack par1, ItemStack par2) {
-				    	super.onSlotChange(par1, par2);
-				    	upDateEntityArmor();
-				    }
 				});
 				this.addSlotToContainer(new Slot(entityInv, 0, 7, 99) {
 					@Override
 					public boolean isItemValid(ItemStack stack) {
 						return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemArmor && ((ItemArmor)stack.getItem()).armorType == EntityEquipmentSlot.FEET;
 					}
-					@Override
-				    public void onSlotChange(ItemStack par1, ItemStack par2) {
-				    	super.onSlotChange(par1, par2);
-				    	upDateEntityArmor();
-				    }
 				});
 				this.addSlotToContainer(new Slot(entityInv, 4, 25, 99) {
 					@Override
 					public boolean isItemValid(ItemStack stack) {
 						return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemSword;
 					}
-					@Override
-				    public void onSlotChange(ItemStack par1, ItemStack par2) {
-				    	super.onSlotChange(par1, par2);
-				    	upDateEntityArmor();
-				    }
 				});
 				this.addSlotToContainer(new Slot(entityInv, 5, 43, 99) {
 					@Override
 					public boolean isItemValid(ItemStack stack) {
 						return null != stack && null != stack.getItem() && stack.getItem() == BaseControl.itemZilingZhu;
 					}
-					@Override
-				    public void onSlotChange(ItemStack par1, ItemStack par2) {
-				    	super.onSlotChange(par1, par2);
-				    	upDateEntityArmor();
-				    }
 				});
 			}
 			InventoryPlayer inventory = player.inventory;
@@ -146,7 +116,7 @@ public class GuiEntityCapability {
 		}
 		
 		private void upDateEntityArmor() {
-			if(entity instanceof EntitySummonTaoistPriest && !entity.world.isRemote) {
+			if(entity instanceof EntitySummonTaoistPriest) {
 				this.entity.setItemStackToSlot(EntityEquipmentSlot.HEAD, this.entityInv.getStackInSlot(3));
 				this.entity.setItemStackToSlot(EntityEquipmentSlot.CHEST, this.entityInv.getStackInSlot(2));
 				this.entity.setItemStackToSlot(EntityEquipmentSlot.LEGS, this.entityInv.getStackInSlot(1));
