@@ -14,7 +14,6 @@ import com.zijing.main.gui.GuiEntityCapability;
 import com.zijing.main.itf.EntityHasShepherdCapability;
 import com.zijing.main.itf.ItemDan;
 import com.zijing.main.itf.MagicSource;
-import com.zijing.main.message.OpenClientGUIMessage;
 import com.zijing.main.message.ShepherdEntityToClientMessage;
 import com.zijing.main.playerdata.ShepherdCapability;
 import com.zijing.util.EntityUtil;
@@ -43,7 +42,6 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -60,8 +58,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 
 public class EntitySummonTaoistPriest extends EntityCreature implements EntityHasShepherdCapability, IRangedAttackMob{
 	private final static int canShootHuoDanLevel = 15;
@@ -249,14 +245,15 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 			itemStack.shrink(1);
 		}else if(itemStack.getItem() == Items.DIAMOND && player.isSneaking()){
 			this.experience += 1000;
-		}else if(!this.world.isRemote && player instanceof EntityPlayerMP) {
-			EntityPlayerMP playerMp = (EntityPlayerMP)player;
-			playerMp.getNextWindowId();
-			playerMp.openContainer = new GuiEntityCapability.MyContainer(world, this, playerMp);
-			playerMp.openContainer.windowId = playerMp.currentWindowId;
-			playerMp.openContainer.addListener(playerMp);
-	        MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(playerMp, playerMp.openContainer));
-	        BaseControl.netWorkWrapper.sendTo(new OpenClientGUIMessage(GuiEntityCapability.GUIID, this.getEntityId()), (EntityPlayerMP)player);
+		}else if(!this.world.isRemote) {// && player instanceof EntityPlayerMP
+//			EntityPlayerMP playerMp = (EntityPlayerMP)player;
+//			playerMp.getNextWindowId();
+//			playerMp.openContainer = new GuiEntityCapability.MyContainer(world, this, playerMp);
+//			playerMp.openContainer.windowId = playerMp.currentWindowId;
+//			playerMp.openContainer.addListener(playerMp);
+//	        MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(playerMp, playerMp.openContainer));
+//	        BaseControl.netWorkWrapper.sendTo(new OpenClientGUIMessage(GuiEntityCapability.GUIID, this.getEntityId()), (EntityPlayerMP)player);
+	        player.openGui(ZijingMod.instance, GuiEntityCapability.GUIID, world, this.getEntityId(), this.getEntityId(), this.getEntityId());
 		}
 		return true;
 	}

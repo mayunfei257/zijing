@@ -12,7 +12,6 @@ import com.zijing.main.gui.GuiEntityCapability;
 import com.zijing.main.itf.EntityHasShepherdCapability;
 import com.zijing.main.itf.ItemDan;
 import com.zijing.main.itf.MagicSource;
-import com.zijing.main.message.OpenClientGUIMessage;
 import com.zijing.main.message.ShepherdEntityToClientMessage;
 import com.zijing.main.playerdata.ShepherdCapability;
 import com.zijing.util.EntityUtil;
@@ -37,7 +36,6 @@ import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -53,8 +51,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 
 public class EntitySummonSnowman extends EntityGolem implements EntityHasShepherdCapability,IRangedAttackMob, net.minecraftforge.common.IShearable{
     private static final DataParameter<Byte> PUMPKIN_EQUIPPED = EntityDataManager.<Byte>createKey(EntitySnowman.class, DataSerializers.BYTE);
@@ -230,14 +226,8 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 		}else if(itemStack.getItem() instanceof ItemDan){
 			((ItemDan)itemStack.getItem()).onFoodEatenByEntityLivingBase(this);
 			itemStack.shrink(1);
-		}else if(!this.world.isRemote && player instanceof EntityPlayerMP) {
-			EntityPlayerMP playerMp = (EntityPlayerMP)player;
-			playerMp.getNextWindowId();
-			playerMp.openContainer = new GuiEntityCapability.MyContainer(world, this, playerMp);
-			playerMp.openContainer.windowId = playerMp.currentWindowId;
-			playerMp.openContainer.addListener(playerMp);
-	        MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(playerMp, playerMp.openContainer));
-	        BaseControl.netWorkWrapper.sendTo(new OpenClientGUIMessage(GuiEntityCapability.GUIID, this.getEntityId()), (EntityPlayerMP)player);
+		}else if(!this.world.isRemote) {
+	        player.openGui(ZijingMod.instance, GuiEntityCapability.GUIID, world, this.getEntityId(), this.getEntityId(), this.getEntityId());
 		}
 		return true;
     }

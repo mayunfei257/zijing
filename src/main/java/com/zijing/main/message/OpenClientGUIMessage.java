@@ -4,7 +4,6 @@ import com.zijing.main.gui.GuiEntityCapability;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -44,7 +43,7 @@ public class OpenClientGUIMessage implements IMessage {
 					public void run() {
 						EntityPlayer player = Minecraft.getMinecraft().player;
 						if(GUIID == GuiEntityCapability.GUIID) {
-							Minecraft.getMinecraft().displayGuiScreen(new GuiEntityCapability.MyGuiContainer(player.world, (EntityLiving)player.world.getEntityByID(EntityId), player));
+//							Minecraft.getMinecraft().displayGuiScreen(new GuiEntityCapability.MyGuiContainer(player.world, (EntityLiving)player.world.getEntityByID(EntityId), player));
 						}
 					}
 				});

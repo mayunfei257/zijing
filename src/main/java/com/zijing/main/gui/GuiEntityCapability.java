@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,58 +40,61 @@ public class GuiEntityCapability {
 	public static final int GUIID = 6;
 
 	public static class MyContainer extends Container {
-		private EntityLiving entity;
+		private EntityLiving shepherdEntity;
 		private IInventory entityInv;
 		
-		public MyContainer(World world, EntityLiving entity, EntityPlayer player) {
-			this.entity = entity;
-			this.entityInv = new InventoryBasic(ZijingMod.MODID + ":entityInv", true, 6);
-			if(entity instanceof EntitySummonTaoistPriest) {
-				NonNullList<ItemStack> inventoryArmor = (NonNullList<ItemStack>) entity.getArmorInventoryList();
-				NonNullList<ItemStack> inventoryHands = (NonNullList<ItemStack>) entity.getHeldEquipment();
-				for(int n = 0; n < 6; n++){
-					if(n < 4) {
-						this.entityInv.setInventorySlotContents(n, inventoryArmor.get(n));
-					}else {
-						this.entityInv.setInventorySlotContents(n, inventoryHands.get(n - 4));
+		public MyContainer(World world, int entityId, EntityPlayer player) {
+			Entity entity = player.world.getEntityByID(entityId);
+			if(entity instanceof EntityLiving && entity instanceof EntityHasShepherdCapability) {
+				this.shepherdEntity = (EntityLiving)entity ;
+				this.entityInv = new InventoryBasic(ZijingMod.MODID + ":entityInv", true, 6);
+				if(shepherdEntity instanceof EntitySummonTaoistPriest) {
+					NonNullList<ItemStack> inventoryArmor = (NonNullList<ItemStack>) shepherdEntity.getArmorInventoryList();
+					NonNullList<ItemStack> inventoryHands = (NonNullList<ItemStack>) shepherdEntity.getHeldEquipment();
+					for(int n = 0; n < 6; n++){
+						if(n < 4) {
+							this.entityInv.setInventorySlotContents(n, inventoryArmor.get(n));
+						}else {
+							this.entityInv.setInventorySlotContents(n, inventoryHands.get(n - 4));
+						}
 					}
+					this.addSlotToContainer(new Slot(entityInv, 3, 7, 81) {
+						@Override
+						public boolean isItemValid(ItemStack stack) {
+							return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemArmor && ((ItemArmor)stack.getItem()).armorType == EntityEquipmentSlot.HEAD;
+						}
+					});
+					this.addSlotToContainer(new Slot(entityInv, 2, 25, 81) {
+						@Override
+						public boolean isItemValid(ItemStack stack) {
+							return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemArmor && ((ItemArmor)stack.getItem()).armorType == EntityEquipmentSlot.CHEST;
+						}
+					});
+					this.addSlotToContainer(new Slot(entityInv, 1, 43, 81) {
+						@Override
+						public boolean isItemValid(ItemStack stack) {
+							return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemArmor && ((ItemArmor)stack.getItem()).armorType == EntityEquipmentSlot.LEGS;
+						}
+					});
+					this.addSlotToContainer(new Slot(entityInv, 0, 7, 99) {
+						@Override
+						public boolean isItemValid(ItemStack stack) {
+							return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemArmor && ((ItemArmor)stack.getItem()).armorType == EntityEquipmentSlot.FEET;
+						}
+					});
+					this.addSlotToContainer(new Slot(entityInv, 4, 25, 99) {
+						@Override
+						public boolean isItemValid(ItemStack stack) {
+							return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemSword;
+						}
+					});
+					this.addSlotToContainer(new Slot(entityInv, 5, 43, 99) {
+						@Override
+						public boolean isItemValid(ItemStack stack) {
+							return null != stack && null != stack.getItem() && stack.getItem() == BaseControl.itemZilingZhu;
+						}
+					});
 				}
-				this.addSlotToContainer(new Slot(entityInv, 3, 7, 81) {
-					@Override
-					public boolean isItemValid(ItemStack stack) {
-						return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemArmor && ((ItemArmor)stack.getItem()).armorType == EntityEquipmentSlot.HEAD;
-					}
-				});
-				this.addSlotToContainer(new Slot(entityInv, 2, 25, 81) {
-					@Override
-					public boolean isItemValid(ItemStack stack) {
-						return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemArmor && ((ItemArmor)stack.getItem()).armorType == EntityEquipmentSlot.CHEST;
-					}
-				});
-				this.addSlotToContainer(new Slot(entityInv, 1, 43, 81) {
-					@Override
-					public boolean isItemValid(ItemStack stack) {
-						return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemArmor && ((ItemArmor)stack.getItem()).armorType == EntityEquipmentSlot.LEGS;
-					}
-				});
-				this.addSlotToContainer(new Slot(entityInv, 0, 7, 99) {
-					@Override
-					public boolean isItemValid(ItemStack stack) {
-						return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemArmor && ((ItemArmor)stack.getItem()).armorType == EntityEquipmentSlot.FEET;
-					}
-				});
-				this.addSlotToContainer(new Slot(entityInv, 4, 25, 99) {
-					@Override
-					public boolean isItemValid(ItemStack stack) {
-						return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemSword;
-					}
-				});
-				this.addSlotToContainer(new Slot(entityInv, 5, 43, 99) {
-					@Override
-					public boolean isItemValid(ItemStack stack) {
-						return null != stack && null != stack.getItem() && stack.getItem() == BaseControl.itemZilingZhu;
-					}
-				});
 			}
 			InventoryPlayer inventory = player.inventory;
 			for (int m = 0; m < 4; ++m) {
@@ -116,13 +120,15 @@ public class GuiEntityCapability {
 		}
 		
 		private void upDateEntityArmor() {
-			if(entity instanceof EntitySummonTaoistPriest) {
-				this.entity.setItemStackToSlot(EntityEquipmentSlot.HEAD, this.entityInv.getStackInSlot(3));
-				this.entity.setItemStackToSlot(EntityEquipmentSlot.CHEST, this.entityInv.getStackInSlot(2));
-				this.entity.setItemStackToSlot(EntityEquipmentSlot.LEGS, this.entityInv.getStackInSlot(1));
-				this.entity.setItemStackToSlot(EntityEquipmentSlot.FEET, this.entityInv.getStackInSlot(0));
-				this.entity.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, this.entityInv.getStackInSlot(4));
-				this.entity.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, this.entityInv.getStackInSlot(5));
+			if(null != shepherdEntity && !shepherdEntity.world.isRemote) {
+				if(shepherdEntity instanceof EntitySummonTaoistPriest) {
+					this.shepherdEntity.setItemStackToSlot(EntityEquipmentSlot.HEAD, this.entityInv.getStackInSlot(3));
+					this.shepherdEntity.setItemStackToSlot(EntityEquipmentSlot.CHEST, this.entityInv.getStackInSlot(2));
+					this.shepherdEntity.setItemStackToSlot(EntityEquipmentSlot.LEGS, this.entityInv.getStackInSlot(1));
+					this.shepherdEntity.setItemStackToSlot(EntityEquipmentSlot.FEET, this.entityInv.getStackInSlot(0));
+					this.shepherdEntity.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, this.entityInv.getStackInSlot(4));
+					this.shepherdEntity.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, this.entityInv.getStackInSlot(5));
+				}
 			}
 		}
 	}
@@ -136,10 +142,13 @@ public class GuiEntityCapability {
 		private DecimalFormat df2;
 		private DecimalFormat df4;
 
-		public MyGuiContainer(World world, EntityLiving entity, EntityPlayer player) {
-			super(new MyContainer(world, entity, player));
-			this.shepherdEntity = entity;
-			this.shepherdCapability = ((EntityHasShepherdCapability)shepherdEntity).getShepherdCapability();
+		public MyGuiContainer(World world, int entityId, EntityPlayer player) {
+			super(new MyContainer(world, entityId, player));
+			Entity entity = player.world.getEntityByID(entityId);
+			if(entity instanceof EntityLiving && entity instanceof EntityHasShepherdCapability) {
+				this.shepherdEntity = (EntityLiving) entity;
+				this.shepherdCapability = ((EntityHasShepherdCapability)this.shepherdEntity).getShepherdCapability();
+			}
 			df1 = new DecimalFormat("#0.0");
 			df2 = new DecimalFormat("#0.00");
 			df4 = new DecimalFormat("#0.0000");
@@ -160,7 +169,7 @@ public class GuiEntityCapability {
 			this.mc.getTextureManager().bindTexture(texture);
 			this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 	        drawEntityOnScreen(this.guiLeft + 33, this.guiTop + 77, 30, this.shepherdEntity);//7 7 , 58 77
-			if(!(shepherdEntity instanceof EntitySummonTaoistPriest)) {
+			if(null == this.shepherdEntity || !(this.shepherdEntity instanceof EntitySummonTaoistPriest)) {
 				this.drawTexturedModalRect(this.guiLeft + 8, this.guiTop + 82, 176, 0, 16, 16);
 				this.drawTexturedModalRect(this.guiLeft + 26, this.guiTop + 82, 176, 0, 16, 16);
 				this.drawTexturedModalRect(this.guiLeft + 44, this.guiTop + 82, 176, 0, 16, 16);
@@ -172,7 +181,7 @@ public class GuiEntityCapability {
 		
 		@Override
 		protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-			if(null != shepherdCapability) {
+			if(null != this.shepherdCapability) {
 				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.name", new Object[0]) + this.shepherdEntity.getCustomNameTag(), 64, 8, 0xFF9933);
 				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.level", new Object[0]) + "LV " + shepherdCapability.getLevel(), 64, 16, 0xFF9933);
 				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.race", new Object[0]) + shepherdCapability.getRace(), 64, 24, 0xFF9933);
@@ -221,7 +230,7 @@ public class GuiEntityCapability {
 
 	    public void updateScreen(){
 	        super.updateScreen();
-	        if (!this.shepherdEntity.isEntityAlive()){
+	        if (null != this.shepherdEntity && !this.shepherdEntity.isEntityAlive()){
 	            this.mc.player.closeScreen();
 	        }
 	    }

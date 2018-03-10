@@ -25,7 +25,7 @@ public class ZijingGuiHandler implements IGuiHandler {
 		if (id == GuiPlayeryCapability.GUIID)//5
 			return new GuiPlayeryCapability.MyContainer(world, x, y, z, player);
 		if (id == GuiEntityCapability.GUIID)//6
-			return null;
+			return new GuiEntityCapability.MyContainer(world, x, player);
 		return null;
 	}
 
@@ -42,7 +42,7 @@ public class ZijingGuiHandler implements IGuiHandler {
 		if (id == GuiPlayeryCapability.GUIID)//5
 			return new GuiPlayeryCapability.MyGuiContainer(world, x, y, z, player);
 		if (id == GuiEntityCapability.GUIID)//6
-			return null;
+			return new GuiEntityCapability.MyGuiContainer(world, x, player);
 		return null;
 	}
 }
