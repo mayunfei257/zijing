@@ -6,7 +6,6 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
 import com.zijing.ZijingMod;
 import com.zijing.entity.ai.EntityAIAttackMeleeZJ;
-import com.zijing.entity.ai.EntityAIAttackRangedZJ;
 import com.zijing.entity.ai.EntityAIDefendVillageZJ;
 import com.zijing.entity.ai.EntityAILookAtVillagerZJ;
 import com.zijing.items.staff.ItemStaffKongjian;
@@ -109,7 +108,7 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
     protected void initEntityAI(){
 		this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAITempt(this, 1.0D, false, Sets.newHashSet(BaseControl.itemZiqi, BaseControl.itemZijing, BaseControl.itemDanZiling)));
-		this.tasks.addTask(2, new EntityAIAttackRangedZJ(this, 1.0D, 20, 6D, 32.0F, ItemStaffKongjian.MagicSkill1));
+//		this.tasks.addTask(2, new EntityAIAttackRangedZJ(this, 1.0D, 20, 6D, 32.0F, ItemStaffKongjian.MagicSkill1));
         this.tasks.addTask(3, new EntityAIAttackMeleeZJ(this, 1.1D, 10, true));
         this.tasks.addTask(4, new EntityAIMoveTowardsTarget(this, 0.9D, 32.0F));
         this.tasks.addTask(5, new EntityAIMoveThroughVillage(this, 0.6D, true));
@@ -350,9 +349,11 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 		ItemStack itemStack = player.getHeldItem(hand);
 		if(itemStack.getItem() instanceof MagicSource && this.shepherdCapability.getMagic() < this.shepherdCapability.getMaxMagic()) {
 			this.shepherdCapability.setMagic(Math.min(this.shepherdCapability.getMaxMagic(), this.shepherdCapability.getMagic() + ((MagicSource)itemStack.getItem()).getMagicEnergy()));
+            this.spawnParticles(EnumParticleTypes.VILLAGER_HAPPY);
 			itemStack.shrink(1);
 		}else if(itemStack.getItem() instanceof ItemDan){
 			((ItemDan)itemStack.getItem()).onFoodEatenByEntityLivingBase(this);
+            this.spawnParticles(EnumParticleTypes.VILLAGER_HAPPY);
 			itemStack.shrink(1);
 		}else if(!this.world.isRemote) {
 	        player.openGui(ZijingMod.instance, GuiEntityCapability.GUIID, world, this.getEntityId(), this.getEntityId(), this.getEntityId());
@@ -371,7 +372,7 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
         	}
     		this.world.playSound((EntityPlayer) null, this.posX, this.posY + 1D, this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
     		this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - ItemStaffKongjian.MagicSkill1);
-			this.experience += attackDamage;
+			this.experience += attackDamage + 1;
         }
 	}
 
@@ -382,6 +383,16 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 	@Override
     public int getTalkInterval(){
         return 80;
+    }
+	
+    @SideOnly(Side.CLIENT)
+    private void spawnParticles(EnumParticleTypes particleType){
+        for (int i = 0; i < 5; ++i){
+            double d0 = this.rand.nextGaussian() * 0.02D;
+            double d1 = this.rand.nextGaussian() * 0.02D;
+            double d2 = this.rand.nextGaussian() * 0.02D;
+            this.world.spawnParticle(particleType, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 1.0D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
+        }
     }
 
 	@Override

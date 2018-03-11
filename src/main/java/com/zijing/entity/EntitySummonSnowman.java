@@ -44,6 +44,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -51,6 +52,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntitySummonSnowman extends EntityGolem implements EntityHasShepherdCapability,IRangedAttackMob, net.minecraftforge.common.IShearable{
     private static final DataParameter<Byte> PUMPKIN_EQUIPPED = EntityDataManager.<Byte>createKey(EntitySnowman.class, DataSerializers.BYTE);
@@ -222,9 +225,11 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 		ItemStack itemStack = player.getHeldItem(hand);
 		if(itemStack.getItem() instanceof MagicSource && this.shepherdCapability.getMagic() < this.shepherdCapability.getMaxMagic()) {
 			this.shepherdCapability.setMagic(Math.min(this.shepherdCapability.getMaxMagic(), this.shepherdCapability.getMagic() + ((MagicSource)itemStack.getItem()).getMagicEnergy()));
+            this.spawnParticles(EnumParticleTypes.VILLAGER_HAPPY);
 			itemStack.shrink(1);
 		}else if(itemStack.getItem() instanceof ItemDan){
 			((ItemDan)itemStack.getItem()).onFoodEatenByEntityLivingBase(this);
+            this.spawnParticles(EnumParticleTypes.VILLAGER_HAPPY);
 			itemStack.shrink(1);
 		}else if(!this.world.isRemote) {
 	        player.openGui(ZijingMod.instance, GuiEntityCapability.GUIID, world, this.getEntityId(), this.getEntityId(), this.getEntityId());
@@ -277,6 +282,16 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 	@Override
     public int getTalkInterval(){
         return 80;
+    }
+	
+    @SideOnly(Side.CLIENT)
+    private void spawnParticles(EnumParticleTypes particleType){
+        for (int i = 0; i < 5; ++i){
+            double d0 = this.rand.nextGaussian() * 0.02D;
+            double d1 = this.rand.nextGaussian() * 0.02D;
+            double d2 = this.rand.nextGaussian() * 0.02D;
+            this.world.spawnParticle(particleType, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 1.0D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
+        }
     }
 
 	@Override

@@ -58,6 +58,8 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntitySummonTaoistPriest extends EntityCreature implements EntityHasShepherdCapability, IRangedAttackMob{
 	private final static int canShootHuoDanLevel = 15;
@@ -148,6 +150,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 	@Override
     public void writeEntityToNBT(NBTTagCompound compound){
         super.writeEntityToNBT(compound);
+        compound.setBoolean("isImmuneToFire", isImmuneToFire);
         compound.setDouble(ZijingMod.MODID + ":swordDamage", this.swordDamage);
         compound.setDouble(ZijingMod.MODID + ":armorValue", this.armorValue);
         compound.setDouble(ZijingMod.MODID + ":experience", this.experience);
@@ -158,6 +161,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 	@Override
     public void readEntityFromNBT(NBTTagCompound compound){
         super.readEntityFromNBT(compound);
+        this.isImmuneToFire = compound.getBoolean("isImmuneToFire");
         this.swordDamage = compound.getDouble(ZijingMod.MODID + ":swordDamage");
         this.armorValue = compound.getDouble(ZijingMod.MODID + ":armorValue");
         this.experience = compound.getDouble(ZijingMod.MODID + ":experience");
@@ -233,15 +237,15 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 		ItemStack itemStack = player.getHeldItem(hand);
 		if(itemStack.getItem() instanceof MagicSource && this.shepherdCapability.getMagic() < this.shepherdCapability.getMaxMagic()) {
 			this.shepherdCapability.setMagic(Math.min(this.shepherdCapability.getMaxMagic(), this.shepherdCapability.getMagic() + ((MagicSource)itemStack.getItem()).getMagicEnergy()));
+            this.spawnParticles(EnumParticleTypes.VILLAGER_HAPPY);
 			itemStack.shrink(1);
 		}else if(itemStack.getItem() instanceof ItemDan){
 			((ItemDan)itemStack.getItem()).onFoodEatenByEntityLivingBase(this);
+            this.spawnParticles(EnumParticleTypes.VILLAGER_HAPPY);
 			itemStack.shrink(1);
 		}else if(itemStack.getItem() == Item.getItemFromBlock(Blocks.RED_FLOWER) || itemStack.getItem() == Item.getItemFromBlock(Blocks.YELLOW_FLOWER)){
 			this.experience += 5;
-	        for (int i = 0; i < 5; ++i){
-	            this.world.spawnParticle(EnumParticleTypes.HEART, this.posX + (this.rand.nextFloat() * this.width * 2.0F) - this.width, this.posY + 1.0D + (this.rand.nextFloat() * this.height), this.posZ + (this.rand.nextFloat() * this.width * 2.0F) - this.width, this.rand.nextGaussian() * 0.02D, this.rand.nextGaussian() * 0.02D, this.rand.nextGaussian() * 0.02D);
-	        }
+			this.spawnParticles(EnumParticleTypes.HEART);
 			itemStack.shrink(1);
 		}else if(itemStack.getItem() == Items.DIAMOND && player.isSneaking()){
 			this.experience += 1000;
@@ -347,6 +351,16 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 	@Override
     public int getTalkInterval(){
         return 80;
+    }
+	
+    @SideOnly(Side.CLIENT)
+    private void spawnParticles(EnumParticleTypes particleType){
+        for (int i = 0; i < 5; ++i){
+            double d0 = this.rand.nextGaussian() * 0.02D;
+            double d1 = this.rand.nextGaussian() * 0.02D;
+            double d2 = this.rand.nextGaussian() * 0.02D;
+            this.world.spawnParticle(particleType, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 1.0D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
+        }
     }
 
 	@Override

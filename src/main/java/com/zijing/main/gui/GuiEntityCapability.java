@@ -170,12 +170,12 @@ public class GuiEntityCapability {
 			this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 	        drawEntityOnScreen(this.guiLeft + 33, this.guiTop + 77, 30, this.shepherdEntity);//7 7 , 58 77
 			if(null == this.shepherdEntity || !(this.shepherdEntity instanceof EntitySummonTaoistPriest)) {
-				this.drawTexturedModalRect(this.guiLeft + 8, this.guiTop + 82, 176, 0, 16, 16);
-				this.drawTexturedModalRect(this.guiLeft + 26, this.guiTop + 82, 176, 0, 16, 16);
-				this.drawTexturedModalRect(this.guiLeft + 44, this.guiTop + 82, 176, 0, 16, 16);
-				this.drawTexturedModalRect(this.guiLeft + 8, this.guiTop + 100, 176, 0, 16, 16);
-				this.drawTexturedModalRect(this.guiLeft + 26, this.guiTop + 100, 176, 0, 16, 16);
-				this.drawTexturedModalRect(this.guiLeft + 44, this.guiTop + 100, 176, 0, 16, 16);
+				this.drawTexturedModalRect(this.guiLeft + 8, this.guiTop + 82, 176, 1, 16, 16);
+				this.drawTexturedModalRect(this.guiLeft + 26, this.guiTop + 82, 176, 1, 16, 16);
+				this.drawTexturedModalRect(this.guiLeft + 44, this.guiTop + 82, 176, 1, 16, 16);
+				this.drawTexturedModalRect(this.guiLeft + 8, this.guiTop + 100, 176, 1, 16, 16);
+				this.drawTexturedModalRect(this.guiLeft + 26, this.guiTop + 100, 176, 1, 16, 16);
+				this.drawTexturedModalRect(this.guiLeft + 44, this.guiTop + 100, 176, 1, 16, 16);
 			}
 		}
 		
