@@ -211,7 +211,7 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
         	}
     		this.world.playSound((EntityPlayer) null, this.posX, this.posY + 1D, this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
     		this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - ItemStaffBingxue.MagicSkill1);
-			this.experience += attackDamage;
+			this.experience += attackDamage + 1;
         }
     }
 

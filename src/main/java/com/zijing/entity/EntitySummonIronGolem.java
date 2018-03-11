@@ -224,11 +224,11 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
     public boolean canAttackClass(Class <? extends EntityLivingBase > cls){
         if (EntityPlayer.class.isAssignableFrom(cls) || EntityHasShepherdCapability.class.isAssignableFrom(cls)){
         	return false;
-        }else if(cls == EntitySkeleton.class && this.shepherdCapability.getLevel() < 20){
+        }else if(cls == EntitySkeleton.class && this.shepherdCapability.getLevel() < 15){
         	return false;
-        }else if(cls == EntityCreeper.class && this.shepherdCapability.getLevel() < 40){
+        }else if(cls == EntityCreeper.class && this.shepherdCapability.getLevel() < 30){
             return false;
-        }else if(cls == EntityEnderman.class && this.shepherdCapability.getLevel() < 60){
+        }else if(cls == EntityEnderman.class && this.shepherdCapability.getLevel() < 45){
             return false;
         }else if(EntityVillager.class.isAssignableFrom(cls) || EntityGhast.class.isAssignableFrom(cls) || EntityDragon.class.isAssignableFrom(cls) || EntityWither.class.isAssignableFrom(cls)) {
         	return false;
@@ -272,7 +272,7 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 
     	double attackDamage =  this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue() + this.swordDamage;
     	boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)attackDamage);
-		this.experience += attackDamage;
+		this.experience += attackDamage + 1;
 		
         if (flag){
             entityIn.motionY += 0.4000000059604645D;

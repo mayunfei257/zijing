@@ -289,7 +289,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
             this.applyEnchantments(this, entityIn);
 	        this.playSound(SoundEvents.ENTITY_IRONGOLEM_ATTACK, 1.0F, 1.0F);
         }
-		this.experience += attackDamage;
+		this.experience += attackDamage + 1;
         return flag;
     }
 
@@ -309,7 +309,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
         	}
     		this.world.playSound((EntityPlayer) null, this.posX, this.posY + 1D, this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
     		this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - ItemStaffBingxue.MagicSkill1);
-			this.experience += attackDamage;
+			this.experience += attackDamage + 1;
         }
 	}
 
