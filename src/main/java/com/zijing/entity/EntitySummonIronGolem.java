@@ -277,6 +277,11 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
         if (flag){
             entityIn.motionY += 0.4000000059604645D;
             this.applyEnchantments(this, entityIn);
+            if(this.shepherdCapability.getMagic() >= 1) {
+            	entityIn.setFire(2);
+        		this.experience += 2;
+            	this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - 1);
+            }
         }
         this.playSound(SoundEvents.ENTITY_IRONGOLEM_ATTACK, 1.0F, 1.0F);
         return flag;
