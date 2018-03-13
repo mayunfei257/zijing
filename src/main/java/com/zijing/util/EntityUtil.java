@@ -82,11 +82,11 @@ public class EntityUtil {
 //            	shepherdCapability.setIntellect(intellect);
     			shepherdCapability.setBloodRestore(level * ZijingMod.config.getUPGRADE_BLOODRESTORE_K());
     			shepherdCapability.setMagicRestore(level * ZijingMod.config.getUPGRADE_MAGICRESTORE_K());
-//            	shepherdCapability.setPhysicalDefense(physicalDefense);
+            	shepherdCapability.setPhysicalDefense((level - 1) * ZijingMod.config.getUPGRADE_PHYSICALDEFENSE_K());
 //            	shepherdCapability.setMagicDefense(magicDefense);
-    			player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(shepherdCapability.getMaxBlood());
-    			player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D + shepherdCapability.getPower());
-    			player.world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("block.end_portal.spawn")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+    			player.world.playSound((EntityPlayer) null, player.posX, player.posY + player.getEyeHeight(), player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("block.end_portal.spawn")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+    			
+    			setPlayerAllValue(player, shepherdCapability);
     			ShepherdProvider.updateChangeToClient(player);
 			}else {
 				player.sendMessage(new TextComponentString("Magic energy or experience is not enough!"));
@@ -108,6 +108,8 @@ public class EntityUtil {
 	public static boolean setPlayerAllValue(EntityPlayer player, ShepherdCapability shepherdCapability) {
 		player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D + shepherdCapability.getPower());
 		player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(shepherdCapability.getMaxBlood());
+		player.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(shepherdCapability.getPhysicalDefense());
+//		player.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(shepherdCapability.getPhysicalDefense());
 		player.setHealth((float) shepherdCapability.getBlood());
 		return true;
 	}
@@ -138,9 +140,9 @@ public class EntityUtil {
 //            	shepherdCapability.setIntellect(intellect);
     			shepherdCapability.setBloodRestore(level * ZijingMod.config.getUPGRADE_BLOODRESTORE_K());
     			shepherdCapability.setMagicRestore(level * ZijingMod.config.getUPGRADE_MAGICRESTORE_K());
-            	shepherdCapability.setPhysicalDefense(level * 0.25D);
+            	shepherdCapability.setPhysicalDefense((level - 1) * ZijingMod.config.getUPGRADE_PHYSICALDEFENSE_K());
 //            	shepherdCapability.setMagicDefense(magicDefense);
-    			entity.world.playSound(null, entity.posX, entity.posY + 0.5D, entity.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("block.end_portal.spawn")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+    			entity.world.playSound(null, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("block.end_portal.spawn")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
  //   			ShepherdProvider.updateChangeToClient(entity);
 
         		shepherdCapability.setBlood(shepherdCapability.getMaxBlood());
@@ -166,6 +168,7 @@ public class EntityUtil {
     		entity.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(shepherdCapability.getSpeed());
     		entity.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1D + shepherdCapability.getPower());
     		entity.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(shepherdCapability.getPhysicalDefense());// + shepherdEntity.getArmorValue()
+//    		entity.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(shepherdCapability.getPhysicalDefense());
     		entity.setHealth((float)shepherdCapability.getBlood());
     	}
 		return true;

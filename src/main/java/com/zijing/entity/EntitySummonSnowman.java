@@ -57,6 +57,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntitySummonSnowman extends EntityGolem implements EntityHasShepherdCapability,IRangedAttackMob, net.minecraftforge.common.IShearable{
     private static final DataParameter<Byte> PUMPKIN_EQUIPPED = EntityDataManager.<Byte>createKey(EntitySnowman.class, DataSerializers.BYTE);
+	private final static float experienceMagnification = 2.0F;
 	private int nextConnectTick = 60;
 	private int baseLevel = 1;
 	
@@ -209,9 +210,9 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
         		bingDan.shoot(target.posX - this.posX, target.getEntityBoundingBox().minY + target.height * 0.75D - bingDan.posY, target.posZ - this.posZ, 3.0F, 0);
         		this.world.spawnEntity(bingDan);
         	}
-    		this.world.playSound((EntityPlayer) null, this.posX, this.posY + 1D, this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+    		this.world.playSound((EntityPlayer) null, this.posX, this.posY + this.getEyeHeight(), this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
     		this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - ItemStaffBingxue.MagicSkill1);
-			this.experience += attackDamage + 1;
+			this.experience += attackDamage * this.experienceMagnification;
         }
     }
 

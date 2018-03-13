@@ -72,9 +72,11 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
     private int attackTimer;
     private int holdRoseTick;
 
+	private final static float experienceMagnification = 2.0F;
 	private int nextConnectTick = 60;
 	private int baseLevel = 1;
-	
+	private int burningTime = 2;
+
 	private int nextLevelNeedExperience;
 	private double experience;
 	private ShepherdCapability shepherdCapability;
@@ -272,14 +274,14 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 
     	double attackDamage =  this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue() + this.swordDamage;
     	boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)attackDamage);
-		this.experience += attackDamage + 1;
+		this.experience += attackDamage * this.experienceMagnification;
 		
         if (flag){
             entityIn.motionY += 0.4000000059604645D;
             this.applyEnchantments(this, entityIn);
             if(this.shepherdCapability.getMagic() >= 1) {
-            	entityIn.setFire(2);
-        		this.experience += 2;
+            	entityIn.setFire(this.burningTime);
+        		this.experience += this.burningTime * this.experienceMagnification;
             	this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - 1);
             }
         }
@@ -375,9 +377,9 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
         		xukongDan.shoot(target.posX - this.posX, target.getEntityBoundingBox().minY + target.height * 0.75D - xukongDan.posY, target.posZ - this.posZ, 3.0F, 0);
         		this.world.spawnEntity(xukongDan);
         	}
-    		this.world.playSound((EntityPlayer) null, this.posX, this.posY + 1D, this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+    		this.world.playSound((EntityPlayer) null, this.posX, this.posY + this.getEyeHeight(), this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
     		this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - ItemStaffKongjian.MagicSkill1);
-			this.experience += attackDamage + 1;
+			this.experience += attackDamage * this.experienceMagnification;
         }
 	}
 

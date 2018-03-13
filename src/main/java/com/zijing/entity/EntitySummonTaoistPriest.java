@@ -62,6 +62,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntitySummonTaoistPriest extends EntityCreature implements EntityHasShepherdCapability, IRangedAttackMob{
+	private final static float experienceMagnification = 2.0F;
 	private final static int canShootHuoDanLevel = 15;
 	private final static int immuneFireLevel = 30;
 	private final static int canLightningLevel = 45;
@@ -289,7 +290,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
             this.applyEnchantments(this, entityIn);
 	        this.playSound(SoundEvents.ENTITY_IRONGOLEM_ATTACK, 1.0F, 1.0F);
         }
-		this.experience += attackDamage + 1;
+		this.experience += attackDamage * this.experienceMagnification;
         return flag;
     }
 
@@ -307,9 +308,9 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
         		entityDan.shoot(target.posX - this.posX, target.getEntityBoundingBox().minY + target.height * 0.75D - entityDan.posY, target.posZ - this.posZ, 3.0F, 0);
         		this.world.spawnEntity(entityDan);
         	}
-    		this.world.playSound((EntityPlayer) null, this.posX, this.posY + 1D, this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+    		this.world.playSound((EntityPlayer) null, this.posX, this.posY + this.getEyeHeight(), this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
     		this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - ItemStaffBingxue.MagicSkill1);
-			this.experience += attackDamage + 1;
+			this.experience += attackDamage * this.experienceMagnification;
         }
 	}
 

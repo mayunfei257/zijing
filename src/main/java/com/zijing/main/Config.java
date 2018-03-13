@@ -41,6 +41,7 @@ public class Config {
 	private double UPGRADE_POWER_K;
 	private double UPGRADE_BLOODRESTORE_K;
 	private double UPGRADE_MAGICRESTORE_K;
+	private double UPGRADE_PHYSICALDEFENSE_K;
 	
 	
 	private Item.ToolMaterial zijingToolMaterial;
@@ -113,6 +114,7 @@ public class Config {
 		this.UPGRADE_POWER_K = configuration.get("PLAYER", "UPGRADE_POWER_K", 0.25D, "The player upgrade power K every level.").getDouble();
 		this.UPGRADE_BLOODRESTORE_K = configuration.get("PLAYER", "UPGRADE_BLOODRESTORE_K", 0.0002D, "The player upgrade bloodrestore K every tick.").getDouble();
 		this.UPGRADE_MAGICRESTORE_K = configuration.get("PLAYER", "UPGRADE_MAGICRESTORE_K", 0.001D, "The player upgrade magicrestore K every tick.").getDouble();
+		this.UPGRADE_PHYSICALDEFENSE_K = configuration.get("PLAYER", "UPGRADE_PHYSICALDEFENSE_K", 0.25D, "The player upgrade physicaldefense K every level.").getDouble();
 	}
 
 
@@ -208,6 +210,14 @@ public class Config {
 		return UPGRADE_MAGICRESTORE_K;
 	}
 	
+	public double getUPGRADE_PHYSICALDEFENSE_K() {
+		return UPGRADE_PHYSICALDEFENSE_K;
+	}
+
+	public void setUPGRADE_PHYSICALDEFENSE_K(double uPGRADE_PHYSICALDEFENSE_K) {
+		UPGRADE_PHYSICALDEFENSE_K = uPGRADE_PHYSICALDEFENSE_K;
+	}
+
 	public Item.ToolMaterial getZijingToolMaterial() {
 		return zijingToolMaterial;
 	}
