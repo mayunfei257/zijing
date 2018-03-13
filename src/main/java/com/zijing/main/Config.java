@@ -38,7 +38,7 @@ public class Config {
 	private int UPGRADE_NEED_MAGIC_K;
 	private int UPGRADE_MAXMAGIC_K;
 	private int UPGRADE_MAXBLOOD_K;
-	private double UPGRADE_POWER_K;
+	private double UPGRADE_ATTACK_K;
 	private double UPGRADE_BLOODRESTORE_K;
 	private double UPGRADE_MAGICRESTORE_K;
 	private double UPGRADE_PHYSICALDEFENSE_K;
@@ -111,7 +111,7 @@ public class Config {
 		this.UPGRADE_NEED_MAGIC_K = configuration.get("PLAYER", "UPGRADE_NEED_MAGIC_K", 50, "The player upgrade need magic K every level.").getInt();
 		this.UPGRADE_MAXMAGIC_K = configuration.get("PLAYER", "UPGRADE_MAXMAGIC_K", 50, "The player upgrade maxmagic K every level.").getInt();
 		this.UPGRADE_MAXBLOOD_K = configuration.get("PLAYER", "UPGRADE_MAXBLOOD_K", 2, "The player upgrade maxblood K every level.").getInt();
-		this.UPGRADE_POWER_K = configuration.get("PLAYER", "UPGRADE_POWER_K", 0.25D, "The player upgrade power K every level.").getDouble();
+		this.UPGRADE_ATTACK_K = configuration.get("PLAYER", "UPGRADE_ATTACK_K", 0.25D, "The player upgrade attack K every level.").getDouble();
 		this.UPGRADE_BLOODRESTORE_K = configuration.get("PLAYER", "UPGRADE_BLOODRESTORE_K", 0.0002D, "The player upgrade bloodrestore K every tick.").getDouble();
 		this.UPGRADE_MAGICRESTORE_K = configuration.get("PLAYER", "UPGRADE_MAGICRESTORE_K", 0.001D, "The player upgrade magicrestore K every tick.").getDouble();
 		this.UPGRADE_PHYSICALDEFENSE_K = configuration.get("PLAYER", "UPGRADE_PHYSICALDEFENSE_K", 0.25D, "The player upgrade physicaldefense K every level.").getDouble();
@@ -198,8 +198,8 @@ public class Config {
 		return UPGRADE_MAXBLOOD_K;
 	}
 
-	public double getUPGRADE_POWER_K() {
-		return UPGRADE_POWER_K;
+	public double getUPGRADE_ATTACK_K() {
+		return UPGRADE_ATTACK_K;
 	}
 
 	public double getUPGRADE_BLOODRESTORE_K() {
@@ -212,10 +212,6 @@ public class Config {
 	
 	public double getUPGRADE_PHYSICALDEFENSE_K() {
 		return UPGRADE_PHYSICALDEFENSE_K;
-	}
-
-	public void setUPGRADE_PHYSICALDEFENSE_K(double uPGRADE_PHYSICALDEFENSE_K) {
-		UPGRADE_PHYSICALDEFENSE_K = uPGRADE_PHYSICALDEFENSE_K;
 	}
 
 	public Item.ToolMaterial getZijingToolMaterial() {

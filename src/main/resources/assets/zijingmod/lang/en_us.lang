@@ -105,8 +105,11 @@ zijingmod.itemArmorZijingBoots.skill1=¡ì4Injured will get speed for %d seconds.
 
 #FY_Entity-------------------------------------------------------------------------
 zijingmod.entitySummonTaoistPriest.name=¡ì6Shushan female disciple
+zijingmod.entitySummonTaoistPriest.special=special
 zijingmod.entitySummonIronGolem.name=¡ì6Super IronGolem
+zijingmod.entitySummonIronGolem.special=special
 zijingmod.entitySummonSnowman.name=¡ì6Super Snowman
+zijingmod.entitySummonSnowman.special=special
 
 #FY_GUI-------------------------------------------------------------------------
 zijingmod.gui.upGrade=¡ì6¡ìlUpGrade
@@ -116,13 +119,14 @@ zijingmod.gui.race=¡ìlrace: ¡ìr
 zijingmod.gui.blood=¡ìlblood: ¡ìr
 zijingmod.gui.magic=¡ìlmagic: ¡ìr
 zijingmod.gui.speed=¡ìlspeed: ¡ìr
-zijingmod.gui.power=¡ìlpower: ¡ìr
+zijingmod.gui.attack=¡ìlattack: ¡ìr
 zijingmod.gui.intellect=¡ìlintellect: ¡ìr
 zijingmod.gui.bloodRestore=¡ìlbloodRestore: ¡ìr
 zijingmod.gui.magicRestore=¡ìlmagicRestore: ¡ìr
 zijingmod.gui.physicalDefense=¡ìlphysicalDefense: ¡ìr
 zijingmod.gui.magicDefense=¡ìlmagicDefense: ¡ìr
 zijingmod.gui.needExperience=¡ìlneedExperience: ¡ìr
+zijingmod.gui.special=¡ìlspecial: ¡ìr
 
 #FY_BASE---------------------------------------------------------------------------
 zijingmod.line.1=¡ìd----------------.

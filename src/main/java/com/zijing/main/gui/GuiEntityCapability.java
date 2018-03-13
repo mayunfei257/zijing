@@ -186,18 +186,19 @@ public class GuiEntityCapability {
 		protected void drawGuiContainerForegroundLayer(int par1, int par2) {
 			if(null != this.shepherdCapability) {
 //				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.name", new Object[0]) + this.shepherdEntity.getCustomNameTag(), 64, 8, 0xFF9933);
-				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.level", new Object[0]) + "LV" + shepherdCapability.getLevel() + " " + this.shepherdEntity.getCustomNameTag(), 64, 10, 0xFF9933);
+				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.level", new Object[0]) + "LV" + shepherdCapability.getLevel() + " " + this.shepherdEntity.getCustomNameTag(), 64, 8, 0xFF9933);
 //				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.race", new Object[0]) + shepherdCapability.getRace(), 64, 24, 0xFF9933);
-				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.blood", new Object[0]) + df1.format(shepherdCapability.getBlood()) + "/" + df1.format(shepherdCapability.getMaxBlood()), 64, 20, 0xFF9933);
-				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.magic", new Object[0]) + df1.format(shepherdCapability.getMagic()) + "/" + df1.format(shepherdCapability.getMaxMagic()), 64, 30, 0xFF9933);
-				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.speed", new Object[0]) + df2.format(shepherdCapability.getSpeed()), 64, 40, 0xFF9933);
-				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.power", new Object[0]) + df2.format(shepherdCapability.getPower()), 64, 50, 0xFF9933);
+				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.blood", new Object[0]) + df1.format(shepherdCapability.getBlood()) + "/" + df1.format(shepherdCapability.getMaxBlood()), 64, 17, 0xFF9933);
+				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.magic", new Object[0]) + df1.format(shepherdCapability.getMagic()) + "/" + df1.format(shepherdCapability.getMaxMagic()), 64, 26, 0xFF9933);
+				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.speed", new Object[0]) + df2.format(shepherdCapability.getSpeed()), 64, 35, 0xFF9933);
+				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.attack", new Object[0]) + df2.format(shepherdCapability.getAttack()), 64, 44, 0xFF9933);
 //				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.intellect", new Object[0]) + df2.format(shepherdCapability.getIntellect()), 64, 64, 0xFF9933);
-				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.physicalDefense", new Object[0]) + df2.format(shepherdCapability.getPhysicalDefense()), 64, 60, 0xFF9933);
-				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.magicDefense", new Object[0]) + df2.format(shepherdCapability.getMagicDefense()), 64, 70, 0xFF9933);
-				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.bloodRestore", new Object[0]) + df4.format(shepherdCapability.getBloodRestore()) + "/T", 64, 80, 0xFF9933);
-				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.magicRestore", new Object[0]) + df4.format(shepherdCapability.getMagicRestore()) + "/T", 64, 90, 0xFF9933);
-				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.needExperience", new Object[0]) + ((EntityHasShepherdCapability)shepherdEntity).getExperience() + "/" + ((EntityHasShepherdCapability)shepherdEntity).getNextLevelNeedExperience(), 64, 100, 0xFF9933);
+				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.physicalDefense", new Object[0]) + df2.format(shepherdCapability.getPhysicalDefense()), 64, 53, 0xFF9933);
+				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.magicDefense", new Object[0]) + df2.format(shepherdCapability.getMagicDefense()), 64, 62, 0xFF9933);
+				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.bloodRestore", new Object[0]) + df4.format(shepherdCapability.getBloodRestore()) + "/T", 64, 71, 0xFF9933);
+				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.magicRestore", new Object[0]) + df4.format(shepherdCapability.getMagicRestore()) + "/T", 64, 80, 0xFF9933);
+				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.needExperience", new Object[0]) + ((EntityHasShepherdCapability)shepherdEntity).getExperience() + "/" + ((EntityHasShepherdCapability)shepherdEntity).getNextLevelNeedExperience(), 64, 89, 0xFF9933);
+				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.special", new Object[0]) + ((EntityHasShepherdCapability)shepherdEntity).getSpecialInstructions(), 64, 98, 0xFF9933);
 			}
 		}
 	    

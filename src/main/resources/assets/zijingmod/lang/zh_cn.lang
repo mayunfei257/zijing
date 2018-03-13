@@ -105,8 +105,11 @@ zijingmod.itemArmorZijingBoots.skill1=§4受伤会获得速度加成状态%d秒�
 
 #FY_Entity-------------------------------------------------------------------------
 zijingmod.entitySummonTaoistPriest.name=§6蜀山女弟子
+zijingmod.entitySummonTaoistPriest.special=可以穿戴装备，触发紫晶防具被动效果！
 zijingmod.entitySummonIronGolem.name=§6超级铁傀儡
+zijingmod.entitySummonIronGolem.special=血量、血量恢复和防御%s倍于原等级！
 zijingmod.entitySummonSnowman.name=§6超级雪人
+zijingmod.entitySummonSnowman.special=法力、法力回复和移速%s倍于原等级！
 
 #FY_GUI-------------------------------------------------------------------------
 zijingmod.gui.upGrade=§6§l升级
@@ -116,13 +119,14 @@ zijingmod.gui.race=§l种族: §r
 zijingmod.gui.blood=§l生命: §r
 zijingmod.gui.magic=§l法力: §r
 zijingmod.gui.speed=§l移速: §r
-zijingmod.gui.power=§l力量: §r
+zijingmod.gui.attack=§l攻击: §r
 zijingmod.gui.intellect=§l智力: §r
 zijingmod.gui.bloodRestore=§l生命恢复: §r
 zijingmod.gui.magicRestore=§l法力恢复: §r
 zijingmod.gui.physicalDefense=§l物理防御: §r
 zijingmod.gui.magicDefense=§l魔法防御: §r
 zijingmod.gui.needExperience=§l升级经验: §r
+zijingmod.gui.special=§l特性: §r
 
 #FY_BASE---------------------------------------------------------------------------
 zijingmod.line.1=§d----------------.

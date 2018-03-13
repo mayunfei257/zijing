@@ -58,6 +58,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class EntitySummonSnowman extends EntityGolem implements EntityHasShepherdCapability,IRangedAttackMob, net.minecraftforge.common.IShearable{
     private static final DataParameter<Byte> PUMPKIN_EQUIPPED = EntityDataManager.<Byte>createKey(EntitySnowman.class, DataSerializers.BYTE);
 	private final static float experienceMagnification = 2.0F;
+	private final static float specialK = 1.5F;
 	private int nextConnectTick = 60;
 	private int baseLevel = 1;
 	
@@ -95,7 +96,7 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 		this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAITempt(this, 1.0D, false, Sets.newHashSet(BaseControl.itemZiqi, BaseControl.itemZijing, BaseControl.itemDanZiling)));
         this.tasks.addTask(2, new EntityAIPanicZJ(this, 1.5D, 16, 5, 8, 4, 4.3D));
-        this.tasks.addTask(3, new EntityAIAttackRangedZJ(this, 1.0D, 15, 4.3D, 32.0F, ItemStaffBingxue.MagicSkill1));
+        this.tasks.addTask(3, new EntityAIAttackRangedZJ(this, 1.0D, (int)(15/specialK), 4.3D, 32.0F, ItemStaffBingxue.MagicSkill1));
         this.tasks.addTask(4, new EntityAIWanderAvoidWater(this, 1.0D, 1.0000001E-5F));
         this.tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(6, new EntityAILookIdle(this));
@@ -108,6 +109,7 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
         super.applyEntityAttributes();
 		if (this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE) == null)
 	        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+        this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(8.0D);
     }
 
 	@Override
@@ -120,6 +122,11 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 		this.shepherdCapability = new ShepherdCapability();
 		this.experience = (int) MathUtil.getUpgradeK(this.shepherdCapability.getLevel(), baseLevel - 1) * ZijingMod.config.getUPGRADE_NEED_XP_K()/2;
 		EntityUtil.upEntityGrade(this, baseLevel - 1);
+		this.shepherdCapability.setMaxMagic(this.shepherdCapability.getMaxMagic() * this.specialK);
+		this.shepherdCapability.setMagic(this.shepherdCapability.getMagic());
+		this.shepherdCapability.setSpeed(this.shepherdCapability.getSpeed() * this.specialK);
+		this.shepherdCapability.setMagicRestore(this.shepherdCapability.getMagicRestore() * this.specialK);
+		EntityUtil.setEntityAllValue(this);
 		this.setCustomNameTag(I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonSnowman.name", new Object[0]));
 	}
 	
@@ -159,6 +166,11 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 		if(!this.isDead && this.getHealth() > 0) {
 			if(this.nextLevelNeedExperience <= this.experience) {
 				EntityUtil.upEntityGrade(this, 1);
+				this.shepherdCapability.setMaxMagic(this.shepherdCapability.getMaxMagic() * this.specialK);
+				this.shepherdCapability.setMagic(this.shepherdCapability.getMagic());
+				this.shepherdCapability.setSpeed(this.shepherdCapability.getSpeed() * this.specialK);
+				this.shepherdCapability.setMagicRestore(this.shepherdCapability.getMagicRestore() * this.specialK);
+				EntityUtil.setEntityAllValue(this);
 			}
 			if(this.getHealth() < this.getMaxHealth()) {
 				this.setHealth(this.getHealth() + (float)this.shepherdCapability.getBloodRestore());
@@ -344,5 +356,11 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 	public boolean updataSwordDamageAndArmorValue() {
 		EntityUtil.setEntityArmorValueAndSwordDamage(this);
 		return true;
+	}
+
+	@Override
+    @SideOnly(Side.CLIENT)
+	public String getSpecialInstructions() {
+		return I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonSnowman.special", new Object[] {this.specialK});
 	}
 }

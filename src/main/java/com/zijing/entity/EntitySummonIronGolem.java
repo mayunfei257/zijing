@@ -73,6 +73,7 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
     private int holdRoseTick;
 
 	private final static float experienceMagnification = 2.0F;
+	private final static float specialK = 1.5F;//blood
 	private int nextConnectTick = 60;
 	private int baseLevel = 1;
 	private int burningTime = 2;
@@ -149,13 +150,18 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 		if (this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE) == null)
 	        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(4.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(8.0D);
     }
 
 	private void setBaseShepherdCapability() {
 		this.shepherdCapability = new ShepherdCapability();
 		this.experience = (int) MathUtil.getUpgradeK(this.shepherdCapability.getLevel(), baseLevel - 1) * ZijingMod.config.getUPGRADE_NEED_XP_K()/2;
 		EntityUtil.upEntityGrade(this, baseLevel - 1);
+		this.shepherdCapability.setMaxBlood(this.shepherdCapability.getMaxBlood() * this.specialK);
+		this.shepherdCapability.setBlood(this.shepherdCapability.getMaxBlood());
+		this.shepherdCapability.setPhysicalDefense(this.shepherdCapability.getPhysicalDefense() * this.specialK);
+		this.shepherdCapability.setBloodRestore(this.shepherdCapability.getBloodRestore() * this.specialK);
+		EntityUtil.setEntityAllValue(this);
 		this.setCustomNameTag(I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonIronGolem.name", new Object[0]));
 	}
 	
@@ -197,6 +203,11 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 		if(!this.isDead && this.getHealth() > 0) {
 			if(this.nextLevelNeedExperience <= this.experience) {
 				EntityUtil.upEntityGrade(this, 1);
+				this.shepherdCapability.setMaxBlood(this.shepherdCapability.getMaxBlood() * this.specialK);
+				this.shepherdCapability.setBlood(this.shepherdCapability.getMaxBlood());
+				this.shepherdCapability.setPhysicalDefense(this.shepherdCapability.getPhysicalDefense() * this.specialK);
+				this.shepherdCapability.setBloodRestore(this.shepherdCapability.getBloodRestore() * this.specialK);
+				EntityUtil.setEntityAllValue(this);
 			}
 			if(this.getHealth() < this.getMaxHealth()) {
 				this.setHealth(this.getHealth() + (float)this.shepherdCapability.getBloodRestore());
@@ -451,5 +462,11 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 	public boolean updataSwordDamageAndArmorValue() {
 		EntityUtil.setEntityArmorValueAndSwordDamage(this);
 		return true;
+	}
+
+	@Override
+    @SideOnly(Side.CLIENT)
+	public String getSpecialInstructions() {
+		return I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonIronGolem.special", new Object[] {this.specialK});
 	}
 }

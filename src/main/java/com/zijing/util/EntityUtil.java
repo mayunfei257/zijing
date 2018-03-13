@@ -78,7 +78,7 @@ public class EntityUtil {
     			shepherdCapability.setMaxBlood(level * ZijingMod.config.getUPGRADE_MAXBLOOD_K());
     			shepherdCapability.setMaxMagic(level * ZijingMod.config.getUPGRADE_MAXMAGIC_K());
 //    			shepherdCapability.setSpeed(level * 0.1 + 1);
-    			shepherdCapability.setPower((level - 1) * ZijingMod.config.getUPGRADE_POWER_K());
+    			shepherdCapability.setAttack((level - 1) * ZijingMod.config.getUPGRADE_ATTACK_K());
 //            	shepherdCapability.setIntellect(intellect);
     			shepherdCapability.setBloodRestore(level * ZijingMod.config.getUPGRADE_BLOODRESTORE_K());
     			shepherdCapability.setMagicRestore(level * ZijingMod.config.getUPGRADE_MAGICRESTORE_K());
@@ -106,7 +106,7 @@ public class EntityUtil {
 	 * @return
 	 */
 	public static boolean setPlayerAllValue(EntityPlayer player, ShepherdCapability shepherdCapability) {
-		player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D + shepherdCapability.getPower());
+		player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D + shepherdCapability.getAttack());
 		player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(shepherdCapability.getMaxBlood());
 		player.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(shepherdCapability.getPhysicalDefense());
 //		player.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(shepherdCapability.getPhysicalDefense());
@@ -136,7 +136,7 @@ public class EntityUtil {
     			shepherdCapability.setMaxBlood(level * ZijingMod.config.getUPGRADE_MAXBLOOD_K());
     			shepherdCapability.setMaxMagic(level * ZijingMod.config.getUPGRADE_MAXMAGIC_K());
     			shepherdCapability.setSpeed(level * 0.005D + 0.2D);
-    			shepherdCapability.setPower((level - 1) * ZijingMod.config.getUPGRADE_POWER_K());
+    			shepherdCapability.setAttack((level - 1) * ZijingMod.config.getUPGRADE_ATTACK_K());
 //            	shepherdCapability.setIntellect(intellect);
     			shepherdCapability.setBloodRestore(level * ZijingMod.config.getUPGRADE_BLOODRESTORE_K());
     			shepherdCapability.setMagicRestore(level * ZijingMod.config.getUPGRADE_MAGICRESTORE_K());
@@ -147,7 +147,6 @@ public class EntityUtil {
 
         		shepherdCapability.setBlood(shepherdCapability.getMaxBlood());
     			shepherdCapability.setMagic(shepherdCapability.getMaxMagic());
-    			setEntityAllValue(entity);
     			shepherdEntity.setNextLevelNeedExperience((int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), 1) * ZijingMod.config.getUPGRADE_NEED_XP_K()/2);
 			}
     	}
@@ -166,7 +165,7 @@ public class EntityUtil {
     		ShepherdCapability shepherdCapability = shepherdEntity.getShepherdCapability();
     		entity.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(shepherdCapability.getMaxBlood());
     		entity.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(shepherdCapability.getSpeed());
-    		entity.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1D + shepherdCapability.getPower());
+    		entity.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1D + shepherdCapability.getAttack());
     		entity.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(shepherdCapability.getPhysicalDefense());// + shepherdEntity.getArmorValue()
 //    		entity.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(shepherdCapability.getPhysicalDefense());
     		entity.setHealth((float)shepherdCapability.getBlood());

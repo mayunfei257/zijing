@@ -24,7 +24,7 @@ public class ShepherdCapability{
 	private double maxBlood;
 	private double maxMagic;
 	private double speed;
-	private double power;
+	private double attack;
 	private double intellect;
 	private double bloodRestore;
 	private double magicRestore;
@@ -39,7 +39,7 @@ public class ShepherdCapability{
 		this.maxBlood = ZijingMod.config.getUPGRADE_MAXBLOOD_K() * this.level;
 		this.maxMagic = ZijingMod.config.getUPGRADE_MAXMAGIC_K() * this.level;
 		this.speed = ShepherdCapability.BASE_SPEED;
-		this.power = ZijingMod.config.getUPGRADE_POWER_K() * (this.level - 1);
+		this.attack = ZijingMod.config.getUPGRADE_ATTACK_K() * (this.level - 1);
 		this.intellect = ShepherdCapability.BASE_INTELLECT;
 		this.bloodRestore = ZijingMod.config.getUPGRADE_BLOODRESTORE_K() * this.level;
 		this.magicRestore = ZijingMod.config.getUPGRADE_MAGICRESTORE_K() * this.level;
@@ -69,8 +69,8 @@ public class ShepherdCapability{
 	public void setMagic(double magic) {this.magic = magic;}
 	public double getSpeed() {return speed;}
 	public void setSpeed(double speed) {this.speed = speed;}
-	public double getPower() {return power;}
-	public void setPower(double power) {this.power = power;}
+	public double getAttack() {return attack;}
+	public void setAttack(double attack) {this.attack = attack;}
 	public double getIntellect() {return intellect;}
 	public void setIntellect(double intellect) {this.intellect = intellect;}
 	public double getBloodRestore() {return bloodRestore;}
@@ -92,7 +92,7 @@ public class ShepherdCapability{
 			instance.setMaxMagic(((NBTTagCompound)nbtTag).getDouble("maxMagic"));
 			instance.setMagic(((NBTTagCompound)nbtTag).getDouble("magic"));
 			instance.setSpeed(((NBTTagCompound)nbtTag).getDouble("speed"));
-			instance.setPower(((NBTTagCompound)nbtTag).getDouble("power"));
+			instance.setAttack(((NBTTagCompound)nbtTag).getDouble("attack"));
 			instance.setIntellect(((NBTTagCompound)nbtTag).getDouble("intellect"));
 			instance.setBloodRestore(((NBTTagCompound)nbtTag).getDouble("bloodRestore"));
 			instance.setMagicRestore(((NBTTagCompound)nbtTag).getDouble("magicRestore"));
@@ -109,7 +109,7 @@ public class ShepherdCapability{
 			nbtTag.setDouble("maxMagic", instance.getMaxMagic());
 			nbtTag.setDouble("magic", instance.getMagic());
 			nbtTag.setDouble("speed", instance.getSpeed());
-			nbtTag.setDouble("power", instance.getPower());
+			nbtTag.setDouble("attack", instance.getAttack());
 			nbtTag.setDouble("intellect", instance.getIntellect());
 			nbtTag.setDouble("bloodRestore", instance.getBloodRestore());
 			nbtTag.setDouble("magicRestore", instance.getMagicRestore());

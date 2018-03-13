@@ -135,7 +135,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 	        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(16.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(4.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(8.0D);
 	}
 	
 	private void setBaseShepherdCapability() {
@@ -323,6 +323,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 				if(this.shepherdCapability.getLevel() >= this.immuneFireLevel) {
 					this.isImmuneToFire = true;
 				}
+				EntityUtil.setEntityAllValue(this);
 			}
 			if(this.getHealth() < this.getMaxHealth()) {
 				this.setHealth(this.getHealth() + (float)this.shepherdCapability.getBloodRestore());
@@ -413,5 +414,11 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 	public boolean updataSwordDamageAndArmorValue() {
 		EntityUtil.setEntityArmorValueAndSwordDamage(this);
 		return true;
+	}
+
+	@Override
+    @SideOnly(Side.CLIENT)
+	public String getSpecialInstructions() {
+		return I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonTaoistPriest.special", new Object[0]);
 	}
 }

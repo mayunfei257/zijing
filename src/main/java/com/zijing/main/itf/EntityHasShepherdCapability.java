@@ -2,6 +2,9 @@ package com.zijing.main.itf;
 
 import com.zijing.main.playerdata.ShepherdCapability;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 public interface EntityHasShepherdCapability{
 
 	public double getExperience();
@@ -23,4 +26,7 @@ public interface EntityHasShepherdCapability{
 	public void setArmorValue(double armorValue);
 	
 	public boolean updataSwordDamageAndArmorValue();
+
+    @SideOnly(Side.CLIENT)
+	public String getSpecialInstructions();
 }
