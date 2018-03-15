@@ -39,6 +39,7 @@ import com.zijing.items.tool.ItemArmorZijingHelmet;
 import com.zijing.items.tool.ItemArmorZijingLegs;
 import com.zijing.items.tool.ItemToolZijingChan;
 import com.zijing.items.tool.ItemToolZijingChu;
+import com.zijing.items.tool.ItemToolZijingDun;
 import com.zijing.items.tool.ItemToolZijingFu;
 import com.zijing.items.tool.ItemToolZijingGao;
 import com.zijing.items.tool.ItemToolZijingJian;
@@ -112,7 +113,7 @@ public class BaseControl{
 	public static Item itemToolZijingGao;
 	public static Item itemToolZijingChan;
 	public static Item itemToolZijingChu;
-//	public static Item itemToolZijingDun;
+	public static Item itemToolZijingDun;
 	public static Item itemArmorZijingHelmet;
 	public static Item itemArmorZijingBody;
 	public static Item itemArmorZijingLegs;
@@ -153,7 +154,7 @@ public class BaseControl{
 		itemToolZijingGao = new ItemToolZijingGao();
 		itemToolZijingChan = new ItemToolZijingChan();
 		itemToolZijingChu = new ItemToolZijingChu();
-//		itemToolZijingDun = new ItemToolZijingDun();
+		itemToolZijingDun = new ItemToolZijingDun();
 		itemArmorZijingHelmet = new ItemArmorZijingHelmet();
 		itemArmorZijingBody = new ItemArmorZijingBody();
 		itemArmorZijingLegs = new ItemArmorZijingLegs();
@@ -213,12 +214,11 @@ public class BaseControl{
 		GameData.register_impl(itemToolZijingGao);
 		GameData.register_impl(itemToolZijingChan);
 		GameData.register_impl(itemToolZijingChu);
-//		GameData.register_impl(itemToolZijingDun);
+		GameData.register_impl(itemToolZijingDun);
 		GameData.register_impl(itemArmorZijingHelmet);
 		GameData.register_impl(itemArmorZijingBody);
 		GameData.register_impl(itemArmorZijingLegs);
 		GameData.register_impl(itemArmorZijingBoots);
-		
 		
 		EntityRegistry.registerModEntity(new ResourceLocation(ZijingMod.MODID + ":entityarrowbingdan"), EntityArrowBingDan.class, "entityArrowBingDan", 257, ZijingMod.instance, 64, 1, true);
 		EntityRegistry.registerModEntity(new ResourceLocation(ZijingMod.MODID + ":entityarrowhuodan"), EntityArrowHuoDan.class, "entityArrowHuoDan", 258, ZijingMod.instance, 64, 1, true);
@@ -264,7 +264,7 @@ public class BaseControl{
 		itemResourceLoad(itemToolZijingGao);
 		itemResourceLoad(itemToolZijingChan);
 		itemResourceLoad(itemToolZijingChu);
-//		itemResourceLoad(itemToolZijingDun);
+		itemResourceLoad(itemToolZijingDun);
 		itemResourceLoad(itemArmorZijingHelmet);
 		itemResourceLoad(itemArmorZijingBody);
 		itemResourceLoad(itemArmorZijingLegs);
@@ -307,7 +307,7 @@ public class BaseControl{
 		addRecipe(ZijingMod.MODID + ":HC_itemToolZijingGao", ZijingMod.MODID, new ItemStack(itemToolZijingGao, 1), itemZijing, itemZijing, itemZijing, null, Items.STICK, null, null, Items.STICK, null);
 		addRecipe(ZijingMod.MODID + ":HC_itemToolZijingChan", ZijingMod.MODID, new ItemStack(itemToolZijingChan, 1), null, itemZijing, null, null, Items.STICK, null, null, Items.STICK, null);
 		addRecipe(ZijingMod.MODID + ":HC_itemToolZijingChu", ZijingMod.MODID, new ItemStack(itemToolZijingChu, 1), itemZijing, itemZijing, null, null, Items.STICK, null, null, Items.STICK, null);
-//		addRecipe(new ItemStack(itemToolZijingDun, 1), null, itemZiqi, null, itemZiqi, Items.SHIELD, itemZiqi, null, itemZiqi, null);
+		addRecipe(ZijingMod.MODID + ":HC_itemToolZijingDun", ZijingMod.MODID, new ItemStack(itemToolZijingDun, 1), null, itemZiqi, null, itemZiqi, Items.SHIELD, itemZiqi, null, itemZiqi, null);
 		addRecipe(ZijingMod.MODID + ":HC_itemArmorZijingHelmet", ZijingMod.MODID, new ItemStack(itemArmorZijingHelmet, 1), itemZijing, itemZijing, itemZijing, itemZijing, null, itemZijing, null, null, null);
 		addRecipe(ZijingMod.MODID + ":HC_itemArmorZijingBody", ZijingMod.MODID, new ItemStack(itemArmorZijingBody, 1), itemZijing, null, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing);
 		addRecipe(ZijingMod.MODID + ":HC_itemArmorZijingLegs", ZijingMod.MODID, new ItemStack(itemArmorZijingLegs, 1), itemZijing, itemZijing, itemZijing, itemZijing, null, itemZijing, itemZijing, null, itemZijing);
@@ -333,7 +333,7 @@ public class BaseControl{
 		RenderingRegistry.registerEntityRenderingHandler(EntityArrowHuoDan.class, new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), itemArrowHuoDan, Minecraft.getMinecraft().getRenderItem()));
 		RenderingRegistry.registerEntityRenderingHandler(EntityArrowXukongDan.class, new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), itemArrowXukongDan, Minecraft.getMinecraft().getRenderItem()));
 		RenderingRegistry.registerEntityRenderingHandler(EntityArrowFengyinDan.class, new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), itemArrowFengyinDan, Minecraft.getMinecraft().getRenderItem()));
-		RenderingRegistry.registerEntityRenderingHandler(EntitySummonTaoistPriest.class, new RenderSummonTaoistPriest(Minecraft.getMinecraft().getRenderManager()));
+		RenderingRegistry.registerEntityRenderingHandler(EntitySummonTaoistPriest.class, new RenderSummonTaoistPriest(Minecraft.getMinecraft().getRenderManager(), true));
 		RenderingRegistry.registerEntityRenderingHandler(EntitySummonIronGolem.class, new RenderSummonIronGolem(Minecraft.getMinecraft().getRenderManager()));
 		RenderingRegistry.registerEntityRenderingHandler(EntitySummonSnowman.class, new RenderSummonSnowman(Minecraft.getMinecraft().getRenderManager()));
 	}

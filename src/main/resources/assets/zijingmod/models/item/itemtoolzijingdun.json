@@ -38,14 +38,10 @@
         }
     },
     "overrides": [
-        {
-            "predicate": {
-                "blocking": 1
-            },
-            "model": "zijingmod:item/itemtoolzijingdun_blocking"
-        }
+        {"predicate":{"blocking":1},"model":"zijingmod:item/itemtoolzijingdun_blocking"},
+        {"predicate":{"blocking":0},"model":"zijingmod:item/itemtoolzijingdun_blocking"}
     ],
     "textures":{
-        "layer0":"zijingmod:items/itemtoolzijingchan"
+        "layer0":"zijingmod:items/itemtoolzijingdun"
     }
 }

@@ -54,7 +54,7 @@ entity.entitySummonIronGolem.name=§6超级铁傀儡
 entity.entitySummonSnowman.name=§6超级雪人
 
 #FY_Block----------------------------------------------------------------------
-zijingmod.blockZilingCao.1=§4重要植物，种在耕地上，可烧炼成紫气
+zijingmod.blockZilingCao.1=§4重要植物，可在耕地上生长，可烧炼成紫气
 
 #FY_Item---------------------------------------------------------------------------
 zijingmod.itemZiqi.magic=§4灵力值 : %d

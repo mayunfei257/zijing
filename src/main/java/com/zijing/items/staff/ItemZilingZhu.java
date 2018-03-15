@@ -52,21 +52,25 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 		if(!world.isRemote && ShepherdProvider.hasCapabilityFromPlayer(player)) {
 			ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
 			if(player.isSneaking()) {
-				if(shepherdCapability.getMagic() >= MagicSkill2) {
+				if(shepherdCapability.getMagic() >= MagicSkill2 || player.isCreative()) {
 					Collection<PotionEffect> potionEffects = player.getActivePotionEffects();
 					for(PotionEffect potionEffect:potionEffects) {
 						player.removePotionEffect(potionEffect.getPotion());
 					}
-					shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill2);
-					ShepherdProvider.updateChangeToClient(player);
+					if(!player.isCreative()) {
+						shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill2);
+						ShepherdProvider.updateChangeToClient(player);
+					}
 				}else {
 					player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill2));
 				}
 			}else {
-				if(shepherdCapability.getMagic() >= MagicSkill1) {
+				if(shepherdCapability.getMagic() >= MagicSkill1 || player.isCreative()) {
 					player.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 80, 0));
-					shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill1);
-					ShepherdProvider.updateChangeToClient(player);
+					if(!player.isCreative()) {
+						shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill1);
+						ShepherdProvider.updateChangeToClient(player);
+					}
 				}else {
 					player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill1));
 				}
@@ -85,7 +89,7 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 		if(!worldIn.isRemote && ShepherdProvider.hasCapabilityFromPlayer(player)) {
 			ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
 			if(player.isSneaking()) {
-				if(shepherdCapability.getMagic() >= MagicSkill4) {
+				if(shepherdCapability.getMagic() >= MagicSkill4 || player.isCreative()) {
 					for(; y > 0; y--) {
 						if(worldIn.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.BEDROCK) { break; }
 						if(worldIn.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.AIR && worldIn.getBlockState(new BlockPos(x, y + 1, z)).getBlock() == Blocks.AIR && worldIn.getBlockState(new BlockPos(x, y - 1, z)).getBlock() != Blocks.AIR) {
@@ -93,8 +97,10 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 								worldIn.setBlockState(new BlockPos(x, y - 1, z), Blocks.STONE.getDefaultState());
 							}
 							player.setPositionAndUpdate(x + 0.5, y, z + 0.5);
-							shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill4);
-							ShepherdProvider.updateChangeToClient(player);
+							if(!player.isCreative()) {
+								shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill4);
+								ShepherdProvider.updateChangeToClient(player);
+							}
 							break;
 						}
 					}
@@ -102,7 +108,7 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 					player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill4));
 				}
 			}else{
-				if(shepherdCapability.getMagic() >= MagicSkill3) {
+				if(shepherdCapability.getMagic() >= MagicSkill3 || player.isCreative()) {
 					for(; y <= 513; y++) {
 						if(worldIn.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.BEDROCK) { break; }
 						if(worldIn.getBlockState(new BlockPos(x, y, z)).getBlock() == Blocks.AIR && worldIn.getBlockState(new BlockPos(x, y + 1, z)).getBlock() == Blocks.AIR && worldIn.getBlockState(new BlockPos(x, y - 1, z)).getBlock() != Blocks.AIR) {
@@ -110,8 +116,10 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 								worldIn.setBlockState(new BlockPos(x, y - 1, z), Blocks.STONE.getDefaultState());
 							}
 							player.setPositionAndUpdate(x + 0.5, y, z + 0.5);
-							shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill3);
-							ShepherdProvider.updateChangeToClient(player);
+							if(!player.isCreative()) {
+								shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill3);
+								ShepherdProvider.updateChangeToClient(player);
+							}
 							break;
 						}
 					}
