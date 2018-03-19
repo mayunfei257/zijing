@@ -2,6 +2,9 @@ package com.zijing.entity;
 
 import com.zijing.ZijingMod;
 import com.zijing.main.BaseControl;
+import com.zijing.main.itf.EntityHasShepherdCapability;
+import com.zijing.main.itf.EntityMobHasShepherdCapability;
+import com.zijing.main.playerdata.ShepherdProvider;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -51,7 +54,27 @@ public class EntityArrowFengyinDan extends EntityThrowable {
 		BlockPos blockPos = raytraceResultIn.getBlockPos();
 		if(null != entity && !this.world.isRemote && entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer) && entity != this.thrower) {
 			entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), this.attackDamage);
-			if(this.world.rand.nextFloat() < 0.125D) {
+			float randomValue = 0.0F;
+			int throwerLevel = 1;
+			int entityLevel = 1;
+			
+			if(this.thrower instanceof EntityPlayer && ShepherdProvider.hasCapabilityFromPlayer(this.thrower)) {
+				throwerLevel = ShepherdProvider.getCapabilityFromPlayer(this.thrower).getLevel();
+			}else if(this.thrower instanceof EntityHasShepherdCapability) {
+				throwerLevel = ((EntityHasShepherdCapability)this.thrower).getShepherdCapability().getLevel();
+			}else if(this.thrower instanceof EntityMobHasShepherdCapability) {
+				throwerLevel = ((EntityMobHasShepherdCapability)this.thrower).getShepherdCapability().getLevel();
+			}
+			
+			if(entity instanceof EntityPlayer || !entity.isNonBoss()) {
+				entityLevel = ZijingMod.config.getMAX_LEVEL();
+			}else if(entity instanceof EntityHasShepherdCapability) {
+				entityLevel = ((EntityHasShepherdCapability)this.thrower).getShepherdCapability().getLevel();
+			}else if(entity instanceof EntityMobHasShepherdCapability) {
+				entityLevel = ((EntityMobHasShepherdCapability)this.thrower).getShepherdCapability().getLevel();
+			}
+			
+			if(this.world.rand.nextFloat() < (throwerLevel - entityLevel) / 100.0F) {
 				ItemStack itemStack = new ItemStack(BaseControl.itemCardFengyin);
 				NBTTagCompound nbt = new NBTTagCompound();
 				nbt.setTag(ZijingMod.MODID + ":entityNBT", entity.writeToNBT(new NBTTagCompound()));

@@ -110,6 +110,8 @@ zijingmod.entitySummonIronGolem.name=§6超级铁傀儡
 zijingmod.entitySummonIronGolem.special=血量、血量恢复和防御%s倍于原等级！
 zijingmod.entitySummonSnowman.name=§6超级雪人
 zijingmod.entitySummonSnowman.special=法力、法力回复和移速%s倍于原等级！
+zijingmod.entityEvilTaoistPriest.name=§6邪修
+zijingmod.entityEvilTaoistPriest.special=可以穿戴装备，触发紫晶防具被动效果！
 
 #FY_GUI-------------------------------------------------------------------------
 zijingmod.gui.upGrade=§6§l升级

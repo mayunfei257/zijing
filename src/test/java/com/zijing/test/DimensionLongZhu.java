@@ -67,7 +67,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class DimensionLongZhu {
-	public static Object instance;
 	public static int DIMID = 4;
 	public static BlockTutorialPortal portal;
 	public static ModTrigger trigger;
@@ -564,21 +563,6 @@ public class DimensionLongZhu {
 		}
 
 	}
-
-	// /FIRE BLOCK
-
-	static class BlockFireMod extends Block {
-
-		protected BlockFireMod() {
-			super(Material.GROUND);
-		}
-
-		public void onBlockAdded(World par1World, int par2, int par3, int par4) {
-			/* TutorialPortal.tryToCreatePortal(par1World, par2, par3, par4); */
-		}
-
-	}// fire block end
-
 	// /PORTAL BLOCK
 
 	public static class BlockTutorialPortal extends Block {
@@ -1229,7 +1213,6 @@ public class DimensionLongZhu {
 		/** A list of biomes that the player can spawn in. */
 		private List<Biome> biomesToSpawnIn;
 
-		@SuppressWarnings({"unchecked", "rawtypes"})
 		public BiomeProviderCustom() {
 			this.biomeCache = new BiomeCache(this);
 			this.biomesToSpawnIn = new ArrayList();
@@ -1352,7 +1335,6 @@ public class DimensionLongZhu {
 		 * checks given Chunk's Biomes against List of allowed ones
 		 */
 		@Override
-		@SuppressWarnings("rawtypes")
 		public boolean areBiomesViable(int x, int y, int z, List par4List) {
 			IntCache.resetIntCache();
 			int l = x - z >> 2;
@@ -1391,7 +1373,6 @@ public class DimensionLongZhu {
 		 * y positions.
 		 */
 		@Override
-		@SuppressWarnings("rawtypes")
 		public BlockPos findBiomePosition(int x, int z, int range, List biomes, Random random) {
 			IntCache.resetIntCache();
 			int l = x - range >> 2;

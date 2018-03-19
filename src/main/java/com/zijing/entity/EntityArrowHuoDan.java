@@ -1,6 +1,7 @@
 package com.zijing.entity;
 
 import com.zijing.main.itf.EntityHasShepherdCapability;
+import com.zijing.main.itf.EntityMobHasShepherdCapability;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -52,14 +53,22 @@ public class EntityArrowHuoDan extends EntityThrowable {
     protected void onImpact(RayTraceResult raytraceResultIn) {
 		Entity entity = raytraceResultIn.entityHit;
 		BlockPos blockPos = raytraceResultIn.getBlockPos();
-		if(null != entity && !this.world.isRemote && entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer) && entity != this.thrower && !(entity instanceof EntityHasShepherdCapability)) {
-			entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), this.attackDamage);
-			entity.setFire(3);
-			if(this.world.rand.nextFloat() < this.explosionProbability) {
-				this.world.createExplosion(this, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, this.explosionStrength, true);
+		if(null != entity && !this.world.isRemote && entity instanceof EntityLivingBase) {
+			boolean canAttackFlag = false;
+			if((this.thrower instanceof EntityHasShepherdCapability || this.thrower instanceof EntityPlayer) && !(entity instanceof EntityHasShepherdCapability || entity instanceof EntityPlayer)) {
+				canAttackFlag = true;
+			}else if((this.thrower instanceof EntityMobHasShepherdCapability) && !(entity instanceof EntityMobHasShepherdCapability)) {
+				canAttackFlag = true;
 			}
-			world.playSound((EntityPlayer) null, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.generic.explode")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-			this.setDead();
+			if(canAttackFlag) {
+				entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), this.attackDamage);
+				entity.setFire(3);
+				if(this.world.rand.nextFloat() < this.explosionProbability) {
+					this.world.createExplosion(this, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, this.explosionStrength, true);
+				}
+				world.playSound((EntityPlayer) null, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.generic.explode")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+				this.setDead();
+			}
 		}else if(null != blockPos && !this.world.isRemote){
 			Block block = this.world.getBlockState(blockPos).getBlock();
 			if(block != Blocks.TALLGRASS && block != Blocks.WEB && block != Blocks.DEADBUSH && block != Blocks.RED_FLOWER 

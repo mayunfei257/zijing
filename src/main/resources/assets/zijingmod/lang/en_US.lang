@@ -110,6 +110,8 @@ zijingmod.entitySummonIronGolem.name=¡ì6Super IronGolem
 zijingmod.entitySummonIronGolem.special=special
 zijingmod.entitySummonSnowman.name=¡ì6Super Snowman
 zijingmod.entitySummonSnowman.special=special
+zijingmod.entityEvilTaoistPriest.name=¡ì6Evil Taoist Priest
+zijingmod.entityEvilTaoistPriest.special=special
 
 #FY_GUI-------------------------------------------------------------------------
 zijingmod.gui.upGrade=¡ì6¡ìlUpGrade
