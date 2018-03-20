@@ -49,9 +49,10 @@ entity.entityArrowBingDan.name=¡ì6bingDan
 entity.entityArrowHuoDan.name=¡ì6huoDan
 entity.entityArrowXukongDan.name=¡ì6xukongDan
 entity.entityArrowFengyinDan.name=¡ì6fengyinDan
-entity.entitySummonTaoistPriest.name=¡ì6Shushan female disciple
-entity.entitySummonIronGolem.name=¡ì6Super IronGolem
-entity.entitySummonSnowman.name=¡ì6Super Snowman
+entity.entityDisciple.name=¡ì6Disciple
+entity.entitySuperIronGolem.name=¡ì6Super IronGolem
+entity.entitySuperSnowman.name=¡ì6Super Snowman
+entity.entityEvilTaoist.name=¡ì6Evil Taoist
 
 #FY_Block----------------------------------------------------------------------
 zijingmod.blockZilingCao.1=¡ì4Important plant, Planted on arable land, burned to be ziqi
@@ -104,14 +105,16 @@ zijingmod.itemArmorZijingLegs.skill1=¡ì4Injured will get resistance for %d secon
 zijingmod.itemArmorZijingBoots.skill1=¡ì4Injured will get speed for %d seconds.
 
 #FY_Entity-------------------------------------------------------------------------
-zijingmod.entitySummonTaoistPriest.name=¡ì6Shushan female disciple
-zijingmod.entitySummonTaoistPriest.special=special
-zijingmod.entitySummonIronGolem.name=¡ì6Super IronGolem
-zijingmod.entitySummonIronGolem.special=special
-zijingmod.entitySummonSnowman.name=¡ì6Super Snowman
-zijingmod.entitySummonSnowman.special=special
-zijingmod.entityEvilTaoistPriest.name=¡ì6Evil Taoist Priest
-zijingmod.entityEvilTaoistPriest.special=special
+zijingmod.entityFemaleDisciple.name=¡ì6female disciple
+zijingmod.entityFemaleDisciple.special=special
+zijingmod.entityMaleDisciple.name=¡ì6male disciple
+zijingmod.entityMaleDisciple.special=special
+zijingmod.entitySuperIronGolem.name=¡ì6Super IronGolem
+zijingmod.entitySuperIronGolem.special=special
+zijingmod.entitySuperSnowman.name=¡ì6Super Snowman
+zijingmod.entitySuperSnowman.special=special
+zijingmod.entityEvilTaoist.name=¡ì6Evil Taoist
+zijingmod.entityEvilTaoist.special=special
 
 #FY_GUI-------------------------------------------------------------------------
 zijingmod.gui.upGrade=¡ì6¡ìlUpGrade

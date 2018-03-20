@@ -47,7 +47,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityEvilTaoistPriest extends EntityCreature implements EntityMobHasShepherdCapability, IRangedAttackMob, IMob{
+public class EntityEvilTaoist extends EntityCreature implements EntityMobHasShepherdCapability, IRangedAttackMob, IMob{
 	public int nextConnectTick = ConstantUtil.CONNECT_TICK;
 	private int baseLevel = 1;
 	
@@ -57,7 +57,7 @@ public class EntityEvilTaoistPriest extends EntityCreature implements EntityMobH
 	private double swordDamage;
 	private double armorValue;
 	
-	public EntityEvilTaoistPriest(World world) {
+	public EntityEvilTaoist(World world) {
 		super(world);
 		this.swordDamage = 0;
 		this.armorValue = 0;
@@ -69,7 +69,7 @@ public class EntityEvilTaoistPriest extends EntityCreature implements EntityMobH
 		this.setAlwaysRenderNameTag(true);
 	}
 
-	public EntityEvilTaoistPriest(World world, int baseLevel) {
+	public EntityEvilTaoist(World world, int baseLevel) {
 		super(world);
 		this.swordDamage = 0;
 		this.armorValue = 0;
@@ -116,7 +116,7 @@ public class EntityEvilTaoistPriest extends EntityCreature implements EntityMobH
 		this.shepherdCapability.setSpeed(this.shepherdCapability.getSpeed() * ConstantUtil.SPECIAL_K);
 		this.experienceValue = this.nextLevelNeedExperience;
 		EntityUtil.setEntityAllValue(this);
-		this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entityEvilTaoistPriest.name", new Object[0]));
+		this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entityEvilTaoist.name", new Object[0]));
 		if(this.shepherdCapability.getLevel() >= ConstantUtil.IMMUNE_FIRE_LEVEL) {
 			this.isImmuneToFire = true;
 		}
@@ -329,6 +329,6 @@ public class EntityEvilTaoistPriest extends EntityCreature implements EntityMobH
 	@Override
     @SideOnly(Side.CLIENT)
 	public String getSpecialInstructions() {
-		return I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entitySummonTaoistPriest.special", new Object[0]);
+		return I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entityEvilTaoist.special", new Object[0]);
 	}
 }

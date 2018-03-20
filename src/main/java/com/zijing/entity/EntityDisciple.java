@@ -62,17 +62,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntitySummonTaoistPriest extends EntityCreature implements EntityHasShepherdCapability, IRangedAttackMob{
+public class EntityDisciple extends EntityCreature implements EntityHasShepherdCapability, IRangedAttackMob{
 	private int nextConnectTick = ConstantUtil.CONNECT_TICK;
 	private int baseLevel = 1;
-	
+	private GENDER gender = GENDER.FEMALE;
+
 	private int nextLevelNeedExperience;
 	private double experience;
 	private ShepherdCapability shepherdCapability;
 	private double swordDamage;
 	private double armorValue;
 	
-	public EntitySummonTaoistPriest(World world) {
+	public EntityDisciple(World world) {
 		super(world);
 		this.swordDamage = 0;
 		this.armorValue = 0;
@@ -85,7 +86,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 		this.setAlwaysRenderNameTag(true);
 	}
 
-	public EntitySummonTaoistPriest(World world, int baseLevel) {
+	public EntityDisciple(World world, int baseLevel, GENDER gender) {
 		super(world);
 		this.swordDamage = 0;
 		this.armorValue = 0;
@@ -93,6 +94,7 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 		this.experienceValue = 0;
 		this.isImmuneToFire = false;
 		this.baseLevel = baseLevel;
+		this.gender = gender;
 		this.setBaseShepherdCapability();
 		this.setNoAI(false);
 		this.enablePersistence();
@@ -134,7 +136,11 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 		this.experience = (int) MathUtil.getUpgradeK(this.shepherdCapability.getLevel(), baseLevel - 1) * ZijingMod.config.getUPGRADE_NEED_XP_K()/2;
 		EntityUtil.upEntityGrade(this, baseLevel - 1);
 		EntityUtil.setEntityAllValue(this);
-		this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entitySummonTaoistPriest.name", new Object[0]));
+		if(this.gender == GENDER.FEMALE) {
+			this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entityFemaleDisciple.name", new Object[0]));
+		}else {
+			this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entityMaleDisciple.name", new Object[0]));
+		}
 		if(this.shepherdCapability.getLevel() >= ConstantUtil.IMMUNE_FIRE_LEVEL) {
 			this.isImmuneToFire = true;
 		}
@@ -407,10 +413,23 @@ public class EntitySummonTaoistPriest extends EntityCreature implements EntityHa
 		EntityUtil.setEntityArmorValueAndSwordDamage(this);
 		return true;
 	}
+	
+	public GENDER getGender() {
+		return gender;
+	}
 
 	@Override
     @SideOnly(Side.CLIENT)
 	public String getSpecialInstructions() {
-		return I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entitySummonTaoistPriest.special", new Object[0]);
+		if(this.gender == GENDER.FEMALE) {
+			return I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entityFemaleDisciple.special", new Object[0]);
+		}else {
+			return I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entityMaleDisciple.special", new Object[0]);
+		}
+	}
+	
+	public enum GENDER{
+		FEMALE,
+		MALE;
 	}
 }

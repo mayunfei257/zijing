@@ -6,7 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.zijing.BaseControl;
 import com.zijing.data.playerdata.ShepherdCapability;
-import com.zijing.entity.EntitySummonTaoistPriest;
+import com.zijing.entity.EntityDisciple;
 import com.zijing.itf.EntityHasShepherdCapability;
 import com.zijing.util.ConstantUtil;
 
@@ -48,7 +48,7 @@ public class GuiEntityCapability {
 			if(entity instanceof EntityLiving && entity instanceof EntityHasShepherdCapability) {
 				this.shepherdEntity = (EntityLiving)entity ;
 				this.entityInv = new InventoryBasic(ConstantUtil.MODID + ":entityInv", true, 6);
-				if(shepherdEntity instanceof EntitySummonTaoistPriest) {
+				if(shepherdEntity instanceof EntityDisciple) {
 					NonNullList<ItemStack> inventoryArmor = (NonNullList<ItemStack>) shepherdEntity.getArmorInventoryList();
 					NonNullList<ItemStack> inventoryHands = (NonNullList<ItemStack>) shepherdEntity.getHeldEquipment();
 					for(int n = 0; n < 6; n++){
@@ -124,7 +124,7 @@ public class GuiEntityCapability {
 		
 		private void upDateEntityArmor() {
 			if(null != shepherdEntity && !shepherdEntity.world.isRemote) {
-				if(shepherdEntity instanceof EntitySummonTaoistPriest) {
+				if(shepherdEntity instanceof EntityDisciple) {
 					this.shepherdEntity.setItemStackToSlot(EntityEquipmentSlot.HEAD, this.entityInv.getStackInSlot(3));
 					this.shepherdEntity.setItemStackToSlot(EntityEquipmentSlot.CHEST, this.entityInv.getStackInSlot(2));
 					this.shepherdEntity.setItemStackToSlot(EntityEquipmentSlot.LEGS, this.entityInv.getStackInSlot(1));
@@ -172,7 +172,7 @@ public class GuiEntityCapability {
 			this.mc.getTextureManager().bindTexture(texture);
 			this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 	        drawEntityOnScreen(this.guiLeft + 33, this.guiTop + 77, 30, this.shepherdEntity);//7 7 , 58 77
-			if(null == this.shepherdEntity || !(this.shepherdEntity instanceof EntitySummonTaoistPriest)) {
+			if(null == this.shepherdEntity || !(this.shepherdEntity instanceof EntityDisciple)) {
 				this.drawTexturedModalRect(this.guiLeft + 8, this.guiTop + 82, 176, 1, 16, 16);
 				this.drawTexturedModalRect(this.guiLeft + 26, this.guiTop + 82, 176, 1, 16, 16);
 				this.drawTexturedModalRect(this.guiLeft + 44, this.guiTop + 82, 176, 1, 16, 16);

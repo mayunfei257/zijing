@@ -56,7 +56,7 @@ import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntitySummonSnowman extends EntityGolem implements EntityHasShepherdCapability,IRangedAttackMob, net.minecraftforge.common.IShearable{
+public class EntitySuperSnowman extends EntityGolem implements EntityHasShepherdCapability,IRangedAttackMob, net.minecraftforge.common.IShearable{
     private static final DataParameter<Byte> PUMPKIN_EQUIPPED = EntityDataManager.<Byte>createKey(EntitySnowman.class, DataSerializers.BYTE);
 	private int nextConnectTick = ConstantUtil.CONNECT_TICK;
 	private int baseLevel = 1;
@@ -67,7 +67,7 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 	private double swordDamage;
 	private double armorValue;
 
-    public EntitySummonSnowman(World worldIn){
+    public EntitySuperSnowman(World worldIn){
         super(worldIn);
 		this.swordDamage = 0;
 		this.armorValue = 0;
@@ -78,7 +78,7 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
         this.setSize(0.7F, 1.9F);
     }
 
-	public EntitySummonSnowman(World world, int baseLevel) {
+	public EntitySuperSnowman(World world, int baseLevel) {
         super(world);
 		this.swordDamage = 0;
 		this.armorValue = 0;
@@ -126,7 +126,7 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 		this.shepherdCapability.setSpeed(this.shepherdCapability.getSpeed() * ConstantUtil.SPECIAL_K);
 		this.shepherdCapability.setMagicRestore(this.shepherdCapability.getMagicRestore() * ConstantUtil.SPECIAL_K);
 		EntityUtil.setEntityAllValue(this);
-		this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entitySummonSnowman.name", new Object[0]));
+		this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entitySuperSnowman.name", new Object[0]));
 	}
 	
 	@Override
@@ -360,6 +360,6 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 	@Override
     @SideOnly(Side.CLIENT)
 	public String getSpecialInstructions() {
-		return I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entitySummonSnowman.special", new Object[] {ConstantUtil.SPECIAL_K});
+		return I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entitySuperSnowman.special", new Object[] {ConstantUtil.SPECIAL_K});
 	}
 }

@@ -1,7 +1,7 @@
 package com.zijing.entity.layer;
 
-import com.zijing.entity.EntitySummonIronGolem;
-import com.zijing.entity.render.RenderSummonIronGolem;
+import com.zijing.entity.EntitySuperIronGolem;
+import com.zijing.entity.render.RenderSuperIronGolem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelIronGolem;
@@ -15,15 +15,15 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class LayerSummonIronGolemFlower implements LayerRenderer<EntitySummonIronGolem>{
-    private final RenderSummonIronGolem ironGolemRenderer;
+public class LayerSuperIronGolemFlower implements LayerRenderer<EntitySuperIronGolem>{
+    private final RenderSuperIronGolem ironGolemRenderer;
 
-    public LayerSummonIronGolemFlower(RenderSummonIronGolem ironGolemRendererIn){
+    public LayerSuperIronGolemFlower(RenderSuperIronGolem ironGolemRendererIn){
         this.ironGolemRenderer = ironGolemRendererIn;
     }
 
 	@Override
-    public void doRenderLayer(EntitySummonIronGolem entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale){
+    public void doRenderLayer(EntitySuperIronGolem entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale){
         if (entitylivingbaseIn.getHoldRoseTick() != 0){
             BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
             GlStateManager.enableRescaleNormal();

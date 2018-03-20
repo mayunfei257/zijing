@@ -16,12 +16,12 @@ import com.zijing.entity.EntityArrowBingDan;
 import com.zijing.entity.EntityArrowFengyinDan;
 import com.zijing.entity.EntityArrowHuoDan;
 import com.zijing.entity.EntityArrowXukongDan;
-import com.zijing.entity.EntitySummonIronGolem;
-import com.zijing.entity.EntitySummonSnowman;
-import com.zijing.entity.EntitySummonTaoistPriest;
-import com.zijing.entity.render.RenderSummonIronGolem;
-import com.zijing.entity.render.RenderSummonSnowman;
-import com.zijing.entity.render.RenderSummonTaoistPriest;
+import com.zijing.entity.EntityDisciple;
+import com.zijing.entity.EntitySuperIronGolem;
+import com.zijing.entity.EntitySuperSnowman;
+import com.zijing.entity.render.RenderSuperIronGolem;
+import com.zijing.entity.render.RenderSuperSnowman;
+import com.zijing.entity.render.RenderDisciple;
 import com.zijing.items.ItemDanShenshu;
 import com.zijing.items.ItemDanZiling;
 import com.zijing.items.ItemGuhuaNiunai;
@@ -224,9 +224,9 @@ public class BaseControl{
 		EntityRegistry.registerModEntity(new ResourceLocation(ConstantUtil.MODID + ":entityarrowhuodan"), EntityArrowHuoDan.class, "entityArrowHuoDan", 258, ZijingMod.instance, 64, 1, true);
 		EntityRegistry.registerModEntity(new ResourceLocation(ConstantUtil.MODID + ":entityarrowxukongdan"), EntityArrowXukongDan.class, "entityArrowXukongDan", 259, ZijingMod.instance, 64, 1, true);
 		EntityRegistry.registerModEntity(new ResourceLocation(ConstantUtil.MODID + ":entityarrowfengyindan"), EntityArrowFengyinDan.class, "entityArrowFengyinDan", 260, ZijingMod.instance, 64, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(ConstantUtil.MODID + ":entitysummontaoistpriest"), EntitySummonTaoistPriest.class, "entitySummonTaoistPriest", 261, ZijingMod.instance,64, 1, true, (204 << 16) + (0 << 8) + 204, (255 << 16) + (102 << 8) + 255);
-		EntityRegistry.registerModEntity(new ResourceLocation(ConstantUtil.MODID + ":entitysummonirongolem"), EntitySummonIronGolem.class, "entitySummonIronGolem", 262, ZijingMod.instance,64, 1, true, (204 << 16) + (0 << 8) + 204, (255 << 16) + (102 << 8) + 255);
-		EntityRegistry.registerModEntity(new ResourceLocation(ConstantUtil.MODID + ":entitysummonsnowman"), EntitySummonSnowman.class, "entitySummonSnowman", 263, ZijingMod.instance,64, 1, true, (204 << 16) + (0 << 8) + 204, (255 << 16) + (102 << 8) + 255);
+		EntityRegistry.registerModEntity(new ResourceLocation(ConstantUtil.MODID + ":entitydisciple"), EntityDisciple.class, "entityDisciple", 261, ZijingMod.instance,64, 1, true, (204 << 16) + (0 << 8) + 204, (255 << 16) + (102 << 8) + 255);
+		EntityRegistry.registerModEntity(new ResourceLocation(ConstantUtil.MODID + ":entitysuperirongolem"), EntitySuperIronGolem.class, "entitySuperIronGolem", 262, ZijingMod.instance,64, 1, true, (204 << 16) + (0 << 8) + 204, (255 << 16) + (102 << 8) + 255);
+		EntityRegistry.registerModEntity(new ResourceLocation(ConstantUtil.MODID + ":entitysupersnowman"), EntitySuperSnowman.class, "entitySuperSnowman", 263, ZijingMod.instance,64, 1, true, (204 << 16) + (0 << 8) + 204, (255 << 16) + (102 << 8) + 255);
 	}
     
     public static void resourceLoad(FMLPreInitializationEvent event){
@@ -333,9 +333,9 @@ public class BaseControl{
 		RenderingRegistry.registerEntityRenderingHandler(EntityArrowHuoDan.class, new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), itemArrowHuoDan, Minecraft.getMinecraft().getRenderItem()));
 		RenderingRegistry.registerEntityRenderingHandler(EntityArrowXukongDan.class, new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), itemArrowXukongDan, Minecraft.getMinecraft().getRenderItem()));
 		RenderingRegistry.registerEntityRenderingHandler(EntityArrowFengyinDan.class, new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), itemArrowFengyinDan, Minecraft.getMinecraft().getRenderItem()));
-		RenderingRegistry.registerEntityRenderingHandler(EntitySummonTaoistPriest.class, new RenderSummonTaoistPriest(Minecraft.getMinecraft().getRenderManager(), true));
-		RenderingRegistry.registerEntityRenderingHandler(EntitySummonIronGolem.class, new RenderSummonIronGolem(Minecraft.getMinecraft().getRenderManager()));
-		RenderingRegistry.registerEntityRenderingHandler(EntitySummonSnowman.class, new RenderSummonSnowman(Minecraft.getMinecraft().getRenderManager()));
+		RenderingRegistry.registerEntityRenderingHandler(EntityDisciple.class, new RenderDisciple(Minecraft.getMinecraft().getRenderManager(), true));
+		RenderingRegistry.registerEntityRenderingHandler(EntitySuperIronGolem.class, new RenderSuperIronGolem(Minecraft.getMinecraft().getRenderManager()));
+		RenderingRegistry.registerEntityRenderingHandler(EntitySuperSnowman.class, new RenderSuperSnowman(Minecraft.getMinecraft().getRenderManager()));
 	}
 
 	//*****************************************************************************************************************************************************//

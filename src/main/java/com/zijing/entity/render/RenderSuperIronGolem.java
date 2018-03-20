@@ -1,8 +1,8 @@
 package com.zijing.entity.render;
 
-import com.zijing.entity.EntitySummonIronGolem;
-import com.zijing.entity.layer.LayerSummonIronGolemFlower;
-import com.zijing.entity.model.ModelSummonIronGolem;
+import com.zijing.entity.EntitySuperIronGolem;
+import com.zijing.entity.layer.LayerSuperIronGolemFlower;
+import com.zijing.entity.model.ModelSuperIronGolem;
 import com.zijing.util.ConstantUtil;
 
 import net.minecraft.client.renderer.GlStateManager;
@@ -13,24 +13,24 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderSummonIronGolem extends RenderLiving<EntitySummonIronGolem>{
-    private static final ResourceLocation SUMMON_IRON_GOLEM_TEXTURES = new ResourceLocation(ConstantUtil.MODID + ":entitySummonIronGolem.png");
+public class RenderSuperIronGolem extends RenderLiving<EntitySuperIronGolem>{
+    private static final ResourceLocation SUPER_IRON_GOLEM_TEXTURES = new ResourceLocation(ConstantUtil.MODID + ":entitySuperIronGolem.png");
 
-    public RenderSummonIronGolem(RenderManager renderManagerIn){
-        super(renderManagerIn, new ModelSummonIronGolem(), 0.5F);
-        this.addLayer(new LayerSummonIronGolemFlower(this));
+    public RenderSuperIronGolem(RenderManager renderManagerIn){
+        super(renderManagerIn, new ModelSuperIronGolem(), 0.5F);
+        this.addLayer(new LayerSuperIronGolemFlower(this));
     }
 
     /**
      * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
      */
 	@Override
-    protected ResourceLocation getEntityTexture(EntitySummonIronGolem entity){
-        return SUMMON_IRON_GOLEM_TEXTURES;
+    protected ResourceLocation getEntityTexture(EntitySuperIronGolem entity){
+        return SUPER_IRON_GOLEM_TEXTURES;
     }
 
 	@Override
-    protected void applyRotations(EntitySummonIronGolem entityLiving, float p_77043_2_, float rotationYaw, float partialTicks){
+    protected void applyRotations(EntitySuperIronGolem entityLiving, float p_77043_2_, float rotationYaw, float partialTicks){
         super.applyRotations(entityLiving, p_77043_2_, rotationYaw, partialTicks);
         if ((double)entityLiving.limbSwingAmount >= 0.01D){
             float f = 13.0F;

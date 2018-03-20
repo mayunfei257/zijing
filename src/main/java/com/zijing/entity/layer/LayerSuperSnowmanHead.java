@@ -1,7 +1,7 @@
 package com.zijing.entity.layer;
 
-import com.zijing.entity.EntitySummonSnowman;
-import com.zijing.entity.render.RenderSummonSnowman;
+import com.zijing.entity.EntitySuperSnowman;
+import com.zijing.entity.render.RenderSuperSnowman;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -13,15 +13,15 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class LayerSummonSnowmanHead implements LayerRenderer<EntitySummonSnowman>{
-    private final RenderSummonSnowman snowManRenderer;
+public class LayerSuperSnowmanHead implements LayerRenderer<EntitySuperSnowman>{
+    private final RenderSuperSnowman snowManRenderer;
 
-    public LayerSummonSnowmanHead(RenderSummonSnowman snowManRendererIn){
+    public LayerSuperSnowmanHead(RenderSuperSnowman snowManRendererIn){
         this.snowManRenderer = snowManRendererIn;
     }
 
 	@Override
-    public void doRenderLayer(EntitySummonSnowman entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale){
+    public void doRenderLayer(EntitySuperSnowman entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale){
         if (!entitylivingbaseIn.isInvisible() && entitylivingbaseIn.isPumpkinEquipped()){
             GlStateManager.pushMatrix();
             this.snowManRenderer.getMainModel().head.postRender(0.0625F);

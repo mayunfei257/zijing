@@ -1,16 +1,16 @@
 package com.zijing.entity.ai;
 
-import com.zijing.entity.EntitySummonIronGolem;
+import com.zijing.entity.EntitySuperIronGolem;
 
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.passive.EntityVillager;
 
 public class EntityAILookAtVillagerZJ extends EntityAIBase{
-    private final EntitySummonIronGolem ironGolem;
+    private final EntitySuperIronGolem ironGolem;
     private EntityVillager villager;
     private int lookTime;
 
-    public EntityAILookAtVillagerZJ(EntitySummonIronGolem ironGolemIn){
+    public EntityAILookAtVillagerZJ(EntitySuperIronGolem ironGolemIn){
         this.ironGolem = ironGolemIn;
         this.setMutexBits(3);
     }

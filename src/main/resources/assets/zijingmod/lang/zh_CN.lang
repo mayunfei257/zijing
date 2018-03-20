@@ -49,9 +49,10 @@ entity.entityArrowBingDan.name=§6冰弹
 entity.entityArrowHuoDan.name=§6火弹
 entity.entityArrowXukongDan.name=§6虚空弹
 entity.entityArrowFengyinDan.name=§6封印弹
-entity.entitySummonTaoistPriest.name=§6蜀山女弟子
-entity.entitySummonIronGolem.name=§6超级铁傀儡
-entity.entitySummonSnowman.name=§6超级雪人
+entity.entityDisciple.name=§6徒弟
+entity.entitySuperIronGolem.name=§6超级铁傀儡
+entity.entitySuperSnowman.name=§6超级雪人
+entity.entityEvilTaoist.name=§6邪修
 
 #FY_Block----------------------------------------------------------------------
 zijingmod.blockZilingCao.1=§4重要植物，可在耕地上生长，可烧炼成紫气
@@ -104,14 +105,16 @@ zijingmod.itemArmorZijingLegs.skill1=§4受伤会获得抗性提升状态%d秒�
 zijingmod.itemArmorZijingBoots.skill1=§4受伤会获得速度加成状态%d秒。
 
 #FY_Entity-------------------------------------------------------------------------
-zijingmod.entitySummonTaoistPriest.name=§6蜀山女弟子
-zijingmod.entitySummonTaoistPriest.special=可以穿戴装备，触发紫晶防具被动效果！
-zijingmod.entitySummonIronGolem.name=§6超级铁傀儡
-zijingmod.entitySummonIronGolem.special=血量、血量恢复和防御%s倍于原等级！
-zijingmod.entitySummonSnowman.name=§6超级雪人
-zijingmod.entitySummonSnowman.special=法力、法力回复和移速%s倍于原等级！
-zijingmod.entityEvilTaoistPriest.name=§6邪修
-zijingmod.entityEvilTaoistPriest.special=可以穿戴装备，触发紫晶防具被动效果！
+zijingmod.entityFemaleDisciple.name=§6徒弟
+zijingmod.entityFemaleDisciple.special=可以穿戴装备，触发紫晶防具被动效果！
+zijingmod.entityMaleDisciple.name=§6徒弟
+zijingmod.entityMaleDisciple.special=可以穿戴装备，触发紫晶防具被动效果！
+zijingmod.entitySuperIronGolem.name=§6超级铁傀儡
+zijingmod.entitySuperIronGolem.special=血量、血量恢复和防御%s倍于原等级！
+zijingmod.entitySuperSnowman.name=§6超级雪人
+zijingmod.entitySuperSnowman.special=法力、法力回复和移速%s倍于原等级！
+zijingmod.entityEvilTaoist.name=§6邪修
+zijingmod.entityEvilTaoist.special=可以穿戴装备，触发紫晶防具被动效果！
 
 #FY_GUI-------------------------------------------------------------------------
 zijingmod.gui.upGrade=§6§l升级

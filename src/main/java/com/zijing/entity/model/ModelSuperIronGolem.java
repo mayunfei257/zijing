@@ -1,6 +1,6 @@
 package com.zijing.entity.model;
 
-import com.zijing.entity.EntitySummonIronGolem;
+import com.zijing.entity.EntitySuperIronGolem;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ModelSummonIronGolem extends ModelBase{
+public class ModelSuperIronGolem extends ModelBase{
     /** The head model for the iron golem. */
     public ModelRenderer ironGolemHead;
     /** The body model for the iron golem. */
@@ -24,15 +24,15 @@ public class ModelSummonIronGolem extends ModelBase{
     /** The right leg model for the Iron Golem. */
     public ModelRenderer ironGolemRightLeg;
 
-    public ModelSummonIronGolem(){
+    public ModelSuperIronGolem(){
         this(0.0F);
     }
 
-    public ModelSummonIronGolem(float p_i1161_1_){
+    public ModelSuperIronGolem(float p_i1161_1_){
         this(p_i1161_1_, -7.0F);
     }
 
-    public ModelSummonIronGolem(float p_i46362_1_, float p_i46362_2_){
+    public ModelSuperIronGolem(float p_i46362_1_, float p_i46362_2_){
         int i = 128;
         int j = 128;
         this.ironGolemHead = (new ModelRenderer(this)).setTextureSize(128, 128);
@@ -93,7 +93,7 @@ public class ModelSummonIronGolem extends ModelBase{
      */
 	@Override
     public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime){
-    	EntitySummonIronGolem entityirongolem = (EntitySummonIronGolem)entitylivingbaseIn;
+    	EntitySuperIronGolem entityirongolem = (EntitySuperIronGolem)entitylivingbaseIn;
         int i = entityirongolem.getAttackTimer();
         if (i > 0){
             this.ironGolemRightArm.rotateAngleX = -2.0F + 1.5F * this.triangleWave((float)i - partialTickTime, 10.0F);

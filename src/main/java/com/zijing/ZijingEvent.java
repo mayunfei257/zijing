@@ -56,17 +56,6 @@ public class ZijingEvent {
 						player.sendMessage(StringUtil.MagicIsNotEnough(ItemZilingZhu.MagicSkill5));
 					}
 				}
-			}else if(event.getEntity() instanceof EntityHasShepherdCapability) {
-				EntityLivingBase entity = (EntityLivingBase)event.getEntity();
-				ItemStack mainHandStack = entity.getHeldItemMainhand();
-				ItemStack offhandStack =  entity.getHeldItemOffhand();
-				if(event.getDistance() > 3 && ((null != mainHandStack && mainHandStack.getItem() == BaseControl.itemZilingZhu) || (null != offhandStack && offhandStack.getItem() == BaseControl.itemZilingZhu))) {
-					ShepherdCapability shepherdCapability = ((EntityHasShepherdCapability)entity).getShepherdCapability();
-					if(shepherdCapability.getMagic() >= ItemZilingZhu.MagicSkill5) {
-						event.setDistance(0);
-						shepherdCapability.setMagic(shepherdCapability.getMagic() - ItemZilingZhu.MagicSkill5);
-					}
-				}
 			}
 		}
 	}

@@ -10,7 +10,7 @@ import com.zijing.ZijingTab;
 import com.zijing.data.playerdata.ShepherdCapability;
 import com.zijing.data.playerdata.ShepherdProvider;
 import com.zijing.entity.EntityArrowFengyinDan;
-import com.zijing.entity.EntitySummonTaoistPriest;
+import com.zijing.entity.EntityDisciple;
 import com.zijing.itf.MagicConsumer;
 import com.zijing.util.ConstantUtil;
 
@@ -68,7 +68,7 @@ public class ItemStaffFengyin extends Item implements MagicConsumer{
 						}
 					}
 					BlockPos blockPos = blockPosList.get((int)(Math.random() * (blockPosList.size() - 1)));
-					EntitySummonTaoistPriest entity = new EntitySummonTaoistPriest(world);
+					EntityDisciple entity = new EntityDisciple(world);
 					entity.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.WOODEN_SWORD));
 					entity.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(Items.LEATHER_HELMET));
 					entity.setItemStackToSlot(EntityEquipmentSlot.CHEST, new ItemStack(Items.LEATHER_CHESTPLATE));

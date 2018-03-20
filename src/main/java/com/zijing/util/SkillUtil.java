@@ -6,15 +6,22 @@ import com.zijing.entity.EntityArrowBingDan;
 import com.zijing.entity.EntityArrowFengyinDan;
 import com.zijing.entity.EntityArrowHuoDan;
 import com.zijing.entity.EntityArrowXukongDan;
+import com.zijing.entity.EntityDisciple;
+import com.zijing.entity.EntityDisciple.GENDER;
+import com.zijing.entity.EntitySuperIronGolem;
+import com.zijing.entity.EntitySuperSnowman;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.MobEffects;
+import net.minecraft.init.Blocks;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class SkillUtil {
 	private static final float velocity = 3.0F;
@@ -75,112 +82,8 @@ public class SkillUtil {
 		return true;
 	}
 
-	public static boolean SPEED(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.SPEED, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean SLOWNESS(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean HASTE(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.HASTE, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean MINING_FATIGUE(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean STRENGTH(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean INSTANT_HEALTH(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.INSTANT_HEALTH, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean INSTANT_DAMAGE(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.INSTANT_DAMAGE, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean JUMP_BOOST(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean NAUSEA(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean REGENERATION(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean RESISTANCE(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean FIRE_RESISTANCE(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean WATER_BREATHING(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.WATER_BREATHING, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean INVISIBILITY(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.INVISIBILITY, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean BLINDNESS(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean NIGHT_VISION(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean HUNGER(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.HUNGER, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean WEAKNESS(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean POISON(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.POISON, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean WITHER(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.WITHER, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean HEALTH_BOOST(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean ABSORPTION(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean SATURATION(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.SATURATION, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean GLOWING(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.GLOWING, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean LEVITATION(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean LUCK(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.LUCK, durationIn, amplifierIn, false, false));
-		return true;
-	}
-	public static boolean UNLUCK(EntityLivingBase entityLivingBase, int durationIn, int amplifierIn) {
-		entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.UNLUCK, durationIn, amplifierIn, false, false));
+	public static boolean addEffect(EntityLivingBase entityLivingBase, Potion potion, int durationIn, int amplifierIn) {
+		entityLivingBase.addPotionEffect(new PotionEffect(potion, durationIn, amplifierIn, false, false));
 		return true;
 	}
 
@@ -192,23 +95,64 @@ public class SkillUtil {
 		return true;
 	}
 
-	public static boolean FireArea() {
-		
-		return true;
-	}
-
 	public static boolean ImmuneFallDamage() {
+		//---
+		return true;
+	}
+
+	public static boolean SummonSuperSnowman(World world, BlockPos blockPos, int baseLevel, float yaw, float pitch, int distance) {
+		EntitySuperSnowman snowman = new EntitySuperSnowman(world, baseLevel);
+		snowman.setLocationAndAngles(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D, yaw, pitch);
+		snowman.setHomePosAndDistance(blockPos, distance);
+		snowman.updataSwordDamageAndArmorValue();
+		snowman.playLivingSound();
+		world.spawnEntity(snowman);
+		return true;
+	}
+
+	public static boolean summonSuperIronGolem(World world, BlockPos blockPos, int baseLevel, float yaw, float pitch, int distance) {
+		EntitySuperIronGolem entity = new EntitySuperIronGolem(world, 20);
+		entity.setLocationAndAngles(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D, yaw, pitch);
+		entity.setHomePosAndDistance(blockPos, distance);
+		entity.updataSwordDamageAndArmorValue();
+		entity.playLivingSound();
+		world.spawnEntity(entity);
+		return true;
+	}
+
+	public static boolean summonDisciple(World world, BlockPos blockPos, int baseLevel, GENDER gender, float yaw, float pitch, int distance) {
+		EntityDisciple entity = new EntityDisciple(world, baseLevel, gender);
+		entity.setLocationAndAngles(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D, yaw, pitch);
+		entity.setHomePosAndDistance(blockPos, distance);
+		entity.updataSwordDamageAndArmorValue();
+		world.spawnEntity(entity);
+		return true;
+	}
+
+	public static boolean summonEvilTaoist() {
 		
 		return true;
 	}
 
-	public static boolean SummonSnowman() {
-		
-		return true;
-	}
-
-	public static boolean SummonTaoistPriest() {
-		
+	public static boolean fireArea(World world, double centerX, double centerY, double centerZ, int rangeX, int rangeY, int rangeZ, float explosionProbability, float explosionStrength, boolean exceptCenter) {
+		boolean explosionFlag = world.rand.nextFloat() < explosionProbability;
+		for(int i = - rangeX; i <= rangeX; i++) {
+			for(int j = - rangeY; j <= rangeY; j++) {
+				for(int k = - rangeZ; k <= rangeZ; k++) {
+					if(exceptCenter && i == 0 && j == 0 && k == 0) { continue; }
+					BlockPos blockPos = new BlockPos(centerX + i, centerY + j, centerZ + k);
+					if(world.getBlockState(blockPos).getBlock() == Blocks.AIR && world.getBlockState(blockPos.down()).getBlock() != Blocks.AIR) {
+						if(explosionFlag) {
+							world.createExplosion(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), explosionStrength, true);
+						}else {
+							world.setBlockState(blockPos, Blocks.FIRE.getDefaultState());
+						}
+					}
+				}
+			}
+		}
+		world.playSound((EntityPlayer) null, centerX, centerY + 0.5D, centerZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.lightning.impact")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+		world.playSound((EntityPlayer) null, centerX, centerY + 0.5D, centerZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.lightning.thunder")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 		return true;
 	}
 	

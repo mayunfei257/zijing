@@ -10,7 +10,7 @@ import com.zijing.ZijingTab;
 import com.zijing.data.playerdata.ShepherdCapability;
 import com.zijing.data.playerdata.ShepherdProvider;
 import com.zijing.entity.EntityArrowBingDan;
-import com.zijing.entity.EntitySummonSnowman;
+import com.zijing.entity.EntitySuperSnowman;
 import com.zijing.itf.MagicConsumer;
 import com.zijing.util.ConstantUtil;
 
@@ -66,7 +66,7 @@ public class ItemStaffBingxue extends Item implements MagicConsumer{
 						}
 					}
 					BlockPos blockPos = blockPosList.get((int)(Math.random() * (blockPosList.size() - 1)));
-					EntitySummonSnowman snowman = new EntitySummonSnowman(world);
+					EntitySuperSnowman snowman = new EntitySuperSnowman(world);
 					snowman.setLocationAndAngles(blockPos.getX(), blockPos.getY(), blockPos.getZ(), world.rand.nextFloat() * 360F, 0.0F);
 					snowman.updataSwordDamageAndArmorValue();
 					snowman.setHomePosAndDistance(blockPos, 64);
@@ -74,7 +74,7 @@ public class ItemStaffBingxue extends Item implements MagicConsumer{
 					world.spawnEntity(snowman);
 					if(world.rand.nextFloat() < 0.125D) {
 						BlockPos blockPos2 = blockPosList.get((int)(Math.random() * (blockPosList.size() - 1)));
-						EntitySummonSnowman snowman2 = new EntitySummonSnowman(world);
+						EntitySuperSnowman snowman2 = new EntitySuperSnowman(world);
 						snowman2.setLocationAndAngles(blockPos2.getX(), blockPos2.getY(), blockPos2.getZ(), world.rand.nextFloat() * 360F, 0.0F);
 						snowman2.updataSwordDamageAndArmorValue();
 						snowman2.setHomePosAndDistance(blockPos, 64);

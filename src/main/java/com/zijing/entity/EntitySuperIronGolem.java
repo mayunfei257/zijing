@@ -66,7 +66,7 @@ import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntitySummonIronGolem extends EntityGolem implements EntityHasShepherdCapability, IRangedAttackMob{
+public class EntitySuperIronGolem extends EntityGolem implements EntityHasShepherdCapability, IRangedAttackMob{
     private int homeCheckTimer;
     @Nullable
     Village village;
@@ -83,7 +83,7 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 	private double swordDamage;
 	private double armorValue;
 
-    public EntitySummonIronGolem(World worldIn){
+    public EntitySuperIronGolem(World worldIn){
         super(worldIn);
 		this.swordDamage = 0;
 		this.armorValue = 0;
@@ -94,7 +94,7 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
         this.setSize(1.4F, 2.7F);
     }
 
-	public EntitySummonIronGolem(World world, int baseLevel) {
+	public EntitySuperIronGolem(World world, int baseLevel) {
         super(world);
 		this.swordDamage = 0;
 		this.armorValue = 0;
@@ -161,7 +161,7 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 		this.shepherdCapability.setPhysicalDefense(this.shepherdCapability.getPhysicalDefense() * ConstantUtil.SPECIAL_K);
 		this.shepherdCapability.setBloodRestore(this.shepherdCapability.getBloodRestore() * ConstantUtil.SPECIAL_K);
 		EntityUtil.setEntityAllValue(this);
-		this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entitySummonIronGolem.name", new Object[0]));
+		this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entitySuperIronGolem.name", new Object[0]));
 	}
 	
     /**
@@ -466,6 +466,6 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 	@Override
     @SideOnly(Side.CLIENT)
 	public String getSpecialInstructions() {
-		return I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entitySummonIronGolem.special", new Object[] {ConstantUtil.SPECIAL_K});
+		return I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entitySuperIronGolem.special", new Object[] {ConstantUtil.SPECIAL_K});
 	}
 }

@@ -3,7 +3,7 @@ package com.zijing.blocks.tool;
 import java.util.Random;
 
 import com.zijing.ZijingTab;
-import com.zijing.entity.EntitySummonIronGolem;
+import com.zijing.entity.EntitySuperIronGolem;
 import com.zijing.util.ConstantUtil;
 
 import net.minecraft.block.Block;
@@ -46,7 +46,7 @@ public class BlockZilingZhaohuanZhen extends Block{
 		if(!worldIn.isRemote) {
 			int age = ((Integer) state.getValue(AGE)).intValue();
 			if (age >= 15) {
-				EntitySummonIronGolem entity = new EntitySummonIronGolem(worldIn, 20);
+				EntitySuperIronGolem entity = new EntitySuperIronGolem(worldIn, 20);
 				entity.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, worldIn.rand.nextFloat() * 360F, 0.0F);
 				entity.updataSwordDamageAndArmorValue();
 				entity.addPotionEffect(new PotionEffect(MobEffects.SPEED, 400, 1));

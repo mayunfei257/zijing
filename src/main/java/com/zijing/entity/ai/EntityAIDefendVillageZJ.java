@@ -1,6 +1,6 @@
 package com.zijing.entity.ai;
 
-import com.zijing.entity.EntitySummonIronGolem;
+import com.zijing.entity.EntitySuperIronGolem;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAITarget;
@@ -8,11 +8,11 @@ import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.village.Village;
 
 public class EntityAIDefendVillageZJ extends EntityAITarget{
-	EntitySummonIronGolem irongolem;
+	EntitySuperIronGolem irongolem;
     /** The aggressor of the iron golem's village which is now the golem's attack target. */
     EntityLivingBase villageAgressorTarget;
 
-    public EntityAIDefendVillageZJ(EntitySummonIronGolem ironGolemIn){
+    public EntityAIDefendVillageZJ(EntitySuperIronGolem ironGolemIn){
         super(ironGolemIn, false, true);
         this.irongolem = ironGolemIn;
         this.setMutexBits(1);
