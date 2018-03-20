@@ -1,6 +1,6 @@
-package com.zijing.main.itf;
+package com.zijing.itf;
 
-import com.zijing.main.playerdata.ShepherdCapability;
+import com.zijing.data.playerdata.ShepherdCapability;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

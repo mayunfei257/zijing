@@ -6,12 +6,13 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.zijing.ZijingMod;
+import com.zijing.ZijingTab;
+import com.zijing.data.playerdata.ShepherdCapability;
+import com.zijing.data.playerdata.ShepherdProvider;
 import com.zijing.entity.EntityArrowFengyinDan;
 import com.zijing.entity.EntitySummonTaoistPriest;
-import com.zijing.main.ZijingTab;
-import com.zijing.main.itf.MagicConsumer;
-import com.zijing.main.playerdata.ShepherdCapability;
-import com.zijing.main.playerdata.ShepherdProvider;
+import com.zijing.itf.MagicConsumer;
+import com.zijing.util.ConstantUtil;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -43,7 +44,7 @@ public class ItemStaffFengyin extends Item implements MagicConsumer{
 		maxStackSize = 1;
 		setMaxDamage(ZijingMod.config.getSTAFF_MAX_MAGIC_ENERGY());
 		setUnlocalizedName("itemStaffFengyin");
-		setRegistryName(ZijingMod.MODID + ":itemstafffengyin");
+		setRegistryName(ConstantUtil.MODID + ":itemstafffengyin");
 		setCreativeTab(ZijingTab.zijingTab);
 	}
 
@@ -121,7 +122,7 @@ public class ItemStaffFengyin extends Item implements MagicConsumer{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		tooltip.add(I18n.format(ZijingMod.MODID + ".itemStaffFengyin.skill1", new Object[] {MagicSkill1}));
-		tooltip.add(I18n.format(ZijingMod.MODID + ".itemStaffFengyin.skill2", new Object[] {MagicSkill2}));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemStaffFengyin.skill1", new Object[] {MagicSkill1}));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemStaffFengyin.skill2", new Object[] {MagicSkill2}));
 	}
 }

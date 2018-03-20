@@ -4,18 +4,19 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
+import com.zijing.BaseControl;
 import com.zijing.ZijingMod;
+import com.zijing.data.message.ShepherdEntityToClientMessage;
+import com.zijing.data.playerdata.ShepherdCapability;
 import com.zijing.entity.ai.EntityAIAttackMeleeZJ;
 import com.zijing.entity.ai.EntityAIDefendVillageZJ;
 import com.zijing.entity.ai.EntityAILookAtVillagerZJ;
+import com.zijing.gui.GuiEntityCapability;
 import com.zijing.items.staff.ItemStaffKongjian;
-import com.zijing.main.BaseControl;
-import com.zijing.main.gui.GuiEntityCapability;
-import com.zijing.main.itf.EntityHasShepherdCapability;
-import com.zijing.main.itf.ItemDan;
-import com.zijing.main.itf.MagicSource;
-import com.zijing.main.message.ShepherdEntityToClientMessage;
-import com.zijing.main.playerdata.ShepherdCapability;
+import com.zijing.itf.EntityHasShepherdCapability;
+import com.zijing.itf.ItemDan;
+import com.zijing.itf.MagicSource;
+import com.zijing.util.ConstantUtil;
 import com.zijing.util.EntityUtil;
 import com.zijing.util.MathUtil;
 
@@ -72,9 +73,7 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
     private int attackTimer;
     private int holdRoseTick;
 
-	private final static float experienceMagnification = 2.0F;
-	private final static float specialK = 1.5F;//blood
-	private int nextConnectTick = 60;
+	private int nextConnectTick = ConstantUtil.CONNECT_TICK;
 	private int baseLevel = 1;
 	private int burningTime = 2;
 
@@ -157,12 +156,12 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 		this.shepherdCapability = new ShepherdCapability();
 		this.experience = (int) MathUtil.getUpgradeK(this.shepherdCapability.getLevel(), baseLevel - 1) * ZijingMod.config.getUPGRADE_NEED_XP_K()/2;
 		EntityUtil.upEntityGrade(this, baseLevel - 1);
-		this.shepherdCapability.setMaxBlood(this.shepherdCapability.getMaxBlood() * this.specialK);
+		this.shepherdCapability.setMaxBlood(this.shepherdCapability.getMaxBlood() * ConstantUtil.SPECIAL_K);
 		this.shepherdCapability.setBlood(this.shepherdCapability.getMaxBlood());
-		this.shepherdCapability.setPhysicalDefense(this.shepherdCapability.getPhysicalDefense() * this.specialK);
-		this.shepherdCapability.setBloodRestore(this.shepherdCapability.getBloodRestore() * this.specialK);
+		this.shepherdCapability.setPhysicalDefense(this.shepherdCapability.getPhysicalDefense() * ConstantUtil.SPECIAL_K);
+		this.shepherdCapability.setBloodRestore(this.shepherdCapability.getBloodRestore() * ConstantUtil.SPECIAL_K);
 		EntityUtil.setEntityAllValue(this);
-		this.setCustomNameTag(I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonIronGolem.name", new Object[0]));
+		this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entitySummonIronGolem.name", new Object[0]));
 	}
 	
     /**
@@ -203,10 +202,10 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 		if(!this.isDead && this.getHealth() > 0) {
 			if(this.nextLevelNeedExperience <= this.experience) {
 				EntityUtil.upEntityGrade(this, 1);
-				this.shepherdCapability.setMaxBlood(this.shepherdCapability.getMaxBlood() * this.specialK);
+				this.shepherdCapability.setMaxBlood(this.shepherdCapability.getMaxBlood() * ConstantUtil.SPECIAL_K);
 				this.shepherdCapability.setBlood(this.shepherdCapability.getMaxBlood());
-				this.shepherdCapability.setPhysicalDefense(this.shepherdCapability.getPhysicalDefense() * this.specialK);
-				this.shepherdCapability.setBloodRestore(this.shepherdCapability.getBloodRestore() * this.specialK);
+				this.shepherdCapability.setPhysicalDefense(this.shepherdCapability.getPhysicalDefense() * ConstantUtil.SPECIAL_K);
+				this.shepherdCapability.setBloodRestore(this.shepherdCapability.getBloodRestore() * ConstantUtil.SPECIAL_K);
 				EntityUtil.setEntityAllValue(this);
 			}
 			if(this.getHealth() < this.getMaxHealth()) {
@@ -222,7 +221,7 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 			if(!this.world.isRemote) {
 				if(this.nextConnectTick <= 0) {
 					BaseControl.netWorkWrapper.sendToAll(new ShepherdEntityToClientMessage(this.getEntityId(), this.shepherdCapability.writeNBT(null), this.nextLevelNeedExperience, this.experience, this.swordDamage, this.armorValue));
-					this.nextConnectTick = 60 + this.getRNG().nextInt(60);
+					this.nextConnectTick = ConstantUtil.CONNECT_TICK + this.getRNG().nextInt(ConstantUtil.CONNECT_TICK);
 				}else {
 					this.nextConnectTick--;
 				}
@@ -256,11 +255,11 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 	@Override
     public void writeEntityToNBT(NBTTagCompound compound){
         super.writeEntityToNBT(compound);
-        compound.setDouble(ZijingMod.MODID + ":swordDamage", this.swordDamage);
-        compound.setDouble(ZijingMod.MODID + ":armorValue", this.armorValue);
-        compound.setDouble(ZijingMod.MODID + ":experience", this.experience);
-        compound.setInteger(ZijingMod.MODID + ":nextLevelNeedExperience", this.nextLevelNeedExperience);
-        compound.setTag(ZijingMod.MODID + ":shepherdCapability", this.shepherdCapability.writeNBT(null));
+        compound.setDouble(ConstantUtil.MODID + ":swordDamage", this.swordDamage);
+        compound.setDouble(ConstantUtil.MODID + ":armorValue", this.armorValue);
+        compound.setDouble(ConstantUtil.MODID + ":experience", this.experience);
+        compound.setInteger(ConstantUtil.MODID + ":nextLevelNeedExperience", this.nextLevelNeedExperience);
+        compound.setTag(ConstantUtil.MODID + ":shepherdCapability", this.shepherdCapability.writeNBT(null));
     }
 
     /**
@@ -269,11 +268,11 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 	@Override
     public void readEntityFromNBT(NBTTagCompound compound){
         super.readEntityFromNBT(compound);
-        this.swordDamage = compound.getDouble(ZijingMod.MODID + ":swordDamage");
-        this.armorValue = compound.getDouble(ZijingMod.MODID + ":armorValue");
-        this.experience = compound.getDouble(ZijingMod.MODID + ":experience");
-        this.nextLevelNeedExperience = compound.getInteger(ZijingMod.MODID + ":nextLevelNeedExperience");
-        this.shepherdCapability.readNBT(null, compound.getTag(ZijingMod.MODID + ":shepherdCapability"));
+        this.swordDamage = compound.getDouble(ConstantUtil.MODID + ":swordDamage");
+        this.armorValue = compound.getDouble(ConstantUtil.MODID + ":armorValue");
+        this.experience = compound.getDouble(ConstantUtil.MODID + ":experience");
+        this.nextLevelNeedExperience = compound.getInteger(ConstantUtil.MODID + ":nextLevelNeedExperience");
+        this.shepherdCapability.readNBT(null, compound.getTag(ConstantUtil.MODID + ":shepherdCapability"));
         this.updataSwordDamageAndArmorValue();
         EntityUtil.setEntityAllValue(this);
     }
@@ -285,14 +284,14 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 
     	double attackDamage =  this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue() + this.swordDamage;
     	boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)attackDamage);
-		this.experience += attackDamage * this.experienceMagnification;
+		this.experience += attackDamage * ConstantUtil.EXPERIENCE_MAGNIFICATION;
 		
         if (flag){
             entityIn.motionY += 0.4000000059604645D;
             this.applyEnchantments(this, entityIn);
             if(this.shepherdCapability.getMagic() >= 1) {
             	entityIn.setFire(this.burningTime);
-        		this.experience += this.burningTime * this.experienceMagnification;
+        		this.experience += this.burningTime * ConstantUtil.EXPERIENCE_MAGNIFICATION;
             	this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - 1);
             }
         }
@@ -390,7 +389,7 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
         	}
     		this.world.playSound((EntityPlayer) null, this.posX, this.posY + this.getEyeHeight(), this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
     		this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - ItemStaffKongjian.MagicSkill1);
-			this.experience += attackDamage * this.experienceMagnification;
+			this.experience += attackDamage * ConstantUtil.EXPERIENCE_MAGNIFICATION;
         }
 	}
 
@@ -467,6 +466,6 @@ public class EntitySummonIronGolem extends EntityGolem implements EntityHasSheph
 	@Override
     @SideOnly(Side.CLIENT)
 	public String getSpecialInstructions() {
-		return I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonIronGolem.special", new Object[] {this.specialK});
+		return I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entitySummonIronGolem.special", new Object[] {ConstantUtil.SPECIAL_K});
 	}
 }

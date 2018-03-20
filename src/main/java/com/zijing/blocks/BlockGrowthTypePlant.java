@@ -4,7 +4,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import com.zijing.main.ZijingTab;
+import com.zijing.ZijingTab;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;

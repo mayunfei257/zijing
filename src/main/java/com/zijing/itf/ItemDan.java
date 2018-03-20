@@ -1,4 +1,4 @@
-package com.zijing.main.itf;
+package com.zijing.itf;
 
 import net.minecraft.entity.EntityLivingBase;
 

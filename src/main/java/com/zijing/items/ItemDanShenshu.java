@@ -4,11 +4,12 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.zijing.ZijingMod;
-import com.zijing.main.ZijingTab;
-import com.zijing.main.itf.EntityHasShepherdCapability;
-import com.zijing.main.itf.ItemDan;
+import com.zijing.ZijingTab;
+import com.zijing.itf.EntityHasShepherdCapability;
+import com.zijing.itf.ItemDan;
+import com.zijing.util.ConstantUtil;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,7 +17,6 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -29,7 +29,7 @@ public class ItemDanShenshu extends ItemFood implements ItemDan{
 		setAlwaysEdible();
 		maxStackSize = 64;
 		setUnlocalizedName("itemDanShenshu");
-		setRegistryName(ZijingMod.MODID + ":itemdanshenshu");
+		setRegistryName(ConstantUtil.MODID + ":itemdanshenshu");
 		setCreativeTab(ZijingTab.zijingTab);
 	}
 
@@ -44,7 +44,7 @@ public class ItemDanShenshu extends ItemFood implements ItemDan{
 	@Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		tooltip.add(I18n.format(ZijingMod.MODID + ".itemDanShenshu.1", new Object[] {effectTick/20}));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemDanShenshu.1", new Object[] {effectTick/20}));
 	}
 
 	@Override

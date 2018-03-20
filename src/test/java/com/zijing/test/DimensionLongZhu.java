@@ -71,13 +71,14 @@ public class DimensionLongZhu {
 	public static BlockTutorialPortal portal;
 	public static ModTrigger trigger;
 
-	static {
-		portal = (BlockTutorialPortal) (new BlockTutorialPortal().setUnlocalizedName("lZSJ_portal"));
-		trigger = (ModTrigger) (new ModTrigger().setUnlocalizedName("lZSJ_trigger"));
-	}
+//	static {
+//		portal = (BlockTutorialPortal) (new BlockTutorialPortal().setUnlocalizedName("lZSJ_portal"));
+//		trigger = (ModTrigger) (new ModTrigger().setUnlocalizedName("lZSJ_trigger"));
+//	}
 
 
-	public static DimensionType dtype = DimensionType.register("lZSJ", "_lZSJ", DIMID, DimensionLongZhu.WorldProviderMod.class, false);
+//	public static DimensionType dtype = DimensionType.register("lZSJ", "_lZSJ", DIMID, DimensionLongZhu.WorldProviderMod.class, false);
+	public static DimensionType dtype = null;;
 
 	public void load(FMLInitializationEvent event) {
 

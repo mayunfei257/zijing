@@ -1,7 +1,7 @@
 package com.zijing.entity.render;
 
-import com.zijing.ZijingMod;
 import com.zijing.entity.EntitySummonTaoistPriest;
+import com.zijing.util.ConstantUtil;
 
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.entity.RenderBiped;
@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderSummonTaoistPriest extends RenderBiped<EntitySummonTaoistPriest>{
-    private static final ResourceLocation TAOIST_PRIEST_TEXTURES = new ResourceLocation(ZijingMod.MODID + ":entitysummontaoistpriest.png");
+    private static final ResourceLocation TAOIST_PRIEST_TEXTURES = new ResourceLocation(ConstantUtil.MODID + ":entitysummontaoistpriest.png");
     
 	public RenderSummonTaoistPriest(RenderManager renderManagerIn, boolean useSmallArms) {
         super(renderManagerIn, new ModelPlayer(0.0F, useSmallArms), 0.5F);

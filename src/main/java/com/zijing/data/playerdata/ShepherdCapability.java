@@ -1,6 +1,7 @@
-package com.zijing.main.playerdata;
+package com.zijing.data.playerdata;
 
 import com.zijing.ZijingMod;
+import com.zijing.util.ConstantUtil;
 
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -9,7 +10,7 @@ import net.minecraftforge.common.capabilities.Capability;
 
 public class ShepherdCapability{
 	public static ShepherdStorage storage = new ShepherdCapability.ShepherdStorage();
-	public static final String NAME = ZijingMod.MODID + "shepherd_capability";
+	public static final String NAME = ConstantUtil.MODID + "shepherd_capability";
 	public static final int BASE_RACE = 0;
 	public static final int BASE_LEVEL = 1;
 	public static final double BASE_SPEED = 0D;

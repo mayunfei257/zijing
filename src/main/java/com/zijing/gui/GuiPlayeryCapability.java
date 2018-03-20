@@ -1,14 +1,15 @@
-package com.zijing.main.gui;
+package com.zijing.gui;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
 
 import org.lwjgl.opengl.GL11;
 
+import com.zijing.ZijingEvent;
 import com.zijing.ZijingMod;
-import com.zijing.main.ZijingEvent;
-import com.zijing.main.playerdata.ShepherdCapability;
-import com.zijing.main.playerdata.ShepherdProvider;
+import com.zijing.data.playerdata.ShepherdCapability;
+import com.zijing.data.playerdata.ShepherdProvider;
+import com.zijing.util.ConstantUtil;
 import com.zijing.util.MathUtil;
 
 import net.minecraft.client.Minecraft;
@@ -76,7 +77,7 @@ public class GuiPlayeryCapability {
 	
 	@SideOnly(Side.CLIENT)	//TODO
 	public static class MyGuiContainer extends GuiContainer {
-		private final ResourceLocation texture = new ResourceLocation(ZijingMod.MODID + ":playerycapabilitygui.png");
+		private final ResourceLocation texture = new ResourceLocation(ConstantUtil.MODID + ":playerycapabilitygui.png");
 		private EntityPlayer player;
 		private ShepherdCapability shepherdCapability;
 	    /** The old x position of the mouse pointer */
@@ -118,19 +119,19 @@ public class GuiPlayeryCapability {
 		@Override
 		protected void drawGuiContainerForegroundLayer(int par1, int par2) {
 			if(null != shepherdCapability) {
-				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.name", new Object[0]) + player.getName(), 64, 8, 0xFFAA00);
-				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.level", new Object[0]) + "LV" + shepherdCapability.getLevel(), 64, 17, 0xFFAA00);
-//				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.race", new Object[0]) + shepherdCapability.getRace(), 64, 17, 0xFFAA00);
-				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.blood", new Object[0]) + df1.format(shepherdCapability.getBlood()) + "/" + df1.format(shepherdCapability.getMaxBlood()), 64, 26, 0xFFAA00);
-				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.magic", new Object[0]) + df1.format(shepherdCapability.getMagic()) + "/" + df1.format(shepherdCapability.getMaxMagic()), 64, 35, 0xFFAA00);
-				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.speed", new Object[0]) + df2.format(shepherdCapability.getSpeed()), 64, 44, 0xFFAA00);
-				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.attack", new Object[0]) + df2.format(shepherdCapability.getAttack()), 64, 53, 0xFFAA00);
-//				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.intellect", new Object[0]) + df2.format(shepherdCapability.getIntellect()), 64, 62, 0xFFAA00);
-				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.physicalDefense", new Object[0]) + df2.format(shepherdCapability.getPhysicalDefense()), 64, 62, 0xFFAA00);
-				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.magicDefense", new Object[0]) + df2.format(shepherdCapability.getMagicDefense()), 64, 71, 0xFFAA00);
-				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.bloodRestore", new Object[0]) + df4.format(shepherdCapability.getBloodRestore()) + "/T", 64, 80, 0xFFAA00);
-				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.magicRestore", new Object[0]) + df4.format(shepherdCapability.getMagicRestore()) + "/T", 64, 89, 0xFFAA00);
-				this.fontRenderer.drawString(I18n.format(ZijingMod.MODID + ".gui.needExperience", new Object[0]) + player.experienceTotal + "/" + (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), 1) * ZijingMod.config.getUPGRADE_NEED_XP_K(), 64, 98, 0xFFAA00);
+				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.name", new Object[0]) + player.getName(), 64, 8, 0xFFAA00);
+				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.level", new Object[0]) + "LV" + shepherdCapability.getLevel(), 64, 17, 0xFFAA00);
+//				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.race", new Object[0]) + shepherdCapability.getRace(), 64, 17, 0xFFAA00);
+				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.blood", new Object[0]) + df1.format(shepherdCapability.getBlood()) + "/" + df1.format(shepherdCapability.getMaxBlood()), 64, 26, 0xFFAA00);
+				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.magic", new Object[0]) + df1.format(shepherdCapability.getMagic()) + "/" + df1.format(shepherdCapability.getMaxMagic()), 64, 35, 0xFFAA00);
+				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.speed", new Object[0]) + df2.format(shepherdCapability.getSpeed()), 64, 44, 0xFFAA00);
+				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.attack", new Object[0]) + df2.format(shepherdCapability.getAttack()), 64, 53, 0xFFAA00);
+//				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.intellect", new Object[0]) + df2.format(shepherdCapability.getIntellect()), 64, 62, 0xFFAA00);
+				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.physicalDefense", new Object[0]) + df2.format(shepherdCapability.getPhysicalDefense()), 64, 62, 0xFFAA00);
+				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.magicDefense", new Object[0]) + df2.format(shepherdCapability.getMagicDefense()), 64, 71, 0xFFAA00);
+				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.bloodRestore", new Object[0]) + df4.format(shepherdCapability.getBloodRestore()) + "/T", 64, 80, 0xFFAA00);
+				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.magicRestore", new Object[0]) + df4.format(shepherdCapability.getMagicRestore()) + "/T", 64, 89, 0xFFAA00);
+				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.needExperience", new Object[0]) + player.experienceTotal + "/" + (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), 1) * ZijingMod.config.getUPGRADE_NEED_XP_K(), 64, 98, 0xFFAA00);
 			}
 		}
 
@@ -138,7 +139,7 @@ public class GuiPlayeryCapability {
 		public void initGui() {
 			super.initGui();
 			this.buttonList.clear();
-			this.buttonList.add(new GuiButton(1, this.guiLeft + 7, this.guiTop + 89, 50, 20, I18n.format(ZijingMod.MODID + ".gui.upGrade", new Object[0])));
+			this.buttonList.add(new GuiButton(1, this.guiLeft + 7, this.guiTop + 89, 50, 20, I18n.format(ConstantUtil.MODID + ".gui.upGrade", new Object[0])));
 		}
 
 		@Override

@@ -1,9 +1,5 @@
 package com.zijing;
 
-import com.zijing.main.BaseControl;
-import com.zijing.main.ZijingEvent;
-import com.zijing.main.ZijingGuiHandler;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;

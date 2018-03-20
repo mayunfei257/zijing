@@ -1,8 +1,8 @@
 package com.zijing.items.staff;
 
-import com.zijing.ZijingMod;
+import com.zijing.ZijingTab;
 import com.zijing.entity.EntityArrowBingDan;
-import com.zijing.main.ZijingTab;
+import com.zijing.util.ConstantUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -21,7 +21,7 @@ public class ItemArrowBingDan extends Item{
 		super();
 		maxStackSize = 64;
 		setUnlocalizedName("itemArrowBingDan");
-		setRegistryName(ZijingMod.MODID + ":itemarrowbingdan");
+		setRegistryName(ConstantUtil.MODID + ":itemarrowbingdan");
 		setCreativeTab(ZijingTab.zijingTab);
 	}
 

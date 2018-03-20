@@ -1,9 +1,9 @@
 package com.zijing.util;
 
 import com.zijing.ZijingMod;
-import com.zijing.main.itf.EntityHasShepherdCapability;
-import com.zijing.main.playerdata.ShepherdCapability;
-import com.zijing.main.playerdata.ShepherdProvider;
+import com.zijing.data.playerdata.ShepherdCapability;
+import com.zijing.data.playerdata.ShepherdProvider;
+import com.zijing.itf.EntityHasShepherdCapability;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;

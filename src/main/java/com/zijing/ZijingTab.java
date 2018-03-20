@@ -1,4 +1,4 @@
-package com.zijing.main;
+package com.zijing;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;

@@ -1,7 +1,7 @@
 package com.zijing.blocks;
 
-import com.zijing.ZijingMod;
-import com.zijing.main.ZijingTab;
+import com.zijing.ZijingTab;
+import com.zijing.util.ConstantUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -15,7 +15,7 @@ public class BlockGuhuaNiunaiKuai extends Block{
         setResistance(3.0f);
         setSoundType(SoundType.SNOW);
 		setUnlocalizedName("blockGuhuaNiunaiKuai");
-		setRegistryName(ZijingMod.MODID + ":blockguhuaniunaikuai");
+		setRegistryName(ConstantUtil.MODID + ":blockguhuaniunaikuai");
 		setCreativeTab(ZijingTab.zijingTab);
 	}
 }

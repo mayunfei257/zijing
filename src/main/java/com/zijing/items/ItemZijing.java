@@ -5,16 +5,17 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.zijing.ZijingMod;
-import com.zijing.main.ZijingTab;
-import com.zijing.main.itf.MagicSource;
-import com.zijing.main.playerdata.ShepherdCapability;
-import com.zijing.main.playerdata.ShepherdProvider;
+import com.zijing.ZijingTab;
+import com.zijing.data.playerdata.ShepherdCapability;
+import com.zijing.data.playerdata.ShepherdProvider;
+import com.zijing.itf.MagicSource;
+import com.zijing.util.ConstantUtil;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -26,7 +27,7 @@ public class ItemZijing extends ItemFood implements MagicSource{
 		setAlwaysEdible();
 		setMaxStackSize(64);
 		setUnlocalizedName("itemZijing");
-		setRegistryName(ZijingMod.MODID + ":itemzijing");
+		setRegistryName(ConstantUtil.MODID + ":itemzijing");
 		setCreativeTab(ZijingTab.zijingTab);
 	}
 	
@@ -74,6 +75,6 @@ public class ItemZijing extends ItemFood implements MagicSource{
 	@Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		tooltip.add(I18n.format(ZijingMod.MODID + ".itemZijing.magic", new Object[] {getMagicEnergy()}));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemZijing.magic", new Object[] {getMagicEnergy()}));
 	}
 }

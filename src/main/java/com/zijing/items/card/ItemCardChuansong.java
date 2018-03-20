@@ -5,11 +5,13 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.zijing.ZijingMod;
-import com.zijing.main.ZijingTab;
-import com.zijing.main.gui.GuiCardChuansong;
-import com.zijing.main.playerdata.ShepherdCapability;
-import com.zijing.main.playerdata.ShepherdProvider;
+import com.zijing.ZijingTab;
+import com.zijing.data.playerdata.ShepherdCapability;
+import com.zijing.data.playerdata.ShepherdProvider;
+import com.zijing.gui.GuiCardChuansong;
+import com.zijing.util.ConstantUtil;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -22,18 +24,17 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemCardChuansong extends Item{
-	public static final String BIND_LX = ZijingMod.MODID + ":lx";
-	public static final String BIND_LY = ZijingMod.MODID + ":ly";
-	public static final String BIND_LZ = ZijingMod.MODID + ":lz";
-	public static final String BIND_WORLD = ZijingMod.MODID + ":world";
-	public static final String BIND_NAME = ZijingMod.MODID + ":name";
-	public static final String IS_BIND = ZijingMod.MODID + ":isbind";
+	public static final String BIND_LX = ConstantUtil.MODID + ":lx";
+	public static final String BIND_LY = ConstantUtil.MODID + ":ly";
+	public static final String BIND_LZ = ConstantUtil.MODID + ":lz";
+	public static final String BIND_WORLD = ConstantUtil.MODID + ":world";
+	public static final String BIND_NAME = ConstantUtil.MODID + ":name";
+	public static final String IS_BIND = ConstantUtil.MODID + ":isbind";
 	public static final int MagicSkill1 = 5;
 	public static final int MagicSkill2 = 5;
 
@@ -41,7 +42,7 @@ public class ItemCardChuansong extends Item{
 		super();
 		maxStackSize = 1;
 		setUnlocalizedName("itemCardChuansong");
-		setRegistryName(ZijingMod.MODID + ":itemcardchuansong");
+		setRegistryName(ConstantUtil.MODID + ":itemcardchuansong");
 		setCreativeTab(ZijingTab.zijingTab);
 	}
 
@@ -95,13 +96,13 @@ public class ItemCardChuansong extends Item{
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
 		if(stack.hasTagCompound() && null != stack.getTagCompound() && stack.getTagCompound().getBoolean(IS_BIND)){
 			NBTTagCompound nbt  = stack.getTagCompound();
-			tooltip.add(I18n.format(ZijingMod.MODID + ".itemCardChuansong.name", new Object[] {nbt.getString(BIND_NAME)}));
-			tooltip.add(I18n.format(ZijingMod.MODID + ".itemCardChuansong.position", new Object[] {(int)nbt.getDouble(BIND_LX), (int)nbt.getDouble(BIND_LY), (int)nbt.getDouble(BIND_LZ), nbt.getInteger(BIND_WORLD)}));
+			tooltip.add(I18n.format(ConstantUtil.MODID + ".itemCardChuansong.name", new Object[] {nbt.getString(BIND_NAME)}));
+			tooltip.add(I18n.format(ConstantUtil.MODID + ".itemCardChuansong.position", new Object[] {(int)nbt.getDouble(BIND_LX), (int)nbt.getDouble(BIND_LY), (int)nbt.getDouble(BIND_LZ), nbt.getInteger(BIND_WORLD)}));
 		}else{
-			tooltip.add(I18n.format(ZijingMod.MODID + ".itemCardChuansong.notbinded", new Object[] {}));
+			tooltip.add(I18n.format(ConstantUtil.MODID + ".itemCardChuansong.notbinded", new Object[] {}));
 		}
-		tooltip.add(I18n.format(ZijingMod.MODID + ".line.1", new Object[] {}));
-		tooltip.add(I18n.format(ZijingMod.MODID + ".itemCardChuansong.skill1", new Object[] {MagicSkill1}));
-		tooltip.add(I18n.format(ZijingMod.MODID + ".itemCardChuansong.skill2", new Object[] {MagicSkill2}));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".line.1", new Object[] {}));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemCardChuansong.skill1", new Object[] {MagicSkill1}));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemCardChuansong.skill2", new Object[] {MagicSkill2}));
 	}
 }

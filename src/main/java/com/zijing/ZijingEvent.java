@@ -1,17 +1,16 @@
-package com.zijing.main;
+package com.zijing;
 
 import org.lwjgl.input.Keyboard;
 
-import com.zijing.ZijingMod;
+import com.zijing.data.playerdata.ShepherdCapability;
+import com.zijing.data.playerdata.ShepherdProvider;
+import com.zijing.gui.GuiPlayeryCapability;
 import com.zijing.items.staff.ItemZilingZhu;
 import com.zijing.items.tool.ItemArmorZijingBody;
 import com.zijing.items.tool.ItemArmorZijingBoots;
 import com.zijing.items.tool.ItemArmorZijingHelmet;
 import com.zijing.items.tool.ItemArmorZijingLegs;
-import com.zijing.main.gui.GuiPlayeryCapability;
-import com.zijing.main.itf.EntityHasShepherdCapability;
-import com.zijing.main.playerdata.ShepherdCapability;
-import com.zijing.main.playerdata.ShepherdProvider;
+import com.zijing.itf.EntityHasShepherdCapability;
 import com.zijing.util.EntityUtil;
 import com.zijing.util.StringUtil;
 

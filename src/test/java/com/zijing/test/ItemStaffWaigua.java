@@ -5,8 +5,9 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.zijing.ZijingMod;
-import com.zijing.main.ZijingTab;
-import com.zijing.main.itf.MagicConsumer;
+import com.zijing.ZijingTab;
+import com.zijing.itf.MagicConsumer;
+import com.zijing.util.ConstantUtil;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,7 +29,7 @@ public class ItemStaffWaigua extends Item  implements MagicConsumer{
 		maxStackSize = 1;
 		setMaxDamage(ZijingMod.config.getSTAFF_MAX_MAGIC_ENERGY());
 		setUnlocalizedName("itemStaffWaigua");
-		setRegistryName(ZijingMod.MODID + ":itemstaffwaigua");
+		setRegistryName(ConstantUtil.MODID + ":itemstaffwaigua");
 		setCreativeTab(ZijingTab.zijingTab);
 	}
 	

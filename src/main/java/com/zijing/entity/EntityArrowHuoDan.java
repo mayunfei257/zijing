@@ -1,12 +1,15 @@
 package com.zijing.entity;
 
-import com.zijing.main.itf.EntityHasShepherdCapability;
-import com.zijing.main.itf.EntityMobHasShepherdCapability;
+import com.zijing.itf.EntityHasShepherdCapability;
+import com.zijing.itf.EntityMobHasShepherdCapability;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
@@ -23,6 +26,7 @@ public class EntityArrowHuoDan extends EntityThrowable {
 	private float explosionProbability = 0.125F;
 	private float explosionStrength = 1F;
 	private boolean canExplosionOnBlock = true;
+	private boolean checkFaction = false;
 	
 	public EntityArrowHuoDan(World a) {
 		super(a);
@@ -31,17 +35,34 @@ public class EntityArrowHuoDan extends EntityThrowable {
 	public EntityArrowHuoDan(World worldIn, double x, double y, double z) {
 		super(worldIn, x, y, z);
 	}
+	
+	public EntityArrowHuoDan(World worldIn, double x, double y, double z, float attackDamage, float explosionProbability, float explosionStrength, boolean canExplosionOnBlock) {
+		this(worldIn, x, y, z);
+		this.attackDamage = attackDamage;
+		this.explosionProbability = explosionProbability;
+		this.explosionStrength = explosionStrength;
+		this.canExplosionOnBlock = canExplosionOnBlock;
+	}
+	public EntityArrowHuoDan(World worldIn, double x, double y, double z, float attackDamage, float explosionProbability, float explosionStrength, boolean canExplosionOnBlock, boolean checkFaction) {
+		this(worldIn, x, y, z, attackDamage, explosionProbability, explosionStrength, canExplosionOnBlock);
+		this.checkFaction = checkFaction;
+	}
 
 	public EntityArrowHuoDan(World worldIn, EntityLivingBase shooter) {
 		super(worldIn, shooter);
 	}
 	
 	public EntityArrowHuoDan(World worldIn, EntityLivingBase shooter, float attackDamage, float explosionProbability, float explosionStrength, boolean canExplosionOnBlock) {
-		super(worldIn, shooter);
+		this(worldIn, shooter);
 		this.attackDamage = attackDamage;
 		this.explosionProbability = explosionProbability;
 		this.explosionStrength = explosionStrength;
 		this.canExplosionOnBlock = canExplosionOnBlock;
+	}
+
+	public EntityArrowHuoDan(World worldIn, EntityLivingBase shooter, float attackDamage, float explosionProbability, float explosionStrength, boolean canExplosionOnBlock, boolean checkFaction) {
+		this(worldIn, shooter, attackDamage, explosionProbability, explosionStrength, canExplosionOnBlock);
+		this.checkFaction = checkFaction;
 	}
 
 	@Override
@@ -54,13 +75,7 @@ public class EntityArrowHuoDan extends EntityThrowable {
 		Entity entity = raytraceResultIn.entityHit;
 		BlockPos blockPos = raytraceResultIn.getBlockPos();
 		if(null != entity && !this.world.isRemote && entity instanceof EntityLivingBase) {
-			boolean canAttackFlag = false;
-			if((this.thrower instanceof EntityHasShepherdCapability || this.thrower instanceof EntityPlayer) && !(entity instanceof EntityHasShepherdCapability || entity instanceof EntityPlayer)) {
-				canAttackFlag = true;
-			}else if((this.thrower instanceof EntityMobHasShepherdCapability) && !(entity instanceof EntityMobHasShepherdCapability)) {
-				canAttackFlag = true;
-			}
-			if(canAttackFlag) {
+			if(checkCanAttack((EntityLivingBase)entity)) {
 				entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), this.attackDamage);
 				entity.setFire(3);
 				if(this.world.rand.nextFloat() < this.explosionProbability) {
@@ -70,30 +85,50 @@ public class EntityArrowHuoDan extends EntityThrowable {
 				this.setDead();
 			}
 		}else if(null != blockPos && !this.world.isRemote){
-			Block block = this.world.getBlockState(blockPos).getBlock();
-			if(block != Blocks.TALLGRASS && block != Blocks.WEB && block != Blocks.DEADBUSH && block != Blocks.RED_FLOWER 
-				&& block != Blocks.YELLOW_FLOWER && block != Blocks.BROWN_MUSHROOM && block != Blocks.RED_MUSHROOM && block != Blocks.TORCH 
-				&& block != Blocks.LADDER && block != Blocks.SNOW_LAYER && block != Blocks.VINE && block != Blocks.WATERLILY 
-				&& block != Blocks.CARPET && block != Blocks.DOUBLE_PLANT && block != Blocks.END_ROD && block != Blocks.STANDING_SIGN 
-				&& block != Blocks.WALL_SIGN && block != Blocks.FLOWER_POT && block != Blocks.STANDING_BANNER && block != Blocks.WALL_BANNER 
-				&& block != Blocks.RAIL && block != Blocks.ACTIVATOR_RAIL && block != Blocks.DETECTOR_RAIL && block != Blocks.GOLDEN_RAIL 
-				&& block != Blocks.WHEAT && block != Blocks.REEDS && block != Blocks.CARROTS && block != Blocks.POTATOES 
-				&& block != Blocks.BEETROOTS && block != Blocks.REDSTONE_TORCH && block != Blocks.UNLIT_REDSTONE_TORCH && block != Blocks.WOODEN_BUTTON 
-				&& block != Blocks.STONE_BUTTON && block != Blocks.POWERED_REPEATER && block != Blocks.UNPOWERED_REPEATER && block != Blocks.POWERED_COMPARATOR 
-				&& block != Blocks.UNPOWERED_COMPARATOR && block != Blocks.REDSTONE_BLOCK && block != Blocks.SAPLING){
-				if(null != raytraceResultIn.sideHit) {
-					IBlockState blockState = this.world.getBlockState(blockPos.offset(raytraceResultIn.sideHit));
-					if(blockState.getBlock() == Blocks.AIR || blockState.getBlock() == Blocks.TALLGRASS) {
-						this.world.setBlockState(blockPos.offset(raytraceResultIn.sideHit), Blocks.FIRE.getDefaultState());
-					}
+			if(!canThrough(this.world.getBlockState(blockPos))){
+				BlockPos sideBlockPos = blockPos.offset(raytraceResultIn.sideHit);
+				Block sideBlock = this.world.getBlockState(sideBlockPos).getBlock();
+				if(sideBlock == Blocks.AIR || sideBlock == Blocks.TALLGRASS) {
+					this.world.setBlockState(sideBlockPos, Blocks.FIRE.getDefaultState());
 				}
 				if(this.world.rand.nextFloat() < this.explosionProbability && this.canExplosionOnBlock) {
-					BlockPos blockPosTemp = blockPos.offset(raytraceResultIn.sideHit);
-					this.world.createExplosion(this, blockPosTemp.getX(), blockPosTemp.getY(), blockPosTemp.getZ(), this.explosionStrength, true);
+					this.world.createExplosion(this, sideBlockPos.getX(), sideBlockPos.getY(), sideBlockPos.getZ(), this.explosionStrength, true);
 				}
 				world.playSound((EntityPlayer) null, blockPos.getX() + 0.5D, blockPos.getY() + 0.5D, blockPos.getZ() + 0.5D, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.generic.explode")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 				this.setDead();
 			}
 		}
     }
+	
+	private boolean checkCanAttack(EntityLivingBase entity) {
+		boolean canAttackFlag = true;
+		if(null != this.thrower) {
+			if(this.thrower instanceof EntityHasShepherdCapability || this.thrower instanceof EntityPlayer) {
+				if(entity instanceof EntityHasShepherdCapability || entity instanceof EntityPlayer) {
+					canAttackFlag = false;
+				}else if(checkFaction && entity instanceof IAnimals) {
+					canAttackFlag = false;
+				}
+			}else if(this.thrower instanceof EntityMobHasShepherdCapability) {
+				if(entity instanceof EntityMobHasShepherdCapability) {
+					canAttackFlag = false;
+				}else if(checkFaction && entity instanceof IMob) {
+					canAttackFlag = false;
+				}
+			}
+		}
+		return canAttackFlag;
+	}
+	
+	private boolean canThrough(IBlockState blockState) {
+		boolean canThroughFlag = false;
+		Material material = blockState.getMaterial();
+		if(material == Material.AIR || material == Material.GRASS || material == Material.WATER
+				|| material == Material.LAVA || material == Material.PLANTS || material == Material.FIRE
+				|| material == Material.VINE || material == Material.CIRCUITS || material == Material.WEB
+				|| material == Material.CARPET) {
+			canThroughFlag = true;
+		}
+		return canThroughFlag;
+	}
 }

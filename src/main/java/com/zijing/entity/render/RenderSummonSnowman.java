@@ -1,8 +1,8 @@
 package com.zijing.entity.render;
 
-import com.zijing.ZijingMod;
 import com.zijing.entity.EntitySummonSnowman;
 import com.zijing.entity.layer.LayerSummonSnowmanHead;
+import com.zijing.util.ConstantUtil;
 
 import net.minecraft.client.model.ModelSnowMan;
 import net.minecraft.client.renderer.entity.RenderLiving;
@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderSummonSnowman extends RenderLiving<EntitySummonSnowman>{
-    private static final ResourceLocation SUMMON_SNOW_MAN_TEXTURES = new ResourceLocation(ZijingMod.MODID + ":entitysummonsnowman.png");
+    private static final ResourceLocation SUMMON_SNOW_MAN_TEXTURES = new ResourceLocation(ConstantUtil.MODID + ":entitysummonsnowman.png");
 
     public RenderSummonSnowman(RenderManager renderManagerIn){
         super(renderManagerIn, new ModelSnowMan(), 0.5F);

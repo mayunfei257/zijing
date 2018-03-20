@@ -1,4 +1,4 @@
-package com.zijing.main.itf;
+package com.zijing.itf;
 
 public interface MagicSource {
 	public int getMagicEnergy();

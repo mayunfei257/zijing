@@ -1,15 +1,16 @@
 package com.zijing.entity;
 
+import com.zijing.BaseControl;
 import com.zijing.ZijingMod;
+import com.zijing.data.message.ShepherdEntityToClientMessage;
+import com.zijing.data.playerdata.ShepherdCapability;
 import com.zijing.entity.ai.EntityAIAttackMeleeZJ;
 import com.zijing.entity.ai.EntityAIAttackRangedZJ;
 import com.zijing.items.staff.ItemStaffBingxue;
 import com.zijing.items.staff.ItemZilingZhu;
-import com.zijing.main.BaseControl;
-import com.zijing.main.itf.EntityHasShepherdCapability;
-import com.zijing.main.itf.EntityMobHasShepherdCapability;
-import com.zijing.main.message.ShepherdEntityToClientMessage;
-import com.zijing.main.playerdata.ShepherdCapability;
+import com.zijing.itf.EntityHasShepherdCapability;
+import com.zijing.itf.EntityMobHasShepherdCapability;
+import com.zijing.util.ConstantUtil;
 import com.zijing.util.EntityUtil;
 import com.zijing.util.MathUtil;
 
@@ -47,18 +48,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityEvilTaoistPriest extends EntityCreature implements EntityMobHasShepherdCapability, IRangedAttackMob, IMob{
-	private final static float experienceMagnification = 2.0F;
-	private final static float specialK = 1.5F;//speed
-	private final static int canShootHuoDanLevel = 15;
-	private final static int immuneFireLevel = 30;
-	private final static int canLightningLevel = 45;
-	private final static int canExplosionLevel = 60;
-	
-	private final static float explosionProbabilityK = 0.05F;
-	private final static float slownessProbabilityK = 0.05F;
-	private final static float slownessStrengthK = 0.3F;
-	
-	private int nextConnectTick = 60;
+	public int nextConnectTick = ConstantUtil.CONNECT_TICK;
 	private int baseLevel = 1;
 	
 	private int nextLevelNeedExperience;
@@ -123,11 +113,11 @@ public class EntityEvilTaoistPriest extends EntityCreature implements EntityMobH
 		this.shepherdCapability = new ShepherdCapability();
 		this.experience = (int) MathUtil.getUpgradeK(this.shepherdCapability.getLevel(), baseLevel - 1) * ZijingMod.config.getUPGRADE_NEED_XP_K()/2;
 		EntityUtil.upEntityGrade(this, baseLevel - 1);
-		this.shepherdCapability.setSpeed(this.shepherdCapability.getSpeed() * this.specialK);
+		this.shepherdCapability.setSpeed(this.shepherdCapability.getSpeed() * ConstantUtil.SPECIAL_K);
 		this.experienceValue = this.nextLevelNeedExperience;
 		EntityUtil.setEntityAllValue(this);
-		this.setCustomNameTag(I18n.translateToLocalFormatted(ZijingMod.MODID + ".entityEvilTaoistPriest.name", new Object[0]));
-		if(this.shepherdCapability.getLevel() >= this.immuneFireLevel) {
+		this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entityEvilTaoistPriest.name", new Object[0]));
+		if(this.shepherdCapability.getLevel() >= ConstantUtil.IMMUNE_FIRE_LEVEL) {
 			this.isImmuneToFire = true;
 		}
 	}
@@ -136,22 +126,22 @@ public class EntityEvilTaoistPriest extends EntityCreature implements EntityMobH
     public void writeEntityToNBT(NBTTagCompound compound){
         super.writeEntityToNBT(compound);
         compound.setBoolean("isImmuneToFire", isImmuneToFire);
-        compound.setDouble(ZijingMod.MODID + ":swordDamage", this.swordDamage);
-        compound.setDouble(ZijingMod.MODID + ":armorValue", this.armorValue);
-        compound.setDouble(ZijingMod.MODID + ":experience", this.experience);
-        compound.setInteger(ZijingMod.MODID + ":nextLevelNeedExperience", this.nextLevelNeedExperience);
-        compound.setTag(ZijingMod.MODID + ":shepherdCapability", this.shepherdCapability.writeNBT(null));
+        compound.setDouble(ConstantUtil.MODID + ":swordDamage", this.swordDamage);
+        compound.setDouble(ConstantUtil.MODID + ":armorValue", this.armorValue);
+        compound.setDouble(ConstantUtil.MODID + ":experience", this.experience);
+        compound.setInteger(ConstantUtil.MODID + ":nextLevelNeedExperience", this.nextLevelNeedExperience);
+        compound.setTag(ConstantUtil.MODID + ":shepherdCapability", this.shepherdCapability.writeNBT(null));
     }
 
 	@Override
     public void readEntityFromNBT(NBTTagCompound compound){
         super.readEntityFromNBT(compound);
         this.isImmuneToFire = compound.getBoolean("isImmuneToFire");
-        this.swordDamage = compound.getDouble(ZijingMod.MODID + ":swordDamage");
-        this.armorValue = compound.getDouble(ZijingMod.MODID + ":armorValue");
-        this.experience = compound.getDouble(ZijingMod.MODID + ":experience");
-        this.nextLevelNeedExperience = compound.getInteger(ZijingMod.MODID + ":nextLevelNeedExperience");
-        this.shepherdCapability.readNBT(null, compound.getTag(ZijingMod.MODID + ":shepherdCapability"));
+        this.swordDamage = compound.getDouble(ConstantUtil.MODID + ":swordDamage");
+        this.armorValue = compound.getDouble(ConstantUtil.MODID + ":armorValue");
+        this.experience = compound.getDouble(ConstantUtil.MODID + ":experience");
+        this.nextLevelNeedExperience = compound.getInteger(ConstantUtil.MODID + ":nextLevelNeedExperience");
+        this.shepherdCapability.readNBT(null, compound.getTag(ConstantUtil.MODID + ":shepherdCapability"));
         this.updataSwordDamageAndArmorValue();
         EntityUtil.setEntityAllValue(this);
     }
@@ -200,7 +190,7 @@ public class EntityEvilTaoistPriest extends EntityCreature implements EntityMobH
     public boolean attackEntityAsMob(Entity entityIn){
     	double attackDamage =  this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue() + this.swordDamage;
     	boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)attackDamage);
-        if(this.shepherdCapability.getLevel() >= canLightningLevel) {
+        if(this.shepherdCapability.getLevel() >= ConstantUtil.CAN_LIGHTNING_LEVEL) {
         	entityIn.world.spawnEntity(new EntityLightningBolt(entityIn.world, entityIn.posX, entityIn.posY, entityIn.posZ, false));
         }
         if (flag){
@@ -208,7 +198,7 @@ public class EntityEvilTaoistPriest extends EntityCreature implements EntityMobH
             this.applyEnchantments(this, entityIn);
 	        this.playSound(SoundEvents.ENTITY_IRONGOLEM_ATTACK, 1.0F, 1.0F);
         }
-		this.experience += attackDamage * this.experienceMagnification;
+		this.experience += attackDamage * ConstantUtil.EXPERIENCE_MAGNIFICATION;
         return flag;
     }
 
@@ -219,16 +209,16 @@ public class EntityEvilTaoistPriest extends EntityCreature implements EntityMobH
         	if(!this.world.isRemote) {
             	EntityThrowable entityDan;
             	if(this.world.rand.nextFloat() < 0.5D) {
-            		entityDan = new EntityArrowHuoDan(world, this, attackDamage, this.shepherdCapability.getLevel() * this.explosionProbabilityK, 1F, false);
+            		entityDan = new EntityArrowHuoDan(world, this, attackDamage, this.shepherdCapability.getLevel() * ConstantUtil.EXPLOSION_PROBABILITY_K, 1F, false);
             	}else {
-            		entityDan = new EntityArrowBingDan(world, this, attackDamage, this.shepherdCapability.getLevel() * this.slownessProbabilityK, (int)(this.shepherdCapability.getLevel() * this.slownessStrengthK));
+            		entityDan = new EntityArrowBingDan(world, this, attackDamage, this.shepherdCapability.getLevel() * ConstantUtil.SLOWNESS_PROBABILITY_K, 80, (int)(this.shepherdCapability.getLevel() * ConstantUtil.SLOWNESS_STRENGTH_K));
             	}
         		entityDan.shoot(target.posX - this.posX, target.getEntityBoundingBox().minY + target.height * 0.75D - entityDan.posY, target.posZ - this.posZ, 3.0F, 0);
         		this.world.spawnEntity(entityDan);
         	}
     		this.world.playSound((EntityPlayer) null, this.posX, this.posY + this.getEyeHeight(), this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
     		this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - ItemStaffBingxue.MagicSkill1);
-			this.experience += attackDamage * this.experienceMagnification;
+			this.experience += attackDamage * ConstantUtil.EXPERIENCE_MAGNIFICATION;
         }
 	}
 
@@ -238,8 +228,8 @@ public class EntityEvilTaoistPriest extends EntityCreature implements EntityMobH
 		if(!this.isDead && this.getHealth() > 0) {
 			if(this.nextLevelNeedExperience <= this.experience) {
 				EntityUtil.upEntityGrade(this, 1);
-				this.shepherdCapability.setSpeed(this.shepherdCapability.getSpeed() * this.specialK);
-				if(this.shepherdCapability.getLevel() >= this.immuneFireLevel) {
+				this.shepherdCapability.setSpeed(this.shepherdCapability.getSpeed() * ConstantUtil.SPECIAL_K);
+				if(this.shepherdCapability.getLevel() >= ConstantUtil.IMMUNE_FIRE_LEVEL) {
 					this.isImmuneToFire = true;
 				}
 				this.experienceValue = this.nextLevelNeedExperience;
@@ -258,7 +248,7 @@ public class EntityEvilTaoistPriest extends EntityCreature implements EntityMobH
 			if(!this.world.isRemote) {
 				if(this.nextConnectTick <= 0) {
 					BaseControl.netWorkWrapper.sendToAll(new ShepherdEntityToClientMessage(this.getEntityId(), this.shepherdCapability.writeNBT(null), this.nextLevelNeedExperience, this.experience, this.swordDamage, this.armorValue));
-					this.nextConnectTick = 60 + this.getRNG().nextInt(60);
+					this.nextConnectTick = ConstantUtil.CONNECT_TICK + this.getRNG().nextInt(ConstantUtil.CONNECT_TICK);
 				}else {
 					this.nextConnectTick--;
 				}
@@ -339,6 +329,6 @@ public class EntityEvilTaoistPriest extends EntityCreature implements EntityMobH
 	@Override
     @SideOnly(Side.CLIENT)
 	public String getSpecialInstructions() {
-		return I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonTaoistPriest.special", new Object[0]);
+		return I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entitySummonTaoistPriest.special", new Object[0]);
 	}
 }

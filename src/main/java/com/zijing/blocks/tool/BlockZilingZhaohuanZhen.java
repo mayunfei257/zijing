@@ -2,9 +2,9 @@ package com.zijing.blocks.tool;
 
 import java.util.Random;
 
-import com.zijing.ZijingMod;
+import com.zijing.ZijingTab;
 import com.zijing.entity.EntitySummonIronGolem;
-import com.zijing.main.ZijingTab;
+import com.zijing.util.ConstantUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -37,7 +37,7 @@ public class BlockZilingZhaohuanZhen extends Block{
         setHarvestLevel("pickaxe", 2);
         setSoundType(SoundType.METAL);
 		setUnlocalizedName("blockZilingZhaohuanZhen");
-		setRegistryName(ZijingMod.MODID + ":blockzilingzhaohuanzhen");
+		setRegistryName(ConstantUtil.MODID + ":blockzilingzhaohuanzhen");
 		setCreativeTab(ZijingTab.zijingTab);
 	}
 	

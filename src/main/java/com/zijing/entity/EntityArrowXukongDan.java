@@ -1,11 +1,14 @@
 package com.zijing.entity;
 
-import com.zijing.main.itf.EntityHasShepherdCapability;
-import com.zijing.main.itf.EntityMobHasShepherdCapability;
+import com.zijing.itf.EntityHasShepherdCapability;
+import com.zijing.itf.EntityMobHasShepherdCapability;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
@@ -19,6 +22,7 @@ import net.minecraft.world.World;
 
 public class EntityArrowXukongDan extends EntityThrowable {
 	private float attackDamage = 0;
+	private boolean checkFaction = false;
 	
 	public EntityArrowXukongDan(World a) {
 		super(a);
@@ -28,15 +32,30 @@ public class EntityArrowXukongDan extends EntityThrowable {
 		super(worldIn, x, y, z);
 	}
 
+	public EntityArrowXukongDan(World worldIn, double x, double y, double z, float attackDamage) {
+		this(worldIn, x, y, z);
+		this.attackDamage = attackDamage;
+	}
+
+	public EntityArrowXukongDan(World worldIn, double x, double y, double z, float attackDamage, boolean checkFaction) {
+		this(worldIn, x, y, z, attackDamage);
+		this.checkFaction = checkFaction;
+	}
+
 	public EntityArrowXukongDan(World worldIn, EntityLivingBase shooter) {
 		super(worldIn, shooter);
 	}
 
 	public EntityArrowXukongDan(World worldIn, EntityLivingBase shooter, float attackDamage) {
-		super(worldIn, shooter);
+		this(worldIn, shooter);
 		this.attackDamage = attackDamage;
 	}
 
+	public EntityArrowXukongDan(World worldIn, EntityLivingBase shooter, float attackDamage, boolean checkFaction) {
+		this(worldIn, shooter, attackDamage);
+		this.checkFaction = checkFaction;
+	}
+	
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
@@ -47,30 +66,14 @@ public class EntityArrowXukongDan extends EntityThrowable {
 		Entity entity = raytraceResultIn.entityHit;
 		BlockPos blockPos = raytraceResultIn.getBlockPos();
 		if(null != entity && !this.world.isRemote && entity instanceof EntityLivingBase) {
-			boolean canAttackFlag = false;
-			if((this.thrower instanceof EntityHasShepherdCapability || this.thrower instanceof EntityPlayer) && !(entity instanceof EntityHasShepherdCapability || entity instanceof EntityPlayer)) {
-				canAttackFlag = true;
-			}else if((this.thrower instanceof EntityMobHasShepherdCapability) && !(entity instanceof EntityMobHasShepherdCapability)) {
-				canAttackFlag = true;
-			}
-			if(canAttackFlag) {
+			if(checkCanAttack((EntityLivingBase)entity)) {
 				entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), this.attackDamage);
 				this.thrower.setPositionAndUpdate(entity.posX, entity.posY, entity.posZ);
 				world.playSound((EntityPlayer) null, entity.posX, entity.posY + 0.5D, entity.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 				this.setDead();
 			}
 		}else if(null != blockPos && !this.world.isRemote){
-			Block block = this.world.getBlockState(blockPos).getBlock();
-			if(block != Blocks.TALLGRASS && block != Blocks.WEB && block != Blocks.DEADBUSH && block != Blocks.RED_FLOWER 
-				&& block != Blocks.YELLOW_FLOWER && block != Blocks.BROWN_MUSHROOM && block != Blocks.RED_MUSHROOM && block != Blocks.TORCH 
-				&& block != Blocks.LADDER && block != Blocks.SNOW_LAYER && block != Blocks.VINE && block != Blocks.WATERLILY 
-				&& block != Blocks.CARPET && block != Blocks.DOUBLE_PLANT && block != Blocks.END_ROD && block != Blocks.STANDING_SIGN 
-				&& block != Blocks.WALL_SIGN && block != Blocks.FLOWER_POT && block != Blocks.STANDING_BANNER && block != Blocks.WALL_BANNER 
-				&& block != Blocks.RAIL && block != Blocks.ACTIVATOR_RAIL && block != Blocks.DETECTOR_RAIL && block != Blocks.GOLDEN_RAIL 
-				&& block != Blocks.WHEAT && block != Blocks.REEDS && block != Blocks.CARROTS && block != Blocks.POTATOES 
-				&& block != Blocks.BEETROOTS && block != Blocks.REDSTONE_TORCH && block != Blocks.UNLIT_REDSTONE_TORCH && block != Blocks.WOODEN_BUTTON 
-				&& block != Blocks.STONE_BUTTON && block != Blocks.POWERED_REPEATER && block != Blocks.UNPOWERED_REPEATER && block != Blocks.POWERED_COMPARATOR 
-				&& block != Blocks.UNPOWERED_COMPARATOR && block != Blocks.REDSTONE_BLOCK && block != Blocks.SAPLING){
+			if(!canThrough(this.world.getBlockState(blockPos))){
 				if(checkCanStandBlock(this.world, blockPos)) {
 					this.thrower.setPositionAndUpdate(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D);
 				}else {
@@ -120,5 +123,37 @@ public class EntityArrowXukongDan extends EntityThrowable {
 			return true;
 		}
 		return false;
+	}
+	
+	private boolean checkCanAttack(EntityLivingBase entity) {
+		boolean canAttackFlag = true;
+		if(null != this.thrower) {
+			if(this.thrower instanceof EntityHasShepherdCapability || this.thrower instanceof EntityPlayer) {
+				if(entity instanceof EntityHasShepherdCapability || entity instanceof EntityPlayer) {
+					canAttackFlag = false;
+				}else if(checkFaction && entity instanceof IAnimals) {
+					canAttackFlag = false;
+				}
+			}else if(this.thrower instanceof EntityMobHasShepherdCapability) {
+				if(entity instanceof EntityMobHasShepherdCapability) {
+					canAttackFlag = false;
+				}else if(checkFaction && entity instanceof IMob) {
+					canAttackFlag = false;
+				}
+			}
+		}
+		return canAttackFlag;
+	}
+	
+	private boolean canThrough(IBlockState blockState) {
+		boolean canThroughFlag = false;
+		Material material = blockState.getMaterial();
+		if(material == Material.AIR || material == Material.GRASS || material == Material.WATER
+				|| material == Material.LAVA || material == Material.PLANTS || material == Material.FIRE
+				|| material == Material.VINE || material == Material.CIRCUITS || material == Material.WEB
+				|| material == Material.CARPET) {
+			canThroughFlag = true;
+		}
+		return canThroughFlag;
 	}
 }

@@ -1,10 +1,10 @@
-package com.zijing.main.gui;
+package com.zijing.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import com.zijing.BaseControl;
+import com.zijing.data.message.ChuansongCardToServerMessage;
 import com.zijing.items.card.ItemCardChuansong;
-import com.zijing.main.BaseControl;
-import com.zijing.main.message.ChuansongCardToServerMessage;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;

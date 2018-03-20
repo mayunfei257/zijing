@@ -1,9 +1,9 @@
 package com.zijing.entity.render;
 
-import com.zijing.ZijingMod;
 import com.zijing.entity.EntitySummonIronGolem;
 import com.zijing.entity.layer.LayerSummonIronGolemFlower;
 import com.zijing.entity.model.ModelSummonIronGolem;
+import com.zijing.util.ConstantUtil;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderSummonIronGolem extends RenderLiving<EntitySummonIronGolem>{
-    private static final ResourceLocation SUMMON_IRON_GOLEM_TEXTURES = new ResourceLocation(ZijingMod.MODID + ":entitySummonIronGolem.png");
+    private static final ResourceLocation SUMMON_IRON_GOLEM_TEXTURES = new ResourceLocation(ConstantUtil.MODID + ":entitySummonIronGolem.png");
 
     public RenderSummonIronGolem(RenderManager renderManagerIn){
         super(renderManagerIn, new ModelSummonIronGolem(), 0.5F);

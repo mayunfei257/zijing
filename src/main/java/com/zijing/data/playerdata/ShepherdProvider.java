@@ -1,8 +1,8 @@
-package com.zijing.main.playerdata;
+package com.zijing.data.playerdata;
 
-import com.zijing.main.BaseControl;
-import com.zijing.main.message.ShepherdToClientMessage;
-import com.zijing.main.message.UpgradeToServerMessage;
+import com.zijing.BaseControl;
+import com.zijing.data.message.ShepherdToClientMessage;
+import com.zijing.data.message.UpgradeToServerMessage;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

@@ -1,11 +1,11 @@
-package com.zijing.main;
+package com.zijing;
 
-import com.zijing.main.gui.GuiBookChuansong;
-import com.zijing.main.gui.GuiBookChuansongUse;
-import com.zijing.main.gui.GuiCardChuansong;
-import com.zijing.main.gui.GuiEntityCapability;
-import com.zijing.main.gui.GuiPlayeryCapability;
-import com.zijing.main.gui.GuiZhulingTai;
+import com.zijing.gui.GuiBookChuansong;
+import com.zijing.gui.GuiBookChuansongUse;
+import com.zijing.gui.GuiCardChuansong;
+import com.zijing.gui.GuiEntityCapability;
+import com.zijing.gui.GuiPlayeryCapability;
+import com.zijing.gui.GuiZhulingTai;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;

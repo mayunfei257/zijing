@@ -4,13 +4,14 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.zijing.ZijingMod;
-import com.zijing.main.ZijingTab;
-import com.zijing.main.itf.EntityHasShepherdCapability;
-import com.zijing.main.itf.ItemDan;
-import com.zijing.main.playerdata.ShepherdCapability;
-import com.zijing.main.playerdata.ShepherdProvider;
+import com.zijing.ZijingTab;
+import com.zijing.data.playerdata.ShepherdCapability;
+import com.zijing.data.playerdata.ShepherdProvider;
+import com.zijing.itf.EntityHasShepherdCapability;
+import com.zijing.itf.ItemDan;
+import com.zijing.util.ConstantUtil;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +19,6 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -32,7 +32,7 @@ public class ItemDanZiling extends ItemFood implements ItemDan{
 		setAlwaysEdible();
 		setMaxStackSize(64);
 		setUnlocalizedName("itemDanZiling");
-		setRegistryName(ZijingMod.MODID + ":itemdanziling");
+		setRegistryName(ConstantUtil.MODID + ":itemdanziling");
 		setCreativeTab(ZijingTab.zijingTab);
 	}
 	
@@ -84,7 +84,7 @@ public class ItemDanZiling extends ItemFood implements ItemDan{
 	@Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		tooltip.add(I18n.format(ZijingMod.MODID + ".itemDanZiling.1", new Object[] {effectTick/20}));
-		tooltip.add(I18n.format(ZijingMod.MODID + ".itemDanZiling.2", new Object[] {magicRestore}));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemDanZiling.1", new Object[] {effectTick/20}));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemDanZiling.2", new Object[] {magicRestore}));
 	}
 }

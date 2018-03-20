@@ -6,10 +6,11 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.zijing.ZijingMod;
-import com.zijing.main.ZijingTab;
-import com.zijing.main.itf.MagicConsumer;
-import com.zijing.main.playerdata.ShepherdCapability;
-import com.zijing.main.playerdata.ShepherdProvider;
+import com.zijing.ZijingTab;
+import com.zijing.data.playerdata.ShepherdCapability;
+import com.zijing.data.playerdata.ShepherdProvider;
+import com.zijing.itf.MagicConsumer;
+import com.zijing.util.ConstantUtil;
 import com.zijing.util.StringUtil;
 
 import net.minecraft.client.resources.I18n;
@@ -41,7 +42,7 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 		maxStackSize = 1;
 		setMaxDamage(ZijingMod.config.getSTAFF_MAX_MAGIC_ENERGY());
 		setUnlocalizedName("itemZilingZhu");
-		setRegistryName(ZijingMod.MODID + ":itemzilingzhu");
+		setRegistryName(ConstantUtil.MODID + ":itemzilingzhu");
 		setCreativeTab(ZijingTab.zijingTab);
 	}
 
@@ -144,10 +145,10 @@ public class ItemZilingZhu extends Item implements MagicConsumer{
 	@Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		tooltip.add(I18n.format(ZijingMod.MODID + ".itemZilingZhu.skill1", new Object[] {MagicSkill1}));
-		tooltip.add(I18n.format(ZijingMod.MODID + ".itemZilingZhu.skill2", new Object[] {MagicSkill2}));
-		tooltip.add(I18n.format(ZijingMod.MODID + ".itemZilingZhu.skill3", new Object[] {MagicSkill3}));
-		tooltip.add(I18n.format(ZijingMod.MODID + ".itemZilingZhu.skill4", new Object[] {MagicSkill4}));
-		tooltip.add(I18n.format(ZijingMod.MODID + ".itemZilingZhu.skill5", new Object[] {MagicSkill5}));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemZilingZhu.skill1", new Object[] {MagicSkill1}));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemZilingZhu.skill2", new Object[] {MagicSkill2}));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemZilingZhu.skill3", new Object[] {MagicSkill3}));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemZilingZhu.skill4", new Object[] {MagicSkill4}));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemZilingZhu.skill5", new Object[] {MagicSkill5}));
 	}
 }

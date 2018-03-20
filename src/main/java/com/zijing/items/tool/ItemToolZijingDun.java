@@ -2,9 +2,10 @@ package com.zijing.items.tool;
 
 import javax.annotation.Nullable;
 
+import com.zijing.BaseControl;
 import com.zijing.ZijingMod;
-import com.zijing.main.BaseControl;
-import com.zijing.main.ZijingTab;
+import com.zijing.ZijingTab;
+import com.zijing.util.ConstantUtil;
 
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.entity.EntityLivingBase;
@@ -33,7 +34,7 @@ public class ItemToolZijingDun extends ItemShield{
         
         setMaxDamage(ZijingMod.config.getTOOL_MAX_USES());
 		setUnlocalizedName("itemToolZijingDun");
-		setRegistryName(ZijingMod.MODID + ":itemtoolzijingdun");
+		setRegistryName(ConstantUtil.MODID + ":itemtoolzijingdun");
 		setCreativeTab(ZijingTab.zijingTab);
 	}
 

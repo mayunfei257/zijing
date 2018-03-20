@@ -3,9 +3,10 @@ package com.zijing.blocks.tool;
 import java.util.Random;
 
 import com.zijing.ZijingMod;
+import com.zijing.ZijingTab;
 import com.zijing.entity.TileEntityZhulingTai;
-import com.zijing.main.ZijingTab;
-import com.zijing.main.gui.GuiZhulingTai;
+import com.zijing.gui.GuiZhulingTai;
+import com.zijing.util.ConstantUtil;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
@@ -36,7 +37,7 @@ public class BlockZhulingTai extends BlockContainer{
 		setSoundType(SoundType.METAL);
 		setHarvestLevel("pickaxe", 2);
 		setUnlocalizedName("blockZhulingTai");
-		setRegistryName(ZijingMod.MODID + ":blockzhulingtai");
+		setRegistryName(ConstantUtil.MODID + ":blockzhulingtai");
 		setCreativeTab(ZijingTab.zijingTab);
 		this.setDefaultState(this.blockState.getBaseState());
 		this.isBurning = isBurning;

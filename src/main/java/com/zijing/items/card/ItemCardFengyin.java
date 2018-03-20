@@ -5,11 +5,12 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.zijing.ZijingMod;
-import com.zijing.main.ZijingTab;
-import com.zijing.main.playerdata.ShepherdCapability;
-import com.zijing.main.playerdata.ShepherdProvider;
+import com.zijing.ZijingTab;
+import com.zijing.data.playerdata.ShepherdCapability;
+import com.zijing.data.playerdata.ShepherdProvider;
+import com.zijing.util.ConstantUtil;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
@@ -26,7 +27,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -38,7 +38,7 @@ public class ItemCardFengyin extends Item{
 		super();
 		maxStackSize = 1;
 		setUnlocalizedName("itemCardFengyin");
-		setRegistryName(ZijingMod.MODID + ":itemcardfengyin");
+		setRegistryName(ConstantUtil.MODID + ":itemcardfengyin");
 		setCreativeTab(ZijingTab.zijingTab);
 	}
 
@@ -56,8 +56,8 @@ public class ItemCardFengyin extends Item{
 			ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
 			BlockPos entityPos = pos.offset(facing);
 			if(shepherdCapability.getMagic() >= MagicSkill1) {
-				String entityName = nbt.getString(ZijingMod.MODID + ":entityName");
-				NBTTagCompound entityNBT = (NBTTagCompound)nbt.getTag(ZijingMod.MODID + ":entityNBT");
+				String entityName = nbt.getString(ConstantUtil.MODID + ":entityName");
+				NBTTagCompound entityNBT = (NBTTagCompound)nbt.getTag(ConstantUtil.MODID + ":entityNBT");
 				try {
 					Class entityClass = Class.forName(entityName);
 					Constructor constructor = entityClass.getConstructor(new Class[] {World.class});
@@ -86,9 +86,9 @@ public class ItemCardFengyin extends Item{
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
 		if(stack.hasTagCompound() && null != stack.getTagCompound()){
-			tooltip.add(I18n.format(ZijingMod.MODID + ".itemCardFengyin.skill1", new Object[] {stack.getTagCompound().getString(ZijingMod.MODID + ":entityName"), MagicSkill1}));
+			tooltip.add(I18n.format(ConstantUtil.MODID + ".itemCardFengyin.skill1", new Object[] {stack.getTagCompound().getString(ConstantUtil.MODID + ":entityName"), MagicSkill1}));
 		}else{
-			tooltip.add(I18n.format(ZijingMod.MODID + ".itemCardFengyin.null", new Object[] {}));
+			tooltip.add(I18n.format(ConstantUtil.MODID + ".itemCardFengyin.null", new Object[] {}));
 		}
     }
 }

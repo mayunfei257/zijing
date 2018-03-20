@@ -1,4 +1,4 @@
-package com.zijing.main.message;
+package com.zijing.data.message;
 
 import java.util.UUID;
 

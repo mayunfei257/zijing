@@ -3,17 +3,18 @@ package com.zijing.entity;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Sets;
+import com.zijing.BaseControl;
 import com.zijing.ZijingMod;
+import com.zijing.data.message.ShepherdEntityToClientMessage;
+import com.zijing.data.playerdata.ShepherdCapability;
 import com.zijing.entity.ai.EntityAIAttackRangedZJ;
 import com.zijing.entity.ai.EntityAIPanicZJ;
+import com.zijing.gui.GuiEntityCapability;
 import com.zijing.items.staff.ItemStaffBingxue;
-import com.zijing.main.BaseControl;
-import com.zijing.main.gui.GuiEntityCapability;
-import com.zijing.main.itf.EntityHasShepherdCapability;
-import com.zijing.main.itf.ItemDan;
-import com.zijing.main.itf.MagicSource;
-import com.zijing.main.message.ShepherdEntityToClientMessage;
-import com.zijing.main.playerdata.ShepherdCapability;
+import com.zijing.itf.EntityHasShepherdCapability;
+import com.zijing.itf.ItemDan;
+import com.zijing.itf.MagicSource;
+import com.zijing.util.ConstantUtil;
 import com.zijing.util.EntityUtil;
 import com.zijing.util.MathUtil;
 
@@ -57,9 +58,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntitySummonSnowman extends EntityGolem implements EntityHasShepherdCapability,IRangedAttackMob, net.minecraftforge.common.IShearable{
     private static final DataParameter<Byte> PUMPKIN_EQUIPPED = EntityDataManager.<Byte>createKey(EntitySnowman.class, DataSerializers.BYTE);
-	private final static float experienceMagnification = 2.0F;
-	private final static float specialK = 1.5F;
-	private int nextConnectTick = 60;
+	private int nextConnectTick = ConstantUtil.CONNECT_TICK;
 	private int baseLevel = 1;
 	
 	private int nextLevelNeedExperience;
@@ -96,7 +95,7 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 		this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAITempt(this, 1.0D, false, Sets.newHashSet(BaseControl.itemZiqi, BaseControl.itemZijing, BaseControl.itemDanZiling)));
         this.tasks.addTask(2, new EntityAIPanicZJ(this, 1.5D, 16, 5, 8, 4, 4.3D));
-        this.tasks.addTask(3, new EntityAIAttackRangedZJ(this, 1.0D, (int)(15/specialK), 4.3D, 32.0F, ItemStaffBingxue.MagicSkill1));
+        this.tasks.addTask(3, new EntityAIAttackRangedZJ(this, 1.0D, (int)(15/ConstantUtil.SPECIAL_K), 4.3D, 32.0F, ItemStaffBingxue.MagicSkill1));
         this.tasks.addTask(4, new EntityAIWanderAvoidWater(this, 1.0D, 1.0000001E-5F));
         this.tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(6, new EntityAILookIdle(this));
@@ -122,23 +121,23 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 		this.shepherdCapability = new ShepherdCapability();
 		this.experience = (int) MathUtil.getUpgradeK(this.shepherdCapability.getLevel(), baseLevel - 1) * ZijingMod.config.getUPGRADE_NEED_XP_K()/2;
 		EntityUtil.upEntityGrade(this, baseLevel - 1);
-		this.shepherdCapability.setMaxMagic(this.shepherdCapability.getMaxMagic() * this.specialK);
+		this.shepherdCapability.setMaxMagic(this.shepherdCapability.getMaxMagic() * ConstantUtil.SPECIAL_K);
 		this.shepherdCapability.setMagic(this.shepherdCapability.getMagic());
-		this.shepherdCapability.setSpeed(this.shepherdCapability.getSpeed() * this.specialK);
-		this.shepherdCapability.setMagicRestore(this.shepherdCapability.getMagicRestore() * this.specialK);
+		this.shepherdCapability.setSpeed(this.shepherdCapability.getSpeed() * ConstantUtil.SPECIAL_K);
+		this.shepherdCapability.setMagicRestore(this.shepherdCapability.getMagicRestore() * ConstantUtil.SPECIAL_K);
 		EntityUtil.setEntityAllValue(this);
-		this.setCustomNameTag(I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonSnowman.name", new Object[0]));
+		this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entitySummonSnowman.name", new Object[0]));
 	}
 	
 	@Override
     public void writeEntityToNBT(NBTTagCompound compound){
         super.writeEntityToNBT(compound);
         compound.setBoolean("Pumpkin", this.isPumpkinEquipped());
-        compound.setDouble(ZijingMod.MODID + ":swordDamage", this.swordDamage);
-        compound.setDouble(ZijingMod.MODID + ":armorValue", this.armorValue);
-        compound.setDouble(ZijingMod.MODID + ":experience", this.experience);
-        compound.setInteger(ZijingMod.MODID + ":nextLevelNeedExperience", this.nextLevelNeedExperience);
-        compound.setTag(ZijingMod.MODID + ":shepherdCapability", this.shepherdCapability.writeNBT(null));
+        compound.setDouble(ConstantUtil.MODID + ":swordDamage", this.swordDamage);
+        compound.setDouble(ConstantUtil.MODID + ":armorValue", this.armorValue);
+        compound.setDouble(ConstantUtil.MODID + ":experience", this.experience);
+        compound.setInteger(ConstantUtil.MODID + ":nextLevelNeedExperience", this.nextLevelNeedExperience);
+        compound.setTag(ConstantUtil.MODID + ":shepherdCapability", this.shepherdCapability.writeNBT(null));
     }
 
 	@Override
@@ -147,11 +146,11 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
         if (compound.hasKey("Pumpkin")){
             this.setPumpkinEquipped(compound.getBoolean("Pumpkin"));
         }
-        this.swordDamage = compound.getDouble(ZijingMod.MODID + ":swordDamage");
-        this.armorValue = compound.getDouble(ZijingMod.MODID + ":armorValue");
-        this.experience = compound.getDouble(ZijingMod.MODID + ":experience");
-        this.nextLevelNeedExperience = compound.getInteger(ZijingMod.MODID + ":nextLevelNeedExperience");
-        this.shepherdCapability.readNBT(null, compound.getTag(ZijingMod.MODID + ":shepherdCapability"));
+        this.swordDamage = compound.getDouble(ConstantUtil.MODID + ":swordDamage");
+        this.armorValue = compound.getDouble(ConstantUtil.MODID + ":armorValue");
+        this.experience = compound.getDouble(ConstantUtil.MODID + ":experience");
+        this.nextLevelNeedExperience = compound.getInteger(ConstantUtil.MODID + ":nextLevelNeedExperience");
+        this.shepherdCapability.readNBT(null, compound.getTag(ConstantUtil.MODID + ":shepherdCapability"));
         this.updataSwordDamageAndArmorValue();
         EntityUtil.setEntityAllValue(this);
     }
@@ -166,10 +165,10 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 		if(!this.isDead && this.getHealth() > 0) {
 			if(this.nextLevelNeedExperience <= this.experience) {
 				EntityUtil.upEntityGrade(this, 1);
-				this.shepherdCapability.setMaxMagic(this.shepherdCapability.getMaxMagic() * this.specialK);
+				this.shepherdCapability.setMaxMagic(this.shepherdCapability.getMaxMagic() * ConstantUtil.SPECIAL_K);
 				this.shepherdCapability.setMagic(this.shepherdCapability.getMagic());
-				this.shepherdCapability.setSpeed(this.shepherdCapability.getSpeed() * this.specialK);
-				this.shepherdCapability.setMagicRestore(this.shepherdCapability.getMagicRestore() * this.specialK);
+				this.shepherdCapability.setSpeed(this.shepherdCapability.getSpeed() * ConstantUtil.SPECIAL_K);
+				this.shepherdCapability.setMagicRestore(this.shepherdCapability.getMagicRestore() * ConstantUtil.SPECIAL_K);
 				EntityUtil.setEntityAllValue(this);
 			}
 			if(this.getHealth() < this.getMaxHealth()) {
@@ -185,7 +184,7 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 			if(!this.world.isRemote) {
 				if(this.nextConnectTick <= 0) {
 					BaseControl.netWorkWrapper.sendToAll(new ShepherdEntityToClientMessage(this.getEntityId(), this.shepherdCapability.writeNBT(null), this.nextLevelNeedExperience, this.experience, this.swordDamage, this.armorValue));
-					this.nextConnectTick = 60 + this.getRNG().nextInt(60);
+					this.nextConnectTick = ConstantUtil.CONNECT_TICK + this.getRNG().nextInt(ConstantUtil.CONNECT_TICK);
 				}else {
 					this.nextConnectTick--;
 				}
@@ -218,13 +217,13 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
         if(this.shepherdCapability.getMagic() >= ItemStaffBingxue.MagicSkill1) {
         	float attackDamage =  (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
         	if(!this.world.isRemote) {
-        		EntityArrowBingDan bingDan = new EntityArrowBingDan(world, this, attackDamage, 0.125F, 2);
+        		EntityArrowBingDan bingDan = new EntityArrowBingDan(world, this, attackDamage, 0.125F, 80, 2);
         		bingDan.shoot(target.posX - this.posX, target.getEntityBoundingBox().minY + target.height * 0.75D - bingDan.posY, target.posZ - this.posZ, 3.0F, 0);
         		this.world.spawnEntity(bingDan);
         	}
     		this.world.playSound((EntityPlayer) null, this.posX, this.posY + this.getEyeHeight(), this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
     		this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - ItemStaffBingxue.MagicSkill1);
-			this.experience += attackDamage * this.experienceMagnification;
+			this.experience += attackDamage * ConstantUtil.EXPERIENCE_MAGNIFICATION;
         }
     }
 
@@ -361,6 +360,6 @@ public class EntitySummonSnowman extends EntityGolem implements EntityHasShepher
 	@Override
     @SideOnly(Side.CLIENT)
 	public String getSpecialInstructions() {
-		return I18n.translateToLocalFormatted(ZijingMod.MODID + ".entitySummonSnowman.special", new Object[] {this.specialK});
+		return I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entitySummonSnowman.special", new Object[] {ConstantUtil.SPECIAL_K});
 	}
 }

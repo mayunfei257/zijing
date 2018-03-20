@@ -1,10 +1,10 @@
-package com.zijing.main.gui;
+package com.zijing.gui;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.zijing.main.itf.MagicConsumer;
-import com.zijing.main.itf.MagicSource;
+import com.zijing.itf.MagicConsumer;
+import com.zijing.itf.MagicSource;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;

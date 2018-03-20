@@ -1,11 +1,11 @@
-package com.zijing.main.gui;
+package com.zijing.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.zijing.ZijingMod;
 import com.zijing.items.card.ItemBookChuansong;
 import com.zijing.items.card.ItemCardChuansong;
 import com.zijing.items.staff.ItemZilingZhu;
+import com.zijing.util.ConstantUtil;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -37,7 +37,7 @@ public class GuiBookChuansong {
 			this.hand = null == player.getActiveHand() ? EnumHand.MAIN_HAND : player.getActiveHand();
 			this.hand = player.getHeldItem(this.hand).getItem() instanceof ItemBookChuansong ? this.hand : (this.hand == EnumHand.MAIN_HAND ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND);
 			this.bookTag = player.getHeldItem(this.hand).getTagCompound();
-			this.bookInv = new InventoryBasic(ZijingMod.MODID + ":itembookchuansong", true, 29);
+			this.bookInv = new InventoryBasic(ConstantUtil.MODID + ":itembookchuansong", true, 29);
 			this.items = NonNullList.<ItemStack>withSize(29, ItemStack.EMPTY);
 			ItemStackHelper.loadAllItems(bookTag, items);
 			for(int n = 0; n < items.size(); n++){
@@ -97,7 +97,7 @@ public class GuiBookChuansong {
 	
 	@SideOnly(Side.CLIENT)
 	public static class MyGuiContainer extends GuiContainer {
-		private final ResourceLocation texture = new ResourceLocation(ZijingMod.MODID + ":featurebook.png");
+		private final ResourceLocation texture = new ResourceLocation(ConstantUtil.MODID + ":featurebook.png");
 	    private final InventoryPlayer playerInventory;
 		private IInventory bookInv;
 
@@ -107,7 +107,7 @@ public class GuiBookChuansong {
 			this.ySize = 166;
 			playerInventory = player.inventory;
 			NBTTagCompound bookTag = player.getHeldItemMainhand().getItem() instanceof ItemBookChuansong ? player.getHeldItemMainhand().getTagCompound() : player.getHeldItemOffhand().getTagCompound();
-			this.bookInv = new InventoryBasic(ZijingMod.MODID + ":itembookchuansong", true, 29);
+			this.bookInv = new InventoryBasic(ConstantUtil.MODID + ":itembookchuansong", true, 29);
 			NonNullList<ItemStack> items = NonNullList.<ItemStack>withSize(29, ItemStack.EMPTY);
 			ItemStackHelper.loadAllItems(bookTag, items);
 			for(int n = 0; n < items.size(); n++){

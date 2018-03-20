@@ -5,16 +5,17 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.zijing.ZijingMod;
-import com.zijing.main.ZijingTab;
+import com.zijing.ZijingTab;
+import com.zijing.util.ConstantUtil;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -24,7 +25,7 @@ public class ItemToolZijingChan extends ItemSpade{
 	public ItemToolZijingChan() {
 		super(ZijingMod.config.getZijingToolMaterial());
 		setUnlocalizedName("itemToolZijingChan");
-		setRegistryName(ZijingMod.MODID + ":itemtoolzijingchan");
+		setRegistryName(ConstantUtil.MODID + ":itemtoolzijingchan");
 		setCreativeTab(ZijingTab.zijingTab);
 	}
 	
@@ -65,6 +66,6 @@ public class ItemToolZijingChan extends ItemSpade{
 	@Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
-		tooltip.add(I18n.format(ZijingMod.MODID + ".itemToolZijingChan.skill1", new Object[] {ZijingMod.config.getTOOL_DMAMOUNT()}));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemToolZijingChan.skill1", new Object[] {ZijingMod.config.getTOOL_DMAMOUNT()}));
 	}
 }

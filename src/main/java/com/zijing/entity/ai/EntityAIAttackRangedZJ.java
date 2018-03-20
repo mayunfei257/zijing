@@ -1,6 +1,6 @@
 package com.zijing.entity.ai;
 
-import com.zijing.main.itf.EntityHasShepherdCapability;
+import com.zijing.itf.EntityHasShepherdCapability;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;

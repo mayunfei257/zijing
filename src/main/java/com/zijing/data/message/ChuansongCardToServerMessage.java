@@ -1,10 +1,10 @@
-package com.zijing.main.message;
+package com.zijing.data.message;
 
 import java.util.UUID;
 
+import com.zijing.data.playerdata.ShepherdCapability;
+import com.zijing.data.playerdata.ShepherdProvider;
 import com.zijing.items.card.ItemCardChuansong;
-import com.zijing.main.playerdata.ShepherdCapability;
-import com.zijing.main.playerdata.ShepherdProvider;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;

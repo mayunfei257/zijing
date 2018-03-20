@@ -1,6 +1,6 @@
-package com.zijing.main.message;
+package com.zijing.data.message;
 
-import com.zijing.main.itf.EntityHasShepherdCapability;
+import com.zijing.itf.EntityHasShepherdCapability;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;

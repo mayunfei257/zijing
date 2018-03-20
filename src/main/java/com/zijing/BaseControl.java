@@ -1,11 +1,17 @@
-package com.zijing.main;
+package com.zijing;
 
-import com.zijing.ZijingMod;
 import com.zijing.blocks.BlockGuhuaNiunaiKuai;
 import com.zijing.blocks.BlockZijingKuai;
 import com.zijing.blocks.BlockZilingCao;
 import com.zijing.blocks.tool.BlockZilingMieshaZhen;
 import com.zijing.blocks.tool.BlockZilingZhaohuanZhen;
+import com.zijing.data.message.ChuansongBookToServerMessage;
+import com.zijing.data.message.ChuansongCardToServerMessage;
+import com.zijing.data.message.OpenClientGUIMessage;
+import com.zijing.data.message.ShepherdEntityToClientMessage;
+import com.zijing.data.message.ShepherdToClientMessage;
+import com.zijing.data.message.UpgradeToServerMessage;
+import com.zijing.data.playerdata.ShepherdCapability;
 import com.zijing.entity.EntityArrowBingDan;
 import com.zijing.entity.EntityArrowFengyinDan;
 import com.zijing.entity.EntityArrowHuoDan;
@@ -43,13 +49,7 @@ import com.zijing.items.tool.ItemToolZijingDun;
 import com.zijing.items.tool.ItemToolZijingFu;
 import com.zijing.items.tool.ItemToolZijingGao;
 import com.zijing.items.tool.ItemToolZijingJian;
-import com.zijing.main.message.ChuansongBookToServerMessage;
-import com.zijing.main.message.ChuansongCardToServerMessage;
-import com.zijing.main.message.OpenClientGUIMessage;
-import com.zijing.main.message.ShepherdEntityToClientMessage;
-import com.zijing.main.message.ShepherdToClientMessage;
-import com.zijing.main.message.UpgradeToServerMessage;
-import com.zijing.main.playerdata.ShepherdCapability;
+import com.zijing.util.ConstantUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -76,7 +76,7 @@ import net.minecraftforge.registries.GameData;
 
 public class BaseControl{
     private static int nextID = 0;
-	public static SimpleNetworkWrapper netWorkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(ZijingMod.MODID);
+	public static SimpleNetworkWrapper netWorkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(ConstantUtil.MODID);
 	
 	//TODO Instantiate mod item ---
 	public static Block blockGuhuaNiunaiKuai;
@@ -220,13 +220,13 @@ public class BaseControl{
 		GameData.register_impl(itemArmorZijingLegs);
 		GameData.register_impl(itemArmorZijingBoots);
 		
-		EntityRegistry.registerModEntity(new ResourceLocation(ZijingMod.MODID + ":entityarrowbingdan"), EntityArrowBingDan.class, "entityArrowBingDan", 257, ZijingMod.instance, 64, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(ZijingMod.MODID + ":entityarrowhuodan"), EntityArrowHuoDan.class, "entityArrowHuoDan", 258, ZijingMod.instance, 64, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(ZijingMod.MODID + ":entityarrowxukongdan"), EntityArrowXukongDan.class, "entityArrowXukongDan", 259, ZijingMod.instance, 64, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(ZijingMod.MODID + ":entityarrowfengyindan"), EntityArrowFengyinDan.class, "entityArrowFengyinDan", 260, ZijingMod.instance, 64, 1, true);
-		EntityRegistry.registerModEntity(new ResourceLocation(ZijingMod.MODID + ":entitysummontaoistpriest"), EntitySummonTaoistPriest.class, "entitySummonTaoistPriest", 261, ZijingMod.instance,64, 1, true, (204 << 16) + (0 << 8) + 204, (255 << 16) + (102 << 8) + 255);
-		EntityRegistry.registerModEntity(new ResourceLocation(ZijingMod.MODID + ":entitysummonirongolem"), EntitySummonIronGolem.class, "entitySummonIronGolem", 262, ZijingMod.instance,64, 1, true, (204 << 16) + (0 << 8) + 204, (255 << 16) + (102 << 8) + 255);
-		EntityRegistry.registerModEntity(new ResourceLocation(ZijingMod.MODID + ":entitysummonsnowman"), EntitySummonSnowman.class, "entitySummonSnowman", 263, ZijingMod.instance,64, 1, true, (204 << 16) + (0 << 8) + 204, (255 << 16) + (102 << 8) + 255);
+		EntityRegistry.registerModEntity(new ResourceLocation(ConstantUtil.MODID + ":entityarrowbingdan"), EntityArrowBingDan.class, "entityArrowBingDan", 257, ZijingMod.instance, 64, 1, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ConstantUtil.MODID + ":entityarrowhuodan"), EntityArrowHuoDan.class, "entityArrowHuoDan", 258, ZijingMod.instance, 64, 1, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ConstantUtil.MODID + ":entityarrowxukongdan"), EntityArrowXukongDan.class, "entityArrowXukongDan", 259, ZijingMod.instance, 64, 1, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ConstantUtil.MODID + ":entityarrowfengyindan"), EntityArrowFengyinDan.class, "entityArrowFengyinDan", 260, ZijingMod.instance, 64, 1, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ConstantUtil.MODID + ":entitysummontaoistpriest"), EntitySummonTaoistPriest.class, "entitySummonTaoistPriest", 261, ZijingMod.instance,64, 1, true, (204 << 16) + (0 << 8) + 204, (255 << 16) + (102 << 8) + 255);
+		EntityRegistry.registerModEntity(new ResourceLocation(ConstantUtil.MODID + ":entitysummonirongolem"), EntitySummonIronGolem.class, "entitySummonIronGolem", 262, ZijingMod.instance,64, 1, true, (204 << 16) + (0 << 8) + 204, (255 << 16) + (102 << 8) + 255);
+		EntityRegistry.registerModEntity(new ResourceLocation(ConstantUtil.MODID + ":entitysummonsnowman"), EntitySummonSnowman.class, "entitySummonSnowman", 263, ZijingMod.instance,64, 1, true, (204 << 16) + (0 << 8) + 204, (255 << 16) + (102 << 8) + 255);
 	}
     
     public static void resourceLoad(FMLPreInitializationEvent event){
@@ -273,58 +273,58 @@ public class BaseControl{
 	
 	public static void registerRecipe(FMLInitializationEvent event){
 		//TODO Register synthetic methods and burn
-		addShapelessRecipe(ZijingMod.MODID + ":HC_itemGuhuaNiunai", ZijingMod.MODID, new ItemStack(itemGuhuaNiunai, 1), Items.MILK_BUCKET);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_blockGuhuaNiunaiKuai", ZijingMod.MODID, new ItemStack(itemGuhuaNiunai, 9), blockGuhuaNiunaiKuai);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_itemGuhuaNiunai", ZijingMod.MODID, new ItemStack(Items.MILK_BUCKET, 1), itemGuhuaNiunai, Items.BUCKET);
-		addRecipe(ZijingMod.MODID + ":HC_blockGuhuaNiunaiKuai", ZijingMod.MODID, new ItemStack(blockGuhuaNiunaiKuai, 1), itemGuhuaNiunai, itemGuhuaNiunai, itemGuhuaNiunai, itemGuhuaNiunai, itemGuhuaNiunai, itemGuhuaNiunai, itemGuhuaNiunai, itemGuhuaNiunai, itemGuhuaNiunai);
+		addShapelessRecipe(ConstantUtil.MODID + ":HC_itemGuhuaNiunai", ConstantUtil.MODID, new ItemStack(itemGuhuaNiunai, 1), Items.MILK_BUCKET);
+		addShapelessRecipe(ConstantUtil.MODID + ":FJ_blockGuhuaNiunaiKuai", ConstantUtil.MODID, new ItemStack(itemGuhuaNiunai, 9), blockGuhuaNiunaiKuai);
+		addShapelessRecipe(ConstantUtil.MODID + ":FJ_itemGuhuaNiunai", ConstantUtil.MODID, new ItemStack(Items.MILK_BUCKET, 1), itemGuhuaNiunai, Items.BUCKET);
+		addRecipe(ConstantUtil.MODID + ":HC_blockGuhuaNiunaiKuai", ConstantUtil.MODID, new ItemStack(blockGuhuaNiunaiKuai, 1), itemGuhuaNiunai, itemGuhuaNiunai, itemGuhuaNiunai, itemGuhuaNiunai, itemGuhuaNiunai, itemGuhuaNiunai, itemGuhuaNiunai, itemGuhuaNiunai, itemGuhuaNiunai);
 		
 		addSmelting(blockZilingCao, new ItemStack(itemZiqi, 1), 1);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_itemZijing", ZijingMod.MODID, new ItemStack(itemZiqi, 9), itemZijing);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_blockZijingKuai", ZijingMod.MODID, new ItemStack(itemZijing, 9), blockZijingKuai);
-		addRecipe(ZijingMod.MODID + ":HC_itemZijing", ZijingMod.MODID, new ItemStack(itemZijing, 1), itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi);
-		addRecipe(ZijingMod.MODID + ":HC_blockZijingKuai", ZijingMod.MODID, new ItemStack(blockZijingKuai, 1), itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing);
+		addShapelessRecipe(ConstantUtil.MODID + ":FJ_itemZijing", ConstantUtil.MODID, new ItemStack(itemZiqi, 9), itemZijing);
+		addShapelessRecipe(ConstantUtil.MODID + ":FJ_blockZijingKuai", ConstantUtil.MODID, new ItemStack(itemZijing, 9), blockZijingKuai);
+		addRecipe(ConstantUtil.MODID + ":HC_itemZijing", ConstantUtil.MODID, new ItemStack(itemZijing, 1), itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi);
+		addRecipe(ConstantUtil.MODID + ":HC_blockZijingKuai", ConstantUtil.MODID, new ItemStack(blockZijingKuai, 1), itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing);
 		//block
-		addRecipe(ZijingMod.MODID + ":HC_blockZilingMieshaZhen", ZijingMod.MODID, new ItemStack(blockZilingMieshaZhen, 1), itemZiqi, itemZiqi, itemZiqi, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, itemToolZijingJian, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, itemZijing, itemZijing, itemZijing);
-		addRecipe(ZijingMod.MODID + ":HC_blockZilingZhaohuanZhen", ZijingMod.MODID, new ItemStack(blockZilingZhaohuanZhen, 1), itemZijing, Items.ENDER_PEARL, itemZijing, blockZijingKuai, Blocks.PUMPKIN, blockZijingKuai, blockZijingKuai, Blocks.IRON_BLOCK, blockZijingKuai);
+		addRecipe(ConstantUtil.MODID + ":HC_blockZilingMieshaZhen", ConstantUtil.MODID, new ItemStack(blockZilingMieshaZhen, 1), itemZiqi, itemZiqi, itemZiqi, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, itemToolZijingJian, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, itemZijing, itemZijing, itemZijing);
+		addRecipe(ConstantUtil.MODID + ":HC_blockZilingZhaohuanZhen", ConstantUtil.MODID, new ItemStack(blockZilingZhaohuanZhen, 1), itemZijing, Items.ENDER_PEARL, itemZijing, blockZijingKuai, Blocks.PUMPKIN, blockZijingKuai, blockZijingKuai, Blocks.IRON_BLOCK, blockZijingKuai);
 		//item and food
-		addShapelessRecipe(ZijingMod.MODID + ":HC_itemDanZiling1", ZijingMod.MODID, new ItemStack(itemDanZiling, 2), Items.WHEAT, itemZiqi, Items.WHEAT);
-		addRecipe(ZijingMod.MODID + ":HC_itemDanShenshu1", ZijingMod.MODID, new ItemStack(itemDanShenshu, 4), Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, itemZiqi, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS);
-		addRecipe(ZijingMod.MODID + ":HC_itemDanShenshu2", ZijingMod.MODID, new ItemStack(itemDanShenshu, 4), Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS, itemZiqi, Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS);
-		addRecipe(ZijingMod.MODID + ":HC_itemDanShenshu3", ZijingMod.MODID, new ItemStack(itemDanShenshu, 4), Items.MELON_SEEDS, Items.MELON_SEEDS, Items.MELON_SEEDS, Items.MELON_SEEDS, itemZiqi, Items.MELON_SEEDS, Items.MELON_SEEDS, Items.MELON_SEEDS, Items.MELON_SEEDS);
-		addRecipe(ZijingMod.MODID + ":HC_itemDanShenshu4", ZijingMod.MODID, new ItemStack(itemDanShenshu, 4), Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, itemZiqi, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS);
+		addShapelessRecipe(ConstantUtil.MODID + ":HC_itemDanZiling1", ConstantUtil.MODID, new ItemStack(itemDanZiling, 2), Items.WHEAT, itemZiqi, Items.WHEAT);
+		addRecipe(ConstantUtil.MODID + ":HC_itemDanShenshu1", ConstantUtil.MODID, new ItemStack(itemDanShenshu, 4), Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, itemZiqi, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS);
+		addRecipe(ConstantUtil.MODID + ":HC_itemDanShenshu2", ConstantUtil.MODID, new ItemStack(itemDanShenshu, 4), Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS, itemZiqi, Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS);
+		addRecipe(ConstantUtil.MODID + ":HC_itemDanShenshu3", ConstantUtil.MODID, new ItemStack(itemDanShenshu, 4), Items.MELON_SEEDS, Items.MELON_SEEDS, Items.MELON_SEEDS, Items.MELON_SEEDS, itemZiqi, Items.MELON_SEEDS, Items.MELON_SEEDS, Items.MELON_SEEDS, Items.MELON_SEEDS);
+		addRecipe(ConstantUtil.MODID + ":HC_itemDanShenshu4", ConstantUtil.MODID, new ItemStack(itemDanShenshu, 4), Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, itemZiqi, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS);
 		//card
-		addRecipe(ZijingMod.MODID + ":HC_itemCardChuansong", ZijingMod.MODID, new ItemStack(itemCardChuansong, 1), itemZiqi, Items.PAPER, itemZiqi, Items.PAPER, Items.ENDER_PEARL, Items.PAPER, itemZiqi, Items.PAPER, itemZiqi);
-		addRecipe(ZijingMod.MODID + ":HC_itemBookChuansong", ZijingMod.MODID, new ItemStack(itemBookChuansong, 1), itemZiqi, Items.BOOK, itemZiqi, Items.BOOK, Items.ENDER_PEARL, Items.BOOK, itemZiqi, Items.BOOK, itemZiqi);
+		addRecipe(ConstantUtil.MODID + ":HC_itemCardChuansong", ConstantUtil.MODID, new ItemStack(itemCardChuansong, 1), itemZiqi, Items.PAPER, itemZiqi, Items.PAPER, Items.ENDER_PEARL, Items.PAPER, itemZiqi, Items.PAPER, itemZiqi);
+		addRecipe(ConstantUtil.MODID + ":HC_itemBookChuansong", ConstantUtil.MODID, new ItemStack(itemBookChuansong, 1), itemZiqi, Items.BOOK, itemZiqi, Items.BOOK, Items.ENDER_PEARL, Items.BOOK, itemZiqi, Items.BOOK, itemZiqi);
 		//staff
-		addRecipe(ZijingMod.MODID + ":HC_itemZilingZhu", ZijingMod.MODID, new ItemStack(itemZilingZhu, 1), Items.DIAMOND, itemZijing, Items.DIAMOND, itemZijing, Items.ENDER_PEARL, itemZijing, Items.DIAMOND, itemZijing, Items.DIAMOND);
-		addRecipe(ZijingMod.MODID + ":HC_itemStaffBingxue", ZijingMod.MODID, new ItemStack(itemStaffBingxue, 1), null, Blocks.ICE, itemZilingZhu, null, Blocks.ICE, Blocks.ICE, Blocks.ICE, null, null);
-		addRecipe(ZijingMod.MODID + ":HC_itemStaffLieyan", ZijingMod.MODID, new ItemStack(itemStaffLieyan, 1), null, Blocks.MAGMA, itemZilingZhu, null, Blocks.MAGMA, Blocks.MAGMA, Blocks.MAGMA, null, null);
-		addRecipe(ZijingMod.MODID + ":HC_itemStaffKongjian", ZijingMod.MODID, new ItemStack(itemStaffKongjian, 1), null, Items.ENDER_EYE, itemZilingZhu, null, Items.ENDER_EYE, Items.ENDER_EYE, Items.ENDER_EYE, null, null);
-		addRecipe(ZijingMod.MODID + ":HC_itemStaffFengyin", ZijingMod.MODID, new ItemStack(itemStaffFengyin, 1), null, Blocks.GOLD_BLOCK, itemZilingZhu, null, Blocks.GOLD_BLOCK, Blocks.GOLD_BLOCK, Blocks.GOLD_BLOCK, null, null);
+		addRecipe(ConstantUtil.MODID + ":HC_itemZilingZhu", ConstantUtil.MODID, new ItemStack(itemZilingZhu, 1), Items.DIAMOND, itemZijing, Items.DIAMOND, itemZijing, Items.ENDER_PEARL, itemZijing, Items.DIAMOND, itemZijing, Items.DIAMOND);
+		addRecipe(ConstantUtil.MODID + ":HC_itemStaffBingxue", ConstantUtil.MODID, new ItemStack(itemStaffBingxue, 1), null, Blocks.ICE, itemZilingZhu, null, Blocks.ICE, Blocks.ICE, Blocks.ICE, null, null);
+		addRecipe(ConstantUtil.MODID + ":HC_itemStaffLieyan", ConstantUtil.MODID, new ItemStack(itemStaffLieyan, 1), null, Blocks.MAGMA, itemZilingZhu, null, Blocks.MAGMA, Blocks.MAGMA, Blocks.MAGMA, null, null);
+		addRecipe(ConstantUtil.MODID + ":HC_itemStaffKongjian", ConstantUtil.MODID, new ItemStack(itemStaffKongjian, 1), null, Items.ENDER_EYE, itemZilingZhu, null, Items.ENDER_EYE, Items.ENDER_EYE, Items.ENDER_EYE, null, null);
+		addRecipe(ConstantUtil.MODID + ":HC_itemStaffFengyin", ConstantUtil.MODID, new ItemStack(itemStaffFengyin, 1), null, Blocks.GOLD_BLOCK, itemZilingZhu, null, Blocks.GOLD_BLOCK, Blocks.GOLD_BLOCK, Blocks.GOLD_BLOCK, null, null);
 		//tool
-		addRecipe(ZijingMod.MODID + ":HC_itemToolZijingJian", ZijingMod.MODID, new ItemStack(itemToolZijingJian, 1), null, itemZijing, null, null, itemZijing, null, null, Items.STICK, null);
-		addRecipe(ZijingMod.MODID + ":HC_itemToolZijingFu", ZijingMod.MODID, new ItemStack(itemToolZijingFu, 1), itemZijing, itemZijing, null, itemZijing, Items.STICK, null, null, Items.STICK, null);
-		addRecipe(ZijingMod.MODID + ":HC_itemToolZijingGao", ZijingMod.MODID, new ItemStack(itemToolZijingGao, 1), itemZijing, itemZijing, itemZijing, null, Items.STICK, null, null, Items.STICK, null);
-		addRecipe(ZijingMod.MODID + ":HC_itemToolZijingChan", ZijingMod.MODID, new ItemStack(itemToolZijingChan, 1), null, itemZijing, null, null, Items.STICK, null, null, Items.STICK, null);
-		addRecipe(ZijingMod.MODID + ":HC_itemToolZijingChu", ZijingMod.MODID, new ItemStack(itemToolZijingChu, 1), itemZijing, itemZijing, null, null, Items.STICK, null, null, Items.STICK, null);
-		addRecipe(ZijingMod.MODID + ":HC_itemToolZijingDun", ZijingMod.MODID, new ItemStack(itemToolZijingDun, 1), null, itemZiqi, null, itemZiqi, Items.SHIELD, itemZiqi, null, itemZiqi, null);
-		addRecipe(ZijingMod.MODID + ":HC_itemArmorZijingHelmet", ZijingMod.MODID, new ItemStack(itemArmorZijingHelmet, 1), itemZijing, itemZijing, itemZijing, itemZijing, null, itemZijing, null, null, null);
-		addRecipe(ZijingMod.MODID + ":HC_itemArmorZijingBody", ZijingMod.MODID, new ItemStack(itemArmorZijingBody, 1), itemZijing, null, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing);
-		addRecipe(ZijingMod.MODID + ":HC_itemArmorZijingLegs", ZijingMod.MODID, new ItemStack(itemArmorZijingLegs, 1), itemZijing, itemZijing, itemZijing, itemZijing, null, itemZijing, itemZijing, null, itemZijing);
-		addRecipe(ZijingMod.MODID + ":HC_itemArmorZijingBoots", ZijingMod.MODID, new ItemStack(itemArmorZijingBoots, 1), null, null, null, itemZijing, null, itemZijing, itemZijing, null, itemZijing);
+		addRecipe(ConstantUtil.MODID + ":HC_itemToolZijingJian", ConstantUtil.MODID, new ItemStack(itemToolZijingJian, 1), null, itemZijing, null, null, itemZijing, null, null, Items.STICK, null);
+		addRecipe(ConstantUtil.MODID + ":HC_itemToolZijingFu", ConstantUtil.MODID, new ItemStack(itemToolZijingFu, 1), itemZijing, itemZijing, null, itemZijing, Items.STICK, null, null, Items.STICK, null);
+		addRecipe(ConstantUtil.MODID + ":HC_itemToolZijingGao", ConstantUtil.MODID, new ItemStack(itemToolZijingGao, 1), itemZijing, itemZijing, itemZijing, null, Items.STICK, null, null, Items.STICK, null);
+		addRecipe(ConstantUtil.MODID + ":HC_itemToolZijingChan", ConstantUtil.MODID, new ItemStack(itemToolZijingChan, 1), null, itemZijing, null, null, Items.STICK, null, null, Items.STICK, null);
+		addRecipe(ConstantUtil.MODID + ":HC_itemToolZijingChu", ConstantUtil.MODID, new ItemStack(itemToolZijingChu, 1), itemZijing, itemZijing, null, null, Items.STICK, null, null, Items.STICK, null);
+		addRecipe(ConstantUtil.MODID + ":HC_itemToolZijingDun", ConstantUtil.MODID, new ItemStack(itemToolZijingDun, 1), null, itemZiqi, null, itemZiqi, Items.SHIELD, itemZiqi, null, itemZiqi, null);
+		addRecipe(ConstantUtil.MODID + ":HC_itemArmorZijingHelmet", ConstantUtil.MODID, new ItemStack(itemArmorZijingHelmet, 1), itemZijing, itemZijing, itemZijing, itemZijing, null, itemZijing, null, null, null);
+		addRecipe(ConstantUtil.MODID + ":HC_itemArmorZijingBody", ConstantUtil.MODID, new ItemStack(itemArmorZijingBody, 1), itemZijing, null, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing);
+		addRecipe(ConstantUtil.MODID + ":HC_itemArmorZijingLegs", ConstantUtil.MODID, new ItemStack(itemArmorZijingLegs, 1), itemZijing, itemZijing, itemZijing, itemZijing, null, itemZijing, itemZijing, null, itemZijing);
+		addRecipe(ConstantUtil.MODID + ":HC_itemArmorZijingBoots", ConstantUtil.MODID, new ItemStack(itemArmorZijingBoots, 1), null, null, null, itemZijing, null, itemZijing, itemZijing, null, itemZijing);
 		
 		addSmelting(Blocks.GRAVEL, new ItemStack(Items.FLINT, 1), 1);
-		addShapelessRecipe(ZijingMod.MODID + ":HC_GUNPOWDER1", "custom", new ItemStack(Items.GUNPOWDER, 3), new ItemStack(Items.FLINT, 1), new ItemStack(Items.DYE, 1, 15), new ItemStack(Items.COAL, 1));
-		addShapelessRecipe(ZijingMod.MODID + ":HC_GUNPOWDER2", "custom", new ItemStack(Items.GUNPOWDER, 3), new ItemStack(Items.FLINT, 1), new ItemStack(Items.DYE, 1, 15),new ItemStack(Items.COAL, 1, 1));
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_CLAY", "custom", new ItemStack(Items.CLAY_BALL, 4), Blocks.CLAY);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_QUARTZ_BLOCK", "custom", new ItemStack(Items.QUARTZ, 4), Blocks.QUARTZ_BLOCK);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_WOOL", "custom", new ItemStack(Items.STRING, 4), Blocks.WOOL);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_GLOWSTONE", "custom", new ItemStack(Items.GLOWSTONE_DUST, 4), Blocks.GLOWSTONE);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_MELON_BLOCK", "custom", new ItemStack(Items.MELON, 9), Blocks.MELON_BLOCK);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_LEATHER", "custom", new ItemStack(Items.RABBIT_HIDE, 4), Items.LEATHER);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_NETHER_WART_BLOCK", "custom", new ItemStack(Items.NETHER_WART, 9), Blocks.NETHER_WART_BLOCK);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_SNOW_BLOCK", "custom", new ItemStack(Items.SNOWBALL, 4), Blocks.SNOW);
-		addShapelessRecipe(ZijingMod.MODID + ":FJ_MAGMA_BLOCK", "custom", new ItemStack(Items.MAGMA_CREAM, 4), Blocks.MAGMA);
+		addShapelessRecipe(ConstantUtil.MODID + ":HC_GUNPOWDER1", "custom", new ItemStack(Items.GUNPOWDER, 3), new ItemStack(Items.FLINT, 1), new ItemStack(Items.DYE, 1, 15), new ItemStack(Items.COAL, 1));
+		addShapelessRecipe(ConstantUtil.MODID + ":HC_GUNPOWDER2", "custom", new ItemStack(Items.GUNPOWDER, 3), new ItemStack(Items.FLINT, 1), new ItemStack(Items.DYE, 1, 15),new ItemStack(Items.COAL, 1, 1));
+		addShapelessRecipe(ConstantUtil.MODID + ":FJ_CLAY", "custom", new ItemStack(Items.CLAY_BALL, 4), Blocks.CLAY);
+		addShapelessRecipe(ConstantUtil.MODID + ":FJ_QUARTZ_BLOCK", "custom", new ItemStack(Items.QUARTZ, 4), Blocks.QUARTZ_BLOCK);
+		addShapelessRecipe(ConstantUtil.MODID + ":FJ_WOOL", "custom", new ItemStack(Items.STRING, 4), Blocks.WOOL);
+		addShapelessRecipe(ConstantUtil.MODID + ":FJ_GLOWSTONE", "custom", new ItemStack(Items.GLOWSTONE_DUST, 4), Blocks.GLOWSTONE);
+		addShapelessRecipe(ConstantUtil.MODID + ":FJ_MELON_BLOCK", "custom", new ItemStack(Items.MELON, 9), Blocks.MELON_BLOCK);
+		addShapelessRecipe(ConstantUtil.MODID + ":FJ_LEATHER", "custom", new ItemStack(Items.RABBIT_HIDE, 4), Items.LEATHER);
+		addShapelessRecipe(ConstantUtil.MODID + ":FJ_NETHER_WART_BLOCK", "custom", new ItemStack(Items.NETHER_WART, 9), Blocks.NETHER_WART_BLOCK);
+		addShapelessRecipe(ConstantUtil.MODID + ":FJ_SNOW_BLOCK", "custom", new ItemStack(Items.SNOWBALL, 4), Blocks.SNOW);
+		addShapelessRecipe(ConstantUtil.MODID + ":FJ_MAGMA_BLOCK", "custom", new ItemStack(Items.MAGMA_CREAM, 4), Blocks.MAGMA);
 		
 	}
 	

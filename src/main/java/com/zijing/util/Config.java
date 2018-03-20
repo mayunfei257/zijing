@@ -1,8 +1,6 @@
-package com.zijing.main;
+package com.zijing.util;
 
 import java.io.File;
-
-import com.zijing.ZijingMod;
 
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
@@ -53,7 +51,7 @@ public class Config {
 		load();
 		configuration.save();
 		zijingToolMaterial = EnumHelper.addToolMaterial("ZIJING", TOOL_HARVEST_LEVEL, TOOL_MAX_USES, (float)TOOL_EFFICIENCY, TOOL_DAMAGE, TOOL_ENCHANTABILITY);
-		zijingArmorMaterial = EnumHelper.addArmorMaterial("ZIJING", ZijingMod.MODID + ":zijing", ARMOR_DURABILITY, ARMOR_REDUCTION_AMOUNTS, ARMOR_ENCHANTABILITY, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, (float)ARMOR_TOUGHNESS);
+		zijingArmorMaterial = EnumHelper.addArmorMaterial("ZIJING", ConstantUtil.MODID + ":zijing", ARMOR_DURABILITY, ARMOR_REDUCTION_AMOUNTS, ARMOR_ENCHANTABILITY, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, (float)ARMOR_TOUGHNESS);
 	}
 	
 	private Config(FMLPreInitializationEvent e){
@@ -62,7 +60,7 @@ public class Config {
 		load();
 		configuration.save();
 		zijingToolMaterial = EnumHelper.addToolMaterial("ZIJING", TOOL_HARVEST_LEVEL, TOOL_MAX_USES, (float)TOOL_EFFICIENCY, TOOL_DAMAGE, TOOL_ENCHANTABILITY);
-		zijingArmorMaterial = EnumHelper.addArmorMaterial("ZIJING", ZijingMod.MODID + ":zijing", ARMOR_DURABILITY, ARMOR_REDUCTION_AMOUNTS, ARMOR_ENCHANTABILITY, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, (float)ARMOR_TOUGHNESS);
+		zijingArmorMaterial = EnumHelper.addArmorMaterial("ZIJING", ConstantUtil.MODID + ":zijing", ARMOR_DURABILITY, ARMOR_REDUCTION_AMOUNTS, ARMOR_ENCHANTABILITY, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, (float)ARMOR_TOUGHNESS);
 	}
 
 	public static Config getConfig() {

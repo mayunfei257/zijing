@@ -1,7 +1,7 @@
 package com.zijing.items;
 
-import com.zijing.ZijingMod;
-import com.zijing.main.ZijingTab;
+import com.zijing.ZijingTab;
+import com.zijing.util.ConstantUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -19,7 +19,7 @@ public class ItemLingshi extends Item{
 		super();
 		maxStackSize = 1;
 		setUnlocalizedName("itemLingshiX");
-		setRegistryName(ZijingMod.MODID + ":itemlingshix");
+		setRegistryName(ConstantUtil.MODID + ":itemlingshix");
 		setCreativeTab(ZijingTab.zijingTab);
 	}
 	

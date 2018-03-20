@@ -1,7 +1,7 @@
 package com.zijing.blocks.tool;
 
-import com.zijing.ZijingMod;
-import com.zijing.main.ZijingTab;
+import com.zijing.ZijingTab;
+import com.zijing.util.ConstantUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -36,7 +36,7 @@ public class BlockZilingMieshaZhen extends Block{
 		setHarvestLevel("pickaxe", 2);
 		setSoundType(SoundType.METAL);
 		setUnlocalizedName("blockZilingMieshaZhen");
-		setRegistryName(ZijingMod.MODID + ":blockzilingmieshazhen");
+		setRegistryName(ConstantUtil.MODID + ":blockzilingmieshazhen");
 		setCreativeTab(ZijingTab.zijingTab);
 	}
 
