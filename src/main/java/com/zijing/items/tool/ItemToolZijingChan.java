@@ -31,13 +31,15 @@ public class ItemToolZijingChan extends ItemSpade{
 	
 	@Override
 	public boolean onBlockDestroyed(ItemStack itemstack, World world, IBlockState state, BlockPos pos, EntityLivingBase entity){
-		if (entity.isSneaking() && "shovel".equals(state.getBlock().getHarvestTool(state))){
-			int damage = itemstack.getMaxDamage() - itemstack.getItemDamage();
-			int maxAmount = damage > ZijingMod.config.getTOOL_DMAMOUNT()? ZijingMod.config.getTOOL_DMAMOUNT() : damage;
-			int amount = dropBlock(world, state, pos, 0, maxAmount);
-			itemstack.damageItem(amount/2 >= 1 ? amount/2 : 1, entity);
-		}else{
-			itemstack.damageItem(1, entity);
+		if (!world.isRemote){
+			if (entity.isSneaking() && "shovel".equals(state.getBlock().getHarvestTool(state))){
+				int damage = itemstack.getMaxDamage() - itemstack.getItemDamage();
+				int maxAmount = damage > ZijingMod.config.getTOOL_DMAMOUNT()? ZijingMod.config.getTOOL_DMAMOUNT() : damage;
+				int amount = dropBlock(world, state, pos, 0, maxAmount);
+				itemstack.damageItem(amount/2 >= 1 ? amount/2 : 1, entity);
+			}else if((double)state.getBlockHardness(world, pos) != 0.0D){
+				itemstack.damageItem(1, entity);
+			}
 		}
 		return true;
 	}
