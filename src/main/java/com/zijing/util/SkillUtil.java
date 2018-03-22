@@ -49,6 +49,26 @@ public class SkillUtil {
 	public static final int MagicSkill_SummonTaoistPriest = 1000;
 	public static final int MagicSkill_RandomTeleport = 5;
 	
+	//------Secondary Package Skill Start---------------
+
+
+	public static BlockPos RandomTeleport(EntityLivingBase entityLivingBase, World world, BlockPos pos, int blurRange, int distance) {
+		double x = pos.getX() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
+		double y = pos.getY() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
+		double z = pos.getZ() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
+		BlockPos baseBlockPos = new BlockPos(x, y < 1 ? 1 : y, z);
+		return teleportBlurPoint(entityLivingBase, world, baseBlockPos, blurRange);
+	}
+
+	public static BlockPos RandomTeleportFar(EntityLivingBase entityLivingBase, World world, BlockPos pos, int blurRange, int distance) {
+		double x = pos.getX() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
+		double y = 1 + Math.random() * 255;
+		double z = pos.getZ() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
+		BlockPos baseBlockPos = new BlockPos(x, y, z);
+		return teleportVerticalBlurPoint(entityLivingBase, world, baseBlockPos, blurRange);
+	}
+	
+	//------Secondary Package Skill End---------------
 
 	//------Base Skill Start--------------------
 	
@@ -265,23 +285,6 @@ public class SkillUtil {
 		return null;
 	}
 
-	public static BlockPos RandomTeleport(EntityLivingBase entityLivingBase, World world, BlockPos pos, int blurRange, int distance) {
-		double x = pos.getX() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
-		double y = pos.getY() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
-		double z = pos.getZ() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
-		BlockPos baseBlockPos = new BlockPos(x, y < 1 ? 1 : y, z);
-		return teleportBlurPoint(entityLivingBase, world, baseBlockPos, blurRange);
-	}
-
-	public static BlockPos RandomTeleportFar(EntityLivingBase entityLivingBase, World world, BlockPos pos, int blurRange, int distance) {
-		double x = pos.getX() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
-		double y = 1 + Math.random() * 255;
-		double z = pos.getZ() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
-		BlockPos baseBlockPos = new BlockPos(x, y, z);
-		return teleportVerticalBlurPoint(entityLivingBase, world, baseBlockPos, blurRange);
-	}
-
-
     @SideOnly(Side.CLIENT)
     public static void spawnParticlesBlockPos(BlockPos blockPos, EnumParticleTypes particleType, World world, int particleNum){
         for (int i = 0; i < particleNum; ++i){
@@ -312,6 +315,7 @@ public class SkillUtil {
 		IBlockState iBlockState = world.getBlockState(pos);
 		iBlockState.getBlock().updateTick(world, pos, iBlockState, world.rand);
     }
+    
 	//------Base Skill End--------------------
 	
 

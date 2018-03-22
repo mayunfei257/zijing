@@ -17,6 +17,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
@@ -62,8 +63,9 @@ public class ItemToolZijingChu extends ItemHoe{
         	Block block = state.getBlock();
 			if(entity.isSneaking() && block instanceof IPlantable) {
 				for(;;) {
-					if(world.getBlockState(pos).getBlock() != block) { break; }
-					if(world.getBlockState(pos).getBlock() == block && world.getBlockState(pos.down()).getBlock() != block) {
+					Block thisBlock = world.getBlockState(pos).getBlock();
+					Block thisBlockDown = world.getBlockState(pos.down()).getBlock();
+					if((thisBlock == Blocks.AIR || thisBlock == block) && (thisBlockDown != block && thisBlockDown != Blocks.AIR)) {
 						dropBlock(world, block, pos);
 						break;
 					}
@@ -94,6 +96,7 @@ public class ItemToolZijingChu extends ItemHoe{
 				if(world.getBlockState(pos.up()).getBlock() == block && world.getBlockState(pos).getBlock() == block && world.getBlockState(pos.down()).getBlock() != block) {
 					block.dropBlockAsItem(world, pos.up(), world.getBlockState(pos.up()), 1);
 					world.setBlockToAir(pos.up());
+//					world.notifyNeighborsOfStateChange(pos.up(), block, true);
 					return true;
 				}
 				pos = pos.down();
@@ -102,9 +105,10 @@ public class ItemToolZijingChu extends ItemHoe{
 			if(world.getBlockState(pos.up()).getBlock() == block && world.getBlockState(pos).getBlock() == block && world.getBlockState(pos.down()).getBlock() != block) {
 				block.dropBlockAsItem(world, pos.up(), world.getBlockState(pos.up()), 1);
 				world.setBlockToAir(pos.up());
+//				world.notifyNeighborsOfStateChange(pos.up(), block, true);
 			}
 		}
-		return true;
+		return false;
 	}
 	
 	@Override
