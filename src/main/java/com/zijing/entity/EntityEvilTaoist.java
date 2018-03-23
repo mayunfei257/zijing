@@ -112,7 +112,7 @@ public class EntityEvilTaoist extends EntityCreature implements EntityMobHasShep
 	
 	private void setBaseShepherdCapability() {
 		this.shepherdCapability = new ShepherdCapability();
-		this.experience = (int) MathUtil.getUpgradeK(this.shepherdCapability.getLevel(), baseLevel - 1) * ZijingMod.config.getUPGRADE_NEED_XP_K()/2;
+		this.experience = (int) MathUtil.getUpgradeK(this.shepherdCapability.getLevel(), baseLevel - 1) * ZijingMod.config.getUPGRADE_NEED_XP_K();
 		EntityUtil.upEntityGrade(this, baseLevel - 1);
 		this.shepherdCapability.setSpeed(this.shepherdCapability.getSpeed() * ConstantUtil.SPECIAL_K);
 		this.experienceValue = this.nextLevelNeedExperience;
@@ -130,6 +130,7 @@ public class EntityEvilTaoist extends EntityCreature implements EntityMobHasShep
         compound.setDouble(ConstantUtil.MODID + ":swordDamage", this.swordDamage);
         compound.setDouble(ConstantUtil.MODID + ":armorValue", this.armorValue);
         compound.setDouble(ConstantUtil.MODID + ":experience", this.experience);
+        compound.setInteger(ConstantUtil.MODID + ":checkHomeTick", this.checkHomeTick);
         compound.setInteger(ConstantUtil.MODID + ":nextLevelNeedExperience", this.nextLevelNeedExperience);
         compound.setTag(ConstantUtil.MODID + ":shepherdCapability", this.shepherdCapability.writeNBT(null));
     }
@@ -141,6 +142,7 @@ public class EntityEvilTaoist extends EntityCreature implements EntityMobHasShep
         this.swordDamage = compound.getDouble(ConstantUtil.MODID + ":swordDamage");
         this.armorValue = compound.getDouble(ConstantUtil.MODID + ":armorValue");
         this.experience = compound.getDouble(ConstantUtil.MODID + ":experience");
+        this.checkHomeTick = compound.getInteger(ConstantUtil.MODID + ":checkHomeTick");
         this.nextLevelNeedExperience = compound.getInteger(ConstantUtil.MODID + ":nextLevelNeedExperience");
         this.shepherdCapability.readNBT(null, compound.getTag(ConstantUtil.MODID + ":shepherdCapability"));
         this.updataSwordDamageAndArmorValue();

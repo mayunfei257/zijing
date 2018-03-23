@@ -12,6 +12,7 @@ import com.zijing.entity.ai.EntityAIPanicZJ;
 import com.zijing.gui.GuiEntityCapability;
 import com.zijing.items.staff.ItemStaffBingxue;
 import com.zijing.itf.EntityHasShepherdCapability;
+import com.zijing.itf.EntityMobHasShepherdCapability;
 import com.zijing.itf.ItemDan;
 import com.zijing.itf.MagicSource;
 import com.zijing.util.ConstantUtil;
@@ -22,6 +23,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -95,13 +97,15 @@ public class EntitySuperSnowman extends EntityGolem implements EntityHasShepherd
     protected void initEntityAI(){
 		this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAITempt(this, 1.0D, false, Sets.newHashSet(BaseControl.itemZiqi, BaseControl.itemZijing, BaseControl.itemDanZiling)));
-        this.tasks.addTask(2, new EntityAIPanicZJ(this, 1.5D, 16, 5, 8, 4, 4.3D));
-        this.tasks.addTask(3, new EntityAIAttackRangedZJ(this, 1.0D, (int)(15/ConstantUtil.SPECIAL_K), 4.3D, 32.0F, ItemStaffBingxue.MagicSkill1));
-        this.tasks.addTask(4, new EntityAIWanderAvoidWater(this, 1.0D, 1.0000001E-5F));
-        this.tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(6, new EntityAILookIdle(this));
+        this.tasks.addTask(2, new EntityAIAvoidEntity(this, IMob.class, 4.3F, 1.0D, 1.0D));
+        this.tasks.addTask(3, new EntityAIPanicZJ(this, 1.5D, 16, 5, 8, 4, 4.3D));
+        this.tasks.addTask(4, new EntityAIAttackRangedZJ(this, 1.0D, (int)(15/ConstantUtil.SPECIAL_K), 4.3D, 32.0F, ItemStaffBingxue.MagicSkill1));
+        this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D, 1.0000001E-5F));
+        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        this.tasks.addTask(7, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[0]));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, true, false, IMob.MOB_SELECTOR));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityMobHasShepherdCapability.class, true, true));
+        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, true, false, IMob.MOB_SELECTOR));
     }
 
 	@Override
@@ -120,7 +124,7 @@ public class EntitySuperSnowman extends EntityGolem implements EntityHasShepherd
 	
 	private void setBaseShepherdCapability() {
 		this.shepherdCapability = new ShepherdCapability();
-		this.experience = (int) MathUtil.getUpgradeK(this.shepherdCapability.getLevel(), baseLevel - 1) * ZijingMod.config.getUPGRADE_NEED_XP_K()/2;
+		this.experience = (int) MathUtil.getUpgradeK(this.shepherdCapability.getLevel(), baseLevel - 1) * ZijingMod.config.getUPGRADE_NEED_XP_K();
 		EntityUtil.upEntityGrade(this, baseLevel - 1);
 		this.shepherdCapability.setMaxMagic(this.shepherdCapability.getMaxMagic() * ConstantUtil.SPECIAL_K);
 		this.shepherdCapability.setMagic(this.shepherdCapability.getMagic());
@@ -137,6 +141,7 @@ public class EntitySuperSnowman extends EntityGolem implements EntityHasShepherd
         compound.setDouble(ConstantUtil.MODID + ":swordDamage", this.swordDamage);
         compound.setDouble(ConstantUtil.MODID + ":armorValue", this.armorValue);
         compound.setDouble(ConstantUtil.MODID + ":experience", this.experience);
+        compound.setInteger(ConstantUtil.MODID + ":checkHomeTick", this.checkHomeTick);
         compound.setInteger(ConstantUtil.MODID + ":nextLevelNeedExperience", this.nextLevelNeedExperience);
         compound.setTag(ConstantUtil.MODID + ":shepherdCapability", this.shepherdCapability.writeNBT(null));
     }
@@ -150,6 +155,7 @@ public class EntitySuperSnowman extends EntityGolem implements EntityHasShepherd
         this.swordDamage = compound.getDouble(ConstantUtil.MODID + ":swordDamage");
         this.armorValue = compound.getDouble(ConstantUtil.MODID + ":armorValue");
         this.experience = compound.getDouble(ConstantUtil.MODID + ":experience");
+        this.checkHomeTick = compound.getInteger(ConstantUtil.MODID + ":checkHomeTick");
         this.nextLevelNeedExperience = compound.getInteger(ConstantUtil.MODID + ":nextLevelNeedExperience");
         this.shepherdCapability.readNBT(null, compound.getTag(ConstantUtil.MODID + ":shepherdCapability"));
         this.updataSwordDamageAndArmorValue();

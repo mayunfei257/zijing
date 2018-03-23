@@ -14,6 +14,7 @@ import com.zijing.entity.ai.EntityAILookAtVillagerZJ;
 import com.zijing.gui.GuiEntityCapability;
 import com.zijing.items.staff.ItemStaffKongjian;
 import com.zijing.itf.EntityHasShepherdCapability;
+import com.zijing.itf.EntityMobHasShepherdCapability;
 import com.zijing.itf.ItemDan;
 import com.zijing.itf.MagicSource;
 import com.zijing.util.ConstantUtil;
@@ -121,7 +122,8 @@ public class EntitySuperIronGolem extends EntityGolem implements EntityHasShephe
         this.tasks.addTask(10, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIDefendVillageZJ(this));
         this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false, new Class[0]));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, true, false, new Predicate<EntityLiving>(){
+        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityMobHasShepherdCapability.class, true, true));
+        this.targetTasks.addTask(4, new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, true, false, new Predicate<EntityLiving>(){
             public boolean apply(@Nullable EntityLiving p_apply_1_){
                 return p_apply_1_ != null && IMob.VISIBLE_MOB_SELECTOR.apply(p_apply_1_);
             }
@@ -154,7 +156,7 @@ public class EntitySuperIronGolem extends EntityGolem implements EntityHasShephe
 
 	private void setBaseShepherdCapability() {
 		this.shepherdCapability = new ShepherdCapability();
-		this.experience = (int) MathUtil.getUpgradeK(this.shepherdCapability.getLevel(), baseLevel - 1) * ZijingMod.config.getUPGRADE_NEED_XP_K()/2;
+		this.experience = (int) MathUtil.getUpgradeK(this.shepherdCapability.getLevel(), baseLevel - 1) * ZijingMod.config.getUPGRADE_NEED_XP_K();
 		EntityUtil.upEntityGrade(this, baseLevel - 1);
 		this.shepherdCapability.setMaxBlood(this.shepherdCapability.getMaxBlood() * ConstantUtil.SPECIAL_K);
 		this.shepherdCapability.setBlood(this.shepherdCapability.getMaxBlood());

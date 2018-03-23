@@ -57,31 +57,33 @@ public class ItemStaffFengyin extends Item implements MagicConsumer{
 			if(player.isSneaking()) {
 				if(shepherdCapability.getMagic() >= MagicSkill2 || player.isCreative()) {
 					List<BlockPos> blockPosList = new ArrayList<BlockPos>();
-					for(int i = -5; i <= 5; i++) {
-						for(int j = -3; j <= 3; j++) {
-							for(int k = -5; k <= 5; k++) {
+					for(int i = -3; i <= 3; i++) {
+						for(int j = -2; j <= 2; j++) {
+							for(int k = -3; k <= 3; k++) {
 								BlockPos blockPos = new BlockPos(player.posX + i, player.posY + j, player.posZ + k);
-								if(world.getBlockState(blockPos).getBlock() == Blocks.AIR && world.getBlockState(blockPos.up()).getBlock() == Blocks.AIR) {
+								if(world.getBlockState(blockPos).getBlock() == Blocks.AIR && world.getBlockState(blockPos.up()).getBlock() == Blocks.AIR && world.getBlockState(blockPos.down()).getBlock() != Blocks.AIR) {
 									blockPosList.add(blockPos);
 								}
 							}
 						}
 					}
-					BlockPos blockPos = blockPosList.get((int)(Math.random() * (blockPosList.size() - 1)));
-					EntityDisciple entity = new EntityDisciple(world);
-					entity.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.WOODEN_SWORD));
-					entity.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(Items.LEATHER_HELMET));
-					entity.setItemStackToSlot(EntityEquipmentSlot.CHEST, new ItemStack(Items.LEATHER_CHESTPLATE));
-					entity.setItemStackToSlot(EntityEquipmentSlot.LEGS, new ItemStack(Items.LEATHER_LEGGINGS));
-					entity.setItemStackToSlot(EntityEquipmentSlot.FEET, new ItemStack(Items.LEATHER_BOOTS));
-					entity.setLocationAndAngles(blockPos.getX(), blockPos.getY(), blockPos.getZ(), world.rand.nextFloat() * 360F, 0.0F);
-					entity.setHomePosAndDistance(blockPos, 64);
-					entity.updataSwordDamageAndArmorValue();
-					world.spawnEntity(entity);
-					world.playSound((EntityPlayer) null, player.posX, player.posY + 1D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("block.end_portal.spawn")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-					if(!player.isCreative()) {
-						shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill2);
-						ShepherdProvider.updateChangeToClient(player);
+					if(blockPosList.size() > 0) {
+						BlockPos blockPos = blockPosList.get((int)(Math.random() * (blockPosList.size() - 1)));
+						EntityDisciple entity = new EntityDisciple(world);
+						entity.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.WOODEN_SWORD));
+						entity.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(Items.LEATHER_HELMET));
+						entity.setItemStackToSlot(EntityEquipmentSlot.CHEST, new ItemStack(Items.LEATHER_CHESTPLATE));
+						entity.setItemStackToSlot(EntityEquipmentSlot.LEGS, new ItemStack(Items.LEATHER_LEGGINGS));
+						entity.setItemStackToSlot(EntityEquipmentSlot.FEET, new ItemStack(Items.LEATHER_BOOTS));
+						entity.setLocationAndAngles(blockPos.getX(), blockPos.getY(), blockPos.getZ(), world.rand.nextFloat() * 360F, 0.0F);
+						entity.setHomePosAndDistance(blockPos, 64);
+						entity.updataSwordDamageAndArmorValue();
+						world.spawnEntity(entity);
+						world.playSound((EntityPlayer) null, player.posX, player.posY + 1D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("block.end_portal.spawn")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+						if(!player.isCreative()) {
+							shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill2);
+							ShepherdProvider.updateChangeToClient(player);
+						}
 					}
 				}else {
 					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + MagicSkill2 + " !"));

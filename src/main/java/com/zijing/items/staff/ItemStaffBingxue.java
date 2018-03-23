@@ -55,36 +55,29 @@ public class ItemStaffBingxue extends Item implements MagicConsumer{
 			if(player.isSneaking()) {
 				if(shepherdCapability.getMagic() >= MagicSkill2 || player.isCreative()) {
 					List<BlockPos> blockPosList = new ArrayList<BlockPos>();
-					for(int i = -5; i <= 5; i++) {
-						for(int j = -3; j <= 3; j++) {
-							for(int k = -5; k <= 5; k++) {
+					for(int i = -3; i <= 3; i++) {
+						for(int j = -2; j <= 2; j++) {
+							for(int k = -3; k <= 3; k++) {
 								BlockPos blockPos = new BlockPos(player.posX + i, player.posY + j, player.posZ + k);
-								if(world.getBlockState(blockPos).getBlock() == Blocks.AIR && world.getBlockState(blockPos.up()).getBlock() == Blocks.AIR) {
+								if(world.getBlockState(blockPos).getBlock() == Blocks.AIR && world.getBlockState(blockPos.up()).getBlock() == Blocks.AIR && world.getBlockState(blockPos.down()).getBlock() != Blocks.AIR) {
 									blockPosList.add(blockPos);
 								}
 							}
 						}
 					}
-					BlockPos blockPos = blockPosList.get((int)(Math.random() * (blockPosList.size() - 1)));
-					EntitySuperSnowman snowman = new EntitySuperSnowman(world);
-					snowman.setLocationAndAngles(blockPos.getX(), blockPos.getY(), blockPos.getZ(), world.rand.nextFloat() * 360F, 0.0F);
-					snowman.updataSwordDamageAndArmorValue();
-					snowman.setHomePosAndDistance(blockPos, 64);
-					snowman.playLivingSound();
-					world.spawnEntity(snowman);
-					if(world.rand.nextFloat() < 0.125D) {
-						BlockPos blockPos2 = blockPosList.get((int)(Math.random() * (blockPosList.size() - 1)));
-						EntitySuperSnowman snowman2 = new EntitySuperSnowman(world);
-						snowman2.setLocationAndAngles(blockPos2.getX(), blockPos2.getY(), blockPos2.getZ(), world.rand.nextFloat() * 360F, 0.0F);
-						snowman2.updataSwordDamageAndArmorValue();
-						snowman2.setHomePosAndDistance(blockPos, 64);
-						snowman2.playLivingSound();
-						world.spawnEntity(snowman2);
-					}
-					world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-					if(!player.isCreative()) {
-						shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill2);
-						ShepherdProvider.updateChangeToClient(player);
+					if(blockPosList.size() > 0) {
+						BlockPos blockPos = blockPosList.get((int)(Math.random() * (blockPosList.size() - 1)));
+						EntitySuperSnowman snowman = new EntitySuperSnowman(world);
+						snowman.setLocationAndAngles(blockPos.getX(), blockPos.getY(), blockPos.getZ(), world.rand.nextFloat() * 360F, 0.0F);
+						snowman.updataSwordDamageAndArmorValue();
+						snowman.setHomePosAndDistance(blockPos, 64);
+						snowman.playLivingSound();
+						world.spawnEntity(snowman);
+						world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+						if(!player.isCreative()) {
+							shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill2);
+							ShepherdProvider.updateChangeToClient(player);
+						}
 					}
 				}else {
 					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + MagicSkill2 + " !"));

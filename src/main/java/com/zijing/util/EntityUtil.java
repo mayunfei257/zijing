@@ -128,7 +128,7 @@ public class EntityUtil {
     	if(entity instanceof EntityHasShepherdCapability && upLevel >= 0) {
     		EntityHasShepherdCapability shepherdEntity = (EntityHasShepherdCapability)entity;
 			ShepherdCapability shepherdCapability = shepherdEntity.getShepherdCapability();
-    		int needXP = (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), upLevel) * ZijingMod.config.getUPGRADE_NEED_XP_K()/2;
+    		int needXP = (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), upLevel) * ZijingMod.config.getUPGRADE_NEED_XP_K();
     		int level = shepherdCapability.getLevel() + upLevel;
 			if(shepherdEntity.getExperience() >= needXP && level <= ZijingMod.config.getMAX_LEVEL()) {
 				shepherdEntity.setExperience(shepherdEntity.getExperience() - needXP);
@@ -149,7 +149,7 @@ public class EntityUtil {
 
         		shepherdCapability.setBlood(shepherdCapability.getMaxBlood());
     			shepherdCapability.setMagic(shepherdCapability.getMaxMagic());
-    			shepherdEntity.setNextLevelNeedExperience((int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), 1) * ZijingMod.config.getUPGRADE_NEED_XP_K()/2);
+    			shepherdEntity.setNextLevelNeedExperience((int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), 1) * ZijingMod.config.getUPGRADE_NEED_XP_K());
 			}
     	}
 		return true;

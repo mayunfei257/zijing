@@ -14,6 +14,7 @@ import com.zijing.gui.GuiEntityCapability;
 import com.zijing.items.staff.ItemStaffBingxue;
 import com.zijing.items.staff.ItemZilingZhu;
 import com.zijing.itf.EntityHasShepherdCapability;
+import com.zijing.itf.EntityMobHasShepherdCapability;
 import com.zijing.itf.ItemDan;
 import com.zijing.itf.MagicSource;
 import com.zijing.util.ConstantUtil;
@@ -116,6 +117,7 @@ public class EntityDisciple extends EntityCreature implements EntityHasShepherdC
         this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		this.tasks.addTask(10, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[0]));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityMobHasShepherdCapability.class, true, true));
         this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, true, true, new Predicate<EntityLiving>(){
             public boolean apply(@Nullable EntityLiving target){
                 return target != null && IMob.VISIBLE_MOB_SELECTOR.apply(target);
@@ -135,7 +137,7 @@ public class EntityDisciple extends EntityCreature implements EntityHasShepherdC
 	
 	private void setBaseShepherdCapability() {
 		this.shepherdCapability = new ShepherdCapability();
-		this.experience = (int) MathUtil.getUpgradeK(this.shepherdCapability.getLevel(), baseLevel - 1) * ZijingMod.config.getUPGRADE_NEED_XP_K()/2;
+		this.experience = (int) MathUtil.getUpgradeK(this.shepherdCapability.getLevel(), baseLevel - 1) * ZijingMod.config.getUPGRADE_NEED_XP_K();
 		EntityUtil.upEntityGrade(this, baseLevel - 1);
 		EntityUtil.setEntityAllValue(this);
 		if(this.gender == GENDER.FEMALE) {
@@ -155,6 +157,7 @@ public class EntityDisciple extends EntityCreature implements EntityHasShepherdC
         compound.setDouble(ConstantUtil.MODID + ":swordDamage", this.swordDamage);
         compound.setDouble(ConstantUtil.MODID + ":armorValue", this.armorValue);
         compound.setDouble(ConstantUtil.MODID + ":experience", this.experience);
+        compound.setInteger(ConstantUtil.MODID + ":checkHomeTick", this.checkHomeTick);
         compound.setInteger(ConstantUtil.MODID + ":nextLevelNeedExperience", this.nextLevelNeedExperience);
         compound.setTag(ConstantUtil.MODID + ":shepherdCapability", this.shepherdCapability.writeNBT(null));
     }
@@ -166,6 +169,7 @@ public class EntityDisciple extends EntityCreature implements EntityHasShepherdC
         this.swordDamage = compound.getDouble(ConstantUtil.MODID + ":swordDamage");
         this.armorValue = compound.getDouble(ConstantUtil.MODID + ":armorValue");
         this.experience = compound.getDouble(ConstantUtil.MODID + ":experience");
+        this.checkHomeTick = compound.getInteger(ConstantUtil.MODID + ":checkHomeTick");
         this.nextLevelNeedExperience = compound.getInteger(ConstantUtil.MODID + ":nextLevelNeedExperience");
         this.shepherdCapability.readNBT(null, compound.getTag(ConstantUtil.MODID + ":shepherdCapability"));
         this.updataSwordDamageAndArmorValue();
