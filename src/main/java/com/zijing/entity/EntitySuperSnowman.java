@@ -59,6 +59,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class EntitySuperSnowman extends EntityGolem implements EntityHasShepherdCapability,IRangedAttackMob, net.minecraftforge.common.IShearable{
     private static final DataParameter<Byte> PUMPKIN_EQUIPPED = EntityDataManager.<Byte>createKey(EntitySnowman.class, DataSerializers.BYTE);
 	private int nextConnectTick = ConstantUtil.CONNECT_TICK;
+	private int checkHomeTick = ConstantUtil.CHECK_HOME_TICK;
 	private int baseLevel = 1;
 	
 	private int nextLevelNeedExperience;
@@ -188,6 +189,11 @@ public class EntitySuperSnowman extends EntityGolem implements EntityHasShepherd
 				}else {
 					this.nextConnectTick--;
 				}
+			}
+			if(this.checkHomeTick <= 0 && EntityUtil.checkAndTryMoveToHome(this)) {
+				this.checkHomeTick = ConstantUtil.CHECK_HOME_TICK + this.getRNG().nextInt(ConstantUtil.CHECK_HOME_TICK);
+			}else {
+				this.checkHomeTick --;
 			}
 		}
     }

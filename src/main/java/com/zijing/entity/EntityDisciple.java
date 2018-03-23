@@ -64,6 +64,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityDisciple extends EntityCreature implements EntityHasShepherdCapability, IRangedAttackMob{
 	private int nextConnectTick = ConstantUtil.CONNECT_TICK;
+	private int checkHomeTick = ConstantUtil.CHECK_HOME_TICK;
 	private int baseLevel = 1;
 	private GENDER gender = GENDER.FEMALE;
 
@@ -108,13 +109,14 @@ public class EntityDisciple extends EntityCreature implements EntityHasShepherdC
         this.tasks.addTask(2, new EntityAIAttackRangedZJ(this, 1.0D, 15, 2.83D, 32.0F, ItemStaffBingxue.MagicSkill1));
         this.tasks.addTask(3, new EntityAIAttackMeleeZJ(this, 1.0D, 10, false));
         this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
-        this.tasks.addTask(4, new EntityAIMoveTowardsTarget(this, 1D, 32.0F));
-		this.tasks.addTask(5, new EntityAIWander(this, 0.9D));
-        this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1D));
-		this.tasks.addTask(7, new EntityAILookIdle(this));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        
+        this.tasks.addTask(6, new EntityAIMoveTowardsTarget(this, 1D, 32.0F));
+		this.tasks.addTask(7, new EntityAIWander(this, 0.9D));
+        this.tasks.addTask(8, new EntityAIWanderAvoidWater(this, 1D));
+        this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+		this.tasks.addTask(10, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[0]));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, true, false, new Predicate<EntityLiving>(){
+        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, true, true, new Predicate<EntityLiving>(){
             public boolean apply(@Nullable EntityLiving target){
                 return target != null && IMob.VISIBLE_MOB_SELECTOR.apply(target);
             }
@@ -340,6 +342,11 @@ public class EntityDisciple extends EntityCreature implements EntityHasShepherdC
 				}else {
 					this.nextConnectTick--;
 				}
+			}
+			if(this.checkHomeTick <= 0 && EntityUtil.checkAndTryMoveToHome(this)) {
+				this.checkHomeTick = ConstantUtil.CHECK_HOME_TICK + this.getRNG().nextInt(ConstantUtil.CHECK_HOME_TICK);
+			}else {
+				this.checkHomeTick --;
 			}
 		}
 	}

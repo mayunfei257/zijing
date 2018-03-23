@@ -5,6 +5,7 @@ import com.zijing.data.playerdata.ShepherdCapability;
 import com.zijing.data.playerdata.ShepherdProvider;
 import com.zijing.itf.EntityHasShepherdCapability;
 
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +18,7 @@ import net.minecraft.util.FoodStats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 
 public class EntityUtil {
@@ -211,5 +213,17 @@ public class EntityUtil {
 //			}
     	}
 		return true;
+	}
+	
+	public static boolean checkAndTryMoveToHome(EntityCreature entity) {
+		if(entity.hasHome() && entity.getHomePosition() != BlockPos.ORIGIN && (entity.getAttackTarget() == null || entity.getAttackTarget().isDead)) {
+			BlockPos pos = entity.getHomePosition();
+			float distance = entity.getMaximumHomeDistance();
+			if(entity.getDistance(pos.getX(), pos.getY(), pos.getZ()) > distance) {
+				entity.getNavigator().tryMoveToXYZ(pos.getX(), pos.getY(), pos.getZ(), 1.0D);
+				return true;
+			}
+		}
+		return false;
 	}
 }

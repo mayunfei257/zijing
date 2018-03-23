@@ -20,4 +20,5 @@ public class ConstantUtil {
 	public static final int CAN_EXPLOSION_LEVEL = 60;
 	public static final int CONNECT_TICK = 60;
 	
+	public static final int CHECK_HOME_TICK = 6 * 60 * 20;
 }
