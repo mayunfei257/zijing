@@ -106,6 +106,7 @@ public class ItemToolZijingChu extends ItemHoe{
 				block.dropBlockAsItem(world, pos.up(), world.getBlockState(pos.up()), 1);
 				world.setBlockToAir(pos.up());
 //				world.notifyNeighborsOfStateChange(pos.up(), block, true);
+				return true;
 			}
 		}
 		return false;
