@@ -1,21 +1,15 @@
 package com.zijing.entity;
 
 import com.zijing.BaseControl;
-import com.zijing.ZijingMod;
-import com.zijing.data.message.ShepherdEntityToClientMessage;
-import com.zijing.data.playerdata.ShepherdCapability;
 import com.zijing.entity.ai.EntityAIAttackMeleeZJ;
 import com.zijing.entity.ai.EntityAIAttackRangedZJ;
 import com.zijing.items.staff.ItemStaffBingxue;
-import com.zijing.items.staff.ItemZilingZhu;
-import com.zijing.itf.EntityHasShepherdCapability;
-import com.zijing.itf.EntityMobHasShepherdCapability;
+import com.zijing.itf.EntityEvil;
+import com.zijing.itf.EntityFriendly;
 import com.zijing.util.ConstantUtil;
 import com.zijing.util.EntityUtil;
-import com.zijing.util.MathUtil;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -30,15 +24,12 @@ import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityIronGolem;
-import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -47,37 +38,17 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityEvilTaoist extends EntityCreature implements EntityMobHasShepherdCapability, IRangedAttackMob, IMob{
-	public int nextConnectTick = ConstantUtil.CONNECT_TICK;
-	private int checkHomeTick = ConstantUtil.CHECK_HOME_TICK;
-	private int baseLevel = 1;
-	
-	private int nextLevelNeedExperience;
-	private double experience;
-	private ShepherdCapability shepherdCapability;
-	private double swordDamage;
-	private double armorValue;
+public class EntityEvilTaoist extends EntityEvil implements IRangedAttackMob{
 	
 	public EntityEvilTaoist(World world) {
 		super(world);
-		this.swordDamage = 0;
-		this.armorValue = 0;
-		this.experience = 0D;
-		this.isImmuneToFire = false;
-		this.setBaseShepherdCapability();
 		this.setNoAI(false);
 		this.enablePersistence();
 		this.setAlwaysRenderNameTag(true);
 	}
 
 	public EntityEvilTaoist(World world, int baseLevel) {
-		super(world);
-		this.swordDamage = 0;
-		this.armorValue = 0;
-		this.experience = 0D;
-		this.isImmuneToFire = false;
-		this.baseLevel = baseLevel;
-		this.setBaseShepherdCapability();
+		super(world, baseLevel);
 		this.setNoAI(false);
 		this.enablePersistence();
 		this.setAlwaysRenderNameTag(true);
@@ -96,7 +67,7 @@ public class EntityEvilTaoist extends EntityCreature implements EntityMobHasShep
 		this.tasks.addTask(8, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[0]));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true, false));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityHasShepherdCapability.class, true, true));
+        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityFriendly.class, true, true));
         this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityVillager.class, true, true));
         this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityIronGolem.class, true, true));
 	}
@@ -104,50 +75,14 @@ public class EntityEvilTaoist extends EntityCreature implements EntityMobHasShep
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		if (this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE) == null)
-	        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
 		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(16.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(8.0D);
 	}
 	
-	private void setBaseShepherdCapability() {
-		this.shepherdCapability = new ShepherdCapability();
-		this.experience = (int) MathUtil.getUpgradeK(this.shepherdCapability.getLevel(), baseLevel - 1) * ZijingMod.config.getUPGRADE_NEED_XP_K();
-		EntityUtil.upEntityGrade(this, baseLevel - 1);
-		this.shepherdCapability.setSpeed(this.shepherdCapability.getSpeed() * ConstantUtil.SPECIAL_K);
-		this.experienceValue = this.nextLevelNeedExperience;
-		EntityUtil.setEntityAllValue(this);
+	protected void setBaseShepherdCapability() {
+		super.setBaseShepherdCapability();
 		this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entityEvilTaoist.name", new Object[0]));
-		if(this.shepherdCapability.getLevel() >= ConstantUtil.IMMUNE_FIRE_LEVEL) {
-			this.isImmuneToFire = true;
-		}
 	}
-
-	@Override
-    public void writeEntityToNBT(NBTTagCompound compound){
-        super.writeEntityToNBT(compound);
-        compound.setBoolean("isImmuneToFire", isImmuneToFire);
-        compound.setDouble(ConstantUtil.MODID + ":swordDamage", this.swordDamage);
-        compound.setDouble(ConstantUtil.MODID + ":armorValue", this.armorValue);
-        compound.setDouble(ConstantUtil.MODID + ":experience", this.experience);
-        compound.setInteger(ConstantUtil.MODID + ":checkHomeTick", this.checkHomeTick);
-        compound.setInteger(ConstantUtil.MODID + ":nextLevelNeedExperience", this.nextLevelNeedExperience);
-        compound.setTag(ConstantUtil.MODID + ":shepherdCapability", this.shepherdCapability.writeNBT(null));
-    }
-
-	@Override
-    public void readEntityFromNBT(NBTTagCompound compound){
-        super.readEntityFromNBT(compound);
-        this.isImmuneToFire = compound.getBoolean("isImmuneToFire");
-        this.swordDamage = compound.getDouble(ConstantUtil.MODID + ":swordDamage");
-        this.armorValue = compound.getDouble(ConstantUtil.MODID + ":armorValue");
-        this.experience = compound.getDouble(ConstantUtil.MODID + ":experience");
-        this.checkHomeTick = compound.getInteger(ConstantUtil.MODID + ":checkHomeTick");
-        this.nextLevelNeedExperience = compound.getInteger(ConstantUtil.MODID + ":nextLevelNeedExperience");
-        this.shepherdCapability.readNBT(null, compound.getTag(ConstantUtil.MODID + ":shepherdCapability"));
-        this.updataSwordDamageAndArmorValue();
-        EntityUtil.setEntityAllValue(this);
-    }
 	
 	@Override
 	protected Item getDropItem() {
@@ -168,26 +103,6 @@ public class EntityEvilTaoist extends EntityCreature implements EntityMobHasShep
 	protected SoundEvent getDeathSound() {
 		return SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.witch.death"));
 	}
-	
-	@Override
-	public void fall(float distance, float damageMultiplier) {
-		boolean mainHandFlag = null != this.getHeldItemMainhand() && this.getHeldItemMainhand().getItem() == BaseControl.itemZilingZhu;
-		boolean offHandFlag = null != this.getHeldItemOffhand() && this.getHeldItemOffhand().getItem() == BaseControl.itemZilingZhu;
-		if(distance > 3 && (mainHandFlag || offHandFlag) && this.shepherdCapability.getMagic() >= ItemZilingZhu.MagicSkill5) {
-			distance = 0;
-			this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - ItemZilingZhu.MagicSkill5);
-		}
-		super.fall(distance, damageMultiplier);
-	}
-    
-	@Override
-    public boolean canAttackClass(Class <? extends EntityLivingBase > cls){
-        if (EntityMobHasShepherdCapability.class.isAssignableFrom(cls)){
-        	return false;
-        }else {
-            return super.canAttackClass(cls);
-        }
-    }
 
 	@Override
     public boolean attackEntityAsMob(Entity entityIn){
@@ -225,115 +140,19 @@ public class EntityEvilTaoist extends EntityCreature implements EntityMobHasShep
         }
 	}
 
-	@Override
-	public void onLivingUpdate() {
-		super.onLivingUpdate();
-		if(!this.isDead && this.getHealth() > 0) {
-			if(this.nextLevelNeedExperience <= this.experience) {
-				EntityUtil.upEntityGrade(this, 1);
-				this.shepherdCapability.setSpeed(this.shepherdCapability.getSpeed() * ConstantUtil.SPECIAL_K);
-				if(this.shepherdCapability.getLevel() >= ConstantUtil.IMMUNE_FIRE_LEVEL) {
-					this.isImmuneToFire = true;
-				}
-				this.experienceValue = this.nextLevelNeedExperience;
-				EntityUtil.setEntityAllValue(this);
-			}
-			if(this.getHealth() < this.getMaxHealth()) {
-				this.setHealth(this.getHealth() + (float)this.shepherdCapability.getBloodRestore());
-				this.shepherdCapability.setBlood(this.getHealth());
-			}
-			if(this.shepherdCapability.getMagic() < this.shepherdCapability.getMaxMagic()) {
-				this.shepherdCapability.setMagic(Math.min(this.shepherdCapability.getMagic() + this.shepherdCapability.getMagicRestore(), this.shepherdCapability.getMaxMagic()));
-			}
-			if(this.getHealth() != this.shepherdCapability.getBlood()) {
-				this.shepherdCapability.setBlood(this.getHealth());
-			}
-			if(!this.world.isRemote) {
-				if(this.nextConnectTick <= 0) {
-					BaseControl.netWorkWrapper.sendToAll(new ShepherdEntityToClientMessage(this.getEntityId(), this.shepherdCapability.writeNBT(null), this.nextLevelNeedExperience, this.experience, this.swordDamage, this.armorValue));
-					this.nextConnectTick = ConstantUtil.CONNECT_TICK + this.getRNG().nextInt(ConstantUtil.CONNECT_TICK);
-				}else {
-					this.nextConnectTick--;
-				}
-			}
-			if(this.checkHomeTick <= 0 && EntityUtil.checkAndTryMoveToHome(this)) {
-				this.checkHomeTick = ConstantUtil.CHECK_HOME_TICK + this.getRNG().nextInt(ConstantUtil.CHECK_HOME_TICK);
-			}else {
-				this.checkHomeTick --;
-			}
+    @Override
+	protected void upEntityGrade(int upLevel) {
+		EntityUtil.upEntityGrade(this, 1);
+		if(this.shepherdCapability.getLevel() >= ConstantUtil.IMMUNE_FIRE_LEVEL) {
+			this.isImmuneToFire = true;
 		}
+		this.shepherdCapability.setSpeed(this.shepherdCapability.getSpeed() * ConstantUtil.SPECIAL_K);
+		this.shepherdCapability.setMaxBlood(this.shepherdCapability.getMaxBlood() * ConstantUtil.SPECIAL_K);
+		this.shepherdCapability.setBlood(this.shepherdCapability.getMaxBlood());
+		this.experienceValue = this.nextLevelNeedExperience;
+		EntityUtil.setEntityAllValue(this);
 	}
-
-	@Override
-	public void setSwingingArms(boolean swingingArms) {
-	}
-	
-    @SideOnly(Side.CLIENT)
-    private void spawnParticles(EnumParticleTypes particleType){
-        for (int i = 0; i < 5; ++i){
-            double d0 = this.rand.nextGaussian() * 0.02D;
-            double d1 = this.rand.nextGaussian() * 0.02D;
-            double d2 = this.rand.nextGaussian() * 0.02D;
-            this.world.spawnParticle(particleType, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 1.0D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
-        }
-    }
-
-	@Override
-	 public boolean isNonBoss(){
-    	return this.shepherdCapability.getLevel() < 50;
-    }
-
-	@Override
-	public double getExperience() {
-		return this.experience;
-	}
-
-	@Override
-	public void setExperience(double xp) {
-		this.experience = xp;
-	}
-
-	@Override
-	public int getNextLevelNeedExperience() {
-		return nextLevelNeedExperience;
-	}
-
-	@Override
-	public void setNextLevelNeedExperience(int nextLevelNeedExperience) {
-		this.nextLevelNeedExperience = nextLevelNeedExperience;
-	}
-
-	@Override
-	public ShepherdCapability getShepherdCapability() {
-		return this.shepherdCapability;
-	}
-
-	@Override
-	public double getSwordDamage() {
-		return swordDamage;
-	}
-
-	@Override
-	public double getArmorValue() {
-		return armorValue;
-	}
-
-	@Override
-	public void setSwordDamage(double swordDamage) {
-		this.swordDamage = swordDamage;
-	}
-
-	@Override
-	public void setArmorValue(double armorValue) {
-		this.armorValue = armorValue;
-	}
-
-	@Override
-	public boolean updataSwordDamageAndArmorValue() {
-		EntityUtil.setEntityArmorValueAndSwordDamage(this);
-		return true;
-	}
-
+    
 	@Override
     @SideOnly(Side.CLIENT)
 	public String getSpecialInstructions() {

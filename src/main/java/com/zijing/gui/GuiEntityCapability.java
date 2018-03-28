@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL11;
 import com.zijing.BaseControl;
 import com.zijing.data.playerdata.ShepherdCapability;
 import com.zijing.entity.EntityDisciple;
-import com.zijing.itf.EntityHasShepherdCapability;
+import com.zijing.itf.EntityFriendly;
 import com.zijing.util.ConstantUtil;
 
 import net.minecraft.client.Minecraft;
@@ -45,7 +45,7 @@ public class GuiEntityCapability {
 		
 		public MyContainer(World world, int entityId, EntityPlayer player) {
 			Entity entity = player.world.getEntityByID(entityId);
-			if(entity instanceof EntityLiving && entity instanceof EntityHasShepherdCapability) {
+			if(entity instanceof EntityLiving && entity instanceof EntityFriendly) {
 				this.shepherdEntity = (EntityLiving)entity ;
 				this.entityInv = new InventoryBasic(ConstantUtil.MODID + ":entityInv", true, 6);
 				if(shepherdEntity instanceof EntityDisciple) {
@@ -117,8 +117,8 @@ public class GuiEntityCapability {
 		public void onContainerClosed(EntityPlayer player) {
 			super.onContainerClosed(player);
 			this.upDateEntityArmor();
-			if(this.shepherdEntity instanceof EntityHasShepherdCapability) {
-				((EntityHasShepherdCapability)this.shepherdEntity).updataSwordDamageAndArmorValue();
+			if(this.shepherdEntity instanceof EntityFriendly) {
+				((EntityFriendly)this.shepherdEntity).updataSwordDamageAndArmorValue();
 			}
 		}
 		
@@ -148,9 +148,9 @@ public class GuiEntityCapability {
 		public MyGuiContainer(World world, int entityId, EntityPlayer player) {
 			super(new MyContainer(world, entityId, player));
 			Entity entity = player.world.getEntityByID(entityId);
-			if(entity instanceof EntityLiving && entity instanceof EntityHasShepherdCapability) {
+			if(entity instanceof EntityLiving && entity instanceof EntityFriendly) {
 				this.shepherdEntity = (EntityLiving) entity;
-				this.shepherdCapability = ((EntityHasShepherdCapability)this.shepherdEntity).getShepherdCapability();
+				this.shepherdCapability = ((EntityFriendly)this.shepherdEntity).getShepherdCapability();
 			}
 			df1 = new DecimalFormat("#0.0");
 			df2 = new DecimalFormat("#0.00");
@@ -197,8 +197,8 @@ public class GuiEntityCapability {
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.magicDefense", new Object[0]) + df2.format(shepherdCapability.getMagicDefense()), 64, 62, 0xFF9933);
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.bloodRestore", new Object[0]) + df4.format(shepherdCapability.getBloodRestore()) + "/T", 64, 71, 0xFF9933);
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.magicRestore", new Object[0]) + df4.format(shepherdCapability.getMagicRestore()) + "/T", 64, 80, 0xFF9933);
-				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.needExperience", new Object[0]) + ((EntityHasShepherdCapability)shepherdEntity).getExperience() + "/" + ((EntityHasShepherdCapability)shepherdEntity).getNextLevelNeedExperience(), 64, 89, 0xFF9933);
-				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.special", new Object[0]) + ((EntityHasShepherdCapability)shepherdEntity).getSpecialInstructions(), 64, 98, 0xFF9933);
+				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.needExperience", new Object[0]) + ((EntityFriendly)shepherdEntity).getExperience() + "/" + ((EntityFriendly)shepherdEntity).getNextLevelNeedExperience(), 64, 89, 0xFF9933);
+				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.special", new Object[0]) + ((EntityFriendly)shepherdEntity).getSpecialInstructions(), 64, 98, 0xFF9933);
 			}
 		}
 	    

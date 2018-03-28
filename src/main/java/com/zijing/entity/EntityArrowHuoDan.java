@@ -1,7 +1,7 @@
 package com.zijing.entity;
 
-import com.zijing.itf.EntityHasShepherdCapability;
-import com.zijing.itf.EntityMobHasShepherdCapability;
+import com.zijing.itf.EntityFriendly;
+import com.zijing.itf.EntityEvil;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -103,14 +103,14 @@ public class EntityArrowHuoDan extends EntityThrowable {
 	private boolean checkCanAttack(EntityLivingBase entity) {
 		boolean canAttackFlag = true;
 		if(null != this.thrower) {
-			if(this.thrower instanceof EntityHasShepherdCapability || this.thrower instanceof EntityPlayer) {
-				if(entity instanceof EntityHasShepherdCapability || entity instanceof EntityPlayer) {
+			if(this.thrower instanceof EntityFriendly || this.thrower instanceof EntityPlayer) {
+				if(entity instanceof EntityFriendly || entity instanceof EntityPlayer) {
 					canAttackFlag = false;
 				}else if(checkFaction && entity instanceof IAnimals) {
 					canAttackFlag = false;
 				}
-			}else if(this.thrower instanceof EntityMobHasShepherdCapability) {
-				if(entity instanceof EntityMobHasShepherdCapability) {
+			}else if(this.thrower instanceof EntityEvil) {
+				if(entity instanceof EntityEvil) {
 					canAttackFlag = false;
 				}else if(checkFaction && entity instanceof IMob) {
 					canAttackFlag = false;

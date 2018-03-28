@@ -1,6 +1,6 @@
 package com.zijing.entity.ai;
 
-import com.zijing.itf.EntityHasShepherdCapability;
+import com.zijing.itf.EntityFriendly;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -57,9 +57,9 @@ public class EntityAIAttackRangedZJ extends EntityAIBase{
 	 */
     public boolean shouldExecute(){
 		EntityLivingBase entitylivingbase = this.entityHost.getAttackTarget();
-        if(null != entitylivingbase && this.entityHost instanceof EntityHasShepherdCapability) {
+        if(null != entitylivingbase && this.entityHost instanceof EntityFriendly) {
             double distance = Math.sqrt(Math.pow(entitylivingbase.posX - this.entityHost.posX, 2) + Math.pow(entitylivingbase.posY - this.entityHost.posY, 2) + Math.pow(entitylivingbase.posZ - this.entityHost.posZ, 2));
-            if(distance > this.minDistance && ((EntityHasShepherdCapability)this.entityHost).getShepherdCapability().getMagic() >= this.needMagicValue) {
+            if(distance > this.minDistance && ((EntityFriendly)this.entityHost).getShepherdCapability().getMagic() >= this.needMagicValue) {
             	this.attackTarget = entitylivingbase;
         		return  true;
             }

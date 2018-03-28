@@ -3,8 +3,8 @@ package com.zijing.entity;
 import com.zijing.BaseControl;
 import com.zijing.ZijingMod;
 import com.zijing.data.playerdata.ShepherdProvider;
-import com.zijing.itf.EntityHasShepherdCapability;
-import com.zijing.itf.EntityMobHasShepherdCapability;
+import com.zijing.itf.EntityFriendly;
+import com.zijing.itf.EntityEvil;
 import com.zijing.util.ConstantUtil;
 
 import net.minecraft.block.material.Material;
@@ -79,18 +79,18 @@ public class EntityArrowFengyinDan extends EntityThrowable {
 				
 				if(this.thrower instanceof EntityPlayer && ShepherdProvider.hasCapabilityFromPlayer(this.thrower)) {
 					throwerLevel = ShepherdProvider.getCapabilityFromPlayer(this.thrower).getLevel();
-				}else if(this.thrower instanceof EntityHasShepherdCapability) {
-					throwerLevel = ((EntityHasShepherdCapability)this.thrower).getShepherdCapability().getLevel();
-				}else if(this.thrower instanceof EntityMobHasShepherdCapability) {
-					throwerLevel = ((EntityMobHasShepherdCapability)this.thrower).getShepherdCapability().getLevel();
+				}else if(this.thrower instanceof EntityFriendly) {
+					throwerLevel = ((EntityFriendly)this.thrower).getShepherdCapability().getLevel();
+				}else if(this.thrower instanceof EntityEvil) {
+					throwerLevel = ((EntityEvil)this.thrower).getShepherdCapability().getLevel();
 				}
 				
 				if(entity instanceof EntityPlayer || !entity.isNonBoss()) {
 					entityLevel = ZijingMod.config.getMAX_LEVEL();
-				}else if(entity instanceof EntityHasShepherdCapability) {
-					entityLevel = ((EntityHasShepherdCapability)entity).getShepherdCapability().getLevel();
-				}else if(entity instanceof EntityMobHasShepherdCapability) {
-					entityLevel = ((EntityMobHasShepherdCapability)entity).getShepherdCapability().getLevel();
+				}else if(entity instanceof EntityFriendly) {
+					entityLevel = ((EntityFriendly)entity).getShepherdCapability().getLevel();
+				}else if(entity instanceof EntityEvil) {
+					entityLevel = ((EntityEvil)entity).getShepherdCapability().getLevel();
 				}
 				
 				float randomValue = (throwerLevel - entityLevel) / 100.0F;
@@ -119,14 +119,14 @@ public class EntityArrowFengyinDan extends EntityThrowable {
 	private boolean checkCanAttack(EntityLivingBase entity) {
 		boolean canAttackFlag = true;
 		if(null != this.thrower) {
-			if(this.thrower instanceof EntityHasShepherdCapability || this.thrower instanceof EntityPlayer) {
-				if(entity instanceof EntityHasShepherdCapability || entity instanceof EntityPlayer) {
+			if(this.thrower instanceof EntityFriendly || this.thrower instanceof EntityPlayer) {
+				if(entity instanceof EntityFriendly || entity instanceof EntityPlayer) {
 					canAttackFlag = false;
 				}else if(checkFaction && entity instanceof IAnimals) {
 					canAttackFlag = false;
 				}
-			}else if(this.thrower instanceof EntityMobHasShepherdCapability) {
-				if(entity instanceof EntityMobHasShepherdCapability) {
+			}else if(this.thrower instanceof EntityEvil) {
+				if(entity instanceof EntityEvil) {
 					canAttackFlag = false;
 				}else if(checkFaction && entity instanceof IMob) {
 					canAttackFlag = false;

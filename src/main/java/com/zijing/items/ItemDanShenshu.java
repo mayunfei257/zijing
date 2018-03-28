@@ -5,8 +5,8 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.zijing.ZijingTab;
-import com.zijing.itf.EntityHasShepherdCapability;
-import com.zijing.itf.ItemDan;
+import com.zijing.itf.EntityFriendly;
+import com.zijing.itf.ItemFoodDan;
 import com.zijing.util.ConstantUtil;
 
 import net.minecraft.client.resources.I18n;
@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemDanShenshu extends ItemFood implements ItemDan{
+public class ItemDanShenshu extends ItemFood implements ItemFoodDan{
 	public static final int effectTick = 480;
 
 	public ItemDanShenshu() {
@@ -49,7 +49,7 @@ public class ItemDanShenshu extends ItemFood implements ItemDan{
 
 	@Override
 	public void onFoodEatenByEntityLivingBase(EntityLivingBase entity) {
-		if (!entity.world.isRemote && entity instanceof EntityHasShepherdCapability) {
+		if (!entity.world.isRemote && entity instanceof EntityFriendly) {
 			entity.addPotionEffect(new PotionEffect(MobEffects.SPEED, effectTick, 20));
 		}
 	}

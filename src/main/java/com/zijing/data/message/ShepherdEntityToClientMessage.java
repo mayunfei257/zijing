@@ -1,6 +1,6 @@
 package com.zijing.data.message;
 
-import com.zijing.itf.EntityHasShepherdCapability;
+import com.zijing.itf.EntityFriendly;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -52,8 +52,8 @@ public class ShepherdEntityToClientMessage implements IMessage {
 						double armorValue = message.dataTag.getDouble("armorValue");
 						Entity entity = Minecraft.getMinecraft().player.world.getEntityByID(EntityId);
 						
-				    	if(null != entity && entity instanceof EntityHasShepherdCapability) {
-				    		EntityHasShepherdCapability shepherdEntity = ((EntityHasShepherdCapability)entity);
+				    	if(null != entity && entity instanceof EntityFriendly) {
+				    		EntityFriendly shepherdEntity = ((EntityFriendly)entity);
 				    		shepherdEntity.getShepherdCapability().readNBT(null, shepherdCapabilityTag);
 				    		shepherdEntity.setNextLevelNeedExperience(nextLevelNeedExperience);
 				    		shepherdEntity.setExperience(experience);

@@ -7,8 +7,8 @@ import javax.annotation.Nullable;
 import com.zijing.ZijingTab;
 import com.zijing.data.playerdata.ShepherdCapability;
 import com.zijing.data.playerdata.ShepherdProvider;
-import com.zijing.itf.EntityHasShepherdCapability;
-import com.zijing.itf.ItemDan;
+import com.zijing.itf.EntityFriendly;
+import com.zijing.itf.ItemFoodDan;
 import com.zijing.util.ConstantUtil;
 
 import net.minecraft.client.resources.I18n;
@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemDanZiling extends ItemFood implements ItemDan{
+public class ItemDanZiling extends ItemFood implements ItemFoodDan{
 	public static final int effectTick = 400;
 	public static final int magicRestore = 10;
 	
@@ -64,7 +64,7 @@ public class ItemDanZiling extends ItemFood implements ItemDan{
 
 	@Override
 	public void onFoodEatenByEntityLivingBase(EntityLivingBase entity) {
-		if (!entity.world.isRemote && entity instanceof EntityHasShepherdCapability) {
+		if (!entity.world.isRemote && entity instanceof EntityFriendly) {
 			entity.addPotionEffect(new PotionEffect(MobEffects.SPEED, effectTick, 0));
 			entity.addPotionEffect(new PotionEffect(MobEffects.HASTE, effectTick, 0));
 			entity.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, effectTick, 0));
@@ -76,7 +76,7 @@ public class ItemDanZiling extends ItemFood implements ItemDan{
 			entity.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, effectTick, 0));
 			entity.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, effectTick, 0));
 			entity.addPotionEffect(new PotionEffect(MobEffects.LUCK, effectTick, 0));
-    		ShepherdCapability shepherdCapability = ((EntityHasShepherdCapability)entity).getShepherdCapability();
+    		ShepherdCapability shepherdCapability = ((EntityFriendly)entity).getShepherdCapability();
 			shepherdCapability.setMagic(Math.min(shepherdCapability.getMaxMagic(), shepherdCapability.getMagic() + this.magicRestore));
 		}
 	}

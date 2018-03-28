@@ -3,7 +3,7 @@ package com.zijing.util;
 import com.zijing.ZijingMod;
 import com.zijing.data.playerdata.ShepherdCapability;
 import com.zijing.data.playerdata.ShepherdProvider;
-import com.zijing.itf.EntityHasShepherdCapability;
+import com.zijing.itf.EntityFriendly;
 
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
@@ -125,8 +125,8 @@ public class EntityUtil {
 	 * @return
 	 */
 	public static boolean upEntityGrade(EntityLiving entity, int upLevel) {
-    	if(entity instanceof EntityHasShepherdCapability && upLevel >= 0) {
-    		EntityHasShepherdCapability shepherdEntity = (EntityHasShepherdCapability)entity;
+    	if(entity instanceof EntityFriendly && upLevel >= 0) {
+    		EntityFriendly shepherdEntity = (EntityFriendly)entity;
 			ShepherdCapability shepherdCapability = shepherdEntity.getShepherdCapability();
     		int needXP = (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), upLevel) * ZijingMod.config.getUPGRADE_NEED_XP_K();
     		int level = shepherdCapability.getLevel() + upLevel;
@@ -162,8 +162,8 @@ public class EntityUtil {
 	 * @return
 	 */
 	public static boolean setEntityAllValue(EntityLiving entity) {
-    	if(entity instanceof EntityHasShepherdCapability) {
-    		EntityHasShepherdCapability shepherdEntity = (EntityHasShepherdCapability)entity;
+    	if(entity instanceof EntityFriendly) {
+    		EntityFriendly shepherdEntity = (EntityFriendly)entity;
     		ShepherdCapability shepherdCapability = shepherdEntity.getShepherdCapability();
     		entity.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(shepherdCapability.getMaxBlood());
     		entity.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(shepherdCapability.getSpeed());
@@ -181,8 +181,8 @@ public class EntityUtil {
 	 * @return
 	 */
 	public static boolean setEntityArmorValueAndSwordDamage(EntityLiving entity) {
-    	if(entity instanceof EntityHasShepherdCapability) {
-    		EntityHasShepherdCapability shepherdEntity = (EntityHasShepherdCapability)entity;
+    	if(entity instanceof EntityFriendly) {
+    		EntityFriendly shepherdEntity = (EntityFriendly)entity;
     		ShepherdCapability shepherdCapability = shepherdEntity.getShepherdCapability();
     		shepherdEntity.setArmorValue(0);
         	ItemStack itemStack1 = entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
