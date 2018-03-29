@@ -224,7 +224,7 @@ public class EntityDisciple extends EntityFriendly implements IRangedAttackMob{
 
     @Override
 	protected void upEntityGrade(int upLevel) {
-		EntityUtil.upEntityGrade(this, 1);
+		EntityUtil.upEntityGrade(this, upLevel);
 		if(this.shepherdCapability.getLevel() >= ConstantUtil.IMMUNE_FIRE_LEVEL) {
 			this.isImmuneToFire = true;
 		}

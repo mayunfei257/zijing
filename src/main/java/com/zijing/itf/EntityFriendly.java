@@ -28,7 +28,7 @@ public abstract class EntityFriendly extends EntityShepherdCapability{
             this.spawnParticles(EnumParticleTypes.VILLAGER_HAPPY);
 			itemStack.shrink(1);
 		}else if(itemStack.getItem() instanceof ItemFoodDan){
-			((ItemFoodDan)itemStack.getItem()).onFoodEatenByEntityLivingBase(this);
+			((ItemFoodDan)itemStack.getItem()).onFoodEatenByEntityFriendly(this);
             this.spawnParticles(EnumParticleTypes.VILLAGER_HAPPY);
 			itemStack.shrink(1);
 		}else if(!this.world.isRemote) {

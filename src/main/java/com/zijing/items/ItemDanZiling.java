@@ -13,7 +13,6 @@ import com.zijing.util.ConstantUtil;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemFood;
@@ -63,7 +62,7 @@ public class ItemDanZiling extends ItemFood implements ItemFoodDan{
 	}
 
 	@Override
-	public void onFoodEatenByEntityLivingBase(EntityLivingBase entity) {
+	public void onFoodEatenByEntityFriendly(EntityFriendly entity) {
 		if (!entity.world.isRemote && entity instanceof EntityFriendly) {
 			entity.addPotionEffect(new PotionEffect(MobEffects.SPEED, effectTick, 0));
 			entity.addPotionEffect(new PotionEffect(MobEffects.HASTE, effectTick, 0));

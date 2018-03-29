@@ -10,7 +10,7 @@ import com.zijing.items.tool.ItemArmorZijingBody;
 import com.zijing.items.tool.ItemArmorZijingBoots;
 import com.zijing.items.tool.ItemArmorZijingHelmet;
 import com.zijing.items.tool.ItemArmorZijingLegs;
-import com.zijing.itf.EntityFriendly;
+import com.zijing.itf.EntityShepherdCapability;
 import com.zijing.util.EntityUtil;
 import com.zijing.util.StringUtil;
 
@@ -89,21 +89,17 @@ public class ZijingEvent {
 						player.addPotionEffect(new PotionEffect(MobEffects.SPEED, ItemArmorZijingBoots.effectTick, 0));
 					}
 				}
-			}else if(entity instanceof EntityFriendly){
-	        	ItemStack itemStack1 = entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
-	        	if(null != itemStack1.getItem() && itemStack1.getItem() == BaseControl.itemArmorZijingHelmet && null == entity.getActivePotionEffect(MobEffects.WATER_BREATHING)) {
+			}else if(entity instanceof EntityShepherdCapability){
+	        	if(entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == BaseControl.itemArmorZijingHelmet && null == entity.getActivePotionEffect(MobEffects.WATER_BREATHING)) {
 	        		entity.addPotionEffect(new PotionEffect(MobEffects.WATER_BREATHING, ItemArmorZijingHelmet.effectTick, 0));
 	        	}
-	        	ItemStack itemStack2 = entity.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
-	        	if(null != itemStack2.getItem() && itemStack2.getItem() == BaseControl.itemArmorZijingBody && null == entity.getActivePotionEffect(MobEffects.REGENERATION)) {
+	        	if(entity.getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == BaseControl.itemArmorZijingBody && null == entity.getActivePotionEffect(MobEffects.REGENERATION)) {
 	        		entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, ItemArmorZijingBody.effectTick, 0));
 	        	}
-	        	ItemStack itemStack3 = entity.getItemStackFromSlot(EntityEquipmentSlot.LEGS);
-	        	if(null != itemStack3.getItem() && itemStack3.getItem() == BaseControl.itemArmorZijingLegs && null == entity.getActivePotionEffect(MobEffects.RESISTANCE)) {
+	        	if(entity.getItemStackFromSlot(EntityEquipmentSlot.LEGS).getItem() == BaseControl.itemArmorZijingLegs && null == entity.getActivePotionEffect(MobEffects.RESISTANCE)) {
 	        		entity.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, ItemArmorZijingLegs.effectTick, 0));
 	        	}
-	        	ItemStack itemStack4 = entity.getItemStackFromSlot(EntityEquipmentSlot.FEET);
-	        	if(null != itemStack4.getItem() && itemStack4.getItem() == BaseControl.itemArmorZijingBoots && null == entity.getActivePotionEffect(MobEffects.SPEED)) {
+	        	if(entity.getItemStackFromSlot(EntityEquipmentSlot.FEET).getItem() == BaseControl.itemArmorZijingBoots && null == entity.getActivePotionEffect(MobEffects.SPEED)) {
 	        		entity.addPotionEffect(new PotionEffect(MobEffects.SPEED, ItemArmorZijingBoots.effectTick, 0));
 	        	}
 			}
