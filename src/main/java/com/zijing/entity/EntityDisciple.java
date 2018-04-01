@@ -12,6 +12,7 @@ import com.zijing.itf.EntityEvil;
 import com.zijing.itf.EntityFriendly;
 import com.zijing.util.ConstantUtil;
 import com.zijing.util.EntityUtil;
+import com.zijing.util.SkillUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -190,7 +191,7 @@ public class EntityDisciple extends EntityFriendly implements IRangedAttackMob{
     public boolean attackEntityAsMob(Entity entityIn){
     	double attackDamage =  this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue() + this.swordDamage;
     	boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)attackDamage);
-        if(this.shepherdCapability.getLevel() >= ConstantUtil.CAN_LIGHTNING_LEVEL) {
+        if(this.shepherdCapability.getLevel() >= SkillUtil.CAN_LIGHTNING_LEVEL) {
         	entityIn.world.spawnEntity(new EntityLightningBolt(entityIn.world, entityIn.posX, entityIn.posY, entityIn.posZ, false));
         }
         if (flag){
@@ -208,10 +209,10 @@ public class EntityDisciple extends EntityFriendly implements IRangedAttackMob{
         	float attackDamage =  (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
         	if(!this.world.isRemote) {
             	EntityThrowable entityDan;
-            	if(this.world.rand.nextFloat() < 0.5D && this.shepherdCapability.getLevel() >= ConstantUtil.CAN_SHOOT_HUODAN_LEVEL) {
-            		entityDan = new EntityArrowHuoDan(world, this, attackDamage, this.shepherdCapability.getLevel() >= ConstantUtil.CAN_EXPLOSION_LEVEL ? (this.shepherdCapability.getLevel() - ConstantUtil.CAN_EXPLOSION_LEVEL) * ConstantUtil.EXPLOSION_PROBABILITY_K : 0F, 1F, false);
+            	if(this.world.rand.nextFloat() < 0.5D && this.shepherdCapability.getLevel() >= SkillUtil.CAN_SHOOT_HUODAN_LEVEL) {
+            		entityDan = new EntityArrowHuoDan(world, this, attackDamage, this.shepherdCapability.getLevel() >= SkillUtil.CAN_EXPLOSION_LEVEL ? (this.shepherdCapability.getLevel() - SkillUtil.CAN_EXPLOSION_LEVEL) * SkillUtil.EXPLOSION_PROBABILITY_K : 0F, 1F, false);
             	}else {
-            		entityDan = new EntityArrowBingDan(world, this, attackDamage, this.shepherdCapability.getLevel() * ConstantUtil.SLOWNESS_PROBABILITY_K, 80, (int)(this.shepherdCapability.getLevel() * ConstantUtil.SLOWNESS_STRENGTH_K));
+            		entityDan = new EntityArrowBingDan(world, this, attackDamage, this.shepherdCapability.getLevel() * SkillUtil.SLOWNESS_PROBABILITY_K, 80, (int)(this.shepherdCapability.getLevel() * SkillUtil.SLOWNESS_STRENGTH_K));
             	}
         		entityDan.shoot(target.posX - this.posX, target.getEntityBoundingBox().minY + target.height * 0.75D - entityDan.posY, target.posZ - this.posZ, 3.0F, 0);
         		this.world.spawnEntity(entityDan);
@@ -225,7 +226,7 @@ public class EntityDisciple extends EntityFriendly implements IRangedAttackMob{
     @Override
 	protected void upEntityGrade(int upLevel) {
 		EntityUtil.upEntityGrade(this, upLevel);
-		if(this.shepherdCapability.getLevel() >= ConstantUtil.IMMUNE_FIRE_LEVEL) {
+		if(this.shepherdCapability.getLevel() >= SkillUtil.IMMUNE_FIRE_LEVEL) {
 			this.isImmuneToFire = true;
 		}
 		EntityUtil.setEntityAllValue(this);

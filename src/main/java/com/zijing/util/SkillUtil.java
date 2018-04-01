@@ -1,6 +1,8 @@
 package com.zijing.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import com.zijing.entity.EntityArrowBingDan;
 import com.zijing.entity.EntityArrowFengyinDan;
@@ -11,11 +13,13 @@ import com.zijing.entity.EntityDisciple.GENDER;
 import com.zijing.entity.EntityEvilTaoist;
 import com.zijing.entity.EntitySuperIronGolem;
 import com.zijing.entity.EntitySuperSnowman;
+import com.zijing.itf.EntityShepherdCapability;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
@@ -32,6 +36,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class SkillUtil {
 	private static final float velocity = 3.0F;
 	private static final float inaccuracy = 0.0F;
+	private static final int danGroupHight = 32;
+	private static final int danGroupFrequencyTick = 5;
+	
+	
+	public static final float EXPLOSION_PROBABILITY_K = 0.05F;
+	public static final float EXPLOSION_STRENGTH_K = 0.02F;
+	public static final float SLOWNESS_PROBABILITY_K = 0.05F;
+	public static final float SLOWNESS_STRENGTH_K = 0.3F;
+	
+	public static final int CAN_SHOOT_HUODAN_LEVEL = 15;
+	public static final int IMMUNE_FIRE_LEVEL = 30;
+	public static final int CAN_LIGHTNING_LEVEL = 45;
+	public static final int CAN_EXPLOSION_LEVEL = 60;
 	
 	public static final int MagicSkill_BingDan = 1;
 	public static final int MagicSkill_HuoDan = 1;
@@ -48,11 +65,143 @@ public class SkillUtil {
 	public static final int MagicSkill_SummonSnowman = 100;
 	public static final int MagicSkill_SummonTaoistPriest = 1000;
 	public static final int MagicSkill_RandomTeleport = 5;
+
+	//TODO ------Third Package Skill Start---------------
+
+	public static EntityArrowBingDan shootBingDanSkill(EntityShepherdCapability thrower, EntityLivingBase target) {
+		int level = thrower.getShepherdCapability().getLevel();
+    	float attackDamage =  (float)thrower.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
+		return shootBingDan(thrower, target, attackDamage, level * SLOWNESS_PROBABILITY_K, (int)(level * SLOWNESS_STRENGTH_K));
+	}
+
+	public static EntityArrowHuoDan shootHuoDanSkill(EntityShepherdCapability thrower, EntityLivingBase target, boolean canExplosionOnBlock) {
+		int level = thrower.getShepherdCapability().getLevel();
+    	float attackDamage =  (float)thrower.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
+		return shootHuoDan(thrower, target, attackDamage, level * EXPLOSION_PROBABILITY_K, level * EXPLOSION_STRENGTH_K, canExplosionOnBlock);
+	}
+
+	public static EntityArrowXukongDan shootXukongDanSkill(EntityShepherdCapability thrower, EntityLivingBase target) {
+		int level = thrower.getShepherdCapability().getLevel();
+    	float attackDamage =  (float)thrower.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
+		return shootXukongDan(thrower, target, attackDamage);
+	}
 	
-	//------Secondary Package Skill Start---------------
+	public static EntityArrowFengyinDan shootFengyinDanSkill(EntityShepherdCapability thrower, EntityLivingBase target) {
+		int level = thrower.getShepherdCapability().getLevel();
+    	float attackDamage =  (float)thrower.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
+		return shootFengyinDan(thrower, target, attackDamage);
+	}
+	
+	public static List<EntityArrowBingDan> shootBingDanGroupSkill(EntityShepherdCapability thrower, EntityLivingBase target) {
+		int level = thrower.getShepherdCapability().getLevel();
+    	float attackDamage =  (float)thrower.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
+		return shootBingDanGroup(thrower, target, attackDamage, level * SLOWNESS_PROBABILITY_K, (int)(level * SLOWNESS_STRENGTH_K), 2, 5);
+	}
 
+	public static List<EntityArrowHuoDan> shootHuoDanGroupSkill(EntityShepherdCapability thrower, EntityLivingBase target, boolean canExplosionOnBlock) {
+		int level = thrower.getShepherdCapability().getLevel();
+    	float attackDamage =  (float)thrower.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
+		return shootHuoDanGroup(thrower, target, attackDamage, level * EXPLOSION_PROBABILITY_K, level * EXPLOSION_STRENGTH_K, canExplosionOnBlock, 2, 5);
+	}
 
-	public static BlockPos RandomTeleport(EntityLivingBase entityLivingBase, World world, BlockPos pos, int blurRange, int distance) {
+	public static List<EntityArrowXukongDan> shootXukongDanGroupSkill(EntityShepherdCapability thrower, EntityLivingBase target, int amount) {
+		int level = thrower.getShepherdCapability().getLevel();
+    	float attackDamage =  (float)thrower.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
+		return shootXukongDanGroup(thrower, target, attackDamage, 2, 5);
+	}
+	
+	public static List<EntityArrowFengyinDan> shootFengyinDanGroupSkill(EntityShepherdCapability thrower, EntityLivingBase target, int amount) {
+		int level = thrower.getShepherdCapability().getLevel();
+    	float attackDamage =  (float)thrower.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
+		return shootFengyinDanGroup(thrower, target, attackDamage, 2, 5);
+	}
+	
+	public static void fireAreaSkill(EntityShepherdCapability thrower, BlockPos centerPos, int range, float explosionProbability, float explosionStrength, boolean exceptCenter) {
+		int level = thrower.getShepherdCapability().getLevel();
+		fireArea(thrower.world, centerPos.getX(), centerPos.getY(), centerPos.getZ(), range, range, range, level * EXPLOSION_PROBABILITY_K, level * EXPLOSION_STRENGTH_K, exceptCenter);
+	}
+	
+	//------Third Package Skill End-----------------
+	
+	//TODO ------Secondary Package Skill Start---------------
+
+	private static EntityArrowBingDan shootBingDan(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, float slownessProbability, int slownessStrength) {
+		return shootBingDan(thrower, thrower.posX, thrower.posY + (double)thrower.getEyeHeight() - 0.10000000149011612D, thrower.posZ, target.posX, target.getEntityBoundingBox().minY + target.height * 0.75D, target.posZ, attackDamage, slownessProbability, slownessStrength);
+	}
+
+	private static EntityArrowHuoDan shootHuoDan(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, float explosionProbability, float explosionStrength, boolean canExplosionOnBlock) {
+		return shootHuoDan(thrower, thrower.posX, thrower.posY + (double)thrower.getEyeHeight() - 0.10000000149011612D, thrower.posZ, target.posX, target.getEntityBoundingBox().minY + target.height * 0.75D, target.posZ, attackDamage, explosionProbability, explosionStrength, canExplosionOnBlock);
+	}
+
+	private static EntityArrowXukongDan shootXukongDan(EntityLivingBase thrower, EntityLivingBase target, float attackDamage) {
+		return shootXukongDan(thrower, thrower.posX, thrower.posY + (double)thrower.getEyeHeight() - 0.10000000149011612D, thrower.posZ, target.posX, target.getEntityBoundingBox().minY + target.height * 0.75D, target.posZ, attackDamage);
+	}
+	
+	private static EntityArrowFengyinDan shootFengyinDan(EntityLivingBase thrower, EntityLivingBase target, float attackDamage) {
+		return shootFengyinDan(thrower, thrower.posX, thrower.posY + (double)thrower.getEyeHeight() - 0.10000000149011612D, thrower.posZ, target.posX, target.getEntityBoundingBox().minY + target.height * 0.75D, target.posZ, attackDamage);
+	}
+
+	private static List<EntityArrowBingDan> shootBingDanGroup(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, float slownessProbability, int slownessStrength, int amount, int frequency) {
+    	BlockPos basePos = target.getPosition();
+    	List<EntityArrowBingDan> entityList = new ArrayList<EntityArrowBingDan>();
+    	for(int n = 0; n < amount; n++) {
+    		double y = basePos.getY();
+    		double x = basePos.getX() + Math.random() * 3 * (Math.random() < 0.5 ? -1 : 1);
+    		double z = basePos.getZ() + Math.random() * 3 * (Math.random() < 0.5 ? -1 : 1);
+    		BlockPos targetPos = new BlockPos(x, y, z);
+    		BlockPos throwerPos = new BlockPos(x, y + danGroupHight, z);
+    		entityList.add(shootBingDan(thrower, throwerPos.getX(), throwerPos.getY(), throwerPos.getZ(), targetPos.getX(), targetPos.getY(), targetPos.getZ(), attackDamage, slownessProbability, slownessStrength));
+    	}
+		return entityList;
+	}
+
+	private static List<EntityArrowHuoDan> shootHuoDanGroup(EntityShepherdCapability thrower, EntityLivingBase target, float attackDamage, float explosionProbability, float explosionStrength, boolean canExplosionOnBlock, int amount, int frequency) {
+    	BlockPos basePos = target.getPosition();
+    	List<EntityArrowHuoDan> entityList = new ArrayList<EntityArrowHuoDan>();
+    	for(int n = 0; n < amount; n++) {
+    		double y = basePos.getY();
+    		double x = basePos.getX() + Math.random() * 3 * (Math.random() < 0.5 ? -1 : 1);
+    		double z = basePos.getZ() + Math.random() * 3 * (Math.random() < 0.5 ? -1 : 1);
+    		BlockPos targetPos = new BlockPos(x, y, z);
+    		BlockPos throwerPos = new BlockPos(x, y + danGroupHight, z);
+    		entityList.add(shootHuoDan(thrower, throwerPos.getX(), throwerPos.getY(), throwerPos.getZ(), targetPos.getX(), targetPos.getY(), targetPos.getZ(), attackDamage, explosionProbability, explosionStrength, canExplosionOnBlock));
+    	}
+		return entityList;
+	}
+
+	private static List<EntityArrowXukongDan> shootXukongDanGroup(EntityShepherdCapability thrower, EntityLivingBase target, float attackDamage, int amount, int frequency) {
+    	BlockPos basePos = target.getPosition();
+    	List<EntityArrowXukongDan> entityList = new ArrayList<EntityArrowXukongDan>();
+    	for(int n = 0; n < amount; n++) {
+    		double y = basePos.getY();
+    		double x = basePos.getX() + Math.random() * 3 * (Math.random() < 0.5 ? -1 : 1);
+    		double z = basePos.getZ() + Math.random() * 3 * (Math.random() < 0.5 ? -1 : 1);
+    		BlockPos targetPos = new BlockPos(x, y, z);
+    		BlockPos throwerPos = new BlockPos(x, y + danGroupHight, z);
+    		entityList.add(shootXukongDan(thrower, throwerPos.getX(), throwerPos.getY(), throwerPos.getZ(), targetPos.getX(), targetPos.getY(), targetPos.getZ(), attackDamage));
+    	}
+		return entityList;
+	}
+	
+	private static List<EntityArrowFengyinDan> shootFengyinDanGroup(EntityShepherdCapability thrower, EntityLivingBase target, float attackDamage, int amount, int frequency) {
+    	BlockPos basePos = target.getPosition();
+    	List<EntityArrowFengyinDan> entityList = new ArrayList<EntityArrowFengyinDan>();
+    	for(int n = 0; n < amount; n++) {
+    		double y = basePos.getY();
+    		double x = basePos.getX() + Math.random() * 3 * (Math.random() < 0.5 ? -1 : 1);
+    		double z = basePos.getZ() + Math.random() * 3 * (Math.random() < 0.5 ? -1 : 1);
+    		BlockPos targetPos = new BlockPos(x, y, z);
+    		BlockPos throwerPos = new BlockPos(x, y + danGroupHight, z);
+    		entityList.add(shootFengyinDan(thrower, throwerPos.getX(), throwerPos.getY(), throwerPos.getZ(), targetPos.getX(), targetPos.getY(), targetPos.getZ(), attackDamage));
+    	}
+		return entityList;
+	}
+	
+	private static void fireArea(World world, BlockPos centerPos, int rangeX, int rangeY, int rangeZ, float explosionProbability, float explosionStrength, boolean exceptCenter) {
+		fireArea(world, centerPos.getX(), centerPos.getY(), centerPos.getZ(), rangeX, rangeY, rangeZ, explosionProbability, explosionStrength, exceptCenter);
+	}
+	
+	private static BlockPos RandomTeleport(EntityLivingBase entityLivingBase, World world, BlockPos pos, int blurRange, int distance) {
 		double x = pos.getX() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
 		double y = pos.getY() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
 		double z = pos.getZ() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
@@ -60,7 +209,7 @@ public class SkillUtil {
 		return teleportBlurPoint(entityLivingBase, world, baseBlockPos, blurRange);
 	}
 
-	public static BlockPos RandomTeleportFar(EntityLivingBase entityLivingBase, World world, BlockPos pos, int blurRange, int distance) {
+	private static BlockPos RandomTeleportFar(EntityLivingBase entityLivingBase, World world, BlockPos pos, int blurRange, int distance) {
 		double x = pos.getX() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
 		double y = 1 + Math.random() * 255;
 		double z = pos.getZ() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
@@ -70,9 +219,9 @@ public class SkillUtil {
 	
 	//------Secondary Package Skill End---------------
 
-	//------Base Skill Start--------------------
+	//TODO ------Base Skill Start--------------------
 	
-	public static EntityArrowBingDan shootBingDan(EntityLivingBase thrower, double throwerX, double throwerY, double throwerZ, double targetX, double targetY, double targetZ, float attackDamage, float slownessProbability, int slownessStrength) {
+	private static EntityArrowBingDan shootBingDan(EntityLivingBase thrower, double throwerX, double throwerY, double throwerZ, double targetX, double targetY, double targetZ, float attackDamage, float slownessProbability, int slownessStrength) {
 		EntityArrowBingDan entityDan = new EntityArrowBingDan(thrower.world, thrower, attackDamage, slownessProbability, 80, slownessStrength);
     	entityDan.setPosition(throwerX, throwerY, throwerZ);
 		entityDan.shoot(targetX - entityDan.posX, targetY - entityDan.posY, targetZ - entityDan.posZ, velocity, inaccuracy);
@@ -81,7 +230,7 @@ public class SkillUtil {
 		return entityDan;
 	}
 
-	public static EntityArrowHuoDan shootHuoDan(EntityLivingBase thrower, double throwerX, double throwerY, double throwerZ, double targetX, double targetY, double targetZ, float attackDamage, float explosionProbability, float explosionStrength, boolean canExplosionOnBlock) {
+	private static EntityArrowHuoDan shootHuoDan(EntityLivingBase thrower, double throwerX, double throwerY, double throwerZ, double targetX, double targetY, double targetZ, float attackDamage, float explosionProbability, float explosionStrength, boolean canExplosionOnBlock) {
 		EntityArrowHuoDan entityDan = new EntityArrowHuoDan(thrower.world, thrower, attackDamage, explosionProbability, explosionStrength, canExplosionOnBlock);
     	entityDan.setPosition(throwerX, throwerY, throwerZ);
 		entityDan.shoot(targetX - entityDan.posX,targetY - entityDan.posY, targetZ - entityDan.posZ, velocity, inaccuracy);
@@ -91,7 +240,7 @@ public class SkillUtil {
 		return entityDan;
 	}
 
-	public static EntityArrowXukongDan shootXukongDan(EntityLivingBase thrower, double throwerX, double throwerY, double throwerZ, double targetX, double targetY, double targetZ, float attackDamage) {
+	private static EntityArrowXukongDan shootXukongDan(EntityLivingBase thrower, double throwerX, double throwerY, double throwerZ, double targetX, double targetY, double targetZ, float attackDamage) {
 		EntityArrowXukongDan entityDan = new EntityArrowXukongDan(thrower.world, thrower, attackDamage);
     	entityDan.setPosition(throwerX, throwerY, throwerZ);
 		entityDan.shoot(targetX - entityDan.posX, targetY - entityDan.posY, targetZ - entityDan.posZ, velocity, inaccuracy);
@@ -100,7 +249,7 @@ public class SkillUtil {
 		return entityDan;
 	}
 	
-	public static EntityArrowFengyinDan shootFengyinDan(EntityLivingBase thrower, double throwerX, double throwerY, double throwerZ, double targetX, double targetY, double targetZ, float attackDamage) {
+	private static EntityArrowFengyinDan shootFengyinDan(EntityLivingBase thrower, double throwerX, double throwerY, double throwerZ, double targetX, double targetY, double targetZ, float attackDamage) {
 		EntityArrowFengyinDan entityDan = new EntityArrowFengyinDan(thrower.world, thrower, attackDamage);
 		entityDan.setPosition(throwerX, throwerY, throwerZ);
 		entityDan.shoot(targetX - entityDan.posX, targetY - entityDan.posY, targetZ - entityDan.posZ, velocity, inaccuracy);
@@ -109,23 +258,23 @@ public class SkillUtil {
 		return entityDan;
 	}
 
-	public static void addEffect(EntityLivingBase entityLivingBase, Potion potion, int durationIn, int amplifierIn) {
+	private static void addEffect(EntityLivingBase entityLivingBase, Potion potion, int durationIn, int amplifierIn) {
 		entityLivingBase.addPotionEffect(new PotionEffect(potion, durationIn, amplifierIn, false, false));
 	}
 
-	public static void removeEffect(EntityLivingBase entityLivingBase) {
+	private static void removeEffect(EntityLivingBase entityLivingBase) {
 		Collection<PotionEffect> potionEffects = entityLivingBase.getActivePotionEffects();
 		for(PotionEffect potionEffect:potionEffects) {
 			entityLivingBase.removePotionEffect(potionEffect.getPotion());
 		}
 	}
 
-	public static boolean ImmuneFallDamage() {
+	private static boolean ImmuneFallDamage() {
 		//---
 		return true;
 	}
 
-	public static EntitySuperSnowman SummonSuperSnowman(World world, BlockPos blockPos, int baseLevel, float yaw, float pitch, int distance) {
+	private static EntitySuperSnowman SummonSuperSnowman(World world, BlockPos blockPos, int baseLevel, float yaw, float pitch, int distance) {
 		EntitySuperSnowman entity = new EntitySuperSnowman(world, baseLevel);
 		entity.setLocationAndAngles(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D, yaw, pitch);
 		entity.setHomePosAndDistance(blockPos, distance);
@@ -136,7 +285,7 @@ public class SkillUtil {
 		return entity;
 	}
 
-	public static EntitySuperIronGolem summonSuperIronGolem(World world, BlockPos blockPos, int baseLevel, float yaw, float pitch, int distance) {
+	private static EntitySuperIronGolem summonSuperIronGolem(World world, BlockPos blockPos, int baseLevel, float yaw, float pitch, int distance) {
 		EntitySuperIronGolem entity = new EntitySuperIronGolem(world, 20);
 		entity.setLocationAndAngles(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D, yaw, pitch);
 		entity.setHomePosAndDistance(blockPos, distance);
@@ -147,7 +296,7 @@ public class SkillUtil {
 		return entity;
 	}
 
-	public static EntityDisciple summonDisciple(World world, BlockPos blockPos, int baseLevel, GENDER gender, float yaw, float pitch, int distance) {
+	private static EntityDisciple summonDisciple(World world, BlockPos blockPos, int baseLevel, GENDER gender, float yaw, float pitch, int distance) {
 		EntityDisciple entity = new EntityDisciple(world, baseLevel, gender);
 		entity.setLocationAndAngles(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D, yaw, pitch);
 		entity.setHomePosAndDistance(blockPos, distance);
@@ -157,7 +306,7 @@ public class SkillUtil {
 		return entity;
 	}
 
-	public static EntityEvilTaoist summonEvilTaoist(World world, BlockPos blockPos, int baseLevel, float yaw, float pitch, int distance) {
+	private static EntityEvilTaoist summonEvilTaoist(World world, BlockPos blockPos, int baseLevel, float yaw, float pitch, int distance) {
 		EntityEvilTaoist entity = new EntityEvilTaoist(world, baseLevel);
 		entity.setLocationAndAngles(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D, yaw, pitch);
 		entity.setHomePosAndDistance(blockPos, distance);
@@ -167,7 +316,7 @@ public class SkillUtil {
 		return entity;
 	}
 
-	public static void fireArea(World world, double centerX, double centerY, double centerZ, int rangeX, int rangeY, int rangeZ, float explosionProbability, float explosionStrength, boolean exceptCenter) {
+	private static void fireArea(World world, double centerX, double centerY, double centerZ, int rangeX, int rangeY, int rangeZ, float explosionProbability, float explosionStrength, boolean exceptCenter) {
 		boolean explosionFlag = world.rand.nextFloat() < explosionProbability;
 		for(int i = - rangeX; i <= rangeX; i++) {
 			for(int j = - rangeY; j <= rangeY; j++) {
@@ -188,13 +337,13 @@ public class SkillUtil {
 		world.playSound((EntityPlayer) null, centerX, centerY + 0.5D, centerZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.lightning.thunder")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 	}
 	
-	public static BlockPos teleportPoint(EntityLivingBase entityLivingBase, World world, BlockPos blockPos) {
+	private static BlockPos teleportPoint(EntityLivingBase entityLivingBase, World world, BlockPos blockPos) {
 		entityLivingBase.setPositionAndUpdate(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D);
 		world.playSound((EntityPlayer) null, blockPos.getX() + 0.5D, blockPos.getY() + 0.5D, blockPos.getZ() + 0.5D, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 		return blockPos;
 	}
 	
-	public static BlockPos teleportBlurPoint(EntityLivingBase entityLivingBase, World world, BlockPos blockPos, int blurRange) {
+	private static BlockPos teleportBlurPoint(EntityLivingBase entityLivingBase, World world, BlockPos blockPos, int blurRange) {
 		if(utilCanStand(world, blockPos, true, true)) {
 			return teleportPoint(entityLivingBase, world, blockPos);
 		}else {
@@ -223,7 +372,7 @@ public class SkillUtil {
 		}
 	}
 	
-	public static BlockPos teleportVerticalBlurPoint(EntityLivingBase entityLivingBase, World world, BlockPos pos, int blurRange) {
+	private static BlockPos teleportVerticalBlurPoint(EntityLivingBase entityLivingBase, World world, BlockPos pos, int blurRange) {
 		BlockPos blockPos = teleportBlurPoint(entityLivingBase, world, pos, blurRange);
 		if(null == blockPos) {
 			BlockPos blockPosTem = null;
@@ -247,7 +396,7 @@ public class SkillUtil {
 		return blockPos;
 	}
 	
-	public static BlockPos teleportUp(EntityLivingBase entityLivingBase, World world, BlockPos pos, boolean checkBedRock) {
+	private static BlockPos teleportUp(EntityLivingBase entityLivingBase, World world, BlockPos pos, boolean checkBedRock) {
 		int x = pos.getX();
 		int y = pos.getY();
 		int z = pos.getZ();
@@ -266,7 +415,7 @@ public class SkillUtil {
 		return null;
 	}
 
-	public static BlockPos teleportDown(EntityLivingBase entityLivingBase, World world, BlockPos pos, boolean checkBedRock) {
+	private static BlockPos teleportDown(EntityLivingBase entityLivingBase, World world, BlockPos pos, boolean checkBedRock) {
 		int x = pos.getX();
 		int y = pos.getY();
 		int z = pos.getZ();
@@ -284,9 +433,14 @@ public class SkillUtil {
 		}
 		return null;
 	}
+    
+    private static void growBlock(World world, BlockPos pos) {
+		IBlockState iBlockState = world.getBlockState(pos);
+		iBlockState.getBlock().updateTick(world, pos, iBlockState, world.rand);
+    }
 
     @SideOnly(Side.CLIENT)
-    public static void spawnParticlesBlockPos(BlockPos blockPos, EnumParticleTypes particleType, World world, int particleNum){
+    private static void spawnParticlesBlockPos(BlockPos blockPos, EnumParticleTypes particleType, World world, int particleNum){
         for (int i = 0; i < particleNum; ++i){
             double d0 = world.rand.nextGaussian() * 0.02D;
             double d1 = world.rand.nextGaussian() * 0.02D;
@@ -299,7 +453,7 @@ public class SkillUtil {
     }
     
     @SideOnly(Side.CLIENT)
-    public static void spawnParticlesEntity(Entity entity, EnumParticleTypes particleType, World world, int particleNum){
+    private static void spawnParticlesEntity(Entity entity, EnumParticleTypes particleType, World world, int particleNum){
         for (int i = 0; i < particleNum; ++i){
             double d0 = world.rand.nextGaussian() * 0.02D;
             double d1 = world.rand.nextGaussian() * 0.02D;
@@ -311,15 +465,10 @@ public class SkillUtil {
         }
     }
     
-    public static void growBlock(World world, BlockPos pos) {
-		IBlockState iBlockState = world.getBlockState(pos);
-		iBlockState.getBlock().updateTick(world, pos, iBlockState, world.rand);
-    }
-    
 	//------Base Skill End--------------------
 	
 
-	//------Base Skill Util--------------------
+	//TODO------Base Skill Util--------------------
 
 	private static boolean utilCanStand(World world, BlockPos blockPos, boolean canWater, boolean canPortal) {
 		if(world.getBlockState(blockPos).getBlock() == Blocks.END_GATEWAY) {
