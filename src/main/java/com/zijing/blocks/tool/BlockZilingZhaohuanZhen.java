@@ -30,7 +30,7 @@ public class BlockZilingZhaohuanZhen extends Block{
 	public BlockZilingZhaohuanZhen() {
 		super(Material.IRON);
         setHardness(50f);
-        setResistance(500.0f);
+        setResistance(1000.0f);
         setLightLevel(0f);
         setTickRandomly(true);
         setDefaultState(this.blockState.getBaseState().withProperty(AGE, Integer.valueOf(0)));

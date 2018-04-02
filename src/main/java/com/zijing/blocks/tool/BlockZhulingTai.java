@@ -33,7 +33,7 @@ public class BlockZhulingTai extends BlockContainer{
 	public BlockZhulingTai(boolean isBurning){
 		super(Material.ROCK);
 		setHardness(50f);
-		setResistance(500.0f);
+		setResistance(1000.0f);
 		setSoundType(SoundType.METAL);
 		setHarvestLevel("pickaxe", 2);
 		setUnlocalizedName("blockZhulingTai");

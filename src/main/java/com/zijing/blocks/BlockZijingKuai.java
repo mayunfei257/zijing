@@ -12,7 +12,7 @@ public class BlockZijingKuai extends Block{
 	public BlockZijingKuai() {
 		super(Material.IRON);
         setHardness(50f);
-        setResistance(500.0f);
+        setResistance(1000.0f);
         setLightLevel(1.0f);
         setHarvestLevel("pickaxe", 2);
         setSoundType(SoundType.METAL);
