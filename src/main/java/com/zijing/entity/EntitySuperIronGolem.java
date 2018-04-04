@@ -8,11 +8,11 @@ import com.zijing.BaseControl;
 import com.zijing.entity.ai.EntityAIAttackMeleeZJ;
 import com.zijing.entity.ai.EntityAIDefendVillageZJ;
 import com.zijing.entity.ai.EntityAILookAtVillagerZJ;
-import com.zijing.items.staff.ItemStaffKongjian;
 import com.zijing.itf.EntityEvil;
 import com.zijing.itf.EntityFriendly;
 import com.zijing.util.ConstantUtil;
 import com.zijing.util.EntityUtil;
+import com.zijing.util.SkillEntity;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -45,7 +45,6 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -171,7 +170,7 @@ public class EntitySuperIronGolem extends EntityFriendly implements IRangedAttac
     @Override
 	protected void upEntityGrade(int upLevel) {
 		EntityUtil.upEntityGrade(this, upLevel);
-		if(this.shepherdCapability.getLevel() >= ConstantUtil.IMMUNE_FIRE_LEVEL) {
+		if(this.shepherdCapability.getLevel() >= SkillEntity.IMMUNE_FIRE_LEVEL) {
 			this.isImmuneToFire = true;
 		}
 		this.shepherdCapability.setMaxBlood(this.shepherdCapability.getMaxBlood() * ConstantUtil.SPECIAL_K);
@@ -286,17 +285,7 @@ public class EntitySuperIronGolem extends EntityFriendly implements IRangedAttac
 	
 	@Override
 	public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
-        if(this.shepherdCapability.getMagic() >= ItemStaffKongjian.MagicSkill1) {
-        	float attackDamage =  (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
-        	if(!this.world.isRemote) {
-            	EntityArrowXukongDan xukongDan = new EntityArrowXukongDan(world, this, attackDamage);
-        		xukongDan.shoot(target.posX - this.posX, target.getEntityBoundingBox().minY + target.height * 0.75D - xukongDan.posY, target.posZ - this.posZ, 3.0F, 0);
-        		this.world.spawnEntity(xukongDan);
-        	}
-    		this.world.playSound((EntityPlayer) null, this.posX, this.posY + this.getEyeHeight(), this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-    		this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - ItemStaffKongjian.MagicSkill1);
-			this.experience += attackDamage * ConstantUtil.EXPERIENCE_MAGNIFICATION;
-        }
+		
 	}
 
 	@Override

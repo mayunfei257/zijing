@@ -1,0 +1,237 @@
+package com.zijing.util;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.zijing.entity.EntityArrowBingDan;
+import com.zijing.entity.EntityArrowFengyinDan;
+import com.zijing.entity.EntityArrowHuoDan;
+import com.zijing.entity.EntityArrowXukongDan;
+
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
+import net.minecraft.potion.Potion;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+
+public class SkillEntity extends SkillBase{
+	protected static final int DAN_GROUP_LAUNCH_HEIGHT = 32;
+	protected static final int DAN_GROUP_FREQUENCY_TICK = 5;
+	
+	public static final float EXPLOSION_PROBABILITY_K = 0.05F;
+	public static final float EXPLOSION_STRENGTH_K = 0.02F;
+	public static final float SLOWNESS_PROBABILITY_K = 0.05F;
+	public static final float SLOWNESS_STRENGTH_K = 0.3F;
+	
+	public static final int CAN_SHOOT_HUODAN_LEVEL = 15;
+	public static final int IMMUNE_FIRE_LEVEL = 30;
+	public static final int CAN_LIGHTNING_LEVEL = 45;
+	public static final int CAN_EXPLOSION_LEVEL = 60;
+	
+	public static final int MagicSkill_BingDan = 1;
+	public static final int MagicSkill_HuoDan = 1;
+	public static final int MagicSkill_XukongDan = 2;
+	public static final int MagicSkill_FengyinDan = 1;
+
+	public static final int MagicSkill_Levitation = 1;
+	public static final int MagicSkill_RemoveEffect = 2;
+	public static final int MagicSkill_TeleportUp = 2;
+	public static final int MagicSkill_TeleportDown = 2;
+	public static final int MagicSkill_Firestorm = 3;
+	public static final int MagicSkill_ImmuneFallDamage = 2;
+	
+	public static final int MagicSkill_SummonSnowman = 100;
+	public static final int MagicSkill_SummonTaoistPriest = 1000;
+	public static final int MagicSkill_RandomTeleport = 5;
+
+	
+	protected static EntityArrowBingDan shootBingDan(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, float slownessProbability, int slownessStrength, boolean checkFaction) {
+		double throwerY = thrower.posY + (double)thrower.getEyeHeight() - 0.10000000149011612D;
+		double targetY = target.getEntityBoundingBox().minY + target.height * 0.75D;
+		double vecX = target.posX - thrower.posX;
+		double vecY = targetY - throwerY;
+		double vecZ = target.posZ - thrower.posZ;
+		return shootBingDanBase(thrower, thrower.posX, throwerY, thrower.posZ, vecX, vecY, vecZ, attackDamage, slownessProbability, slownessStrength, checkFaction);
+	}
+
+	protected static EntityArrowHuoDan shootHuoDan(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, float explosionProbability, float explosionStrength, boolean canExplosionOnBlock, boolean checkFaction) {
+		double throwerY = thrower.posY + (double)thrower.getEyeHeight() - 0.10000000149011612D;
+		double targetY = target.getEntityBoundingBox().minY + target.height * 0.75D;
+		double vecX = target.posX - thrower.posX;
+		double vecY = targetY - throwerY;
+		double vecZ = target.posZ - thrower.posZ;
+		return shootHuoDanBase(thrower, thrower.posX, throwerY, thrower.posZ, vecX, vecY, vecZ, attackDamage, explosionProbability, explosionStrength, canExplosionOnBlock, checkFaction);
+	}
+
+	protected static EntityArrowXukongDan shootXukongDan(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, boolean checkFaction) {
+		double throwerY = thrower.posY + (double)thrower.getEyeHeight() - 0.10000000149011612D;
+		double targetY = target.getEntityBoundingBox().minY + target.height * 0.75D;
+		double vecX = target.posX - thrower.posX;
+		double vecY = targetY - throwerY;
+		double vecZ = target.posZ - thrower.posZ;
+		return shootXukongDanBase(thrower, thrower.posX, throwerY, thrower.posZ, vecX, vecY, vecZ, attackDamage, checkFaction);
+	}
+	
+	protected static EntityArrowFengyinDan shootFengyinDan(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, boolean checkFaction) {
+		double throwerY = thrower.posY + (double)thrower.getEyeHeight() - 0.10000000149011612D;
+		double targetY = target.getEntityBoundingBox().minY + target.height * 0.75D;
+		double vecX = target.posX - thrower.posX;
+		double vecY = targetY - throwerY;
+		double vecZ = target.posZ - thrower.posZ;
+		return shootFengyinDanBase(thrower, thrower.posX, throwerY, thrower.posZ, vecX, vecY, vecZ, attackDamage, checkFaction);
+	}
+
+	protected static EntityArrowBingDan shootBingDan(EntityLivingBase thrower, float attackDamage, float slownessProbability, int slownessStrength, boolean checkFaction) {
+		double throwerY = thrower.posY + (double)thrower.getEyeHeight() - 0.10000000149011612D;
+		Vec3d vec = thrower.getLookVec();
+		return shootBingDanBase(thrower, thrower.posX, throwerY, thrower.posZ, vec.x, vec.y, vec.z, attackDamage, slownessProbability, slownessStrength, checkFaction);
+	}
+
+	protected static EntityArrowHuoDan shootHuoDan(EntityLivingBase thrower, float attackDamage, float explosionProbability, float explosionStrength, boolean canExplosionOnBlock, boolean checkFaction) {
+		double throwerY = thrower.posY + (double)thrower.getEyeHeight() - 0.10000000149011612D;
+		Vec3d vec = thrower.getLookVec();
+		return shootHuoDanBase(thrower, thrower.posX, throwerY, thrower.posZ, vec.x, vec.y, vec.z, attackDamage, explosionProbability, explosionStrength, canExplosionOnBlock, checkFaction);
+	}
+
+	protected static EntityArrowXukongDan shootXukongDan(EntityLivingBase thrower, float attackDamage, boolean checkFaction) {
+		double throwerY = thrower.posY + (double)thrower.getEyeHeight() - 0.10000000149011612D;
+		Vec3d vec = thrower.getLookVec();
+		return shootXukongDanBase(thrower, thrower.posX, throwerY, thrower.posZ, vec.x, vec.y, vec.z, attackDamage, checkFaction);
+	}
+	
+	protected static EntityArrowFengyinDan shootFengyinDan(EntityLivingBase thrower, float attackDamage, boolean checkFaction) {
+		double throwerY = thrower.posY + (double)thrower.getEyeHeight() - 0.10000000149011612D;
+		Vec3d vec = thrower.getLookVec();
+		return shootFengyinDanBase(thrower, thrower.posX, throwerY, thrower.posZ, vec.x, vec.y, vec.z, attackDamage, checkFaction);
+	}
+
+	protected static List<EntityArrowBingDan> shootBingDanGroup(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, float slownessProbability, int slownessStrength, boolean checkFaction, int amount, int frequency) {
+    	BlockPos basePos = target.getPosition();
+    	List<EntityArrowBingDan> entityList = new ArrayList<EntityArrowBingDan>();
+    	for(int n = 0; n < amount; n++) {
+    		double y = basePos.getY();
+    		double x = basePos.getX() + Math.random() * 3 * (Math.random() < 0.5 ? -1 : 1);
+    		double z = basePos.getZ() + Math.random() * 3 * (Math.random() < 0.5 ? -1 : 1);
+    		BlockPos targetPos = new BlockPos(x, y, z);
+    		BlockPos throwerPos = getLaunchBlock(thrower.world, targetPos);
+    		double vecX = targetPos.getX() - throwerPos.getX();
+    		double vecY = targetPos.getY() - throwerPos.getY();
+    		double vecZ = targetPos.getZ() - throwerPos.getZ();
+    		entityList.add(shootBingDanBase(thrower, throwerPos.getX(), throwerPos.getY(), throwerPos.getZ(), vecX, vecY, vecZ, attackDamage, slownessProbability, slownessStrength, checkFaction));
+    	}
+		return entityList;
+	}
+
+	protected static List<EntityArrowHuoDan> shootHuoDanGroup(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, float explosionProbability, float explosionStrength, boolean canExplosionOnBlock, boolean checkFaction, int amount, int frequency) {
+    	BlockPos basePos = target.getPosition();
+    	List<EntityArrowHuoDan> entityList = new ArrayList<EntityArrowHuoDan>();
+    	for(int n = 0; n < amount; n++) {
+    		double y = basePos.getY();
+    		double x = basePos.getX() + Math.random() * 3 * (Math.random() < 0.5 ? -1 : 1);
+    		double z = basePos.getZ() + Math.random() * 3 * (Math.random() < 0.5 ? -1 : 1);
+    		BlockPos targetPos = new BlockPos(x, y, z);
+    		BlockPos throwerPos = getLaunchBlock(thrower.world, targetPos);
+    		double vecX = targetPos.getX() - throwerPos.getX();
+    		double vecY = targetPos.getY() - throwerPos.getY();
+    		double vecZ = targetPos.getZ() - throwerPos.getZ();
+    		entityList.add(shootHuoDanBase(thrower, throwerPos.getX(), throwerPos.getY(), throwerPos.getZ(), vecX, vecY, vecZ, attackDamage, explosionProbability, explosionStrength, canExplosionOnBlock, checkFaction));
+    	}
+		return entityList;
+	}
+
+	protected static List<EntityArrowXukongDan> shootXukongDanGroup(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, boolean checkFaction, int amount, int frequency) {
+    	BlockPos basePos = target.getPosition();
+    	List<EntityArrowXukongDan> entityList = new ArrayList<EntityArrowXukongDan>();
+    	for(int n = 0; n < amount; n++) {
+    		double y = basePos.getY();
+    		double x = basePos.getX() + Math.random() * 3 * (Math.random() < 0.5 ? -1 : 1);
+    		double z = basePos.getZ() + Math.random() * 3 * (Math.random() < 0.5 ? -1 : 1);
+    		BlockPos targetPos = new BlockPos(x, y, z);
+    		BlockPos throwerPos = getLaunchBlock(thrower.world, targetPos);
+    		double vecX = targetPos.getX() - throwerPos.getX();
+    		double vecY = targetPos.getY() - throwerPos.getY();
+    		double vecZ = targetPos.getZ() - throwerPos.getZ();
+    		entityList.add(shootXukongDanBase(thrower, throwerPos.getX(), throwerPos.getY(), throwerPos.getZ(), vecX, vecY, vecZ, attackDamage, checkFaction));
+    	}
+		return entityList;
+	}
+	
+	protected static List<EntityArrowFengyinDan> shootFengyinDanGroup(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, boolean checkFaction, int amount, int frequency) {
+    	BlockPos basePos = target.getPosition();
+    	List<EntityArrowFengyinDan> entityList = new ArrayList<EntityArrowFengyinDan>();
+    	for(int n = 0; n < amount; n++) {
+    		double y = basePos.getY();
+    		double x = basePos.getX() + Math.random() * 3 * (Math.random() < 0.5 ? -1 : 1);
+    		double z = basePos.getZ() + Math.random() * 3 * (Math.random() < 0.5 ? -1 : 1);
+    		BlockPos targetPos = new BlockPos(x, y, z);
+    		BlockPos throwerPos = getLaunchBlock(thrower.world, targetPos);
+    		double vecX = targetPos.getX() - throwerPos.getX();
+    		double vecY = targetPos.getY() - throwerPos.getY();
+    		double vecZ = targetPos.getZ() - throwerPos.getZ();
+    		entityList.add(shootFengyinDanBase(thrower, throwerPos.getX(), throwerPos.getY(), throwerPos.getZ(), vecX, vecY, vecZ, attackDamage, checkFaction));
+    	}
+		return entityList;
+	}
+	
+	protected static void firestorm(World world, BlockPos centerPos, int rangeX, int rangeY, int rangeZ, float explosionProbability, float explosionStrength, boolean exceptCenter) {
+		firestormBase(world, centerPos.getX(), centerPos.getY(), centerPos.getZ(), rangeX, rangeY, rangeZ, explosionProbability, explosionStrength, exceptCenter);
+	}
+	
+	protected static void growBlock(World world, BlockPos pos) {
+		growBlockBase(world, pos);
+    }
+
+	protected static void addEffect(EntityLivingBase entityLivingBase, Potion potion, int durationIn, int amplifierIn) {
+		addEffectBase(entityLivingBase, potion, durationIn, amplifierIn);
+	}
+
+	protected static void removeEffect(EntityLivingBase entityLivingBase) {
+		removeEffectBase(entityLivingBase);
+	}
+	
+	protected static BlockPos RandomTeleport(EntityLivingBase entityLivingBase, int blurRange, int distance) {
+		BlockPos pos = entityLivingBase.getPosition();
+		double x = pos.getX() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
+		double y = pos.getY() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
+		double z = pos.getZ() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
+		BlockPos baseBlockPos = new BlockPos(x, y < 1 ? 1 : y, z);
+		return teleportBlurPointBase(entityLivingBase, baseBlockPos, blurRange);
+	}
+
+	protected static BlockPos RandomTeleportFar(EntityLivingBase entityLivingBase, int blurRange, int distance) {
+		BlockPos pos = entityLivingBase.getPosition();
+		double x = pos.getX() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
+		double y = 1 + Math.random() * 255;
+		double z = pos.getZ() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
+		BlockPos baseBlockPos = new BlockPos(x, y, z);
+		return teleportVerticalBlurPointBase(entityLivingBase, baseBlockPos, blurRange);
+	}
+
+	//TODO------Skill Util--------------------
+    private static BlockPos getLaunchBlock(World world, BlockPos targetPos) {
+		int x = targetPos.getX();
+		int y = targetPos.getY();
+		int z = targetPos.getZ();
+		BlockPos airPos = null;
+		for(int n = y; n < WORLD_MAX_HIGHT; n++) {
+			BlockPos tempPos = new BlockPos(x, y + n, z);
+			if(world.getBlockState(tempPos).getBlock() == Blocks.AIR) {
+				airPos = tempPos;
+				break;
+			}
+		}
+		BlockPos throwerPos = new BlockPos(x, y + 1, z);
+		if(null != airPos) {
+			for(int n = 1; n <= DAN_GROUP_LAUNCH_HEIGHT; n++) {
+				if(world.getBlockState(new BlockPos(airPos.getX(), airPos.getY() + n, airPos.getZ())).getBlock() != Blocks.AIR) {
+					throwerPos = new BlockPos(airPos.getX(), airPos.getY() + n - 1, airPos.getZ());
+					break;
+				}else if(n == DAN_GROUP_LAUNCH_HEIGHT){
+					throwerPos = new BlockPos(airPos.getX(), airPos.getY() + DAN_GROUP_LAUNCH_HEIGHT, airPos.getZ());
+				}
+			}
+		}
+		return throwerPos;
+    }
+}

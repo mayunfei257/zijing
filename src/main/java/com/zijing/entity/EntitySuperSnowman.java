@@ -12,6 +12,8 @@ import com.zijing.itf.EntityEvil;
 import com.zijing.itf.EntityFriendly;
 import com.zijing.util.ConstantUtil;
 import com.zijing.util.EntityUtil;
+import com.zijing.util.SkillEntity;
+import com.zijing.util.SkillEntityShepherd;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -40,7 +42,6 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
@@ -118,7 +119,7 @@ public class EntitySuperSnowman extends EntityFriendly implements IRangedAttackM
     @Override
 	protected void upEntityGrade(int upLevel) {
 		EntityUtil.upEntityGrade(this, upLevel);
-		if(this.shepherdCapability.getLevel() >= ConstantUtil.IMMUNE_FIRE_LEVEL) {
+		if(this.shepherdCapability.getLevel() >= SkillEntity.IMMUNE_FIRE_LEVEL) {
 			this.isImmuneToFire = true;
 		}
 		this.shepherdCapability.setMaxMagic(this.shepherdCapability.getMaxMagic() * ConstantUtil.SPECIAL_K);
@@ -149,17 +150,11 @@ public class EntitySuperSnowman extends EntityFriendly implements IRangedAttackM
 
     @Override
     public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor){
-        if(this.shepherdCapability.getMagic() >= ItemStaffBingxue.MagicSkill1) {
-        	float attackDamage =  (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
-        	if(!this.world.isRemote) {
-        		EntityArrowBingDan bingDan = new EntityArrowBingDan(world, this, attackDamage, 0.125F, 80, 2);
-        		bingDan.shoot(target.posX - this.posX, target.getEntityBoundingBox().minY + target.height * 0.75D - bingDan.posY, target.posZ - this.posZ, 3.0F, 0);
-        		this.world.spawnEntity(bingDan);
-        	}
-    		this.world.playSound((EntityPlayer) null, this.posX, this.posY + this.getEyeHeight(), this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-    		this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - ItemStaffBingxue.MagicSkill1);
-			this.experience += attackDamage * ConstantUtil.EXPERIENCE_MAGNIFICATION;
-        }
+    	if(!this.world.isRemote) {
+    		SkillEntityShepherd.shootBingDanSkill(this, target);
+    		float attackDamage =  (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
+    		this.experience += attackDamage * ConstantUtil.EXPERIENCE_MAGNIFICATION;
+    	}
     }
 
 	@Override

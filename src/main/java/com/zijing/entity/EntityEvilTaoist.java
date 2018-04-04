@@ -8,6 +8,8 @@ import com.zijing.itf.EntityEvil;
 import com.zijing.itf.EntityFriendly;
 import com.zijing.util.ConstantUtil;
 import com.zijing.util.EntityUtil;
+import com.zijing.util.SkillEntity;
+import com.zijing.util.SkillEntityShepherd;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -26,12 +28,10 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
@@ -108,7 +108,7 @@ public class EntityEvilTaoist extends EntityEvil implements IRangedAttackMob{
     public boolean attackEntityAsMob(Entity entityIn){
     	double attackDamage =  this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue() + this.swordDamage;
     	boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)attackDamage);
-        if(this.shepherdCapability.getLevel() >= ConstantUtil.CAN_LIGHTNING_LEVEL) {
+        if(this.shepherdCapability.getLevel() >= SkillEntity.CAN_LIGHTNING_LEVEL) {
         	entityIn.world.spawnEntity(new EntityLightningBolt(entityIn.world, entityIn.posX, entityIn.posY, entityIn.posZ, false));
         }
         if (flag){
@@ -122,28 +122,21 @@ public class EntityEvilTaoist extends EntityEvil implements IRangedAttackMob{
 
 	@Override
 	public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
-        if(this.shepherdCapability.getMagic() >= ItemStaffBingxue.MagicSkill1) {
-        	float attackDamage =  (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
-        	if(!this.world.isRemote) {
-            	EntityThrowable entityDan;
-            	if(this.world.rand.nextFloat() < 0.5D) {
-            		entityDan = new EntityArrowHuoDan(world, this, attackDamage, this.shepherdCapability.getLevel() * ConstantUtil.EXPLOSION_PROBABILITY_K, 1F, false);
-            	}else {
-            		entityDan = new EntityArrowBingDan(world, this, attackDamage, this.shepherdCapability.getLevel() * ConstantUtil.SLOWNESS_PROBABILITY_K, 80, (int)(this.shepherdCapability.getLevel() * ConstantUtil.SLOWNESS_STRENGTH_K));
-            	}
-        		entityDan.shoot(target.posX - this.posX, target.getEntityBoundingBox().minY + target.height * 0.75D - entityDan.posY, target.posZ - this.posZ, 3.0F, 0);
-        		this.world.spawnEntity(entityDan);
-        	}
-    		this.world.playSound((EntityPlayer) null, this.posX, this.posY + this.getEyeHeight(), this.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
-    		this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - ItemStaffBingxue.MagicSkill1);
+		if(!this.world.isRemote) {
+			if(this.world.rand.nextFloat() < 0.5D) {
+				SkillEntityShepherd.shootHuoDanSkill(this, target, false);
+			}else {
+				SkillEntityShepherd.shootBingDanSkill(this, target);
+			}
+        	double attackDamage = this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
 			this.experience += attackDamage * ConstantUtil.EXPERIENCE_MAGNIFICATION;
-        }
+		}
 	}
 
     @Override
 	protected void upEntityGrade(int upLevel) {
 		EntityUtil.upEntityGrade(this, upLevel);
-		if(this.shepherdCapability.getLevel() >= ConstantUtil.IMMUNE_FIRE_LEVEL) {
+		if(this.shepherdCapability.getLevel() >= SkillEntity.IMMUNE_FIRE_LEVEL) {
 			this.isImmuneToFire = true;
 		}
 		this.shepherdCapability.setSpeed(this.shepherdCapability.getSpeed() * ConstantUtil.SPECIAL_K);

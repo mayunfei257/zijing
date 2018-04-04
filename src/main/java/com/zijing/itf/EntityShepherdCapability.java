@@ -8,6 +8,7 @@ import com.zijing.items.staff.ItemZilingZhu;
 import com.zijing.util.ConstantUtil;
 import com.zijing.util.EntityUtil;
 import com.zijing.util.MathUtil;
+import com.zijing.util.SkillEntity;
 
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
@@ -158,7 +159,7 @@ public abstract class EntityShepherdCapability extends EntityCreature implements
 			}
 			if(!this.world.isRemote) {
 				if(this.nextConnectTick <= 0) {
-					BaseControl.netWorkWrapper.sendToAll(new ShepherdEntityToClientMessage(this.getEntityId(), this.shepherdCapability.writeNBT(null), this.nextLevelNeedExperience, this.experience, this.swordDamage, this.armorValue));
+					BaseControl.netWorkWrapper.sendToAll(new ShepherdEntityToClientMessage(this.getEntityId(), this.shepherdCapability.writeNBT(null), this.nextLevelNeedExperience, this.experience, this.swordDamage, this.armorValue, this.homePos, this.maxDistance));
 					this.nextConnectTick = ConstantUtil.CONNECT_TICK + this.getRNG().nextInt(ConstantUtil.CONNECT_TICK);
 				}else {
 					this.nextConnectTick--;
@@ -177,7 +178,7 @@ public abstract class EntityShepherdCapability extends EntityCreature implements
 	//Over write this function to add special about level.
 	protected void upEntityGrade(int upLevel) {
 		EntityUtil.upEntityGrade(this, 1);
-		if(this.shepherdCapability.getLevel() >= ConstantUtil.IMMUNE_FIRE_LEVEL) {
+		if(this.shepherdCapability.getLevel() >= SkillEntity.IMMUNE_FIRE_LEVEL) {
 			this.isImmuneToFire = true;
 		}
 		EntityUtil.setEntityAllValue(this);
