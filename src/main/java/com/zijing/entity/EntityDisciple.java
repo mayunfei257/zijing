@@ -191,7 +191,7 @@ public class EntityDisciple extends EntityFriendly implements IRangedAttackMob{
     	double attackDamage =  this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue() + this.swordDamage;
     	boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)attackDamage);
         if(this.shepherdCapability.getLevel() >= SkillEntity.CAN_LIGHTNING_LEVEL) {
-        	entityIn.world.spawnEntity(new EntityLightningBolt(entityIn.world, entityIn.posX, entityIn.posY, entityIn.posZ, false));
+        	entityIn.world.spawnEntity(new EntityLightningBolt(entityIn.world, entityIn.posX, entityIn.posY, entityIn.posZ, true));
         }
         if (flag){
             entityIn.motionY += 0.4000000059604645D;
