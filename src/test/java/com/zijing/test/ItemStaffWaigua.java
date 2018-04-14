@@ -35,7 +35,7 @@ public class ItemStaffWaigua extends Item  implements MagicConsumer{
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, final EntityPlayer player, EnumHand hand){
-        return new ActionResult<ItemStack>(EnumActionResult.PASS, player.getHeldItem(hand));
+        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, player.getHeldItem(hand));
 	}
 	
 	@Override
@@ -47,7 +47,7 @@ public class ItemStaffWaigua extends Item  implements MagicConsumer{
 				Building.getinstance().buildASmallHouse(world, pos);
 			}
 		}
-		return EnumActionResult.PASS;
+		return EnumActionResult.SUCCESS;
 	}
 
 	@Override
