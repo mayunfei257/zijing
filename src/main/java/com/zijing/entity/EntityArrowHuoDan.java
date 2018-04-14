@@ -9,6 +9,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -106,7 +108,7 @@ public class EntityArrowHuoDan extends EntityThrowable {
 			if(this.thrower instanceof EntityFriendly || this.thrower instanceof EntityPlayer) {
 				if(entity instanceof EntityFriendly || entity instanceof EntityPlayer) {
 					canAttackFlag = false;
-				}else if(checkFaction && entity instanceof IAnimals) {
+				}else if(checkFaction && (entity instanceof EntityAnimal || entity instanceof EntityVillager)) {
 					canAttackFlag = false;
 				}
 			}else if(this.thrower instanceof EntityEvil) {

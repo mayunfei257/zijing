@@ -41,20 +41,7 @@ public class ItemToolZijingChu extends ItemHoe{
 	
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
-		super.onItemUse(player, world, pos, hand, facing, hitX, hitY, hitZ);
-		if(!world.isRemote && player.isSneaking() && ShepherdProvider.hasCapabilityFromPlayer(player)) {
-			ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
-			if(shepherdCapability.getMagic() >= 1) {
-				Random random = new Random();
-				IBlockState iBlockState = world.getBlockState(pos);
-				iBlockState.getBlock().updateTick(world, pos, iBlockState, random);
-				shepherdCapability.setMagic(shepherdCapability.getMagic() - 1.0D);
-				ShepherdProvider.updateChangeToClient(player);
-			}else {
-				player.sendMessage(new TextComponentString("Magic energy is not enough, need at least 1!"));
-			}
-		}
-		return EnumActionResult.SUCCESS;
+		return super.onItemUse(player, world, pos, hand, facing, hitX, hitY, hitZ);
 	}
 
 	@Override

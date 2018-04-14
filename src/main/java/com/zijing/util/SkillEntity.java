@@ -20,7 +20,7 @@ public class SkillEntity extends SkillBase{
 	protected static final int DAN_GROUP_LAUNCH_HEIGHT = 32;
 	protected static final int DAN_GROUP_FREQUENCY_TICK = 5;
 	
-	public static final float EXPLOSION_PROBABILITY_K = 0.05F;
+	public static final float EXPLOSION_PROBABILITY_K = 0.01F;
 	public static final float EXPLOSION_STRENGTH_K = 0.02F;
 	public static final float SLOWNESS_PROBABILITY_K = 0.05F;
 	public static final float SLOWNESS_STRENGTH_K = 0.3F;

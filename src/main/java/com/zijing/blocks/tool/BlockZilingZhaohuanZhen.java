@@ -15,6 +15,7 @@ import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumFacing;
@@ -46,9 +47,8 @@ public class BlockZilingZhaohuanZhen extends Block{
 		if(!worldIn.isRemote) {
 			int age = ((Integer) state.getValue(AGE)).intValue();
 			if (age >= 15) {
-				EntitySuperIronGolem entity = new EntitySuperIronGolem(worldIn, 20);
+				EntityIronGolem entity = new EntityIronGolem(worldIn);
 				entity.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, worldIn.rand.nextFloat() * 360F, 0.0F);
-				entity.updataSwordDamageAndArmorValue();
 				entity.addPotionEffect(new PotionEffect(MobEffects.SPEED, 400, 1));
 				entity.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 400, 1));
 				entity.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 400, 1));
@@ -57,7 +57,7 @@ public class BlockZilingZhaohuanZhen extends Block{
 				entity.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 400, 1));
 				entity.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 400, 1));
 				entity.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 400, 1));
-				entity.setHomePosAndDistance(pos, 64);
+				entity.setPlayerCreated(true);
 				entity.playLivingSound();
 				worldIn.spawnEntity(entity);
 				worldIn.spawnEntity(new EntityLightningBolt(worldIn, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, false));

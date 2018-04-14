@@ -79,8 +79,10 @@ public class SkillBase {
 
 	protected static void removeEffectBase(EntityLivingBase entityLivingBase) {
 		Collection<PotionEffect> potionEffects = entityLivingBase.getActivePotionEffects();
-		for(PotionEffect potionEffect:potionEffects) {
-			entityLivingBase.removePotionEffect(potionEffect.getPotion());
+		if(null != potionEffects && potionEffects.size() > 0) {
+			for(PotionEffect potionEffect: potionEffects) {
+				entityLivingBase.removePotionEffect(potionEffect.getPotion());
+			}
 		}
 	}
 
@@ -257,6 +259,7 @@ public class SkillBase {
 	protected static void growBlockBase(World world, BlockPos pos) {
 		IBlockState iBlockState = world.getBlockState(pos);
 		iBlockState.getBlock().updateTick(world, pos, iBlockState, world.rand);
+		world.playSound((EntityPlayer) null, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
     }
 
     @SideOnly(Side.CLIENT)
