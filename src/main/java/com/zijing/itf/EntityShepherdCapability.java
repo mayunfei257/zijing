@@ -108,9 +108,9 @@ public abstract class EntityShepherdCapability extends EntityCreature implements
 	public void fall(float distance, float damageMultiplier) {
 		boolean mainHandFlag = null != this.getHeldItemMainhand() && this.getHeldItemMainhand().getItem() == BaseControl.itemZilingZhu;
 		boolean offHandFlag = null != this.getHeldItemOffhand() && this.getHeldItemOffhand().getItem() == BaseControl.itemZilingZhu;
-		if(distance > 3 && (mainHandFlag || offHandFlag) && this.shepherdCapability.getMagic() >= ItemZilingZhu.MagicSkill5) {
+		if(distance > 3 && (mainHandFlag || offHandFlag) && this.shepherdCapability.getMagic() >= SkillEntity.MagicSkill_ImmuneFallDamage) {
 			distance = 0;
-			this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - ItemZilingZhu.MagicSkill5);
+			this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - SkillEntity.MagicSkill_ImmuneFallDamage);
 		}
 		super.fall(distance, damageMultiplier);
 	}

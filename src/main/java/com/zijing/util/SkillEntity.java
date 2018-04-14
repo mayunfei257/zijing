@@ -8,6 +8,7 @@ import com.zijing.entity.EntityArrowFengyinDan;
 import com.zijing.entity.EntityArrowHuoDan;
 import com.zijing.entity.EntityArrowXukongDan;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
@@ -38,12 +39,15 @@ public class SkillEntity extends SkillBase{
 	public static final int MagicSkill_RemoveEffect = 2;
 	public static final int MagicSkill_TeleportUp = 2;
 	public static final int MagicSkill_TeleportDown = 2;
-	public static final int MagicSkill_Firestorm = 3;
 	public static final int MagicSkill_ImmuneFallDamage = 2;
+	public static final int MagicSkill_Firestorm = 3;
+	public static final int MagicSkill_RandomTeleport = 2;
+	public static final int MagicSkill_RandomTeleportFar = 5;
+	public static final int MagicSkill_GrowBlock = 1;
+	public static final int MagicSkill_GrowAreaBlock = 32;
 	
 	public static final int MagicSkill_SummonSnowman = 100;
 	public static final int MagicSkill_SummonTaoistPriest = 1000;
-	public static final int MagicSkill_RandomTeleport = 5;
 
 	
 	protected static EntityArrowBingDan shootBingDan(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, float slownessProbability, int slownessStrength, boolean checkFaction) {
@@ -105,9 +109,8 @@ public class SkillEntity extends SkillBase{
 		Vec3d vec = thrower.getLookVec();
 		return shootFengyinDanBase(thrower, thrower.posX, throwerY, thrower.posZ, vec.x, vec.y, vec.z, attackDamage, checkFaction);
 	}
-
-	protected static List<EntityArrowBingDan> shootBingDanGroup(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, float slownessProbability, int slownessStrength, boolean checkFaction, int amount, int frequency) {
-    	BlockPos basePos = target.getPosition();
+	
+	protected static List<EntityArrowBingDan> shootBingDanGroup(EntityLivingBase thrower, BlockPos basePos, float attackDamage, float slownessProbability, int slownessStrength, boolean checkFaction, int amount, int frequency) {
     	List<EntityArrowBingDan> entityList = new ArrayList<EntityArrowBingDan>();
     	for(int n = 0; n < amount; n++) {
     		double y = basePos.getY();
@@ -123,8 +126,7 @@ public class SkillEntity extends SkillBase{
 		return entityList;
 	}
 
-	protected static List<EntityArrowHuoDan> shootHuoDanGroup(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, float explosionProbability, float explosionStrength, boolean canExplosionOnBlock, boolean checkFaction, int amount, int frequency) {
-    	BlockPos basePos = target.getPosition();
+	protected static List<EntityArrowHuoDan> shootHuoDanGroup(EntityLivingBase thrower, BlockPos basePos, float attackDamage, float explosionProbability, float explosionStrength, boolean canExplosionOnBlock, boolean checkFaction, int amount, int frequency) {
     	List<EntityArrowHuoDan> entityList = new ArrayList<EntityArrowHuoDan>();
     	for(int n = 0; n < amount; n++) {
     		double y = basePos.getY();
@@ -140,8 +142,7 @@ public class SkillEntity extends SkillBase{
 		return entityList;
 	}
 
-	protected static List<EntityArrowXukongDan> shootXukongDanGroup(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, boolean checkFaction, int amount, int frequency) {
-    	BlockPos basePos = target.getPosition();
+	protected static List<EntityArrowXukongDan> shootXukongDanGroup(EntityLivingBase thrower, BlockPos basePos, float attackDamage, boolean checkFaction, int amount, int frequency) {
     	List<EntityArrowXukongDan> entityList = new ArrayList<EntityArrowXukongDan>();
     	for(int n = 0; n < amount; n++) {
     		double y = basePos.getY();
@@ -157,8 +158,7 @@ public class SkillEntity extends SkillBase{
 		return entityList;
 	}
 	
-	protected static List<EntityArrowFengyinDan> shootFengyinDanGroup(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, boolean checkFaction, int amount, int frequency) {
-    	BlockPos basePos = target.getPosition();
+	protected static List<EntityArrowFengyinDan> shootFengyinDanGroup(EntityLivingBase thrower, BlockPos basePos, float attackDamage, boolean checkFaction, int amount, int frequency) {
     	List<EntityArrowFengyinDan> entityList = new ArrayList<EntityArrowFengyinDan>();
     	for(int n = 0; n < amount; n++) {
     		double y = basePos.getY();
@@ -173,15 +173,23 @@ public class SkillEntity extends SkillBase{
     	}
 		return entityList;
 	}
-	
-	protected static void firestorm(World world, BlockPos centerPos, int rangeX, int rangeY, int rangeZ, float explosionProbability, float explosionStrength, boolean exceptCenter) {
-		firestormBase(world, centerPos.getX(), centerPos.getY(), centerPos.getZ(), rangeX, rangeY, rangeZ, explosionProbability, explosionStrength, exceptCenter);
+
+	protected static List<EntityArrowBingDan> shootBingDanGroup(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, float slownessProbability, int slownessStrength, boolean checkFaction, int amount, int frequency) {
+		return shootBingDanGroup(thrower, target.getPosition(), attackDamage, slownessProbability, slownessStrength, checkFaction, amount, frequency);
+	}
+
+	protected static List<EntityArrowHuoDan> shootHuoDanGroup(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, float explosionProbability, float explosionStrength, boolean canExplosionOnBlock, boolean checkFaction, int amount, int frequency) {
+		return shootHuoDanGroup(thrower, target.getPosition(), attackDamage, explosionProbability, explosionStrength, canExplosionOnBlock, checkFaction, amount, frequency);
+	}
+
+	protected static List<EntityArrowXukongDan> shootXukongDanGroup(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, boolean checkFaction, int amount, int frequency) {
+		return shootXukongDanGroup(thrower, target.getPosition(), attackDamage, checkFaction, amount, frequency);
 	}
 	
-	protected static void growBlock(World world, BlockPos pos) {
-		growBlockBase(world, pos);
-    }
-
+	protected static List<EntityArrowFengyinDan> shootFengyinDanGroup(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, boolean checkFaction, int amount, int frequency) {
+		return shootFengyinDanGroup(thrower, target.getPosition(), attackDamage, checkFaction, amount, frequency);
+	}
+	
 	protected static void addEffect(EntityLivingBase entityLivingBase, Potion potion, int durationIn, int amplifierIn) {
 		addEffectBase(entityLivingBase, potion, durationIn, amplifierIn);
 	}
@@ -189,8 +197,20 @@ public class SkillEntity extends SkillBase{
 	protected static void removeEffect(EntityLivingBase entityLivingBase) {
 		removeEffectBase(entityLivingBase);
 	}
+
+	protected static BlockPos teleportUp(EntityLivingBase entityLivingBase, BlockPos basePos, boolean checkBedRock) {
+		return teleportUpBase(entityLivingBase, basePos, checkBedRock);
+	}
+
+	protected static BlockPos teleportDown(EntityLivingBase entityLivingBase, BlockPos basePos, boolean checkBedRock) {
+		return teleportDownBase(entityLivingBase, basePos, checkBedRock);
+	}
 	
-	protected static BlockPos RandomTeleport(EntityLivingBase entityLivingBase, int blurRange, int distance) {
+	protected static void firestorm(World world, BlockPos centerPos, int rangeX, int rangeY, int rangeZ, float explosionProbability, float explosionStrength, boolean exceptCenter) {
+		firestormBase(world, centerPos.getX(), centerPos.getY(), centerPos.getZ(), rangeX, rangeY, rangeZ, explosionProbability, explosionStrength, exceptCenter);
+	}
+
+	protected static BlockPos randomTeleport(EntityLivingBase entityLivingBase, int blurRange, int distance) {
 		BlockPos pos = entityLivingBase.getPosition();
 		double x = pos.getX() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
 		double y = pos.getY() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
@@ -199,7 +219,7 @@ public class SkillEntity extends SkillBase{
 		return teleportBlurPointBase(entityLivingBase, baseBlockPos, blurRange);
 	}
 
-	protected static BlockPos RandomTeleportFar(EntityLivingBase entityLivingBase, int blurRange, int distance) {
+	protected static BlockPos randomTeleportFar(EntityLivingBase entityLivingBase, int blurRange, int distance) {
 		BlockPos pos = entityLivingBase.getPosition();
 		double x = pos.getX() + Math.random() * distance * (Math.random() < 0.5 ? -1 : 1);
 		double y = 1 + Math.random() * 255;
@@ -207,6 +227,20 @@ public class SkillEntity extends SkillBase{
 		BlockPos baseBlockPos = new BlockPos(x, y, z);
 		return teleportVerticalBlurPointBase(entityLivingBase, baseBlockPos, blurRange);
 	}
+	
+	protected static void growBlock(World world, BlockPos pos) {
+		growBlockBase(world, pos);
+    }
+	
+	protected static void growAreaBlock(World world, BlockPos pos, int rangeX, int rangeY, int rangeZ) {
+		for(int i = - rangeX; i <= rangeX; i++) {
+			for(int j = - rangeY; j <= rangeY; j++) {
+				for(int k = - rangeZ; k <= rangeZ; k++) {
+					growBlockBase(world, new BlockPos(pos.getX() + i, pos.getY() + j, pos.getZ() + k));
+				}
+			}
+		}
+    }
 
 	//TODO------Skill Util--------------------
     private static BlockPos getLaunchBlock(World world, BlockPos targetPos) {

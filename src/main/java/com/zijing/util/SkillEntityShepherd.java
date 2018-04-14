@@ -9,7 +9,10 @@ import com.zijing.itf.EntityShepherdCapability;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.init.MobEffects;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class SkillEntityShepherd extends SkillEntity{
 
@@ -83,24 +86,96 @@ public class SkillEntityShepherd extends SkillEntity{
 ////    	float attackDamage =  (float)thrower.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
 //		return shootFengyinDanGroup(thrower, target, 0, 2, 5);
 //	}
+
+	public static void levitationSkill(EntityShepherdCapability shepherdEntity) {
+		ShepherdCapability shepherdCapability = shepherdEntity.getShepherdCapability();
+        if(shepherdCapability.getMagic() >= MagicSkill_Levitation) {
+        	addEffect(shepherdEntity, MobEffects.LEVITATION, 80, 0);
+    		shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill_Levitation);
+        }
+	}
+
+	public static void removeEffectSkill(EntityShepherdCapability shepherdEntity) {
+		ShepherdCapability shepherdCapability = shepherdEntity.getShepherdCapability();
+        if(shepherdCapability.getMagic() >= MagicSkill_RemoveEffect) {
+    		removeEffect(shepherdEntity);
+    		shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill_RemoveEffect);
+        }
+	}
+
+	public static BlockPos teleportUpSkill(EntityShepherdCapability shepherdEntity, BlockPos basePos) {
+		BlockPos resultPos = null;
+		ShepherdCapability shepherdCapability = shepherdEntity.getShepherdCapability();
+        if(shepherdCapability.getMagic() >= MagicSkill_TeleportUp) {
+        	resultPos = teleportUp(shepherdEntity, basePos, true);
+    		shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill_TeleportUp);
+        }
+        return resultPos;
+	}
+
+	public static BlockPos teleportDownSkill(EntityShepherdCapability shepherdEntity, BlockPos basePos) {
+		BlockPos resultPos = null;
+		ShepherdCapability shepherdCapability = shepherdEntity.getShepherdCapability();
+        if(shepherdCapability.getMagic() >= MagicSkill_TeleportDown) {
+        	resultPos = teleportDown(shepherdEntity, basePos, true);
+    		shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill_TeleportDown);
+        }
+        return resultPos;
+	}
 	
-	public static void firestormSkill(EntityShepherdCapability thrower, int range) {
-		ShepherdCapability shepherdCapability = thrower.getShepherdCapability();
+	public static void firestormSkill(EntityShepherdCapability shepherdEntity) {
+		ShepherdCapability shepherdCapability = shepherdEntity.getShepherdCapability();
         if(shepherdCapability.getMagic() >= MagicSkill_Firestorm) {
     		int level = shepherdCapability.getLevel();
-    		BlockPos centerPos = thrower.getPosition();
-    		firestorm(thrower.world, centerPos, 3, 2, 3, level * EXPLOSION_PROBABILITY_K, level * EXPLOSION_STRENGTH_K, true);
+    		BlockPos centerPos = shepherdEntity.getPosition();
+    		firestorm(shepherdEntity.world, centerPos, 3, 2, 3, level * EXPLOSION_PROBABILITY_K, level * EXPLOSION_STRENGTH_K, true);
     		shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill_Firestorm);
         }
 	}
 	
-	public static void firestormSkill(EntityShepherdCapability thrower, EntityLivingBase target, int range) {
-		ShepherdCapability shepherdCapability = thrower.getShepherdCapability();
+	public static void firestormSkill(EntityShepherdCapability shepherdEntity, EntityLivingBase target) {
+		ShepherdCapability shepherdCapability = shepherdEntity.getShepherdCapability();
         if(shepherdCapability.getMagic() >= MagicSkill_Firestorm) {
     		int level = shepherdCapability.getLevel();
     		BlockPos centerPos = target.getPosition();
-    		firestorm(thrower.world, centerPos, 2, 2, 2, level * EXPLOSION_PROBABILITY_K, level * EXPLOSION_STRENGTH_K, false);
+    		firestorm(shepherdEntity.world, centerPos, 2, 2, 2, level * EXPLOSION_PROBABILITY_K, level * EXPLOSION_STRENGTH_K, false);
     		shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill_Firestorm);
         }
 	}
+	
+	public static BlockPos randomTeleportSkill(EntityShepherdCapability shepherdEntity) {
+		BlockPos resultPos = null;
+		ShepherdCapability shepherdCapability = shepherdEntity.getShepherdCapability();
+        if(shepherdCapability.getMagic() >= MagicSkill_RandomTeleport) {
+        	resultPos = randomTeleport(shepherdEntity, 2, 5);
+    		shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill_RandomTeleport);
+        }
+        return resultPos;
+	}
+
+	public static BlockPos randomTeleportFarSkill(EntityShepherdCapability shepherdEntity) {
+		BlockPos resultPos = null;
+		ShepherdCapability shepherdCapability = shepherdEntity.getShepherdCapability();
+        if(shepherdCapability.getMagic() >= MagicSkill_RandomTeleportFar) {
+        	resultPos = randomTeleportFar(shepherdEntity, 3, 1000);
+    		shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill_RandomTeleportFar);
+        }
+        return resultPos;
+	}
+	
+	public static void growBlockSkill(EntityShepherdCapability shepherdEntity, BlockPos pos) {
+		ShepherdCapability shepherdCapability = shepherdEntity.getShepherdCapability();
+        if(shepherdCapability.getMagic() >= MagicSkill_GrowBlock) {
+        	growBlock(shepherdEntity.world, pos);
+    		shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill_GrowBlock);
+        }
+    }
+	
+	public static void growAreaBlockSkill(EntityShepherdCapability shepherdEntity, BlockPos pos) {
+		ShepherdCapability shepherdCapability = shepherdEntity.getShepherdCapability();
+        if(shepherdCapability.getMagic() >= MagicSkill_GrowAreaBlock) {
+        	growAreaBlock(shepherdEntity.world, pos, 4, 1, 4);
+    		shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill_GrowAreaBlock);
+        }
+    }
 }

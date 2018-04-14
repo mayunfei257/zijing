@@ -25,7 +25,7 @@ item.itemBookChuansong.name=§6传送书
 item.itemStaffBingxue.name=§6冰雪法杖
 item.itemStaffLieyan.name=§6烈焰法杖
 item.itemStaffKongjian.name=§6空间法杖
-item.itemStaffFengyin.name=§6封印法杖
+item.itemStaffShijian.name=§6时间法杖
 item.itemArrowBingDan.name=§6冰弹
 item.itemArrowHuoDan.name=§6火弹
 item.itemArrowXukongDan.name=§6虚空弹
@@ -87,8 +87,9 @@ zijingmod.itemStaffLieyan.skill1=§c技能1: 发射火弹. (M : %d)
 zijingmod.itemStaffLieyan.skill2=§c技能2: 火海. (M : %d) (潜行状态)
 zijingmod.itemStaffKongjian.skill1=§c技能1: 发射传送弹. (M : %d)
 zijingmod.itemStaffKongjian.skill2=§c技能2: 随机传送. (M : %d) (潜行状态)
-zijingmod.itemStaffFengyin.skill1=§c技能1: 发射封印弹. (M : %d)
-zijingmod.itemStaffFengyin.skill2=§c技能2: 召唤铁傀儡. (M : %d) (潜行状态)
+zijingmod.itemStaffShijian.skill1=§c技能1: 发射封印弹. (M : %d)
+zijingmod.itemStaffShijian.skill2=§c技能2: 使周围作物快速增长. (M : %d) (潜行状态)
+zijingmod.itemStaffShijian.skill3=§c技能3: 使单个作物快速增长. (M : %d)
 
 #FY_Tool---------------------------------------------------------------------------
 zijingmod.itemToolZijingJian.1=§4击中敌人，减速敌人%d秒。

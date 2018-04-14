@@ -35,7 +35,7 @@ import com.zijing.items.staff.ItemArrowFengyinDan;
 import com.zijing.items.staff.ItemArrowHuoDan;
 import com.zijing.items.staff.ItemArrowXukongDan;
 import com.zijing.items.staff.ItemStaffBingxue;
-import com.zijing.items.staff.ItemStaffFengyin;
+import com.zijing.items.staff.ItemStaffShijian;
 import com.zijing.items.staff.ItemStaffKongjian;
 import com.zijing.items.staff.ItemStaffLieyan;
 import com.zijing.items.staff.ItemZilingZhu;
@@ -101,7 +101,7 @@ public class BaseControl{
 	public static Item itemStaffBingxue;
 	public static Item itemStaffLieyan;
 	public static Item itemStaffKongjian;
-	public static Item itemStaffFengyin;
+	public static Item itemStaffShijian;
 	public static Item itemArrowBingDan;
 	public static Item itemArrowHuoDan;
 	public static Item itemArrowXukongDan;
@@ -142,7 +142,7 @@ public class BaseControl{
 		itemStaffBingxue = new ItemStaffBingxue();
 		itemStaffLieyan = new ItemStaffLieyan();
 		itemStaffKongjian = new ItemStaffKongjian();
-		itemStaffFengyin = new ItemStaffFengyin();
+		itemStaffShijian = new ItemStaffShijian();
 		itemArrowBingDan = new ItemArrowBingDan();
 		itemArrowHuoDan = new ItemArrowHuoDan();
 		itemArrowXukongDan = new ItemArrowXukongDan();
@@ -202,7 +202,7 @@ public class BaseControl{
 		GameData.register_impl(itemStaffBingxue);
 		GameData.register_impl(itemStaffLieyan);
 		GameData.register_impl(itemStaffKongjian);
-		GameData.register_impl(itemStaffFengyin);
+		GameData.register_impl(itemStaffShijian);
 		GameData.register_impl(itemArrowBingDan);
 		GameData.register_impl(itemArrowHuoDan);
 		GameData.register_impl(itemArrowXukongDan);
@@ -252,7 +252,7 @@ public class BaseControl{
 		itemResourceLoad(itemStaffBingxue);
 		itemResourceLoad(itemStaffLieyan);
 		itemResourceLoad(itemStaffKongjian);
-		itemResourceLoad(itemStaffFengyin);
+		itemResourceLoad(itemStaffShijian);
 		itemResourceLoad(itemArrowBingDan);
 		itemResourceLoad(itemArrowHuoDan);
 		itemResourceLoad(itemArrowXukongDan);
@@ -300,7 +300,7 @@ public class BaseControl{
 		addRecipe(ConstantUtil.MODID + ":HC_itemStaffBingxue", ConstantUtil.MODID, new ItemStack(itemStaffBingxue, 1), null, Blocks.ICE, itemZilingZhu, null, Blocks.ICE, Blocks.ICE, Blocks.ICE, null, null);
 		addRecipe(ConstantUtil.MODID + ":HC_itemStaffLieyan", ConstantUtil.MODID, new ItemStack(itemStaffLieyan, 1), null, Blocks.MAGMA, itemZilingZhu, null, Blocks.MAGMA, Blocks.MAGMA, Blocks.MAGMA, null, null);
 		addRecipe(ConstantUtil.MODID + ":HC_itemStaffKongjian", ConstantUtil.MODID, new ItemStack(itemStaffKongjian, 1), null, Items.ENDER_EYE, itemZilingZhu, null, Items.ENDER_EYE, Items.ENDER_EYE, Items.ENDER_EYE, null, null);
-		addRecipe(ConstantUtil.MODID + ":HC_itemStaffFengyin", ConstantUtil.MODID, new ItemStack(itemStaffFengyin, 1), null, Blocks.GOLD_BLOCK, itemZilingZhu, null, Blocks.GOLD_BLOCK, Blocks.GOLD_BLOCK, Blocks.GOLD_BLOCK, null, null);
+		addRecipe(ConstantUtil.MODID + ":HC_itemStaffShikong", ConstantUtil.MODID, new ItemStack(itemStaffShijian, 1), null, Blocks.GOLD_BLOCK, itemZilingZhu, null, Blocks.GOLD_BLOCK, Blocks.GOLD_BLOCK, Blocks.GOLD_BLOCK, null, null);
 		//tool
 		addRecipe(ConstantUtil.MODID + ":HC_itemToolZijingJian", ConstantUtil.MODID, new ItemStack(itemToolZijingJian, 1), null, itemZijing, null, null, itemZijing, null, null, Items.STICK, null);
 		addRecipe(ConstantUtil.MODID + ":HC_itemToolZijingFu", ConstantUtil.MODID, new ItemStack(itemToolZijingFu, 1), itemZijing, itemZijing, null, itemZijing, Items.STICK, null, null, Items.STICK, null);

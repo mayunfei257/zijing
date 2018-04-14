@@ -74,7 +74,7 @@ public class EntityDisciple extends EntityFriendly implements IRangedAttackMob{
 	protected void initEntityAI() {
 		this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAITempt(this, 1.0D, false, Sets.newHashSet(BaseControl.itemZiqi, BaseControl.itemZijing, BaseControl.itemDanZiling, Item.getItemFromBlock(Blocks.RED_FLOWER), Item.getItemFromBlock(Blocks.YELLOW_FLOWER))));
-        this.tasks.addTask(2, new EntityAIAttackRangedZJ(this, 1.0D, 15, 2.83D, 32.0F, ItemStaffBingxue.MagicSkill1));
+        this.tasks.addTask(2, new EntityAIAttackRangedZJ(this, 1.0D, 15, 2.83D, 32.0F, SkillEntity.MagicSkill_BingDan));
         this.tasks.addTask(3, new EntityAIAttackMeleeZJ(this, 1.0D, 10, false));
         this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
         

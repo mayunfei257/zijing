@@ -57,7 +57,7 @@ public class EntityEvilTaoist extends EntityEvil implements IRangedAttackMob{
 	@Override
 	protected void initEntityAI() {
 		this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIAttackRangedZJ(this, 1.2D, 10, 3.6D, 32.0F, ItemStaffBingxue.MagicSkill1));
+        this.tasks.addTask(1, new EntityAIAttackRangedZJ(this, 1.2D, 10, 3.6D, 32.0F, SkillEntity.MagicSkill_BingDan));
         this.tasks.addTask(2, new EntityAIAttackMeleeZJ(this, 1.2D, 10, false));
         this.tasks.addTask(3, new EntityAIOpenDoor(this, true));
         this.tasks.addTask(4, new EntityAIMoveTowardsTarget(this, 1.2D, 32.0F));

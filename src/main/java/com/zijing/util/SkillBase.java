@@ -214,11 +214,11 @@ public class SkillBase {
 		return blockPos;
 	}
 	
-	protected static BlockPos teleportUpBase(EntityLivingBase entityLivingBase, BlockPos pos, boolean checkBedRock) {
+	protected static BlockPos teleportUpBase(EntityLivingBase entityLivingBase, BlockPos basePos, boolean checkBedRock) {
 		World world = entityLivingBase.world;
-		int x = pos.getX();
-		int y = pos.getY();
-		int z = pos.getZ();
+		int x = basePos.getX();
+		int y = basePos.getY();
+		int z = basePos.getZ();
 		for(; y <= WORLD_MAX_HIGHT; y++) {
 			BlockPos blockPos = new BlockPos(x, y, z);
 			if(checkBedRock && world.getBlockState(blockPos).getBlock() == Blocks.BEDROCK) { break; }
@@ -234,11 +234,11 @@ public class SkillBase {
 		return null;
 	}
 
-	protected static BlockPos teleportDownBase(EntityLivingBase entityLivingBase, BlockPos pos, boolean checkBedRock) {
+	protected static BlockPos teleportDownBase(EntityLivingBase entityLivingBase, BlockPos basePos, boolean checkBedRock) {
 		World world = entityLivingBase.world;
-		int x = pos.getX();
-		int y = pos.getY();
-		int z = pos.getZ();
+		int x = basePos.getX();
+		int y = basePos.getY();
+		int z = basePos.getZ();
 		for(; y > 0; y--) {
 			BlockPos blockPos = new BlockPos(x, y, z);
 			if(checkBedRock && world.getBlockState(blockPos).getBlock() == Blocks.BEDROCK) { break; }

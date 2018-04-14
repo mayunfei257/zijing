@@ -12,6 +12,7 @@ import com.zijing.items.tool.ItemArmorZijingHelmet;
 import com.zijing.items.tool.ItemArmorZijingLegs;
 import com.zijing.itf.EntityShepherdCapability;
 import com.zijing.util.EntityUtil;
+import com.zijing.util.SkillEntity;
 import com.zijing.util.StringUtil;
 
 import net.minecraft.client.Minecraft;
@@ -48,12 +49,12 @@ public class ZijingEvent {
 				ItemStack offhandStack =  player.getHeldItemOffhand();
 				if(event.getDistance() > 3 && ((null != mainHandStack && mainHandStack.getItem() == BaseControl.itemZilingZhu) || (null != offhandStack && offhandStack.getItem() == BaseControl.itemZilingZhu)) && ShepherdProvider.hasCapabilityFromPlayer(player)) {
 					ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
-					if(shepherdCapability.getMagic() >= ItemZilingZhu.MagicSkill5) {
+					if(shepherdCapability.getMagic() >= SkillEntity.MagicSkill_ImmuneFallDamage) {
 						event.setDistance(0);
-						shepherdCapability.setMagic(shepherdCapability.getMagic() - ItemZilingZhu.MagicSkill5);
+						shepherdCapability.setMagic(shepherdCapability.getMagic() - SkillEntity.MagicSkill_ImmuneFallDamage);
 						ShepherdProvider.updateChangeToClient(player);
 					}else {
-						player.sendMessage(StringUtil.MagicIsNotEnough(ItemZilingZhu.MagicSkill5));
+						player.sendMessage(StringUtil.MagicIsNotEnough(SkillEntity.MagicSkill_ImmuneFallDamage));
 					}
 				}
 			}

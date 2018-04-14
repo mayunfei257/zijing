@@ -25,7 +25,7 @@ item.itemBookChuansong.name=¡ì6chuansongShu
 item.itemStaffBingxue.name=¡ì6bingxueFazhang
 item.itemStaffLieyan.name=¡ì6lieyanFazhang
 item.itemStaffKongjian.name=¡ì6kongjianFazhang
-item.itemStaffFengyin.name=¡ì6fengyinFazhang
+item.itemStaffShijian.name=¡ì6shijianFazhang
 item.itemArrowBingDan.name=¡ì6bingDan
 item.itemArrowHuoDan.name=¡ì6huoDan
 item.itemArrowXukongDan.name=¡ì6xukongDan
@@ -87,8 +87,9 @@ zijingmod.itemStaffLieyan.skill1=¡ìcSkill 1: Throw fire ball. (M : %d)
 zijingmod.itemStaffLieyan.skill2=¡ìcSkill 2: Flames surround. (M : %d) (Sneaking)
 zijingmod.itemStaffKongjian.skill1=¡ìcSkill 1: Throw transmission ball. (M : %d)
 zijingmod.itemStaffKongjian.skill2=¡ìcSkill 2: Random transmission. (M : %d) (Sneaking)
-zijingmod.itemStaffFengyin.skill1=¡ìcSkill 1: Throw seal ball. (M : %d)
-zijingmod.itemStaffFengyin.skill2=¡ìcSkill 2: Summons ironGolem. (M : %d) (Sneaking)
+zijingmod.itemStaffShijian.skill1=¡ìcSkill 1: Throw seal ball. (M : %d)
+zijingmod.itemStaffShijian.skill2=¡ìcSkill 2: Make the surrounding crop grow rapidly. (M : %d) (Sneaking)
+zijingmod.itemStaffShijian.skill3=¡ìcSkill 3: Make a single crop grow quickly. (M : %d)
 
 #FY_Tool--------------------------------------------------------------------------- 
 zijingmod.itemToolZijingJian.1=¡ì4Hit the enemy,decelerate enemies for %d second.
