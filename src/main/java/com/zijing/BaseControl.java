@@ -49,6 +49,7 @@ import com.zijing.items.tool.ItemToolZijingDun;
 import com.zijing.items.tool.ItemToolZijingFu;
 import com.zijing.items.tool.ItemToolZijingGao;
 import com.zijing.items.tool.ItemToolZijingJian;
+import com.zijing.test.ItemStaffWaigua;
 import com.zijing.util.ConstantUtil;
 
 import net.minecraft.block.Block;
@@ -106,7 +107,7 @@ public class BaseControl{
 	public static Item itemArrowHuoDan;
 	public static Item itemArrowXukongDan;
 	public static Item itemArrowFengyinDan;
-//	public static Item itemStaffWaigua;
+	public static Item itemStaffWaigua;
 	//tool
 	public static Item itemToolZijingJian;
 	public static Item itemToolZijingFu;
@@ -147,7 +148,7 @@ public class BaseControl{
 		itemArrowHuoDan = new ItemArrowHuoDan();
 		itemArrowXukongDan = new ItemArrowXukongDan();
 		itemArrowFengyinDan = new ItemArrowFengyinDan();
-//		itemStaffWaigua = new ItemStaffWaigua();
+		itemStaffWaigua = new ItemStaffWaigua();
 		//tool
 		itemToolZijingJian = new ItemToolZijingJian();
 		itemToolZijingFu = new ItemToolZijingFu();
@@ -207,7 +208,7 @@ public class BaseControl{
 		GameData.register_impl(itemArrowHuoDan);
 		GameData.register_impl(itemArrowXukongDan);
 		GameData.register_impl(itemArrowFengyinDan);
-//		GameData.register_impl(itemStaffWaigua);
+		GameData.register_impl(itemStaffWaigua);
 		//tool
 		GameData.register_impl(itemToolZijingJian);
 		GameData.register_impl(itemToolZijingFu);
@@ -257,7 +258,7 @@ public class BaseControl{
 		itemResourceLoad(itemArrowHuoDan);
 		itemResourceLoad(itemArrowXukongDan);
 		itemResourceLoad(itemArrowFengyinDan);
-//		itemResourceLoad(itemStaffWaigua);
+		itemResourceLoad(itemStaffWaigua);
 		//tool
 		itemResourceLoad(itemToolZijingJian);
 		itemResourceLoad(itemToolZijingFu);

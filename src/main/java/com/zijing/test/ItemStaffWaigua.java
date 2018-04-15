@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.zijing.BaseControl;
 import com.zijing.ZijingMod;
 import com.zijing.ZijingTab;
 import com.zijing.itf.MagicConsumer;
@@ -35,6 +36,9 @@ public class ItemStaffWaigua extends Item  implements MagicConsumer{
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, final EntityPlayer player, EnumHand hand){
+		if(!world.isRemote && player.isSneaking()) {
+			Building.getinstance().buildArableLand(world, player.getPosition().down(), BaseControl.blockZilingCao);
+		}
         return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, player.getHeldItem(hand));
 	}
 	
