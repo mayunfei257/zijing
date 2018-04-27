@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "zijingmod:blocks/pumpkin_top",
+        "front": "zijingmod:blocks/pumpkin_face_off",
+        "side": "zijingmod:blocks/pumpkin_side"
+    }
+}

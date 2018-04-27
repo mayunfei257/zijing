@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "zijingmod:blocksupernangua" },
+        "facing=south": { "model": "zijingmod:blocksupernangua", "y": 180 },
+        "facing=west":  { "model": "zijingmod:blocksupernangua", "y": 270 },
+        "facing=east":  { "model": "zijingmod:blocksupernangua", "y": 90 }
+    }
+}

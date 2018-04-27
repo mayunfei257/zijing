@@ -1,6 +1,7 @@
 package com.zijing;
 
 import com.zijing.blocks.BlockGuhuaNiunaiKuai;
+import com.zijing.blocks.BlockSuperNangua;
 import com.zijing.blocks.BlockZijingKuai;
 import com.zijing.blocks.BlockZilingCao;
 import com.zijing.blocks.tool.BlockZilingMieshaZhen;
@@ -19,9 +20,9 @@ import com.zijing.entity.EntityArrowXukongDan;
 import com.zijing.entity.EntityDisciple;
 import com.zijing.entity.EntitySuperIronGolem;
 import com.zijing.entity.EntitySuperSnowman;
+import com.zijing.entity.render.RenderDisciple;
 import com.zijing.entity.render.RenderSuperIronGolem;
 import com.zijing.entity.render.RenderSuperSnowman;
-import com.zijing.entity.render.RenderDisciple;
 import com.zijing.items.ItemDanShenshu;
 import com.zijing.items.ItemDanZiling;
 import com.zijing.items.ItemGuhuaNiunai;
@@ -35,9 +36,9 @@ import com.zijing.items.staff.ItemArrowFengyinDan;
 import com.zijing.items.staff.ItemArrowHuoDan;
 import com.zijing.items.staff.ItemArrowXukongDan;
 import com.zijing.items.staff.ItemStaffBingxue;
-import com.zijing.items.staff.ItemStaffShijian;
 import com.zijing.items.staff.ItemStaffKongjian;
 import com.zijing.items.staff.ItemStaffLieyan;
+import com.zijing.items.staff.ItemStaffShijian;
 import com.zijing.items.staff.ItemZilingZhu;
 import com.zijing.items.tool.ItemArmorZijingBody;
 import com.zijing.items.tool.ItemArmorZijingBoots;
@@ -85,6 +86,8 @@ public class BaseControl{
 	public static Block blockZijingKuai;
 	public static Block blockZilingMieshaZhen;
 	public static Block blockZilingZhaohuanZhen;
+	public static Block blockSuperNangua;
+	
 //	public static Block blockZhulingTai;
 	
 	//item
@@ -127,6 +130,7 @@ public class BaseControl{
 		blockZijingKuai = new BlockZijingKuai();
 		blockZilingMieshaZhen = new BlockZilingMieshaZhen();
 		blockZilingZhaohuanZhen = new BlockZilingZhaohuanZhen();
+		blockSuperNangua = new BlockSuperNangua();
 //		blockZhulingTai = new BlockZhulingTai(false);
 		//item
 		itemGuhuaNiunai = new ItemGuhuaNiunai();
@@ -184,6 +188,8 @@ public class BaseControl{
 		GameData.register_impl(new ItemBlock(blockZilingMieshaZhen).setRegistryName(blockZilingMieshaZhen.getRegistryName()));
 		GameData.register_impl(blockZilingZhaohuanZhen);
 		GameData.register_impl(new ItemBlock(blockZilingZhaohuanZhen).setRegistryName(blockZilingZhaohuanZhen.getRegistryName()));
+		GameData.register_impl(blockSuperNangua);
+		GameData.register_impl(new ItemBlock(blockSuperNangua).setRegistryName(blockSuperNangua.getRegistryName()));
 //		GameData.register_impl(blockZhulingTai);
 //		GameData.register_impl(new ItemBlock(blockZhulingTai).setRegistryName(blockZhulingTai.getRegistryName()));
 
@@ -237,6 +243,7 @@ public class BaseControl{
 		bolckResourceLoad(blockZijingKuai);
 		bolckResourceLoad(blockZilingMieshaZhen);
 		bolckResourceLoad(blockZilingZhaohuanZhen);
+		bolckResourceLoad(blockSuperNangua);
 //		bolckResourceLoad(blockZhulingTai);
 		//item
 		itemResourceLoad(itemGuhuaNiunai);
@@ -285,6 +292,8 @@ public class BaseControl{
 		addRecipe(ConstantUtil.MODID + ":HC_itemZijing", ConstantUtil.MODID, new ItemStack(itemZijing, 1), itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi);
 		addRecipe(ConstantUtil.MODID + ":HC_blockZijingKuai", ConstantUtil.MODID, new ItemStack(blockZijingKuai, 1), itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing);
 		//block
+		addRecipe(ConstantUtil.MODID + ":HC_blockSuperNangua1", ConstantUtil.MODID, new ItemStack(blockSuperNangua, 1), itemZiqi, itemZiqi, itemZiqi, itemZiqi, Blocks.PUMPKIN, itemZiqi, itemZiqi, itemZiqi, itemZiqi);
+		addRecipe(ConstantUtil.MODID + ":HC_blockSuperNangua2", ConstantUtil.MODID, new ItemStack(blockSuperNangua, 1), itemZiqi, itemZiqi, itemZiqi, itemZiqi, Blocks.LIT_PUMPKIN, itemZiqi, itemZiqi, itemZiqi, itemZiqi);
 		addRecipe(ConstantUtil.MODID + ":HC_blockZilingMieshaZhen", ConstantUtil.MODID, new ItemStack(blockZilingMieshaZhen, 1), itemZiqi, itemZiqi, itemZiqi, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, itemToolZijingJian, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, itemZijing, itemZijing, itemZijing);
 		addRecipe(ConstantUtil.MODID + ":HC_blockZilingZhaohuanZhen", ConstantUtil.MODID, new ItemStack(blockZilingZhaohuanZhen, 1), itemZijing, Items.ENDER_PEARL, itemZijing, blockZijingKuai, Blocks.PUMPKIN, blockZijingKuai, blockZijingKuai, Blocks.IRON_BLOCK, blockZijingKuai);
 		//item and food
