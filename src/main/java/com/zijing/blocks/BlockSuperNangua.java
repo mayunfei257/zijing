@@ -5,6 +5,8 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicate;
 import com.zijing.BaseControl;
 import com.zijing.ZijingTab;
+import com.zijing.entity.EntitySuperIronGolem;
+import com.zijing.entity.EntitySuperSnowman;
 import com.zijing.util.ConstantUtil;
 
 import net.minecraft.advancements.CriteriaTriggers;
@@ -21,8 +23,6 @@ import net.minecraft.block.state.pattern.BlockPattern;
 import net.minecraft.block.state.pattern.BlockStateMatcher;
 import net.minecraft.block.state.pattern.FactoryBlockPattern;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityIronGolem;
-import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
@@ -76,9 +76,12 @@ public class BlockSuperNangua extends BlockHorizontal{
                 worldIn.setBlockState(blockworldstate.getPos(), Blocks.AIR.getDefaultState(), 2);
             }
 
-            EntitySnowman entitysnowman = new EntitySnowman(worldIn);
+            EntitySuperSnowman entitysnowman = new EntitySuperSnowman(worldIn);
             BlockPos blockpos1 = blockpattern$patternhelper.translateOffset(0, 2, 0).getPos();
             entitysnowman.setLocationAndAngles((double)blockpos1.getX() + 0.5D, (double)blockpos1.getY() + 0.05D, (double)blockpos1.getZ() + 0.5D, 0.0F, 0.0F);
+            entitysnowman.setHomePos(blockpos1);
+            entitysnowman.setMaxDistance(32);
+            entitysnowman.updataSwordDamageAndArmorValue();
             worldIn.spawnEntity(entitysnowman);
 
             for (EntityPlayerMP entityplayermp : worldIn.getEntitiesWithinAABB(EntityPlayerMP.class, entitysnowman.getEntityBoundingBox().grow(5.0D))){
@@ -104,9 +107,11 @@ public class BlockSuperNangua extends BlockHorizontal{
                 }
 
                 BlockPos blockpos = blockpattern$patternhelper.translateOffset(1, 2, 0).getPos();
-                EntityIronGolem entityirongolem = new EntityIronGolem(worldIn);
-                entityirongolem.setPlayerCreated(true);
+                EntitySuperIronGolem entityirongolem = new EntitySuperIronGolem(worldIn);
                 entityirongolem.setLocationAndAngles((double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.05D, (double)blockpos.getZ() + 0.5D, 0.0F, 0.0F);
+                entityirongolem.setHomePos(blockpos);
+                entityirongolem.setMaxDistance(32);
+                entityirongolem.updataSwordDamageAndArmorValue();
                 worldIn.spawnEntity(entityirongolem);
 
                 for (EntityPlayerMP entityplayermp1 : worldIn.getEntitiesWithinAABB(EntityPlayerMP.class, entityirongolem.getEntityBoundingBox().grow(5.0D))){

@@ -26,6 +26,7 @@ import com.zijing.entity.render.RenderSuperSnowman;
 import com.zijing.items.ItemDanShenshu;
 import com.zijing.items.ItemDanZiling;
 import com.zijing.items.ItemGuhuaNiunai;
+import com.zijing.items.ItemQiankunDai;
 import com.zijing.items.ItemZijing;
 import com.zijing.items.ItemZiqi;
 import com.zijing.items.card.ItemBookChuansong;
@@ -97,6 +98,7 @@ public class BaseControl{
 	public static Item itemDanZiling;
 	public static Item itemDanShenshu;
 	public static Item itemZilingZhu;
+	public static Item itemQiankunDai;
 	//card
 	public static Item itemCardFengyin;
 	public static Item itemCardChuansong;
@@ -139,6 +141,7 @@ public class BaseControl{
 		itemDanZiling = new ItemDanZiling();
 		itemDanShenshu = new ItemDanShenshu();
 		itemZilingZhu = new ItemZilingZhu();
+		itemQiankunDai = new ItemQiankunDai();
 		//card
 		itemCardFengyin = new ItemCardFengyin();
 		itemCardChuansong = new ItemCardChuansong();
@@ -201,6 +204,7 @@ public class BaseControl{
 		GameData.register_impl(itemDanZiling);
 		GameData.register_impl(itemDanShenshu);
 		GameData.register_impl(itemZilingZhu);
+		GameData.register_impl(itemQiankunDai);
 		//card
 		GameData.register_impl(itemCardFengyin);
 		GameData.register_impl(itemCardChuansong);
@@ -252,6 +256,7 @@ public class BaseControl{
 		itemResourceLoad(itemDanZiling);
 		itemResourceLoad(itemDanShenshu);
 		itemResourceLoad(itemZilingZhu);
+		itemResourceLoad(itemQiankunDai);
 		//card
 		itemResourceLoad(itemCardFengyin);
 		itemResourceLoad(itemCardChuansong);
@@ -302,6 +307,7 @@ public class BaseControl{
 		addRecipe(ConstantUtil.MODID + ":HC_itemDanShenshu2", ConstantUtil.MODID, new ItemStack(itemDanShenshu, 4), Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS, itemZiqi, Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS, Items.BEETROOT_SEEDS);
 		addRecipe(ConstantUtil.MODID + ":HC_itemDanShenshu3", ConstantUtil.MODID, new ItemStack(itemDanShenshu, 4), Items.MELON_SEEDS, Items.MELON_SEEDS, Items.MELON_SEEDS, Items.MELON_SEEDS, itemZiqi, Items.MELON_SEEDS, Items.MELON_SEEDS, Items.MELON_SEEDS, Items.MELON_SEEDS);
 		addRecipe(ConstantUtil.MODID + ":HC_itemDanShenshu4", ConstantUtil.MODID, new ItemStack(itemDanShenshu, 4), Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, itemZiqi, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS, Items.PUMPKIN_SEEDS);
+		addRecipe(ConstantUtil.MODID + ":HC_itemQiankunDai", ConstantUtil.MODID, new ItemStack(itemQiankunDai, 1), Items.STRING, Items.LEATHER, Items.STRING, Items.LEATHER, itemZijing, Items.LEATHER, Items.STRING, Items.LEATHER, Items.STRING);
 		//card
 		addRecipe(ConstantUtil.MODID + ":HC_itemCardChuansong", ConstantUtil.MODID, new ItemStack(itemCardChuansong, 1), itemZiqi, Items.PAPER, itemZiqi, Items.PAPER, Items.ENDER_PEARL, Items.PAPER, itemZiqi, Items.PAPER, itemZiqi);
 		addRecipe(ConstantUtil.MODID + ":HC_itemBookChuansong", ConstantUtil.MODID, new ItemStack(itemBookChuansong, 1), itemZiqi, Items.BOOK, itemZiqi, Items.BOOK, Items.ENDER_PEARL, Items.BOOK, itemZiqi, Items.BOOK, itemZiqi);

@@ -5,6 +5,7 @@ import com.zijing.gui.GuiBookChuansongUse;
 import com.zijing.gui.GuiCardChuansong;
 import com.zijing.gui.GuiEntityCapability;
 import com.zijing.gui.GuiPlayeryCapability;
+import com.zijing.gui.GuiQiankunDai;
 import com.zijing.gui.GuiZhulingTai;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,6 +27,8 @@ public class ZijingGuiHandler implements IGuiHandler {
 			return new GuiPlayeryCapability.MyContainer(world, x, y, z, player);
 		if (id == GuiEntityCapability.GUIID)//6
 			return new GuiEntityCapability.MyContainer(world, x, player);
+		if (id == GuiQiankunDai.GUIID)//7
+			return new GuiQiankunDai.MyContainer(world, x, y, z, player);
 		return null;
 	}
 
@@ -43,6 +46,8 @@ public class ZijingGuiHandler implements IGuiHandler {
 			return new GuiPlayeryCapability.MyGuiContainer(world, x, y, z, player);
 		if (id == GuiEntityCapability.GUIID)//6
 			return new GuiEntityCapability.MyGuiContainer(world, x, player);
+		if (id == GuiQiankunDai.GUIID)//7
+			return new GuiQiankunDai.MyGuiContainer(world, x, y, z, player);
 		return null;
 	}
 }

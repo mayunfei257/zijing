@@ -103,7 +103,7 @@ public class Config {
 		this.STAFF_MAX_MAGIC_ENERGY = configuration.get("MAGIC", "STAFF_MAX_MAGIC_ENERGY", 512, "The max magic energy of the staff.").getInt();
 		this.STAFF_MAX_DISTANCE = configuration.get("MAGIC", "STAFF_MAX_DISTANCE", 10000, "The max distance of staff to teleport.").getInt();
 		
-		this.MAX_LEVEL = configuration.get("PLAYER", "MAX_LEVEL", 512, "The player max level.").getInt();
+		this.MAX_LEVEL = configuration.get("PLAYER", "MAX_LEVEL", 128, "The player max level.").getInt();
 		this.RESTORE_NEED_FOOD = (float) configuration.get("PLAYER", "RESTORE_NEED_FOOD", 0.004D, "The player restore need food every tick.").getDouble();
 		this.UPGRADE_NEED_XP_K = configuration.get("PLAYER", "UPGRADE_NEED_XP_K", 50, "The player upgrade need xp K every level.").getInt();
 		this.UPGRADE_NEED_MAGIC_K = configuration.get("PLAYER", "UPGRADE_NEED_MAGIC_K", 50, "The player upgrade need magic K every level.").getInt();
