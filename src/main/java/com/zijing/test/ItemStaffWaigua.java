@@ -45,10 +45,13 @@ public class ItemStaffWaigua extends Item  implements MagicConsumer{
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
 		if(!world.isRemote) {
+//			if(player.isSneaking()) {
+//				Building.getinstance().buildBase(world, pos);
+//			}else {
+//				Building.getinstance().buildASmallHouse(world, pos);
+//			}
 			if(player.isSneaking()) {
-				Building.getinstance().buildBase(world, pos);
-			}else {
-				Building.getinstance().buildASmallHouse(world, pos);
+				Building.getinstance().buildArableLand2(world, pos, BaseControl.blockZilingCao);
 			}
 		}
 		return EnumActionResult.SUCCESS;

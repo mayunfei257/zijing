@@ -152,7 +152,37 @@ public class Building {
 		}
 		return true;
 	}
-	
+
+	public boolean buildArableLand2(World world, BlockPos baseBlockPos, Block plant) {
+		IBlockState fieldRoad = Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK);
+		IBlockState waterCover = Blocks.WOODEN_SLAB.getDefaultState().withProperty(BlockWoodSlab.VARIANT, BlockPlanks.EnumType.DARK_OAK).withProperty(BlockWoodSlab.HALF, BlockSlab.EnumBlockHalf.BOTTOM);
+		
+		//arable land
+		for(int x = -5; x <= 5; x++) {
+			for(int z = -5; z <= 5; z++) {
+				if(x == -5 || x == 5 || z == -5 || z == 5) {
+					BlockPos blockPos = new BlockPos(baseBlockPos.getX() + x, baseBlockPos.getY(), baseBlockPos.getZ() + z);
+					world.setBlockState(blockPos , fieldRoad, 11);
+					if(world.getBlockState(blockPos.up()).getBlock() != Blocks.AIR) {
+						world.setBlockState(blockPos.up(), Blocks.AIR.getDefaultState(), 11);
+					}
+				}else if(x == 0 && z == 0){
+					BlockPos blockPos = new BlockPos(baseBlockPos.getX() + x, baseBlockPos.getY(), baseBlockPos.getZ() + z);
+					world.setBlockState(blockPos, Blocks.WATER.getDefaultState(), 11);
+					world.setBlockState(blockPos.up(), waterCover, 11);
+				}else {
+					BlockPos blockPos = new BlockPos(baseBlockPos.getX() + x, baseBlockPos.getY(), baseBlockPos.getZ() + z);
+					world.setBlockState(blockPos, Blocks.FARMLAND.getDefaultState(), 11);
+					if(null != plant) {
+						world.setBlockState(blockPos.up(), plant.getDefaultState(), 11);
+					}else if(world.getBlockState(blockPos.up()).getBlock() != Blocks.AIR) {
+						world.setBlockState(blockPos.up(), Blocks.AIR.getDefaultState(), 11);
+					}
+				}
+			}
+		}
+		return true;
+	}
 	
 	
 	
