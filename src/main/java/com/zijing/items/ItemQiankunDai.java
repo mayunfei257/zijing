@@ -50,7 +50,8 @@ public class ItemQiankunDai extends Item {
 		}
 		
 		if(itemStack.hasTagCompound() && null != itemStack.getTagCompound() && !world.isRemote){
-			player.openGui(ZijingMod.instance, GuiQiankunDai.GUIID, world, (int)player.posX, (int)(player.posY + 1.62D), (int)player.posZ);
+			int handValue = EnumHand.MAIN_HAND == hand ? 0 : 1;
+			player.openGui(ZijingMod.instance, GuiQiankunDai.GUIID, world, handValue, handValue, handValue);
 		}
 		return super.onItemRightClick(world, player, hand);
 	}

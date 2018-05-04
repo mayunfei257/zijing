@@ -5,9 +5,13 @@ import com.zijing.gui.GuiEntityCapability;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public abstract class EntityFriendly extends EntityShepherdCapability{
@@ -31,9 +35,16 @@ public abstract class EntityFriendly extends EntityShepherdCapability{
 			((ItemFoodDan)itemStack.getItem()).onFoodEatenByEntityFriendly(this);
             this.spawnParticles(EnumParticleTypes.VILLAGER_HAPPY);
 			itemStack.shrink(1);
+		}else if(itemStack.getItem() == Item.getItemFromBlock(Blocks.RED_FLOWER) || itemStack.getItem() == Item.getItemFromBlock(Blocks.YELLOW_FLOWER)){
+			this.experience += 5;
+			this.spawnParticles(EnumParticleTypes.HEART);
+			itemStack.shrink(1);
+		}else if(itemStack.getItem() == Items.DIAMOND && player.isSneaking()){//Test mode
+			this.experience += 10000;
 		}else if(!this.world.isRemote) {
 	        player.openGui(ZijingMod.instance, GuiEntityCapability.GUIID, world, this.getEntityId(), this.getEntityId(), this.getEntityId());
 		}
+		player.sendMessage(new TextComponentString("Home: X:" + this.homePos.getX() + " Y:" + this.homePos.getY() + "Z:" + this.homePos.getZ()));
 		return true;
     }
     

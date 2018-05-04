@@ -34,7 +34,6 @@ import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -42,11 +41,9 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -137,22 +134,10 @@ public class EntitySuperSnowman extends EntityFriendly implements IRangedAttackM
 	public void onLivingUpdate() {
 		if(!this.isDead && this.getHealth() > 0) {
 			if(this.maxDistance > 0 && this.checkHomeTick <= 1) {
-					this.checkHomeTick = 100000000;
+					this.checkHomeTick = 10000000;
 			}
 		}
 		super.onLivingUpdate();
-	}
-
-	@Override
-	public boolean processInteract(EntityPlayer player, EnumHand hand) {
-		ItemStack itemStack = player.getHeldItem(hand);
-		if(itemStack.getItem() == Items.DIAMOND && player.isSneaking()){
-			this.experience += 10000;
-			player.sendMessage(new TextComponentString("Home: X:" + this.homePos.getX() + " Y:" + this.homePos.getY() + "Z:" + this.homePos.getZ()));
-		}else {
-			super.processInteract(player, hand);
-		}
-		return true;
 	}
 	
     @Nullable

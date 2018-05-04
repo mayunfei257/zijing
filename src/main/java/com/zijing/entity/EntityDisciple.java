@@ -7,7 +7,6 @@ import com.google.common.collect.Sets;
 import com.zijing.BaseControl;
 import com.zijing.entity.ai.EntityAIAttackMeleeZJ;
 import com.zijing.entity.ai.EntityAIAttackRangedZJ;
-import com.zijing.items.staff.ItemStaffBingxue;
 import com.zijing.itf.EntityEvil;
 import com.zijing.itf.EntityFriendly;
 import com.zijing.util.ConstantUtil;
@@ -44,7 +43,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.translation.I18n;
@@ -150,15 +148,7 @@ public class EntityDisciple extends EntityFriendly implements IRangedAttackMob{
 	@Override
 	public boolean processInteract(EntityPlayer player, EnumHand hand) {
 		ItemStack itemStack = player.getHeldItem(hand);
-		if(itemStack.getItem() == Item.getItemFromBlock(Blocks.RED_FLOWER) || itemStack.getItem() == Item.getItemFromBlock(Blocks.YELLOW_FLOWER)){
-			this.experience += 5;
-			this.spawnParticles(EnumParticleTypes.HEART);
-			itemStack.shrink(1);
-		}else if(itemStack.getItem() == Items.DIAMOND && player.isSneaking()){
-			this.experience += 10000;
-		}else {
-			super.processInteract(player, hand);
-		}
+		super.processInteract(player, hand);
 		return true;
 	}
 //	else if(!this.world.isRemote) {// && player instanceof EntityPlayerMP

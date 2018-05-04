@@ -17,6 +17,7 @@ import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -33,8 +34,10 @@ public class GuiQiankunDai {
 		private NonNullList<ItemStack> items;
 
 
-		public MyContainer(World world, int i, int j, int k, EntityPlayer player) {
-			this.qiankunDaiTag = player.getActiveItemStack().getTagCompound();
+		public MyContainer(World world, int handValue, EntityPlayer player) {
+			EnumHand hand = 0 == handValue ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
+			hand = player.getHeldItem(hand).getItem() instanceof ItemQiankunDai ? hand : (hand == EnumHand.MAIN_HAND ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND);
+			this.qiankunDaiTag = player.getHeldItem(hand).getTagCompound();
 			
 			this.qiankunDaiSize = qiankunDaiTag.getInteger(ConstantUtil.MODID + ":invsize");
 			this.QKDInv = new InventoryBasic(ConstantUtil.MODID + ":qkdinventory", true, qiankunDaiSize);
@@ -90,8 +93,8 @@ public class GuiQiankunDai {
 	public static class MyGuiContainer extends GuiContainer {
 		private static final ResourceLocation texture = new ResourceLocation(ConstantUtil.MODID + ":shepherdqkbag.png");
 
-		public MyGuiContainer(World world, int i, int j, int k, EntityPlayer entity) {
-			super(new MyContainer(world, i, j, k, entity));
+		public MyGuiContainer(World world, int handValue, EntityPlayer entity) {
+			super(new MyContainer(world, handValue, entity));
 			this.xSize = 176;
 			this.ySize = 222;
 		}
