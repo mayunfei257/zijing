@@ -41,13 +41,17 @@ import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.village.Village;
 import net.minecraft.world.World;
@@ -117,7 +121,7 @@ public class EntitySuperIronGolem extends EntityFriendly implements IRangedAttac
         }
         super.updateAITasks();
     }
-
+	
 	@Override
     protected void applyEntityAttributes(){
         super.applyEntityAttributes();
@@ -178,6 +182,18 @@ public class EntitySuperIronGolem extends EntityFriendly implements IRangedAttac
 		this.shepherdCapability.setPhysicalDefense(this.shepherdCapability.getPhysicalDefense() * ConstantUtil.SPECIAL_K);
 		this.shepherdCapability.setBloodRestore(this.shepherdCapability.getBloodRestore() * ConstantUtil.SPECIAL_K);
 		EntityUtil.setEntityAllValue(this);
+	}
+
+	@Override
+	public boolean processInteract(EntityPlayer player, EnumHand hand) {
+		ItemStack itemStack = player.getHeldItem(hand);
+		if(itemStack.getItem() == Items.DIAMOND && player.isSneaking()){
+			this.experience += 10000;
+			player.sendMessage(new TextComponentString("Home: X:" + this.homePos.getX() + " Y:" + this.homePos.getY() + "Z:" + this.homePos.getZ()));
+		}else {
+			super.processInteract(player, hand);
+		}
+		return true;
 	}
     
     /**

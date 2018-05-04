@@ -25,7 +25,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemQiankunDai extends Item {
 	private String keyName = ConstantUtil.MODID + ":invsize";
 	
-	public static final int QKBagBaseSize = 1;
+	public static final int QKBagBaseSize = 54;
 	public static final int QKBagMaxSize = 54;
 	
 	public ItemQiankunDai(){

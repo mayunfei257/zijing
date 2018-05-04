@@ -6,8 +6,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.zijing.BaseControl;
 import com.zijing.entity.ai.EntityAIAttackRangedZJ;
+import com.zijing.entity.ai.EntityAIMoveToHome;
 import com.zijing.entity.ai.EntityAIPanicZJ;
-import com.zijing.items.staff.ItemStaffBingxue;
 import com.zijing.itf.EntityEvil;
 import com.zijing.itf.EntityFriendly;
 import com.zijing.util.ConstantUtil;
@@ -34,6 +34,7 @@ import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -41,9 +42,11 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -77,9 +80,10 @@ public class EntitySuperSnowman extends EntityFriendly implements IRangedAttackM
         this.tasks.addTask(2, new EntityAIAvoidEntity(this, IMob.class, 4.3F, 1.0D, 1.0D));
         this.tasks.addTask(3, new EntityAIPanicZJ(this, 1.5D, 16, 5, 8, 4, 4.3D));
         this.tasks.addTask(4, new EntityAIAttackRangedZJ(this, 1.0D, (int)(15/ConstantUtil.SPECIAL_K), 4.3D, 32.0F, SkillEntity.MagicSkill_BingDan));
-        this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D, 1.0000001E-5F));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(7, new EntityAILookIdle(this));
+        this.tasks.addTask(5, new EntityAIMoveToHome(this, 1.0D, 4));
+        this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1.0D, 1.0000001E-5F));
+        this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        this.tasks.addTask(8, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[0]));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityEvil.class, true, true));
         this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, true, false, IMob.MOB_SELECTOR));
@@ -127,6 +131,28 @@ public class EntitySuperSnowman extends EntityFriendly implements IRangedAttackM
 		this.shepherdCapability.setSpeed(this.shepherdCapability.getSpeed() * ConstantUtil.SPECIAL_K);
 		this.shepherdCapability.setMagicRestore(this.shepherdCapability.getMagicRestore() * ConstantUtil.SPECIAL_K);
 		EntityUtil.setEntityAllValue(this);
+	}
+
+	@Override
+	public void onLivingUpdate() {
+		if(!this.isDead && this.getHealth() > 0) {
+			if(this.maxDistance > 0 && this.checkHomeTick <= 1) {
+					this.checkHomeTick = 100000000;
+			}
+		}
+		super.onLivingUpdate();
+	}
+
+	@Override
+	public boolean processInteract(EntityPlayer player, EnumHand hand) {
+		ItemStack itemStack = player.getHeldItem(hand);
+		if(itemStack.getItem() == Items.DIAMOND && player.isSneaking()){
+			this.experience += 10000;
+			player.sendMessage(new TextComponentString("Home: X:" + this.homePos.getX() + " Y:" + this.homePos.getY() + "Z:" + this.homePos.getZ()));
+		}else {
+			super.processInteract(player, hand);
+		}
+		return true;
 	}
 	
     @Nullable

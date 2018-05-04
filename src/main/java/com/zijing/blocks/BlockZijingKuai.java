@@ -14,7 +14,7 @@ public class BlockZijingKuai extends Block{
         setHardness(50f);
         setResistance(1000.0f);
         setLightLevel(1.0f);
-        setHarvestLevel("pickaxe", 2);
+        setHarvestLevel("pickaxe", 0);
         setSoundType(SoundType.METAL);
 		setUnlocalizedName("blockZijingKuai");
 		setRegistryName(ConstantUtil.MODID + ":blockzijingkuai");

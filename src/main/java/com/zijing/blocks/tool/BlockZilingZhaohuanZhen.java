@@ -3,7 +3,6 @@ package com.zijing.blocks.tool;
 import java.util.Random;
 
 import com.zijing.ZijingTab;
-import com.zijing.entity.EntitySuperIronGolem;
 import com.zijing.util.ConstantUtil;
 
 import net.minecraft.block.Block;
@@ -35,7 +34,7 @@ public class BlockZilingZhaohuanZhen extends Block{
         setLightLevel(0f);
         setTickRandomly(true);
         setDefaultState(this.blockState.getBaseState().withProperty(AGE, Integer.valueOf(0)));
-        setHarvestLevel("pickaxe", 2);
+        setHarvestLevel("pickaxe", 0);
         setSoundType(SoundType.METAL);
 		setUnlocalizedName("blockZilingZhaohuanZhen");
 		setRegistryName(ConstantUtil.MODID + ":blockzilingzhaohuanzhen");

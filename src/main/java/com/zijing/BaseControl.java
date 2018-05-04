@@ -301,6 +301,7 @@ public class BaseControl{
 		addRecipe(ConstantUtil.MODID + ":HC_blockSuperNangua2", ConstantUtil.MODID, new ItemStack(blockSuperNangua, 1), itemZiqi, itemZiqi, itemZiqi, itemZiqi, Blocks.LIT_PUMPKIN, itemZiqi, itemZiqi, itemZiqi, itemZiqi);
 		addRecipe(ConstantUtil.MODID + ":HC_blockZilingMieshaZhen", ConstantUtil.MODID, new ItemStack(blockZilingMieshaZhen, 1), itemZiqi, itemZiqi, itemZiqi, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, itemToolZijingJian, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, itemZijing, itemZijing, itemZijing);
 		addRecipe(ConstantUtil.MODID + ":HC_blockZilingZhaohuanZhen", ConstantUtil.MODID, new ItemStack(blockZilingZhaohuanZhen, 1), itemZijing, Items.ENDER_PEARL, itemZijing, blockZijingKuai, Blocks.PUMPKIN, blockZijingKuai, blockZijingKuai, Blocks.IRON_BLOCK, blockZijingKuai);
+//		addRecipe(ConstantUtil.MODID + ":HC_blockZhulingTai", ConstantUtil.MODID, new ItemStack(blockZhulingTai, 1), itemZijing, Blocks.CAULDRON, itemZijing, itemZijing, Blocks.CRAFTING_TABLE, itemZijing, itemZijing, Blocks.ANVIL, itemZijing);
 		//item and food
 		addShapelessRecipe(ConstantUtil.MODID + ":HC_itemDanZiling1", ConstantUtil.MODID, new ItemStack(itemDanZiling, 2), Items.WHEAT, itemZiqi, Items.WHEAT);
 		addRecipe(ConstantUtil.MODID + ":HC_itemDanShenshu1", ConstantUtil.MODID, new ItemStack(itemDanShenshu, 4), Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, itemZiqi, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS);

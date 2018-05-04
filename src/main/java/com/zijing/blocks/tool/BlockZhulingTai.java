@@ -35,7 +35,7 @@ public class BlockZhulingTai extends BlockContainer{
 		setHardness(50f);
 		setResistance(1000.0f);
 		setSoundType(SoundType.METAL);
-		setHarvestLevel("pickaxe", 2);
+		setHarvestLevel("pickaxe", 0);
 		setUnlocalizedName("blockZhulingTai");
 		setRegistryName(ConstantUtil.MODID + ":blockzhulingtai");
 		setCreativeTab(ZijingTab.zijingTab);
