@@ -45,7 +45,7 @@ public class ItemZiqi extends ItemFood implements MagicSource{
 	@Override
 	public int getItemBurnTime(ItemStack itemStack){
 		if(itemStack.getItem() == BaseControl.itemZiqi)
-			return 16000;
+			return ZijingMod.config.getZIQI_BURN_TICK();
 		return 0;
     }
 	
