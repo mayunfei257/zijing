@@ -164,7 +164,6 @@ public class EntityDisciple extends EntityFriendly implements IRangedAttackMob{
     
 	@Override
     public boolean canAttackClass(Class <? extends EntityLivingBase > cls){
-		super.canAttackClass(cls);
         if(cls == EntitySkeleton.class && this.shepherdCapability.getLevel() < 15){
         	return false;
         }else if(cls == EntityCreeper.class && this.shepherdCapability.getLevel() < 30){

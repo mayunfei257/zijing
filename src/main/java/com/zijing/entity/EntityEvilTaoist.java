@@ -3,7 +3,6 @@ package com.zijing.entity;
 import com.zijing.BaseControl;
 import com.zijing.entity.ai.EntityAIAttackMeleeZJ;
 import com.zijing.entity.ai.EntityAIAttackRangedZJ;
-import com.zijing.items.staff.ItemStaffBingxue;
 import com.zijing.itf.EntityEvil;
 import com.zijing.itf.EntityFriendly;
 import com.zijing.util.ConstantUtil;
@@ -13,7 +12,6 @@ import com.zijing.util.SkillEntityShepherd;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -38,7 +36,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityEvilTaoist extends EntityEvil implements IRangedAttackMob{
+public class EntityEvilTaoist extends EntityEvil{
 	
 	public EntityEvilTaoist(World world) {
 		super(world);

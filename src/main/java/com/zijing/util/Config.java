@@ -100,8 +100,8 @@ public class Config {
 		this.ARMOR_ENCHANTABILITY = configuration.get("Armor", "ARMOR_ENCHANTABILITY", 50, "Tools enchant probability.").getInt();
 		this.ARMOR_TOUGHNESS = configuration.get("Armor", "ARMOR_TOUGHNESS", 4, "Armor toughness value.").getInt();
 
-		this.ZIQI_BURN_TICK = configuration.get("MAGIC", "ZIQI_BURN_TICK", 51200, "The ZIQI burn tick.").getInt();
-		this.ZIQI_MAGIC_ENERGY = configuration.get("MAGIC", "ZIQI_MAGIC_ENERGY", 50, "The ZIQI magic energy.").getInt();
+		this.ZIQI_BURN_TICK = configuration.get("MAGIC", "ZIQI_BURN_TICK", 16000, "The ZIQI burn tick.").getInt();
+		this.ZIQI_MAGIC_ENERGY = configuration.get("MAGIC", "ZIQI_MAGIC_ENERGY", 30, "The ZIQI magic energy.").getInt();
 		this.STAFF_MAX_MAGIC_ENERGY = configuration.get("MAGIC", "STAFF_MAX_MAGIC_ENERGY", 512, "The max magic energy of the staff.").getInt();
 		this.STAFF_MAX_DISTANCE = configuration.get("MAGIC", "STAFF_MAX_DISTANCE", 10000, "The max distance of staff to teleport.").getInt();
 		

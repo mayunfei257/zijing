@@ -31,6 +31,7 @@ import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySnowman;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -74,7 +75,7 @@ public class EntitySuperSnowman extends EntityFriendly implements IRangedAttackM
     protected void initEntityAI(){
 		this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAITempt(this, 1.0D, false, Sets.newHashSet(BaseControl.itemZiqi, BaseControl.itemZijing, BaseControl.itemDanZiling)));
-        this.tasks.addTask(2, new EntityAIAvoidEntity(this, IMob.class, 4.3F, 1.0D, 1.0D));
+        this.tasks.addTask(2, new EntityAIAvoidEntity(this, EntityZombie.class, 4.3F, 1.0D, 1.0D));
         this.tasks.addTask(3, new EntityAIPanicZJ(this, 1.5D, 16, 5, 8, 4, 4.3D));
         this.tasks.addTask(4, new EntityAIAttackRangedZJ(this, 1.0D, (int)(15/ConstantUtil.SPECIAL_K), 4.3D, 32.0F, SkillEntity.MagicSkill_BingDan));
         this.tasks.addTask(5, new EntityAIMoveToHome(this, 1.0D, 4));

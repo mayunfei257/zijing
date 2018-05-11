@@ -68,7 +68,19 @@ public class GuiQiankunDai {
 				}
 			}
 			for (int m = 0; m < 9; m++) {
-				this.addSlotToContainer(new Slot(inventory, m, m * 18 + 8, 198));
+				if(hand == EnumHand.MAIN_HAND && m == inventory.currentItem) {
+					this.addSlotToContainer(new Slot(inventory, m, m * 18 + 8, 198){
+						public boolean isItemValid(ItemStack stack) {
+							return false;
+						}
+						public boolean canTakeStack(EntityPlayer playerIn){
+					        return false;
+					    }
+					});
+				}else {
+					this.addSlotToContainer(new Slot(inventory, m, m * 18 + 8, 198));
+				}
+			
 			}
 		}
 

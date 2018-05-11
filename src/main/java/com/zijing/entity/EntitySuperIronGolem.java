@@ -185,7 +185,6 @@ public class EntitySuperIronGolem extends EntityFriendly implements IRangedAttac
      */
 	@Override
     public boolean canAttackClass(Class <? extends EntityLivingBase > cls){
-		super.canAttackClass(cls);
 		if(cls == EntitySkeleton.class && this.shepherdCapability.getLevel() < 15){
         	return false;
         }else if(cls == EntityCreeper.class && this.shepherdCapability.getLevel() < 30){
@@ -195,7 +194,7 @@ public class EntitySuperIronGolem extends EntityFriendly implements IRangedAttac
         }else if(EntityVillager.class.isAssignableFrom(cls) || EntityGhast.class.isAssignableFrom(cls) || EntityDragon.class.isAssignableFrom(cls) || EntityWither.class.isAssignableFrom(cls)) {
         	return false;
         }else{
-            return true;
+            return super.canAttackClass(cls);
         }
     }
 
