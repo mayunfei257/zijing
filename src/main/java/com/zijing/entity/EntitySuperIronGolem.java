@@ -20,7 +20,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -41,7 +40,9 @@ import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
@@ -55,7 +56,7 @@ import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntitySuperIronGolem extends EntityFriendly implements IRangedAttackMob{
+public class EntitySuperIronGolem extends EntityFriendly{
     private int homeCheckTimer;
     @Nullable
     Village village;
@@ -83,7 +84,7 @@ public class EntitySuperIronGolem extends EntityFriendly implements IRangedAttac
 	@Override
     protected void initEntityAI(){
 		this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAITempt(this, 1.0D, false, Sets.newHashSet(BaseControl.itemZiqi, BaseControl.itemZijing, BaseControl.itemDanZiling)));
+        this.tasks.addTask(1, new EntityAITempt(this, 1.0D, false, Sets.newHashSet(BaseControl.itemZiqi, BaseControl.itemZijing, BaseControl.itemDanZiling, Item.getItemFromBlock(Blocks.RED_FLOWER), Item.getItemFromBlock(Blocks.YELLOW_FLOWER))));
 //		this.tasks.addTask(2, new EntityAIAttackRangedZJ(this, 1.0D, 20, 6D, 32.0F, ItemStaffKongjian.MagicSkill1));
         this.tasks.addTask(3, new EntityAIAttackMeleeZJ(this, 1.1D, 10, true));
         this.tasks.addTask(4, new EntityAIMoveTowardsTarget(this, 0.9D, 32.0F));

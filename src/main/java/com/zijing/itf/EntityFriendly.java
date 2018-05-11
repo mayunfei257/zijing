@@ -44,7 +44,7 @@ public abstract class EntityFriendly extends EntityShepherdCapability{
 		}else if(!this.world.isRemote) {
 	        player.openGui(ZijingMod.instance, GuiEntityCapability.GUIID, world, this.getEntityId(), this.getEntityId(), this.getEntityId());
 		}
-		player.sendMessage(new TextComponentString("Home: X:" + this.homePos.getX() + " Y:" + this.homePos.getY() + "Z:" + this.homePos.getZ()));
+		player.sendMessage(new TextComponentString("Home: X:" + this.homePos.getX() + " Y:" + this.homePos.getY() + " Z:" + this.homePos.getZ() + " MaxDistance:" + this.maxDistance));
 		return true;
     }
     

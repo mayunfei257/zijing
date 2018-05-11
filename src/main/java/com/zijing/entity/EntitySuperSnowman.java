@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.zijing.BaseControl;
 import com.zijing.entity.ai.EntityAIAttackRangedZJ;
+import com.zijing.entity.ai.EntityAIAvoidIMob;
 import com.zijing.entity.ai.EntityAIMoveToHome;
 import com.zijing.entity.ai.EntityAIPanicZJ;
 import com.zijing.itf.EntityEvil;
@@ -19,7 +20,6 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -31,7 +31,6 @@ import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySnowman;
-import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -75,7 +74,7 @@ public class EntitySuperSnowman extends EntityFriendly implements IRangedAttackM
     protected void initEntityAI(){
 		this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAITempt(this, 1.0D, false, Sets.newHashSet(BaseControl.itemZiqi, BaseControl.itemZijing, BaseControl.itemDanZiling)));
-        this.tasks.addTask(2, new EntityAIAvoidEntity(this, EntityZombie.class, 4.3F, 1.0D, 1.0D));
+        this.tasks.addTask(2, new EntityAIAvoidIMob(this, 5F, 1.0D));
         this.tasks.addTask(3, new EntityAIPanicZJ(this, 1.5D, 16, 5, 8, 4, 4.3D));
         this.tasks.addTask(4, new EntityAIAttackRangedZJ(this, 1.0D, (int)(15/ConstantUtil.SPECIAL_K), 4.3D, 32.0F, SkillEntity.MagicSkill_BingDan));
         this.tasks.addTask(5, new EntityAIMoveToHome(this, 1.0D, 4));
@@ -125,7 +124,7 @@ public class EntitySuperSnowman extends EntityFriendly implements IRangedAttackM
 			this.isImmuneToFire = true;
 		}
 		this.shepherdCapability.setMaxMagic(this.shepherdCapability.getMaxMagic() * ConstantUtil.SPECIAL_K);
-		this.shepherdCapability.setMagic(this.shepherdCapability.getMagic());
+		this.shepherdCapability.setMagic(this.shepherdCapability.getMaxMagic());
 		this.shepherdCapability.setSpeed(this.shepherdCapability.getSpeed() * ConstantUtil.SPECIAL_K);
 		this.shepherdCapability.setMagicRestore(this.shepherdCapability.getMagicRestore() * ConstantUtil.SPECIAL_K);
 		EntityUtil.setEntityAllValue(this);

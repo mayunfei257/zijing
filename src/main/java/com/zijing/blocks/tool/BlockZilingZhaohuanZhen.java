@@ -62,9 +62,14 @@ public class BlockZilingZhaohuanZhen extends Block{
 				worldIn.spawnEntity(new EntityLightningBolt(worldIn, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, false));
 				worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(0)), 4);
 	            setLightLevel(0.0F);
-			} else if(Math.random() >= 0.5){
+			} else if(Math.random() <= 0.25){
 				worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(age + 1)), 4);
 	            setLightLevel((age + 1) * 0.066F);
+			}
+		} else {
+			int age = ((Integer) state.getValue(AGE)).intValue();
+			if(age >= 15) {
+				worldIn.spawnEntity(new EntityLightningBolt(worldIn, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, false));
 			}
 		}
 	}

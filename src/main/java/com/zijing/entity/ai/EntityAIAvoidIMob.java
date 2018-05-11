@@ -1,5 +1,6 @@
 package com.zijing.entity.ai;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -11,94 +12,155 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.RandomPositionGenerator;
+import net.minecraft.entity.boss.EntityDragon;
+import net.minecraft.entity.boss.EntityWither;
+import net.minecraft.entity.monster.EntityBlaze;
+import net.minecraft.entity.monster.EntityCaveSpider;
+import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntityElderGuardian;
+import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.entity.monster.EntityEndermite;
+import net.minecraft.entity.monster.EntityEvoker;
+import net.minecraft.entity.monster.EntityGiantZombie;
+import net.minecraft.entity.monster.EntityGuardian;
+import net.minecraft.entity.monster.EntityHusk;
+import net.minecraft.entity.monster.EntityIllusionIllager;
+import net.minecraft.entity.monster.EntityMagmaCube;
+import net.minecraft.entity.monster.EntityPigZombie;
+import net.minecraft.entity.monster.EntitySilverfish;
+import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntitySlime;
+import net.minecraft.entity.monster.EntitySpider;
+import net.minecraft.entity.monster.EntityVindicator;
+import net.minecraft.entity.monster.EntityWitch;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.monster.EntityZombieVillager;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.math.Vec3d;
 
 public class EntityAIAvoidIMob extends EntityAIBase{
-    private final Predicate<Entity> canBeSeenSelector;
-    /** The entity we are attached to */
-    protected EntityCreature entity;
-    private final double farSpeed;
-    private final double nearSpeed;
-    protected Entity closestLivingEntity;
-    private final float avoidDistance;
-    /** The PathEntity of our entity */
-    private Path path;
-    /** The PathNavigate of our entity */
-    private final PathNavigate navigation;
-    /** Class of entity this behavior seeks to avoid */
-    private final Class<Entity> classToAvoid;
-    private final Predicate <Entity> avoidTargetSelector;
+	private final Predicate <Entity> avoidTargetSelector = Predicates.alwaysTrue();
+	private final Predicate<Entity> canBeSeenSelector;
+	//Entity
+	private final static List<Class<? extends Entity>> classToAvoid;
+	protected EntityCreature entity;
+	protected Entity closestLivingEntity;
+	//Path
+	private final float avoidDistance;
+	private final PathNavigate navigation;
+	private final double speed;
+	private Path path;
 
-    public EntityAIAvoidIMob(EntityCreature entityIn, float avoidDistanceIn, double farSpeedIn, double nearSpeedIn){
-        this.entity = entityIn;
-        this.classToAvoid = null;//EntityZombie.class EntityEvoker.class EntityVindicator.class EntityVex.class
-        this.avoidTargetSelector = Predicates.alwaysTrue();
-        this.avoidDistance = avoidDistanceIn;
-        this.farSpeed = farSpeedIn;
-        this.nearSpeed = nearSpeedIn;
-        this.navigation = entityIn.getNavigator();
-        this.canBeSeenSelector = new Predicate<Entity>(){
-            public boolean apply(@Nullable Entity iMobEntity){
-                return iMobEntity.isEntityAlive() && EntityAIAvoidIMob.this.entity.getEntitySenses().canSee(iMobEntity) && !EntityAIAvoidIMob.this.entity.isOnSameTeam(iMobEntity);
-            }
-        };
-        this.setMutexBits(1);
-    }
+	static {
+		classToAvoid = new ArrayList<Class<? extends Entity>>();
+		classToAvoid.add(EntityZombie.class);
+		classToAvoid.add(EntitySkeleton.class);
+		classToAvoid.add(EntityCreeper.class);
+		classToAvoid.add(EntityBlaze.class);
+		classToAvoid.add(EntityEnderman.class);
+		classToAvoid.add(EntityEndermite.class);
+		classToAvoid.add(EntityGiantZombie.class);
+		classToAvoid.add(EntityEvoker.class);
+		classToAvoid.add(EntityIllusionIllager.class);
+		classToAvoid.add(EntityVindicator.class);
+		classToAvoid.add(EntitySilverfish.class);
+		classToAvoid.add(EntitySpider.class);
+		classToAvoid.add(EntityCaveSpider.class);
+		classToAvoid.add(EntityGuardian.class);
+		classToAvoid.add(EntityElderGuardian.class);
+		classToAvoid.add(EntityWitch.class);
+		classToAvoid.add(EntityWither.class);
+		classToAvoid.add(EntityHusk.class);
+		classToAvoid.add(EntityPigZombie.class);
+		classToAvoid.add(EntityZombieVillager.class);
+		classToAvoid.add(EntityDragon.class);
+		classToAvoid.add(EntitySlime.class);
+		classToAvoid.add(EntityMagmaCube.class);
+	}
+	
+	public EntityAIAvoidIMob(EntityCreature entityIn, float avoidDistanceIn, double speedIn){
+		this.entity = entityIn;
+		this.canBeSeenSelector = new Predicate<Entity>(){
+			public boolean apply(@Nullable Entity iMobEntity){
+				return iMobEntity.isEntityAlive() && EntityAIAvoidIMob.this.entity.getEntitySenses().canSee(iMobEntity) && !EntityAIAvoidIMob.this.entity.isOnSameTeam(iMobEntity);
+			}
+		};
+		//Path
+		this.avoidDistance = avoidDistanceIn;
+		this.navigation = entityIn.getNavigator();
+		this.speed = speedIn;
+		this.setMutexBits(1);
+	}
 
-    /**
-     * Returns whether the EntityAIBase should begin execution.
-     */
-    public boolean shouldExecute(){
-        List<Entity> list = this.entity.world.<Entity>getEntitiesWithinAABB(this.classToAvoid, this.entity.getEntityBoundingBox().grow((double)this.avoidDistance, 3.0D, (double)this.avoidDistance), Predicates.and(EntitySelectors.CAN_AI_TARGET, this.canBeSeenSelector, this.avoidTargetSelector));
+	/**
+	 * Returns whether the EntityAIBase should begin execution.
+	 */
+	public boolean shouldExecute(){
+		List<Entity> entityList = new ArrayList<Entity>();
 
-        if (list.isEmpty()){
-            return false;
-        } else {
-            this.closestLivingEntity = list.get(0);
-            Vec3d vec3d = RandomPositionGenerator.findRandomTargetBlockAwayFrom(this.entity, 16, 7, new Vec3d(this.closestLivingEntity.posX, this.closestLivingEntity.posY, this.closestLivingEntity.posZ));
-            if (vec3d == null){
-                return false;
-            }else if (this.closestLivingEntity.getDistanceSq(vec3d.x, vec3d.y, vec3d.z) < this.closestLivingEntity.getDistanceSq(this.entity)){
-                return false;
-            } else {
-                this.path = this.navigation.getPathToXYZ(vec3d.x, vec3d.y, vec3d.z);
-                return this.path != null;
-            }
-        }
-    }
+		for(Class<? extends Entity> entityType : classToAvoid) {
+			List<Entity> list = this.entity.world.<Entity>getEntitiesWithinAABB(entityType, this.entity.getEntityBoundingBox().grow(this.avoidDistance, 3.0D, this.avoidDistance), Predicates.and(EntitySelectors.CAN_AI_TARGET, this.canBeSeenSelector, this.avoidTargetSelector));
+			if(null != list && list.size() > 0) {
+				Entity nearestEntity = list.get(0);
+				double distace = this.entity.getDistance(nearestEntity);
+				for(Entity entity: list) {
+					double distanceTemp = this.entity.getDistance(entity);
+					if(distace > distanceTemp) {
+						nearestEntity = entity;
+						distace = distanceTemp;
+					}
+				}
+				entityList.add(nearestEntity);
+			}
+		}
+		
+		if (entityList.isEmpty()){
+			return false;
+		} else {
+			
+			Entity nearestEntity = entityList.get(0);
+			double distace = this.entity.getDistance(nearestEntity);
+			for(Entity entity: entityList) {
+				double distanceTemp = this.entity.getDistance(entity);
+				if(distace > distanceTemp) {
+					nearestEntity = entity;
+					distace = distanceTemp;
+				}
+			}
+			this.closestLivingEntity = nearestEntity;
+			
+			Vec3d vec3d = RandomPositionGenerator.findRandomTargetBlockAwayFrom(this.entity, 16, 7, new Vec3d(this.closestLivingEntity.posX, this.closestLivingEntity.posY, this.closestLivingEntity.posZ));
+			if (vec3d == null){
+				return false;
+			} else if (this.closestLivingEntity.getDistanceSq(vec3d.x, vec3d.y, vec3d.z) < this.closestLivingEntity.getDistanceSq(this.entity)){
+				return false;
+			} else {
+				this.path = this.navigation.getPathToXYZ(vec3d.x, vec3d.y, vec3d.z);
+				return this.path != null;
+			}
+		}
+	}
 
-    /**
-     * Returns whether an in-progress EntityAIBase should continue executing
-     */
-    public boolean shouldContinueExecuting(){
-        return !this.navigation.noPath();
-    }
+	/**
+	 * Returns whether an in-progress EntityAIBase should continue executing
+	 */
+	public boolean shouldContinueExecuting(){
+		return !this.navigation.noPath();
+	}
 
-    /**
-     * Execute a one shot task or start executing a continuous task
-     */
-    public void startExecuting(){
-        this.navigation.setPath(this.path, this.farSpeed);
-    }
+	/**
+	 * Execute a one shot task or start executing a continuous task
+	 */
+	public void startExecuting(){
+		this.navigation.setPath(this.path, this.speed);
+	}
 
-    /**
-     * Reset the task's internal state. Called when this task is interrupted by another one
-     */
-    public void resetTask(){
-        this.closestLivingEntity = null;
-    }
-
-    /**
-     * Keep ticking a continuous task that has already been started
-     */
-    public void updateTask(){
-        if (this.entity.getDistanceSq(this.closestLivingEntity) < 49.0D){
-            this.entity.getNavigator().setSpeed(this.nearSpeed);
-        } else {
-            this.entity.getNavigator().setSpeed(this.farSpeed);
-        }
-    }
+	/**
+	 * Reset the task's internal state. Called when this task is interrupted by another one
+	 */
+	public void resetTask(){
+		this.closestLivingEntity = null;
+	}
 }

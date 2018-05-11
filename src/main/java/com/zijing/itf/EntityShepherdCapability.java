@@ -4,7 +4,6 @@ import com.zijing.BaseControl;
 import com.zijing.ZijingMod;
 import com.zijing.data.message.ShepherdEntityToClientMessage;
 import com.zijing.data.playerdata.ShepherdCapability;
-import com.zijing.items.staff.ItemZilingZhu;
 import com.zijing.util.ConstantUtil;
 import com.zijing.util.EntityUtil;
 import com.zijing.util.MathUtil;
@@ -144,7 +143,7 @@ public abstract class EntityShepherdCapability extends EntityCreature implements
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
 		if(!this.isDead && this.getHealth() > 0) {
-			if(this.nextLevelNeedExperience <= this.experience) {
+			if(this.nextLevelNeedExperience <= this.experience && this.shepherdCapability.getLevel() < ZijingMod.config.getMAX_LEVEL()) {
 				this.upEntityGrade(1);
 			}
 			if(this.getHealth() < this.getMaxHealth()) {
@@ -166,11 +165,11 @@ public abstract class EntityShepherdCapability extends EntityCreature implements
 				}
 			}
 			if(this.maxDistance > 0) {
-				if(this.checkHomeTick <= 0 && EntityUtil.checkAndTryMoveToHome(this)) {
-					this.checkHomeTick = ConstantUtil.CHECK_HOME_TICK + this.getRNG().nextInt(ConstantUtil.CHECK_HOME_TICK);
-				}else {
-					this.checkHomeTick --;
-				}
+//				if(this.checkHomeTick <= 0 && EntityUtil.checkAndTryMoveToHome(this)) {
+//					this.checkHomeTick = ConstantUtil.CHECK_HOME_TICK + this.getRNG().nextInt(ConstantUtil.CHECK_HOME_TICK);
+//				}else {
+//					this.checkHomeTick --;
+//				}
 			}
 		}
 	}
