@@ -9,11 +9,11 @@
             "to": [ 16, 2, 16 ],
             "faces": {
                 "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "zijingmod:blocks/blockzilingmieshazhen", "cullface": "down" },
-                "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "zijingmod:blocks/blockzilingmieshazhen" },
-                "north": { "uv": [ 0, 0, 2, 16 ], "texture": "zijingmod:blocks/blockzilingmieshazhenc", "cullface": "north" },
-                "south": { "uv": [ 0, 0, 2, 16 ], "texture": "zijingmod:blocks/blockzilingmieshazhenc", "cullface": "south" },
-                "west":  { "uv": [ 0, 0, 2, 16 ], "texture": "zijingmod:blocks/blockzilingmieshazhenc", "cullface": "west" },
-                "east":  { "uv": [ 0, 0, 2, 16 ], "texture": "zijingmod:blocks/blockzilingmieshazhenc", "cullface": "east" }
+                "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "zijingmod:blocks/blockzilingmieshazhen", "cullface": "up"  },
+                "north": { "uv": [ 0, 0, 16, 2 ], "texture": "zijingmod:blocks/blockzilingmieshazhenc", "cullface": "north" },
+                "south": { "uv": [ 0, 0, 16, 2 ], "texture": "zijingmod:blocks/blockzilingmieshazhenc", "cullface": "south" },
+                "west":  { "uv": [ 0, 0, 16, 2 ], "texture": "zijingmod:blocks/blockzilingmieshazhenc", "cullface": "west" },
+                "east":  { "uv": [ 0, 0, 16, 2 ], "texture": "zijingmod:blocks/blockzilingmieshazhenc", "cullface": "east" }
             }
         }
     ]

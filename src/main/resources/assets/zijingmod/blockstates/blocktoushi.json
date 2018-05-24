@@ -1,0 +1,10 @@
+{
+    "variants": {
+        "facing=down": { "model": "zijingmod:blocktoushi", "x": 90 },
+        "facing=up": { "model": "zijingmod:blocktoushi", "x": 270 },
+        "facing=north": { "model": "zijingmod:blocktoushi" },
+        "facing=south": { "model": "zijingmod:blocktoushi", "y": 180 },
+        "facing=west": { "model": "zijingmod:blocktoushi", "y": 270 },
+        "facing=east": { "model": "zijingmod:blocktoushi", "y": 90 }
+    }
+}

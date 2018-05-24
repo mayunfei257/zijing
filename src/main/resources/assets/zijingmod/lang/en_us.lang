@@ -8,6 +8,7 @@ tile.blockZilingZhaohuanZhen.name=¡ì6zilingZhaohuanZhen
 tile.blockZilingMieshaZhen.name=¡ì6zilingMieshaZhen
 tile.blockZhulingTai.name=¡ì6zhulingTai
 tile.blockSuperNangua.name=¡ì6superNangua
+tile.blockToushi.name=¡ì6toushiKuai
 
 #Item----------------------------------------------------------------------
 item.itemGuhuaNiunai.name=¡ì6guhuaNiunai
@@ -17,6 +18,7 @@ item.itemDanZiling.name=¡ì6zilingDan
 item.itemDanShenshu.name=¡ì6shenshuDan
 item.itemZilingZhu.name=¡ì6zilingZhu
 item.itemQiankunDai.name=¡ì6qiankunDai
+item.itemWuxianBaoshi.name=¡ì6wuxianBaoshi
 
 #Card-------------------------------------------------------------------------
 item.itemCardFengyin.name=¡ì6fengyinKa

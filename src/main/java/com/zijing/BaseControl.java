@@ -4,6 +4,7 @@ import com.zijing.blocks.BlockGuhuaNiunaiKuai;
 import com.zijing.blocks.BlockSuperNangua;
 import com.zijing.blocks.BlockZijingKuai;
 import com.zijing.blocks.BlockZilingCao;
+import com.zijing.blocks.tool.BlockToushi;
 import com.zijing.blocks.tool.BlockZilingMieshaZhen;
 import com.zijing.blocks.tool.BlockZilingZhaohuanZhen;
 import com.zijing.data.message.ChuansongBookToServerMessage;
@@ -27,6 +28,7 @@ import com.zijing.items.ItemDanShenshu;
 import com.zijing.items.ItemDanZiling;
 import com.zijing.items.ItemGuhuaNiunai;
 import com.zijing.items.ItemQiankunDai;
+import com.zijing.items.ItemWuxianBaoshi;
 import com.zijing.items.ItemZijing;
 import com.zijing.items.ItemZiqi;
 import com.zijing.items.card.ItemBookChuansong;
@@ -88,6 +90,7 @@ public class BaseControl{
 	public static Block blockZilingMieshaZhen;
 	public static Block blockZilingZhaohuanZhen;
 	public static Block blockSuperNangua;
+	public static Block blockToushi;
 	
 //	public static Block blockZhulingTai;
 	
@@ -99,6 +102,7 @@ public class BaseControl{
 	public static Item itemDanShenshu;
 	public static Item itemZilingZhu;
 	public static Item itemQiankunDai;
+	public static Item itemWuxianBaoshi;
 	//card
 	public static Item itemCardFengyin;
 	public static Item itemCardChuansong;
@@ -133,6 +137,7 @@ public class BaseControl{
 		blockZilingMieshaZhen = new BlockZilingMieshaZhen();
 		blockZilingZhaohuanZhen = new BlockZilingZhaohuanZhen();
 		blockSuperNangua = new BlockSuperNangua();
+		blockToushi = new BlockToushi();
 //		blockZhulingTai = new BlockZhulingTai(false);
 		//item
 		itemGuhuaNiunai = new ItemGuhuaNiunai();
@@ -142,6 +147,7 @@ public class BaseControl{
 		itemDanShenshu = new ItemDanShenshu();
 		itemZilingZhu = new ItemZilingZhu();
 		itemQiankunDai = new ItemQiankunDai();
+		itemWuxianBaoshi = new ItemWuxianBaoshi();
 		//card
 		itemCardFengyin = new ItemCardFengyin();
 		itemCardChuansong = new ItemCardChuansong();
@@ -193,6 +199,8 @@ public class BaseControl{
 		GameData.register_impl(new ItemBlock(blockZilingZhaohuanZhen).setRegistryName(blockZilingZhaohuanZhen.getRegistryName()));
 		GameData.register_impl(blockSuperNangua);
 		GameData.register_impl(new ItemBlock(blockSuperNangua).setRegistryName(blockSuperNangua.getRegistryName()));
+		GameData.register_impl(blockToushi);
+		GameData.register_impl(new ItemBlock(blockToushi).setRegistryName(blockToushi.getRegistryName()));
 //		GameData.register_impl(blockZhulingTai);
 //		GameData.register_impl(new ItemBlock(blockZhulingTai).setRegistryName(blockZhulingTai.getRegistryName()));
 
@@ -205,6 +213,7 @@ public class BaseControl{
 		GameData.register_impl(itemDanShenshu);
 		GameData.register_impl(itemZilingZhu);
 		GameData.register_impl(itemQiankunDai);
+		GameData.register_impl(itemWuxianBaoshi);
 		//card
 		GameData.register_impl(itemCardFengyin);
 		GameData.register_impl(itemCardChuansong);
@@ -248,6 +257,7 @@ public class BaseControl{
 		bolckResourceLoad(blockZilingMieshaZhen);
 		bolckResourceLoad(blockZilingZhaohuanZhen);
 		bolckResourceLoad(blockSuperNangua);
+		bolckResourceLoad(blockToushi);
 //		bolckResourceLoad(blockZhulingTai);
 		//item
 		itemResourceLoad(itemGuhuaNiunai);
@@ -257,6 +267,7 @@ public class BaseControl{
 		itemResourceLoad(itemDanShenshu);
 		itemResourceLoad(itemZilingZhu);
 		itemResourceLoad(itemQiankunDai);
+		itemResourceLoad(itemWuxianBaoshi);
 		//card
 		itemResourceLoad(itemCardFengyin);
 		itemResourceLoad(itemCardChuansong);

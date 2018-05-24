@@ -1,8 +1,8 @@
 {
     "parent": "block/orientable",
     "textures": {
-        "top": "zijingmod:blocks/pumpkin_top",
-        "front": "zijingmod:blocks/pumpkin_face_off",
-        "side": "zijingmod:blocks/pumpkin_side"
+        "top": "zijingmod:blocks/supernangua_top",
+        "front": "zijingmod:blocks/supernangua_face_off",
+        "side": "zijingmod:blocks/supernangua_side"
     }
 }
