@@ -3,12 +3,13 @@
     "textures": {
         "side": "zijingmod:blocks/blocktoushi_side",
         "front": "zijingmod:blocks/blocktoushi_front",
-        "particle": "#side",
-        "down": "#side",
-        "up": "#side",
-        "north": "#front",
-        "east": "#side",
-        "south": "#side",
-        "west": "#side"
+        
+        "particle": "zijingmod:blocks/blocktoushi_side",
+        "down": "zijingmod:blocks/blocktoushi_side",
+        "up": "zijingmod:blocks/blocktoushi_side",
+        "north": "zijingmod:blocks/blocktoushi_front",
+        "east": "zijingmod:blocks/blocktoushi_side",
+        "south": "zijingmod:blocks/blocktoushi_side",
+        "west": "zijingmod:blocks/blocktoushi_side"
     }
 }
