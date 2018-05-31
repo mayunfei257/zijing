@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.zijing.ZijingMod;
 import com.zijing.util.ConstantUtil;
 
 import net.minecraft.client.resources.I18n;
@@ -18,7 +19,7 @@ public class BlockZilingCao extends BlockGrowthTypePlant{
 
 	public BlockZilingCao() {
 		super();
-        this.high = 8;
+        this.high = ZijingMod.config.getZILINGCAO_MAX_HIGHT();
         this.growthKey = 1;
         this.dropAmount = 1;
         this.enumPlantType = EnumPlantType.Crop;

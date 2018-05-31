@@ -26,6 +26,7 @@ public class Config {
 	private int ARMOR_ENCHANTABILITY;
 	private int ARMOR_TOUGHNESS;
 
+	private int ZILINGCAO_MAX_HIGHT;
 	private int ZIQI_BURN_TICK;
 	private int ZIQI_MAGIC_ENERGY;
 	private int STAFF_MAX_MAGIC_ENERGY;
@@ -100,6 +101,7 @@ public class Config {
 		this.ARMOR_ENCHANTABILITY = configuration.get("Armor", "ARMOR_ENCHANTABILITY", 50, "Tools enchant probability.").getInt();
 		this.ARMOR_TOUGHNESS = configuration.get("Armor", "ARMOR_TOUGHNESS", 4, "Armor toughness value.").getInt();
 
+		this.ZILINGCAO_MAX_HIGHT = configuration.get("MAGIC", "ZILINGCAO_MAX_HIGHT", 8, "The ZilingCao max hight.").getInt();
 		this.ZIQI_BURN_TICK = configuration.get("MAGIC", "ZIQI_BURN_TICK", 16000, "The ZIQI burn tick.").getInt();
 		this.ZIQI_MAGIC_ENERGY = configuration.get("MAGIC", "ZIQI_MAGIC_ENERGY", 30, "The ZIQI magic energy.").getInt();
 		this.STAFF_MAX_MAGIC_ENERGY = configuration.get("MAGIC", "STAFF_MAX_MAGIC_ENERGY", 512, "The max magic energy of the staff.").getInt();
@@ -120,6 +122,10 @@ public class Config {
 
 	public int getZIQI_BURN_TICK() {
 		return ZIQI_BURN_TICK;
+	}
+
+	public int getZILINGCAO_MAX_HIGHT() {
+		return ZILINGCAO_MAX_HIGHT;
 	}
 
 	public int getZIQI_MAGIC_ENERGY() {
