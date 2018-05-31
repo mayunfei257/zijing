@@ -34,7 +34,7 @@ public class ZijingMod{
     
     @EventHandler
     public void Postinit(FMLPostInitializationEvent event){
-    	proxy.Postinit(event);
+    	proxy.postinit(event);
     }
 
 }

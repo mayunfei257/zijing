@@ -308,8 +308,8 @@ public class BaseControl{
 		addRecipe(ConstantUtil.MODID + ":HC_itemZijing", ConstantUtil.MODID, new ItemStack(itemZijing, 1), itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi);
 		addRecipe(ConstantUtil.MODID + ":HC_blockZijingKuai", ConstantUtil.MODID, new ItemStack(blockZijingKuai, 1), itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing);
 		//block
-		addRecipe(ConstantUtil.MODID + ":HC_blockSuperNangua1", ConstantUtil.MODID, new ItemStack(blockSuperNangua, 1), itemZiqi, itemZiqi, itemZiqi, itemZiqi, Blocks.PUMPKIN, itemZiqi, itemZiqi, itemZiqi, itemZiqi);
-		addRecipe(ConstantUtil.MODID + ":HC_blockSuperNangua2", ConstantUtil.MODID, new ItemStack(blockSuperNangua, 1), itemZiqi, itemZiqi, itemZiqi, itemZiqi, Blocks.LIT_PUMPKIN, itemZiqi, itemZiqi, itemZiqi, itemZiqi);
+		addRecipe(ConstantUtil.MODID + ":HC_blockSuperNangua1", ConstantUtil.MODID, new ItemStack(blockSuperNangua, 1), itemZijing, itemZijing, itemZijing, itemZijing, Blocks.PUMPKIN, itemZijing, itemZijing, itemZijing, itemZijing);
+		addRecipe(ConstantUtil.MODID + ":HC_blockSuperNangua2", ConstantUtil.MODID, new ItemStack(blockSuperNangua, 1), itemZijing, itemZijing, itemZijing, itemZijing, Blocks.LIT_PUMPKIN, itemZijing, itemZijing, itemZijing, itemZijing);
 		addRecipe(ConstantUtil.MODID + ":HC_blockZilingMieshaZhen", ConstantUtil.MODID, new ItemStack(blockZilingMieshaZhen, 1), itemZiqi, itemZiqi, itemZiqi, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, itemToolZijingJian, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, itemZijing, itemZijing, itemZijing);
 		addRecipe(ConstantUtil.MODID + ":HC_blockZilingZhaohuanZhen", ConstantUtil.MODID, new ItemStack(blockZilingZhaohuanZhen, 1), itemZijing, Items.ENDER_PEARL, itemZijing, blockZijingKuai, Blocks.PUMPKIN, blockZijingKuai, blockZijingKuai, Blocks.IRON_BLOCK, blockZijingKuai);
 //		addRecipe(ConstantUtil.MODID + ":HC_blockZhulingTai", ConstantUtil.MODID, new ItemStack(blockZhulingTai, 1), itemZijing, Blocks.CAULDRON, itemZijing, itemZijing, Blocks.CRAFTING_TABLE, itemZijing, itemZijing, Blocks.ANVIL, itemZijing);

@@ -19,7 +19,7 @@ public class  CommonProxy {
 		NetworkRegistry.INSTANCE.registerGuiHandler(ZijingMod.instance, new ZijingGuiHandler());
 	}
 	
-	public void Postinit(FMLPostInitializationEvent event){
+	public void postinit(FMLPostInitializationEvent event){
         
     }
 	

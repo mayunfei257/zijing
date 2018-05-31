@@ -18,8 +18,8 @@ public class ClientProxy extends CommonProxy {
 		BaseControl.renderLoad(event);
 	}
 	
-	public void Postinit(FMLPostInitializationEvent event){
-		super.Postinit(event);
+	public void postinit(FMLPostInitializationEvent event){
+		super.postinit(event);
 	}
 	
 	@Override
