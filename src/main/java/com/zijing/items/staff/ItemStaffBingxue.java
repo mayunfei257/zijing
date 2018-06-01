@@ -1,17 +1,11 @@
 package com.zijing.items.staff;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.zijing.ZijingMod;
 import com.zijing.ZijingTab;
-import com.zijing.data.playerdata.ShepherdCapability;
 import com.zijing.data.playerdata.ShepherdProvider;
-import com.zijing.entity.EntityArrowBingDan;
-import com.zijing.entity.EntitySuperSnowman;
-import com.zijing.itf.MagicConsumer;
 import com.zijing.util.ConstantUtil;
 import com.zijing.util.SkillEntity;
 import com.zijing.util.SkillEntityPlayer;
@@ -19,18 +13,13 @@ import com.zijing.util.SkillEntityPlayer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -53,7 +42,7 @@ public class ItemStaffBingxue extends Item{
 			if(!player.isSneaking()) {
 				SkillEntityPlayer.shootBingDanSkill(player);
 			}else {
-				
+//				world.getEntitiesInAABBexcluding(entityIn, boundingBox, predicate);
 			}
 		}
 		return new ActionResult(EnumActionResult.SUCCESS, itemStack);

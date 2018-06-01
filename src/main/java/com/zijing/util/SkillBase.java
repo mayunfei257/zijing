@@ -1,7 +1,9 @@
 package com.zijing.util;
 
 import java.util.Collection;
+import java.util.List;
 
+import com.google.common.base.Predicate;
 import com.zijing.entity.EntityArrowBingDan;
 import com.zijing.entity.EntityArrowFengyinDan;
 import com.zijing.entity.EntityArrowHuoDan;
@@ -25,6 +27,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -76,13 +79,22 @@ public class SkillBase {
 	protected static void addEffectBase(EntityLivingBase entityLivingBase, Potion potion, int durationIn, int amplifierIn) {
 		entityLivingBase.addPotionEffect(new PotionEffect(potion, durationIn, amplifierIn, false, false));
 	}
-
+	protected static void addEffectBase(List<EntityLivingBase> entityLivingBaseList, Potion potion, int durationIn, int amplifierIn) {
+		for(EntityLivingBase entityLivingBase: entityLivingBaseList) {
+			addEffectBase(entityLivingBase, potion, durationIn, amplifierIn);
+		}
+	}
 	protected static void removeEffectBase(EntityLivingBase entityLivingBase) {
 		Collection<PotionEffect> potionEffects = entityLivingBase.getActivePotionEffects();
 		if(null != potionEffects && potionEffects.size() > 0) {
 			for(PotionEffect potionEffect: potionEffects) {
 				entityLivingBase.removePotionEffect(potionEffect.getPotion());
 			}
+		}
+	}
+	protected static void removeEffectBase(List<EntityLivingBase> entityLivingBaseList) {
+		for(EntityLivingBase entityLivingBase: entityLivingBaseList) {
+			removeEffectBase(entityLivingBase);
 		}
 	}
 
@@ -286,6 +298,23 @@ public class SkillBase {
             double zCoord = entity.posZ + (world.rand.nextFloat() * entity.width * 2.0F) - entity.width;
             world.spawnParticle(particleType, xCoord, yCoord, zCoord, d0, d1, d2);
         }
+    }
+    protected static void setBlockStateBase(World world, IBlockState blockState, BlockPos blockPos) {
+    	if(blockState.getBlock().canPlaceBlockAt(world, blockPos)) {
+        	world.setBlockState(blockPos, blockState);
+    	}
+    }
+    protected static void setAreaBlockStateBase(World world, IBlockState blockState, BlockPos centerBlockPos, int radiusX, int radiusY, int radiusZ) {
+    	for(int x = -radiusX; x <= radiusX; x++) {
+    		for(int y = -radiusY; y <= radiusY; y++) {
+    			for(int z = -radiusZ; z <= radiusZ; z++) {
+    				setBlockStateBase(world, blockState, new BlockPos(centerBlockPos.getX() + x, centerBlockPos.getY() + y, centerBlockPos.getZ() + z));
+    			}
+    		}
+    	}
+    }
+    protected static List<Entity> getEntitiesBase(World world, Entity entityIn, AxisAlignedBB boundingBox, Predicate <? super Entity > predicate){
+    	return world.getEntitiesInAABBexcluding(entityIn, boundingBox, predicate);
     }
 	//------Base Skill End--------------------
 	
