@@ -1,6 +1,6 @@
 {
     "parent":"item/handheld",
     "textures":{
-        "layer0":"zijingmod:items/itemstaffwaigua"
+        "layer0":"zijingmod:items/itemstaffbuilding"
     }
 }

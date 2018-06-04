@@ -28,7 +28,6 @@ import com.zijing.items.ItemDanShenshu;
 import com.zijing.items.ItemDanZiling;
 import com.zijing.items.ItemGuhuaNiunai;
 import com.zijing.items.ItemQiankunDai;
-import com.zijing.items.ItemWuxianBaoshi;
 import com.zijing.items.ItemZijing;
 import com.zijing.items.ItemZiqi;
 import com.zijing.items.card.ItemBookChuansong;
@@ -53,8 +52,9 @@ import com.zijing.items.tool.ItemToolZijingDun;
 import com.zijing.items.tool.ItemToolZijingFu;
 import com.zijing.items.tool.ItemToolZijingGao;
 import com.zijing.items.tool.ItemToolZijingJian;
-import com.zijing.test.ItemStaffWaigua;
 import com.zijing.util.ConstantUtil;
+import com.zijing.waigua.ItemStaffBuilding;
+import com.zijing.waigua.ItemWuxianBaoshi;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -102,7 +102,6 @@ public class BaseControl{
 	public static Item itemDanShenshu;
 	public static Item itemZilingZhu;
 	public static Item itemQiankunDai;
-	public static Item itemWuxianBaoshi;
 	//card
 	public static Item itemCardFengyin;
 	public static Item itemCardChuansong;
@@ -116,7 +115,6 @@ public class BaseControl{
 	public static Item itemArrowHuoDan;
 	public static Item itemArrowXukongDan;
 	public static Item itemArrowFengyinDan;
-	public static Item itemStaffWaigua;
 	//tool
 	public static Item itemToolZijingJian;
 	public static Item itemToolZijingFu;
@@ -128,6 +126,9 @@ public class BaseControl{
 	public static Item itemArmorZijingBody;
 	public static Item itemArmorZijingLegs;
 	public static Item itemArmorZijingBoots;
+	//waigua
+	public static Item itemStaffBuilding;
+	public static Item itemWuxianBaoshi;
 
 	public static void init(FMLPreInitializationEvent event){
 		//TODO Instantiate mod item ---
@@ -147,7 +148,6 @@ public class BaseControl{
 		itemDanShenshu = new ItemDanShenshu();
 		itemZilingZhu = new ItemZilingZhu();
 		itemQiankunDai = new ItemQiankunDai();
-		itemWuxianBaoshi = new ItemWuxianBaoshi();
 		//card
 		itemCardFengyin = new ItemCardFengyin();
 		itemCardChuansong = new ItemCardChuansong();
@@ -161,7 +161,6 @@ public class BaseControl{
 		itemArrowHuoDan = new ItemArrowHuoDan();
 		itemArrowXukongDan = new ItemArrowXukongDan();
 		itemArrowFengyinDan = new ItemArrowFengyinDan();
-		itemStaffWaigua = new ItemStaffWaigua();
 		//tool
 		itemToolZijingJian = new ItemToolZijingJian();
 		itemToolZijingFu = new ItemToolZijingFu();
@@ -173,6 +172,9 @@ public class BaseControl{
 		itemArmorZijingBody = new ItemArmorZijingBody();
 		itemArmorZijingLegs = new ItemArmorZijingLegs();
 		itemArmorZijingBoots = new ItemArmorZijingBoots();
+		//waigua
+		itemStaffBuilding = new ItemStaffBuilding();
+		itemWuxianBaoshi = new ItemWuxianBaoshi();
 		
 	}
 	
@@ -213,7 +215,6 @@ public class BaseControl{
 		GameData.register_impl(itemDanShenshu);
 		GameData.register_impl(itemZilingZhu);
 		GameData.register_impl(itemQiankunDai);
-		GameData.register_impl(itemWuxianBaoshi);
 		//card
 		GameData.register_impl(itemCardFengyin);
 		GameData.register_impl(itemCardChuansong);
@@ -227,7 +228,6 @@ public class BaseControl{
 		GameData.register_impl(itemArrowHuoDan);
 		GameData.register_impl(itemArrowXukongDan);
 		GameData.register_impl(itemArrowFengyinDan);
-		GameData.register_impl(itemStaffWaigua);
 		//tool
 		GameData.register_impl(itemToolZijingJian);
 		GameData.register_impl(itemToolZijingFu);
@@ -239,6 +239,10 @@ public class BaseControl{
 		GameData.register_impl(itemArmorZijingBody);
 		GameData.register_impl(itemArmorZijingLegs);
 		GameData.register_impl(itemArmorZijingBoots);
+
+		//waigua
+		GameData.register_impl(itemStaffBuilding);
+		GameData.register_impl(itemWuxianBaoshi);
 		
 		EntityRegistry.registerModEntity(new ResourceLocation(ConstantUtil.MODID + ":entityarrowbingdan"), EntityArrowBingDan.class, "entityArrowBingDan", 257, ZijingMod.instance, 64, 1, true);
 		EntityRegistry.registerModEntity(new ResourceLocation(ConstantUtil.MODID + ":entityarrowhuodan"), EntityArrowHuoDan.class, "entityArrowHuoDan", 258, ZijingMod.instance, 64, 1, true);
@@ -281,7 +285,7 @@ public class BaseControl{
 		itemResourceLoad(itemArrowHuoDan);
 		itemResourceLoad(itemArrowXukongDan);
 		itemResourceLoad(itemArrowFengyinDan);
-		itemResourceLoad(itemStaffWaigua);
+		itemResourceLoad(itemStaffBuilding);
 		//tool
 		itemResourceLoad(itemToolZijingJian);
 		itemResourceLoad(itemToolZijingFu);

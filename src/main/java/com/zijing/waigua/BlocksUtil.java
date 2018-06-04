@@ -1,4 +1,4 @@
-package com.zijing.test;
+package com.zijing.waigua;
 
 import net.minecraft.block.BlockAnvil;
 import net.minecraft.block.BlockBed;

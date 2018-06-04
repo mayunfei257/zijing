@@ -1,12 +1,13 @@
 package com.zijing.itf;
 
+import com.zijing.BaseControl;
 import com.zijing.ZijingMod;
 import com.zijing.gui.GuiEntityCapability;
+import com.zijing.waigua.ItemWuxianBaoshi;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
@@ -39,12 +40,12 @@ public abstract class EntityFriendly extends EntityShepherdCapability{
 			this.experience += 5;
 			this.spawnParticles(EnumParticleTypes.HEART);
 			itemStack.shrink(1);
-		}else if(itemStack.getItem() == Items.DIAMOND && player.isSneaking()){//Test mode
-			this.experience += 10000;
+		}else if(itemStack.getItem() == BaseControl.itemWuxianBaoshi && player.isSneaking()){//Test mode
+			this.experience += ItemWuxianBaoshi.upExperience;
 		}else if(!this.world.isRemote) {
 	        player.openGui(ZijingMod.instance, GuiEntityCapability.GUIID, world, this.getEntityId(), this.getEntityId(), this.getEntityId());
 		}
-		player.sendMessage(new TextComponentString("Home: X:" + this.homePos.getX() + " Y:" + this.homePos.getY() + " Z:" + this.homePos.getZ() + " MaxDistance:" + this.maxDistance));
+		player.sendMessage(new TextComponentString("Home: X:" + this.homePos.getX() + " Y:" + this.homePos.getY() + " Z:" + this.homePos.getZ() + " MaxDistance:" + this.maxDistance + " nowDistance£º" + this.getDistance(this.homePos.getX(), this.homePos.getY(), this.homePos.getZ())));
 		return true;
     }
     

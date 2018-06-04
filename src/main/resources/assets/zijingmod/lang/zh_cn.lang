@@ -18,7 +18,6 @@ item.itemDanZiling.name=§6紫灵丹
 item.itemDanShenshu.name=§6神速丹
 item.itemZilingZhu.name=§6紫灵珠
 item.itemQiankunDai.name=§6乾坤袋
-item.itemWuxianBaoshi.name=§6无限宝石
 
 #Card-------------------------------------------------------------------------
 item.itemCardFengyin.name=§6封印卡
@@ -34,7 +33,6 @@ item.itemArrowBingDan.name=§6冰弹
 item.itemArrowHuoDan.name=§6火弹
 item.itemArrowXukongDan.name=§6虚空弹
 item.itemArrowFengyinDan.name=§6封印弹
-item.itemStaffWaigua.name=§6外挂法杖
 
 #Tool-------------------------------------------------------------------------
 item.itemToolZijingJian.name=§6紫晶剑
@@ -74,36 +72,36 @@ zijingmod.itemCardFengyin.skill1=§4实体名称 : %s. (M : %d)
 zijingmod.itemCardChuansong.notbinded=§4没有记录地点!
 zijingmod.itemCardChuansong.name=§4地名: %s.
 zijingmod.itemCardChuansong.position=§4坐标 X:%d Y:%d Z:%d 世界:%d.
-zijingmod.itemCardChuansong.skill1=§c技能1: 传送到卡片记录地点. (M : %d)
-zijingmod.itemCardChuansong.skill2=§c技能2: 记录当前地点到卡片. (M : %d) (潜行状态)
-zijingmod.itemBookChuansong.skill1=§c技能1: 传送到选中卡片记录的位置. (M : %d)
-zijingmod.itemBookChuansong.skill2=§c技能2: 打开传送书放置传送卡. (M : %d) (潜行状态)
+zijingmod.itemCardChuansong.skill1=§c技能1: 传送到卡片记录地点. (M : %d) (右键)
+zijingmod.itemCardChuansong.skill2=§c技能2: 记录当前地点到卡片. (M : %d) (潜行 + 右键)
+zijingmod.itemBookChuansong.skill1=§c技能1: 选择传送卡并传送. (M : %d) (右键)
+zijingmod.itemBookChuansong.skill2=§c技能2: 打开传送书放置传送卡. (M : %d) (潜行 + 右键)
 
 #FY_Staff---------------------------------------------------------------------------
-zijingmod.itemZilingZhu.skill1=§c技能1: 漂浮. (M : %d)
-zijingmod.itemZilingZhu.skill2=§c技能2: 清除所有状态效果. (M : %d) (潜行状态)
-zijingmod.itemZilingZhu.skill3=§c技能3: 向上传送. (M : %d)
-zijingmod.itemZilingZhu.skill4=§c技能4: 向下传送. (M : %d) (潜行状态)
-zijingmod.itemZilingZhu.skill5=§c技能5: 免疫跌落伤害. (M : %d)
-zijingmod.itemStaffBingxue.skill1=§c技能1: 发射冰弹. (M : %d)
-zijingmod.itemStaffBingxue.skill2=§c技能2: 召唤雪人. (M : %d) (潜行状态)
-zijingmod.itemStaffLieyan.skill1=§c技能1: 发射火弹. (M : %d)
-zijingmod.itemStaffLieyan.skill2=§c技能2: 火海. (M : %d) (潜行状态)
-zijingmod.itemStaffKongjian.skill1=§c技能1: 发射传送弹. (M : %d)
-zijingmod.itemStaffKongjian.skill2=§c技能2: 随机传送. (M : %d) (潜行状态)
-zijingmod.itemStaffShijian.skill1=§c技能1: 发射封印弹. (M : %d)
-zijingmod.itemStaffShijian.skill2=§c技能2: 使周围作物快速增长. (M : %d) (潜行状态)
-zijingmod.itemStaffShijian.skill3=§c技能3: 使单个作物快速增长. (M : %d)
+zijingmod.itemZilingZhu.skill1=§c技能1: 漂浮. (M : %d) (右键)
+zijingmod.itemZilingZhu.skill2=§c技能2: 清除所有状态. (M : %d) (潜行 + 右键)
+zijingmod.itemZilingZhu.skill3=§c技能3: 向上传送. (M : %d) (右键方块)
+zijingmod.itemZilingZhu.skill4=§c技能4: 向下传送. (M : %d) (潜行 + 右键方块)
+zijingmod.itemZilingZhu.skill5=§c技能5: 免疫跌落伤害. (M : %d) (手持)
+zijingmod.itemStaffBingxue.skill1=§c技能1: 冰弹. (M : %d) (右键)
+zijingmod.itemStaffBingxue.skill2=§c技能2: 召唤雪人. (M : %d) (潜行 + 右键)
+zijingmod.itemStaffLieyan.skill1=§c技能1: 火弹. (M : %d) (右键)
+zijingmod.itemStaffLieyan.skill2=§c技能2: 烈火燎原. (M : %d) (潜行 + 右键)
+zijingmod.itemStaffKongjian.skill1=§c技能1: 传送弹. (M : %d) (右键)
+zijingmod.itemStaffKongjian.skill2=§c技能2: 随机传送. (M : %d) (潜行 + 右键)
+zijingmod.itemStaffShijian.skill1=§c技能1: 封印弹. (M : %d) (右键)
+zijingmod.itemStaffShijian.skill2=§c技能2: 使自身周围农作物增长一次. (M : %d) (潜行 + 右键)
+zijingmod.itemStaffShijian.skill3=§c技能3: 使单个农作物增长一次. (M : %d) (潜行 + 右键农作物)
 
 #FY_Tool---------------------------------------------------------------------------
 zijingmod.itemToolZijingJian.1=§4击中敌人，减速敌人%d秒。
 zijingmod.itemToolZijingJian.2=§4击中敌人，增加力量%d秒。
 zijingmod.itemToolZijingJian.3=§4击中敌人，恢复%d滴血。
 zijingmod.itemToolZijingJian.4=§4击中敌人，掉落%d点经验.
-zijingmod.itemToolZijingFu.skill1=§4打破需使用斧头类工具的方块时，连锁掉落，最大连锁量%d。
-zijingmod.itemToolZijingGao.skill1=§4打破需使用镐类工具的方块时，连锁掉落，最大连锁量%d。
-zijingmod.itemToolZijingChan.skill1=§4打破需使用铲类工具的方块时，连锁掉落，最大连锁量%d。
-zijingmod.itemToolZijingChu.skill1=§4打破多节高植物时，连锁掉落，并保留根部.
+zijingmod.itemToolZijingFu.skill1=§4打破需使用斧头类工具的方块时，连锁掉落，最大连锁量%d。 (潜行 + 打破)
+zijingmod.itemToolZijingGao.skill1=§4打破需使用镐类工具的方块时，连锁掉落，最大连锁量%d。 (潜行 + 打破)
+zijingmod.itemToolZijingChan.skill1=§4打破需使用铲类工具的方块时，连锁掉落，最大连锁量%d。 (潜行 + 打破)
+zijingmod.itemToolZijingChu.skill1=§4打破多节高植物时，连锁掉落，并保留根部. (潜行 + 打破)
 zijingmod.itemArmorZijingHelmet.skill1=§4受伤会获得水下呼吸状态%d秒。
 zijingmod.itemArmorZijingBody.skill1=§4受伤会获得血量恢复状态%d秒。
 zijingmod.itemArmorZijingLegs.skill1=§4受伤会获得抗性提升状态%d秒。
@@ -111,9 +109,9 @@ zijingmod.itemArmorZijingBoots.skill1=§4受伤会获得速度加成状态%d秒�
 
 #FY_Entity-------------------------------------------------------------------------
 zijingmod.entityFemaleDisciple.name=§6徒弟
-zijingmod.entityFemaleDisciple.special=可以穿戴装备，触发紫晶防具被动效果！
+zijingmod.entityFemaleDisciple.special=可以穿戴装备，触发紫晶防具和紫灵珠被动效果！
 zijingmod.entityMaleDisciple.name=§6徒弟
-zijingmod.entityMaleDisciple.special=可以穿戴装备，触发紫晶防具被动效果！
+zijingmod.entityMaleDisciple.special=可以穿戴装备，触发紫晶防具和紫灵珠被动效果！
 zijingmod.entitySuperIronGolem.name=§6超级铁傀儡
 zijingmod.entitySuperIronGolem.special=血量、血量恢复和防御%s倍于原等级！
 zijingmod.entitySuperSnowman.name=§6超级雪人
@@ -137,6 +135,14 @@ zijingmod.gui.physicalDefense=§l物理防御: §r
 zijingmod.gui.magicDefense=§l魔法防御: §r
 zijingmod.gui.needExperience=§l升级经验: §r
 zijingmod.gui.special=§l特性: §r
+
+#WaiGua-------------------------------------------------------------------------
+item.itemStaffBuilding.name=§6外挂-建设法杖
+item.itemWuxianBaoshi.name=§6外挂-无限宝石
+zijingmod.itemStaffBuilding.skill1=§c技能1: 生成11*11的耕地，并种植紫灵草. (右键)
+zijingmod.itemStaffBuilding.skill2=§c技能2: 生成21*21的耕地，并种植紫灵草. (潜行 + 右键)
+zijingmod.itemWuxianBaoshi.skill1=§c技能1: 可以当做燃料，连续燃烧%s秒.
+zijingmod.itemWuxianBaoshi.skill2=§c技能2: 增加可升级生物经验%s点. (潜行 + 右键生物)
 
 #FY_BASE---------------------------------------------------------------------------
 zijingmod.line.1=§d----------------.

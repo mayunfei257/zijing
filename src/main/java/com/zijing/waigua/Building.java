@@ -1,4 +1,4 @@
-package com.zijing.test;
+package com.zijing.waigua;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAnvil;
@@ -131,21 +131,22 @@ public class Building {
 			for(int z = -20; z <= 20; z++) {
 				if(x % 10 == 0 || z % 10 == 0) {
 					BlockPos blockPos = new BlockPos(baseBlockPos.getX() + x, baseBlockPos.getY(), baseBlockPos.getZ() + z);
-					world.setBlockState(blockPos , fieldRoad, 11);
 					if(world.getBlockState(blockPos.up()).getBlock() != Blocks.AIR) {
 						world.setBlockState(blockPos.up(), Blocks.AIR.getDefaultState(), 11);
 					}
+					world.setBlockState(blockPos , fieldRoad, 11);
 				}else if(x % 5 == 0 && z % 5 == 0){
 					BlockPos blockPos = new BlockPos(baseBlockPos.getX() + x, baseBlockPos.getY(), baseBlockPos.getZ() + z);
 					world.setBlockState(blockPos, Blocks.WATER.getDefaultState(), 11);
 					world.setBlockState(blockPos.up(), waterCover, 11);
 				}else {
 					BlockPos blockPos = new BlockPos(baseBlockPos.getX() + x, baseBlockPos.getY(), baseBlockPos.getZ() + z);
+					if(world.getBlockState(blockPos.up()).getBlock() != Blocks.AIR) {
+						world.setBlockState(blockPos.up(), Blocks.AIR.getDefaultState(), 11);
+					}
 					world.setBlockState(blockPos, Blocks.FARMLAND.getDefaultState(), 11);
 					if(null != plant) {
 						world.setBlockState(blockPos.up(), plant.getDefaultState(), 11);
-					}else if(world.getBlockState(blockPos.up()).getBlock() != Blocks.AIR) {
-						world.setBlockState(blockPos.up(), Blocks.AIR.getDefaultState(), 11);
 					}
 				}
 			}
@@ -162,21 +163,22 @@ public class Building {
 			for(int z = -5; z <= 5; z++) {
 				if(x == -5 || x == 5 || z == -5 || z == 5) {
 					BlockPos blockPos = new BlockPos(baseBlockPos.getX() + x, baseBlockPos.getY(), baseBlockPos.getZ() + z);
-					world.setBlockState(blockPos , fieldRoad, 11);
 					if(world.getBlockState(blockPos.up()).getBlock() != Blocks.AIR) {
 						world.setBlockState(blockPos.up(), Blocks.AIR.getDefaultState(), 11);
 					}
+					world.setBlockState(blockPos , fieldRoad, 11);
 				}else if(x == 0 && z == 0){
 					BlockPos blockPos = new BlockPos(baseBlockPos.getX() + x, baseBlockPos.getY(), baseBlockPos.getZ() + z);
 					world.setBlockState(blockPos, Blocks.WATER.getDefaultState(), 11);
 					world.setBlockState(blockPos.up(), waterCover, 11);
 				}else {
 					BlockPos blockPos = new BlockPos(baseBlockPos.getX() + x, baseBlockPos.getY(), baseBlockPos.getZ() + z);
+					if(world.getBlockState(blockPos.up()).getBlock() != Blocks.AIR) {
+						world.setBlockState(blockPos.up(), Blocks.AIR.getDefaultState(), 11);
+					}
 					world.setBlockState(blockPos, Blocks.FARMLAND.getDefaultState(), 11);
 					if(null != plant) {
 						world.setBlockState(blockPos.up(), plant.getDefaultState(), 11);
-					}else if(world.getBlockState(blockPos.up()).getBlock() != Blocks.AIR) {
-						world.setBlockState(blockPos.up(), Blocks.AIR.getDefaultState(), 11);
 					}
 				}
 			}

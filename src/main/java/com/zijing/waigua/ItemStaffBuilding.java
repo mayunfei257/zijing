@@ -1,4 +1,4 @@
-package com.zijing.test;
+package com.zijing.waigua;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import com.zijing.ZijingTab;
 import com.zijing.itf.MagicConsumer;
 import com.zijing.util.ConstantUtil;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -23,21 +24,25 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemStaffWaigua extends Item  implements MagicConsumer{
+public class ItemStaffBuilding extends Item  implements MagicConsumer{
 
-	public ItemStaffWaigua() {
+	public ItemStaffBuilding() {
 		super();
 		maxStackSize = 1;
 		setMaxDamage(ZijingMod.config.getSTAFF_MAX_MAGIC_ENERGY());
-		setUnlocalizedName("itemStaffWaigua");
-		setRegistryName(ConstantUtil.MODID + ":itemstaffwaigua");
+		setUnlocalizedName("itemStaffBuilding");
+		setRegistryName(ConstantUtil.MODID + ":itemstaffbuilding");
 		setCreativeTab(ZijingTab.zijingTab);
 	}
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, final EntityPlayer player, EnumHand hand){
-		if(!world.isRemote && player.isSneaking()) {
-			Building.getinstance().buildArableLand(world, player.getPosition().down(), BaseControl.blockZilingCao);
+		if(!world.isRemote) {
+			if(!player.isSneaking()) {
+				Building.getinstance().buildArableLand2(world, player.getPosition().down(), BaseControl.blockZilingCao);
+			}else {
+				Building.getinstance().buildArableLand(world, player.getPosition().down(), BaseControl.blockZilingCao);
+			}
 		}
         return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, player.getHeldItem(hand));
 	}
@@ -45,13 +50,10 @@ public class ItemStaffWaigua extends Item  implements MagicConsumer{
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
 		if(!world.isRemote) {
-//			if(player.isSneaking()) {
-//				Building.getinstance().buildBase(world, pos);
-//			}else {
-//				Building.getinstance().buildASmallHouse(world, pos);
-//			}
-			if(player.isSneaking()) {
+			if(!player.isSneaking()) {
 				Building.getinstance().buildArableLand2(world, pos, BaseControl.blockZilingCao);
+			}else {
+				Building.getinstance().buildArableLand(world, pos, BaseControl.blockZilingCao);
 			}
 		}
 		return EnumActionResult.SUCCESS;
@@ -70,6 +72,7 @@ public class ItemStaffWaigua extends Item  implements MagicConsumer{
 	@Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flagIn){
-    	
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemStaffWaigua.skill1", new Object[0]));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemStaffWaigua.skill2", new Object[0]));
     }
 }
