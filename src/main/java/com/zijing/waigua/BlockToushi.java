@@ -1,4 +1,4 @@
-package com.zijing.blocks.tool;
+package com.zijing.waigua;
 
 import com.google.common.collect.Lists;
 import com.zijing.ZijingTab;
@@ -26,7 +26,7 @@ public class BlockToushi extends Block{
 		super(Material.GLASS);
         setHardness(1f);
         setResistance(10.0f);
-        setLightLevel(1.0f);
+        setLightLevel(0.0f);
         setHarvestLevel("pickaxe", 0);
         setSoundType(SoundType.WOOD);
 		setUnlocalizedName("blockToushi");

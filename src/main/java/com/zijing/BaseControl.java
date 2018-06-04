@@ -4,7 +4,6 @@ import com.zijing.blocks.BlockGuhuaNiunaiKuai;
 import com.zijing.blocks.BlockSuperNangua;
 import com.zijing.blocks.BlockZijingKuai;
 import com.zijing.blocks.BlockZilingCao;
-import com.zijing.blocks.tool.BlockToushi;
 import com.zijing.blocks.tool.BlockZilingMieshaZhen;
 import com.zijing.blocks.tool.BlockZilingZhaohuanZhen;
 import com.zijing.data.message.ChuansongBookToServerMessage;
@@ -53,6 +52,7 @@ import com.zijing.items.tool.ItemToolZijingFu;
 import com.zijing.items.tool.ItemToolZijingGao;
 import com.zijing.items.tool.ItemToolZijingJian;
 import com.zijing.util.ConstantUtil;
+import com.zijing.waigua.BlockToushi;
 import com.zijing.waigua.ItemStaffBuilding;
 import com.zijing.waigua.ItemWuxianBaoshi;
 
@@ -90,7 +90,6 @@ public class BaseControl{
 	public static Block blockZilingMieshaZhen;
 	public static Block blockZilingZhaohuanZhen;
 	public static Block blockSuperNangua;
-	public static Block blockToushi;
 	
 //	public static Block blockZhulingTai;
 	
@@ -127,6 +126,7 @@ public class BaseControl{
 	public static Item itemArmorZijingLegs;
 	public static Item itemArmorZijingBoots;
 	//waigua
+	public static Block blockToushi;
 	public static Item itemStaffBuilding;
 	public static Item itemWuxianBaoshi;
 
@@ -138,7 +138,6 @@ public class BaseControl{
 		blockZilingMieshaZhen = new BlockZilingMieshaZhen();
 		blockZilingZhaohuanZhen = new BlockZilingZhaohuanZhen();
 		blockSuperNangua = new BlockSuperNangua();
-		blockToushi = new BlockToushi();
 //		blockZhulingTai = new BlockZhulingTai(false);
 		//item
 		itemGuhuaNiunai = new ItemGuhuaNiunai();
@@ -172,7 +171,9 @@ public class BaseControl{
 		itemArmorZijingBody = new ItemArmorZijingBody();
 		itemArmorZijingLegs = new ItemArmorZijingLegs();
 		itemArmorZijingBoots = new ItemArmorZijingBoots();
+		
 		//waigua
+		blockToushi = new BlockToushi();
 		itemStaffBuilding = new ItemStaffBuilding();
 		itemWuxianBaoshi = new ItemWuxianBaoshi();
 		
@@ -201,8 +202,6 @@ public class BaseControl{
 		GameData.register_impl(new ItemBlock(blockZilingZhaohuanZhen).setRegistryName(blockZilingZhaohuanZhen.getRegistryName()));
 		GameData.register_impl(blockSuperNangua);
 		GameData.register_impl(new ItemBlock(blockSuperNangua).setRegistryName(blockSuperNangua.getRegistryName()));
-		GameData.register_impl(blockToushi);
-		GameData.register_impl(new ItemBlock(blockToushi).setRegistryName(blockToushi.getRegistryName()));
 //		GameData.register_impl(blockZhulingTai);
 //		GameData.register_impl(new ItemBlock(blockZhulingTai).setRegistryName(blockZhulingTai.getRegistryName()));
 
@@ -241,6 +240,8 @@ public class BaseControl{
 		GameData.register_impl(itemArmorZijingBoots);
 
 		//waigua
+		GameData.register_impl(blockToushi);
+		GameData.register_impl(new ItemBlock(blockToushi).setRegistryName(blockToushi.getRegistryName()));
 		GameData.register_impl(itemStaffBuilding);
 		GameData.register_impl(itemWuxianBaoshi);
 		
@@ -261,7 +262,6 @@ public class BaseControl{
 		bolckResourceLoad(blockZilingMieshaZhen);
 		bolckResourceLoad(blockZilingZhaohuanZhen);
 		bolckResourceLoad(blockSuperNangua);
-		bolckResourceLoad(blockToushi);
 //		bolckResourceLoad(blockZhulingTai);
 		//item
 		itemResourceLoad(itemGuhuaNiunai);
@@ -271,7 +271,6 @@ public class BaseControl{
 		itemResourceLoad(itemDanShenshu);
 		itemResourceLoad(itemZilingZhu);
 		itemResourceLoad(itemQiankunDai);
-		itemResourceLoad(itemWuxianBaoshi);
 		//card
 		itemResourceLoad(itemCardFengyin);
 		itemResourceLoad(itemCardChuansong);
@@ -285,7 +284,6 @@ public class BaseControl{
 		itemResourceLoad(itemArrowHuoDan);
 		itemResourceLoad(itemArrowXukongDan);
 		itemResourceLoad(itemArrowFengyinDan);
-		itemResourceLoad(itemStaffBuilding);
 		//tool
 		itemResourceLoad(itemToolZijingJian);
 		itemResourceLoad(itemToolZijingFu);
@@ -297,6 +295,10 @@ public class BaseControl{
 		itemResourceLoad(itemArmorZijingBody);
 		itemResourceLoad(itemArmorZijingLegs);
 		itemResourceLoad(itemArmorZijingBoots);
+		//waigua
+		bolckResourceLoad(blockToushi);
+		itemResourceLoad(itemStaffBuilding);
+		itemResourceLoad(itemWuxianBaoshi);
     }
 	
 	public static void registerRecipe(FMLInitializationEvent event){
