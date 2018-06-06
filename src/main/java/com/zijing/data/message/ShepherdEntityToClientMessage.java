@@ -18,7 +18,7 @@ public class ShepherdEntityToClientMessage implements IMessage {
 	NBTTagCompound dataTag;
 
 	public ShepherdEntityToClientMessage() {}
-	public ShepherdEntityToClientMessage(int EntityId, NBTBase shepherdCapabilityTag, int nextLevelNeedExperience, double experience, double swordDamage, double armorValue, BlockPos homePos, int maxDistance) {
+	public ShepherdEntityToClientMessage(int EntityId, NBTBase shepherdCapabilityTag, int nextLevelNeedExperience, double experience, double swordDamage, double armorValue, BlockPos homePos) {
 		this.dataTag = new NBTTagCompound();
 		this.dataTag.setInteger("EntityId", EntityId);
 		this.dataTag.setTag("shepherdCapabilityTag", shepherdCapabilityTag);
@@ -29,7 +29,6 @@ public class ShepherdEntityToClientMessage implements IMessage {
 		this.dataTag.setInteger("homePosX", homePos.getX());
 		this.dataTag.setInteger("homePosY", homePos.getY());
 		this.dataTag.setInteger("homePosZ", homePos.getZ());
-		this.dataTag.setInteger("maxDistance", maxDistance);
 	}
 
 	@Override
@@ -57,7 +56,6 @@ public class ShepherdEntityToClientMessage implements IMessage {
 						double swordDamage = dataTag.getDouble("swordDamage");
 						double armorValue = dataTag.getDouble("armorValue");
 						BlockPos homePos = new BlockPos(dataTag.getInteger("homePosX"), dataTag.getInteger("homePosY"), dataTag.getInteger("homePosZ"));
-						int maxDistance = dataTag.getInteger("maxDistance");
 						Entity entity = Minecraft.getMinecraft().player.world.getEntityByID(EntityId);
 						
 				    	if(null != entity && entity instanceof EntityShepherdCapability) {
@@ -68,7 +66,6 @@ public class ShepherdEntityToClientMessage implements IMessage {
 				    		shepherdEntity.setSwordDamage(swordDamage);
 				    		shepherdEntity.setArmorValue(armorValue);
 				    		shepherdEntity.setHomePos(homePos);
-				    		shepherdEntity.setMaxDistance(maxDistance);
 				    	}
 					}
 				});

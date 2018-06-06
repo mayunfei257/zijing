@@ -16,7 +16,6 @@ import net.minecraft.util.FoodStats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 
 public class EntityUtil {
@@ -198,19 +197,5 @@ public class EntityUtil {
     		shepherdEntity.setSwordDamage(shepherdEntity.getSwordDamage() + ((ItemSword)item5).getAttackDamage() + 4F);
     	}
 		return true;
-	}
-	
-	public static boolean checkAndTryMoveToHome(EntityShepherdCapability shepherdEntity) {
-		if(shepherdEntity.getMaxDistance() > 0 && null != shepherdEntity.getHomePos()) {
-			if(shepherdEntity.getAttackTarget() == null || shepherdEntity.getAttackTarget().isDead) {
-				BlockPos pos = shepherdEntity.getHomePos();
-				int distance = shepherdEntity.getMaxDistance();
-				if(shepherdEntity.getDistance(pos.getX(), pos.getY(), pos.getZ()) > distance) {
-					shepherdEntity.getNavigator().tryMoveToXYZ(pos.getX(), pos.getY(), pos.getZ(), 1.0D);
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 }

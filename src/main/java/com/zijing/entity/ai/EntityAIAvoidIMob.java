@@ -7,32 +7,28 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.zijing.entity.EntityEvilTaoist;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.monster.EntityCaveSpider;
 import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityElderGuardian;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntityEndermite;
-import net.minecraft.entity.monster.EntityEvoker;
 import net.minecraft.entity.monster.EntityGiantZombie;
-import net.minecraft.entity.monster.EntityGuardian;
 import net.minecraft.entity.monster.EntityHusk;
-import net.minecraft.entity.monster.EntityIllusionIllager;
 import net.minecraft.entity.monster.EntityMagmaCube;
 import net.minecraft.entity.monster.EntityPigZombie;
+import net.minecraft.entity.monster.EntityShulker;
 import net.minecraft.entity.monster.EntitySilverfish;
-import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.monster.EntitySpider;
+import net.minecraft.entity.monster.EntityVex;
 import net.minecraft.entity.monster.EntityVindicator;
-import net.minecraft.entity.monster.EntityWitch;
+import net.minecraft.entity.monster.EntityWitherSkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.monster.EntityZombieVillager;
 import net.minecraft.pathfinding.Path;
@@ -55,29 +51,25 @@ public class EntityAIAvoidIMob extends EntityAIBase{
 
 	static {
 		classToAvoid = new ArrayList<Class<? extends Entity>>();
+		classToAvoid.add(EntityVindicator.class);
 		classToAvoid.add(EntityZombie.class);
-		classToAvoid.add(EntitySkeleton.class);
+		classToAvoid.add(EntityZombieVillager.class);
+		classToAvoid.add(EntityHusk.class);
+		classToAvoid.add(EntityWitherSkeleton.class);
 		classToAvoid.add(EntityCreeper.class);
-		classToAvoid.add(EntityBlaze.class);
+		classToAvoid.add(EntitySpider.class);
+		classToAvoid.add(EntityCaveSpider.class);
 		classToAvoid.add(EntityEnderman.class);
 		classToAvoid.add(EntityEndermite.class);
 		classToAvoid.add(EntityGiantZombie.class);
-		classToAvoid.add(EntityEvoker.class);
-		classToAvoid.add(EntityIllusionIllager.class);
-		classToAvoid.add(EntityVindicator.class);
 		classToAvoid.add(EntitySilverfish.class);
-		classToAvoid.add(EntitySpider.class);
-		classToAvoid.add(EntityCaveSpider.class);
-		classToAvoid.add(EntityGuardian.class);
-		classToAvoid.add(EntityElderGuardian.class);
-		classToAvoid.add(EntityWitch.class);
-		classToAvoid.add(EntityWither.class);
-		classToAvoid.add(EntityHusk.class);
+		classToAvoid.add(EntityVex.class);
 		classToAvoid.add(EntityPigZombie.class);
-		classToAvoid.add(EntityZombieVillager.class);
-		classToAvoid.add(EntityDragon.class);
 		classToAvoid.add(EntitySlime.class);
 		classToAvoid.add(EntityMagmaCube.class);
+		classToAvoid.add(EntityDragon.class);
+		classToAvoid.add(EntityShulker.class);
+		classToAvoid.add(EntityEvilTaoist.class);
 	}
 	
 	public EntityAIAvoidIMob(EntityCreature entityIn, float avoidDistanceIn, double speedIn){

@@ -80,7 +80,6 @@ public class BlockSuperNangua extends BlockHorizontal{
             BlockPos blockpos1 = blockpattern$patternhelper.translateOffset(0, 2, 0).getPos();
             entitysnowman.setLocationAndAngles((double)blockpos1.getX() + 0.5D, (double)blockpos1.getY() + 0.05D, (double)blockpos1.getZ() + 0.5D, 0.0F, 0.0F);
             entitysnowman.setHomePos(blockpos1);
-            entitysnowman.setMaxDistance(32);
             entitysnowman.updataSwordDamageAndArmorValue();
             worldIn.spawnEntity(entitysnowman);
 
@@ -110,7 +109,6 @@ public class BlockSuperNangua extends BlockHorizontal{
                 EntitySuperIronGolem entityirongolem = new EntitySuperIronGolem(worldIn);
                 entityirongolem.setLocationAndAngles((double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.05D, (double)blockpos.getZ() + 0.5D, 0.0F, 0.0F);
                 entityirongolem.setHomePos(blockpos);
-                entityirongolem.setMaxDistance(32);
                 entityirongolem.updataSwordDamageAndArmorValue();
                 worldIn.spawnEntity(entityirongolem);
 

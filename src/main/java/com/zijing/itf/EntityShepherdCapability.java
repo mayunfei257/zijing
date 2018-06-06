@@ -29,7 +29,6 @@ public abstract class EntityShepherdCapability extends EntityCreature implements
 	protected int checkHomeTick = ConstantUtil.CHECK_HOME_TICK;
 
 	protected BlockPos homePos = BlockPos.ORIGIN;
-	protected int maxDistance = -1;
 	protected int baseLevel = 1;
 
 	protected ShepherdCapability shepherdCapability;
@@ -74,7 +73,6 @@ public abstract class EntityShepherdCapability extends EntityCreature implements
         compound.setInteger(ConstantUtil.MODID + ":homePosX", this.homePos.getX());
         compound.setInteger(ConstantUtil.MODID + ":homePosY", this.homePos.getY());
         compound.setInteger(ConstantUtil.MODID + ":homePosZ", this.homePos.getZ());
-        compound.setInteger(ConstantUtil.MODID + ":maxDistance", this.maxDistance);
         
         compound.setDouble(ConstantUtil.MODID + ":swordDamage", this.swordDamage);
         compound.setDouble(ConstantUtil.MODID + ":armorValue", this.armorValue);
@@ -92,7 +90,6 @@ public abstract class EntityShepherdCapability extends EntityCreature implements
         int y = compound.getInteger(ConstantUtil.MODID + ":homePosY");
         int z = compound.getInteger(ConstantUtil.MODID + ":homePosZ");
         this.homePos = new BlockPos(x, y, z);
-        this.maxDistance = compound.getInteger(ConstantUtil.MODID + ":maxDistance");
         
         this.swordDamage = compound.getDouble(ConstantUtil.MODID + ":swordDamage");
         this.armorValue = compound.getDouble(ConstantUtil.MODID + ":armorValue");
@@ -158,18 +155,11 @@ public abstract class EntityShepherdCapability extends EntityCreature implements
 			}
 			if(!this.world.isRemote) {
 				if(this.nextConnectTick <= 0) {
-					BaseControl.netWorkWrapper.sendToAll(new ShepherdEntityToClientMessage(this.getEntityId(), this.shepherdCapability.writeNBT(null), this.nextLevelNeedExperience, this.experience, this.swordDamage, this.armorValue, this.homePos, this.maxDistance));
+					BaseControl.netWorkWrapper.sendToAll(new ShepherdEntityToClientMessage(this.getEntityId(), this.shepherdCapability.writeNBT(null), this.nextLevelNeedExperience, this.experience, this.swordDamage, this.armorValue, this.homePos));
 					this.nextConnectTick = ConstantUtil.CONNECT_TICK + this.getRNG().nextInt(ConstantUtil.CONNECT_TICK);
 				}else {
 					this.nextConnectTick--;
 				}
-			}
-			if(this.maxDistance > 0) {
-//				if(this.checkHomeTick <= 0 && EntityUtil.checkAndTryMoveToHome(this)) {
-//					this.checkHomeTick = ConstantUtil.CHECK_HOME_TICK + this.getRNG().nextInt(ConstantUtil.CHECK_HOME_TICK);
-//				}else {
-//					this.checkHomeTick --;
-//				}
 			}
 		}
 	}
@@ -207,14 +197,6 @@ public abstract class EntityShepherdCapability extends EntityCreature implements
 
 	public void setHomePos(BlockPos homePos) {
 		this.homePos = homePos;
-	}
-
-	public int getMaxDistance() {
-		return maxDistance;
-	}
-
-	public void setMaxDistance(int maxDistance) {
-		this.maxDistance = maxDistance;
 	}
 	
 	public double getExperience() {
