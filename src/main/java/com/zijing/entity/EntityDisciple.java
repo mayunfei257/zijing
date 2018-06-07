@@ -1,8 +1,5 @@
 package com.zijing.entity;
 
-import javax.annotation.Nullable;
-
-import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
 import com.zijing.BaseControl;
 import com.zijing.entity.ai.EntityAIAttackMeleeZJ;
@@ -74,22 +71,18 @@ public class EntityDisciple extends EntityFriendly implements IRangedAttackMob{
 	protected void initEntityAI() {
 		this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAITempt(this, 1.0D, false, Sets.newHashSet(BaseControl.itemZiqi, BaseControl.itemZijing, BaseControl.itemDanZiling, Item.getItemFromBlock(Blocks.RED_FLOWER), Item.getItemFromBlock(Blocks.YELLOW_FLOWER))));
-        this.tasks.addTask(2, new EntityAIAttackRangedZJ(this, 1.0D, 15, 3.0D, 32.0F, SkillEntity.MagicSkill_BingDan));
+        this.tasks.addTask(2, new EntityAIAttackRangedZJ(this, 1.0D, 15, 3.0D, 16.0F, SkillEntity.MagicSkill_BingDan));
         this.tasks.addTask(3, new EntityAIAttackMeleeZJ(this, 1.0D, 10, false));
         this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
-        this.tasks.addTask(5, new EntityAIMoveTowardsTarget(this, 1D, 32.0F));
+        this.tasks.addTask(5, new EntityAIMoveTowardsTarget(this, 1D, 16.0F));
         this.tasks.addTask(6, new EntityAIMoveToHome(this, 1.0D, 32, 8));
 		this.tasks.addTask(7, new EntityAIWander(this, 0.9D));
         this.tasks.addTask(8, new EntityAIWanderAvoidWater(this, 1D));
         this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		this.tasks.addTask(10, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[0]));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityEvil.class, true, true));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, true, true, new Predicate<EntityLiving>(){
-            public boolean apply(@Nullable EntityLiving target){
-                return target != null && IMob.VISIBLE_MOB_SELECTOR.apply(target);
-            }
-        }));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityEvil.class, 5, true, false, IMob.MOB_SELECTOR));
+        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 5, true, false, IMob.MOB_SELECTOR));
 	}
 
 	@Override

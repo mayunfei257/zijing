@@ -78,15 +78,15 @@ public class EntitySuperSnowman extends EntityFriendly implements IRangedAttackM
 		this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAITempt(this, 1.0D, false, Sets.newHashSet(BaseControl.itemZiqi, BaseControl.itemZijing, BaseControl.itemDanZiling, Item.getItemFromBlock(Blocks.RED_FLOWER), Item.getItemFromBlock(Blocks.YELLOW_FLOWER))));
         this.tasks.addTask(2, new EntityAIAvoidIMob(this, 5F, 1.0D));
-        this.tasks.addTask(3, new EntityAIPanicZJ(this, 1.5D, 16, 5, 8, 4, 4.3D));
-        this.tasks.addTask(4, new EntityAIAttackRangedZJ(this, 1.0D, (int)(15/ConstantUtil.SPECIAL_K), 4.3D, 32.0F, SkillEntity.MagicSkill_BingDan));
+        this.tasks.addTask(3, new EntityAIPanicZJ(this, 1.5D, 16, 5, 8, 4, 4.0D));
+        this.tasks.addTask(4, new EntityAIAttackRangedZJ(this, 1.0D, (int)(15/ConstantUtil.SPECIAL_K), 4.0D, 16.0F, SkillEntity.MagicSkill_BingDan));
         this.tasks.addTask(5, new EntityAIMoveToHome(this, 1.0D, 32, 8));
         this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1.0D, 1.0000001E-5F));
         this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[0]));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityEvil.class, true, true));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, true, false, IMob.MOB_SELECTOR));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityEvil.class, 5, true, false, IMob.VISIBLE_MOB_SELECTOR));
+        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 5, true, false, IMob.VISIBLE_MOB_SELECTOR));
     }
 
 	@Override
