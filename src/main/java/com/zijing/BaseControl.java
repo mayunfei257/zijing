@@ -99,17 +99,17 @@ public class BaseControl{
 	public static Item itemZijing;
 	public static Item itemDanZiling;
 	public static Item itemDanShenshu;
-	public static Item itemZilingZhu;
+	public static ItemZilingZhu itemZilingZhu;
 	public static Item itemQiankunDai;
 	//card
 	public static Item itemCardFengyin;
 	public static Item itemCardChuansong;
 	public static Item itemBookChuansong;
 	//staff
-	public static Item itemStaffBingxue;
-	public static Item itemStaffLieyan;
-	public static Item itemStaffKongjian;
-	public static Item itemStaffShijian;
+	public static ItemStaffBingxue itemStaffBingxue;
+	public static ItemStaffLieyan itemStaffLieyan;
+	public static ItemStaffKongjian itemStaffKongjian;
+	public static ItemStaffShijian itemStaffShijian;
 	public static Item itemArrowBingDan;
 	public static Item itemArrowHuoDan;
 	public static Item itemArrowXukongDan;

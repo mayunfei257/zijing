@@ -1,7 +1,7 @@
 package com.zijing.entity;
 
-import com.zijing.itf.EntityFriendly;
 import com.zijing.itf.EntityEvil;
+import com.zijing.itf.EntityFriendly;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -11,7 +11,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
@@ -143,4 +142,8 @@ public class EntityArrowBingDan extends EntityThrowable {
 				&& block != Blocks.STONE_BUTTON && block != Blocks.POWERED_REPEATER && block != Blocks.UNPOWERED_REPEATER && block != Blocks.POWERED_COMPARATOR 
 				&& block != Blocks.UNPOWERED_COMPARATOR && block != Blocks.REDSTONE_BLOCK && block != Blocks.SAPLING){
 	 */
+
+	public float getAttackDamage() {
+		return attackDamage;
+	}
 }

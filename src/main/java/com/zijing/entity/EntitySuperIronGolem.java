@@ -37,6 +37,7 @@ import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntityStray;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -186,7 +187,7 @@ public class EntitySuperIronGolem extends EntityFriendly{
      */
 	@Override
     public boolean canAttackClass(Class <? extends EntityLivingBase > cls){
-		if(cls == EntitySkeleton.class && this.shepherdCapability.getLevel() < 15){
+		if((cls == EntitySkeleton.class || cls == EntityStray.class) && this.shepherdCapability.getLevel() < 15){
         	return false;
         }else if(cls == EntityCreeper.class && this.shepherdCapability.getLevel() < 30){
             return false;

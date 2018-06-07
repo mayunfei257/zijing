@@ -6,14 +6,17 @@ import javax.annotation.Nullable;
 
 import com.zijing.ZijingTab;
 import com.zijing.data.playerdata.ShepherdProvider;
+import com.zijing.itf.EntityShepherdCapability;
+import com.zijing.itf.ItemStaff;
 import com.zijing.util.ConstantUtil;
 import com.zijing.util.SkillEntity;
 import com.zijing.util.SkillEntityPlayer;
+import com.zijing.util.SkillEntityShepherd;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -24,7 +27,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemStaffBingxue extends Item{
+public class ItemStaffBingxue extends ItemStaff{
 
 	public ItemStaffBingxue() {
 		super();
@@ -53,6 +56,31 @@ public class ItemStaffBingxue extends Item{
 		return EnumActionResult.PASS;
 	}
 
+	@Override
+	public double skill1(EntityShepherdCapability thrower, EntityLivingBase target) {
+		return SkillEntityShepherd.shootBingDanSkill(thrower, target).getAttackDamage();
+	}
+
+	@Override
+	public double skill2(EntityShepherdCapability thrower, EntityLivingBase target) {
+		return 0;
+	}
+
+	@Override
+	public double skill3(EntityShepherdCapability thrower, EntityLivingBase target) {
+		return 0;
+	}
+
+	@Override
+	public double skill4(EntityShepherdCapability thrower, EntityLivingBase target) {
+		return 0;
+	}
+
+	@Override
+	public double skill5(EntityShepherdCapability thrower, EntityLivingBase target) {
+		return 0;
+	}
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){

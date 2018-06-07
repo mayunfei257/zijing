@@ -7,12 +7,13 @@ import com.google.common.collect.Sets;
 import com.zijing.BaseControl;
 import com.zijing.entity.ai.EntityAIAttackMeleeZJ;
 import com.zijing.entity.ai.EntityAIAttackRangedZJ;
+import com.zijing.entity.ai.EntityAIMoveToHome;
 import com.zijing.itf.EntityEvil;
 import com.zijing.itf.EntityFriendly;
+import com.zijing.itf.ItemStaff;
 import com.zijing.util.ConstantUtil;
 import com.zijing.util.EntityUtil;
 import com.zijing.util.SkillEntity;
-import com.zijing.util.SkillEntityShepherd;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -33,6 +34,7 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntityStray;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -76,7 +78,7 @@ public class EntityDisciple extends EntityFriendly implements IRangedAttackMob{
         this.tasks.addTask(3, new EntityAIAttackMeleeZJ(this, 1.0D, 10, false));
         this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
         this.tasks.addTask(5, new EntityAIMoveTowardsTarget(this, 1D, 32.0F));
-        
+        this.tasks.addTask(6, new EntityAIMoveToHome(this, 1.0D, 32, 8));
 		this.tasks.addTask(7, new EntityAIWander(this, 0.9D));
         this.tasks.addTask(8, new EntityAIWanderAvoidWater(this, 1D));
         this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
@@ -164,7 +166,7 @@ public class EntityDisciple extends EntityFriendly implements IRangedAttackMob{
     
 	@Override
     public boolean canAttackClass(Class <? extends EntityLivingBase > cls){
-        if(cls == EntitySkeleton.class && this.shepherdCapability.getLevel() < 15){
+		if((cls == EntitySkeleton.class || cls == EntityStray.class) && this.shepherdCapability.getLevel() < 15){
         	return false;
         }else if(cls == EntityCreeper.class && this.shepherdCapability.getLevel() < 30){
             return false;
@@ -193,14 +195,12 @@ public class EntityDisciple extends EntityFriendly implements IRangedAttackMob{
 
 	@Override
 	public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
-		if(!this.world.isRemote) {
-			if(this.world.rand.nextFloat() < 0.5D && this.shepherdCapability.getLevel() >= SkillEntity.CAN_SHOOT_HUODAN_LEVEL) {
-				SkillEntityShepherd.shootHuoDanSkill(this, target, false);
-			}else {
-				SkillEntityShepherd.shootBingDanSkill(this, target);
+		if(!this.world.isRemote && null != this.getHeldItemOffhand()) {
+			Item item = this.getHeldItemOffhand().getItem();
+			if(item instanceof ItemStaff) {
+				double attackDamage = ((ItemStaff) item).skill1(this, target);
+				this.experience += attackDamage * ConstantUtil.EXPERIENCE_MAGNIFICATION;
 			}
-        	double attackDamage = this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
-			this.experience += attackDamage * ConstantUtil.EXPERIENCE_MAGNIFICATION;
 		}
 	}
 

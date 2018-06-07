@@ -3,8 +3,8 @@ package com.zijing.entity;
 import com.zijing.BaseControl;
 import com.zijing.ZijingMod;
 import com.zijing.data.playerdata.ShepherdProvider;
-import com.zijing.itf.EntityFriendly;
 import com.zijing.itf.EntityEvil;
+import com.zijing.itf.EntityFriendly;
 import com.zijing.util.ConstantUtil;
 
 import net.minecraft.block.material.Material;
@@ -15,7 +15,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.ItemStack;
@@ -148,5 +147,9 @@ public class EntityArrowFengyinDan extends EntityThrowable {
 			canThroughFlag = true;
 		}
 		return canThroughFlag;
+	}
+
+	public float getAttackDamage() {
+		return attackDamage;
 	}
 }

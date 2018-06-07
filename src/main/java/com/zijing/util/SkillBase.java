@@ -35,7 +35,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class SkillBase {
 	protected static final int WORLD_MAX_HIGHT = 512;
-	protected static final float VELOCITY = 3.0F;
+	protected static final float VELOCITY = 2.5F;
 	protected static final float INACCURACY = 0.0F;
 
 	//TODO ------Base Skill Start--------------------

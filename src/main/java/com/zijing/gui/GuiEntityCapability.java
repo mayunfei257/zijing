@@ -4,10 +4,10 @@ import java.text.DecimalFormat;
 
 import org.lwjgl.opengl.GL11;
 
-import com.zijing.BaseControl;
 import com.zijing.data.playerdata.ShepherdCapability;
 import com.zijing.entity.EntityDisciple;
 import com.zijing.itf.EntityFriendly;
+import com.zijing.itf.ItemStaff;
 import com.zijing.util.ConstantUtil;
 
 import net.minecraft.client.Minecraft;
@@ -91,7 +91,7 @@ public class GuiEntityCapability {
 					this.addSlotToContainer(new Slot(entityInv, 5, 43, 99) {
 						@Override
 						public boolean isItemValid(ItemStack stack) {
-							return null != stack && null != stack.getItem() && stack.getItem() == BaseControl.itemZilingZhu;
+							return null != stack && null != stack.getItem() && (stack.getItem() instanceof ItemStaff);
 						}
 					});
 				}

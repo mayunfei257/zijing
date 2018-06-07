@@ -1,11 +1,15 @@
 package com.zijing.entity.ai;
 
+import com.zijing.entity.EntityDisciple;
+import com.zijing.entity.EntityEvilTaoist;
 import com.zijing.itf.EntityFriendly;
 
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.MathHelper;
 
 public class EntityAIAttackRangedZJ extends EntityAIBase{
@@ -58,10 +62,16 @@ public class EntityAIAttackRangedZJ extends EntityAIBase{
     public boolean shouldExecute(){
 		EntityLivingBase entitylivingbase = this.entityHost.getAttackTarget();
         if(null != entitylivingbase && this.entityHost instanceof EntityFriendly) {
-            double distance = Math.sqrt(Math.pow(entitylivingbase.posX - this.entityHost.posX, 2) + Math.pow(entitylivingbase.posY - this.entityHost.posY, 2) + Math.pow(entitylivingbase.posZ - this.entityHost.posZ, 2));
-            if(distance > this.minDistance && ((EntityFriendly)this.entityHost).getShepherdCapability().getMagic() >= this.needMagicValue) {
-            	this.attackTarget = entitylivingbase;
-        		return  true;
+            if(entityHost.getDistanceSq(entitylivingbase) > this.minDistance * this.minDistance && ((EntityFriendly)this.entityHost).getShepherdCapability().getMagic() >= this.needMagicValue) {
+            	if(this.entityHost.getClass() == EntityDisciple.class || this.entityHost.getClass() == EntityEvilTaoist.class) {
+            		if(null != this.entityHost.getHeldItemOffhand()) {
+                    	this.attackTarget = entitylivingbase;
+                		return  true;
+            		}
+            	}else {
+                	this.attackTarget = entitylivingbase;
+            		return  true;
+            	}
             }
         }
 		return false;
@@ -110,6 +120,7 @@ public class EntityAIAttackRangedZJ extends EntityAIBase{
 			}
 			float f = MathHelper.sqrt(d0) / this.attackRadius;
 			float lvt_5_1_ = MathHelper.clamp(f, 0.1F, 1.0F);
+			((EntityCreature)this.rangedAttackEntityHost).swingArm(EnumHand.OFF_HAND);
 			this.rangedAttackEntityHost.attackEntityWithRangedAttack(this.attackTarget, lvt_5_1_);
 			this.rangedAttackTime = MathHelper.floor(f * (float)(this.maxRangedAttackTime - this.attackIntervalMin) + (float)this.attackIntervalMin);
 		} else if (this.rangedAttackTime < 0){

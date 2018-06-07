@@ -10,9 +10,7 @@ import com.zijing.itf.EntityShepherdCapability;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.MobEffects;
-import net.minecraft.potion.Potion;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 public class SkillEntityShepherd extends SkillEntity{
 
@@ -87,18 +85,18 @@ public class SkillEntityShepherd extends SkillEntity{
 //		return shootFengyinDanGroup(thrower, target, 0, 2, 5);
 //	}
 
-	public static void levitationSkill(EntityShepherdCapability shepherdEntity) {
-		ShepherdCapability shepherdCapability = shepherdEntity.getShepherdCapability();
+	public static void levitationSkill(EntityShepherdCapability thrower, EntityLivingBase target) {
+		ShepherdCapability shepherdCapability = thrower.getShepherdCapability();
         if(shepherdCapability.getMagic() >= MagicSkill_Levitation) {
-        	addEffect(shepherdEntity, MobEffects.LEVITATION, 80, 0);
+        	addEffect(target, MobEffects.LEVITATION, 80, 0);
     		shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill_Levitation);
         }
 	}
 
-	public static void removeEffectSkill(EntityShepherdCapability shepherdEntity) {
-		ShepherdCapability shepherdCapability = shepherdEntity.getShepherdCapability();
+	public static void removeEffectSkill(EntityShepherdCapability thrower, EntityLivingBase target) {
+		ShepherdCapability shepherdCapability = thrower.getShepherdCapability();
         if(shepherdCapability.getMagic() >= MagicSkill_RemoveEffect) {
-    		removeEffect(shepherdEntity);
+    		removeEffect(target);
     		shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill_RemoveEffect);
         }
 	}
