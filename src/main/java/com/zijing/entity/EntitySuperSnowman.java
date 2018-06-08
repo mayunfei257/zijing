@@ -6,8 +6,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.zijing.BaseControl;
 import com.zijing.entity.ai.EntityAIAttackRangedZJ;
-import com.zijing.entity.ai.EntityAIAvoidIMob;
-import com.zijing.entity.ai.EntityAIMoveToHome;
+import com.zijing.entity.ai.EntityAIAvoidIMobZJ;
+import com.zijing.entity.ai.EntityAIMoveToHomeZJ;
 import com.zijing.entity.ai.EntityAIPanicZJ;
 import com.zijing.itf.EntityEvil;
 import com.zijing.itf.EntityFriendly;
@@ -77,10 +77,10 @@ public class EntitySuperSnowman extends EntityFriendly implements IRangedAttackM
     protected void initEntityAI(){
 		this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAITempt(this, 1.0D, false, Sets.newHashSet(BaseControl.itemZiqi, BaseControl.itemZijing, BaseControl.itemDanZiling, Item.getItemFromBlock(Blocks.RED_FLOWER), Item.getItemFromBlock(Blocks.YELLOW_FLOWER))));
-        this.tasks.addTask(2, new EntityAIAvoidIMob(this, 5F, 1.0D));
+        this.tasks.addTask(2, new EntityAIAvoidIMobZJ(this, EntityLiving.class, 5F, 1.0D, IMob.VISIBLE_MOB_SELECTOR));
         this.tasks.addTask(3, new EntityAIPanicZJ(this, 1.5D, 16, 5, 8, 4, 4.0D));
         this.tasks.addTask(4, new EntityAIAttackRangedZJ(this, 1.0D, (int)(15/ConstantUtil.SPECIAL_K), 4.0D, 16.0F, SkillEntity.MagicSkill_BingDan));
-        this.tasks.addTask(5, new EntityAIMoveToHome(this, 1.0D, 32, 8));
+        this.tasks.addTask(5, new EntityAIMoveToHomeZJ(this, 1.0D, 32, 8));
         this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1.0D, 1.0000001E-5F));
         this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
@@ -184,6 +184,11 @@ public class EntitySuperSnowman extends EntityFriendly implements IRangedAttackM
             this.dataManager.set(PUMPKIN_EQUIPPED, Byte.valueOf((byte)(b0 & -17)));
         }
     }
+    
+	@Override
+	protected Item getDropItem() {
+		return BaseControl.itemZijing;
+	}
 
     @Nullable
 	@Override

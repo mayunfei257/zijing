@@ -104,12 +104,12 @@ public class EntitySuperIronGolem extends EntityFriendly{
     protected void updateAITasks(){
         if (--this.homeCheckTimer <= 0){
             this.homeCheckTimer = 70 + this.rand.nextInt(50);
-            this.village = this.world.getVillageCollection().getNearestVillage(new BlockPos(this), 32);
+            this.village = this.world.getVillageCollection().getNearestVillage(new BlockPos(this), 64);
             if (this.village == null){
                 this.detachHome();
             } else {
                 BlockPos blockpos = this.village.getCenter();
-                this.setHomePosAndDistance(blockpos, (int)((float)this.village.getVillageRadius() * 0.6F));
+                this.setHomePosAndDistance(blockpos, (int)((float)this.village.getVillageRadius() * 1.2F));
             }
         }
         super.updateAITasks();
@@ -142,6 +142,11 @@ public class EntitySuperIronGolem extends EntityFriendly{
         }
         super.collideWithEntity(entityIn);
     }
+	
+	@Override
+	protected Item getDropItem() {
+		return BaseControl.itemZijing;
+	}
 
     /**
      * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons

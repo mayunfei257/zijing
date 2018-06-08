@@ -9,6 +9,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.MathHelper;
 
@@ -64,7 +65,7 @@ public class EntityAIAttackRangedZJ extends EntityAIBase{
         if(null != entitylivingbase && this.entityHost instanceof EntityFriendly) {
             if(entityHost.getDistanceSq(entitylivingbase) > this.minDistance * this.minDistance && ((EntityFriendly)this.entityHost).getShepherdCapability().getMagic() >= this.needMagicValue) {
             	if(this.entityHost.getClass() == EntityDisciple.class || this.entityHost.getClass() == EntityEvilTaoist.class) {
-            		if(null != this.entityHost.getHeldItemOffhand()) {
+            		if(null != this.entityHost.getHeldItemOffhand() && ItemStack.EMPTY !=  this.entityHost.getHeldItemOffhand()) {
                     	this.attackTarget = entitylivingbase;
                 		return  true;
             		}
@@ -106,7 +107,7 @@ public class EntityAIAttackRangedZJ extends EntityAIBase{
 			this.seeTime = 0;
 		}
 
-		if (d0 <= (double)this.maxAttackDistance && this.seeTime >= 20){
+		if (d0 <= (double)this.maxAttackDistance && this.seeTime >= 5){
 			this.entityHost.getNavigator().clearPath();
 		} else {
 			this.entityHost.getNavigator().tryMoveToEntityLiving(this.attackTarget, this.entityMoveSpeed);

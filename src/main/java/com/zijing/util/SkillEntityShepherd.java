@@ -85,10 +85,10 @@ public class SkillEntityShepherd extends SkillEntity{
 //		return shootFengyinDanGroup(thrower, target, 0, 2, 5);
 //	}
 
-	public static void levitationSkill(EntityShepherdCapability thrower, EntityLivingBase target) {
+	public static void levitationSkill(EntityShepherdCapability thrower, EntityLivingBase target, int durationIn) {
 		ShepherdCapability shepherdCapability = thrower.getShepherdCapability();
         if(shepherdCapability.getMagic() >= MagicSkill_Levitation) {
-        	addEffect(target, MobEffects.LEVITATION, 80, 0);
+        	addEffect(target, MobEffects.LEVITATION, durationIn, 0);
     		shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill_Levitation);
         }
 	}

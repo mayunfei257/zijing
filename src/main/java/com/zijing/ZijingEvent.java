@@ -4,13 +4,12 @@ import org.lwjgl.input.Keyboard;
 
 import com.zijing.data.playerdata.ShepherdCapability;
 import com.zijing.data.playerdata.ShepherdProvider;
+import com.zijing.entity.EntityDisciple;
 import com.zijing.gui.GuiPlayeryCapability;
-import com.zijing.items.staff.ItemZilingZhu;
 import com.zijing.items.tool.ItemArmorZijingBody;
 import com.zijing.items.tool.ItemArmorZijingBoots;
 import com.zijing.items.tool.ItemArmorZijingHelmet;
 import com.zijing.items.tool.ItemArmorZijingLegs;
-import com.zijing.itf.EntityShepherdCapability;
 import com.zijing.util.EntityUtil;
 import com.zijing.util.SkillEntity;
 import com.zijing.util.StringUtil;
@@ -19,11 +18,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -31,6 +31,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -73,36 +74,20 @@ public class ZijingEvent {
 	public void entityAttack(LivingAttackEvent event) {
 		EntityLivingBase entity = event.getEntityLiving();
 		if (!entity.world.isRemote && event.getAmount() > 0) {
-			if(entity instanceof EntityPlayer) {
-				EntityPlayer player = (EntityPlayer)entity;
-				Iterable<ItemStack> armorList = player.getArmorInventoryList();
-				for(ItemStack stack: armorList) {
-					if(null != stack && stack.getItem() == BaseControl.itemArmorZijingHelmet && null == player.getActivePotionEffect(MobEffects.WATER_BREATHING)) {
-						player.addPotionEffect(new PotionEffect(MobEffects.WATER_BREATHING, ItemArmorZijingHelmet.effectTick, 0));
-					}
-					if(null != stack && stack.getItem() == BaseControl.itemArmorZijingBody && null == player.getActivePotionEffect(MobEffects.REGENERATION)) {
-						player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, ItemArmorZijingBody.effectTick, 0));
-					}
-					if(null != stack && stack.getItem() == BaseControl.itemArmorZijingLegs && null == player.getActivePotionEffect(MobEffects.RESISTANCE)) {
-						player.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, ItemArmorZijingLegs.effectTick, 0));
-					}
-					if(null != stack && stack.getItem() == BaseControl.itemArmorZijingBoots && null == player.getActivePotionEffect(MobEffects.SPEED)) {
-						player.addPotionEffect(new PotionEffect(MobEffects.SPEED, ItemArmorZijingBoots.effectTick, 0));
-					}
+			Iterable<ItemStack> armorList = entity instanceof EntityPlayer ? ((EntityPlayer)entity).getArmorInventoryList() : entity.getArmorInventoryList();
+			for(ItemStack stack: armorList) {
+				if(null != stack && stack.getItem() == BaseControl.itemArmorZijingHelmet && null == entity.getActivePotionEffect(MobEffects.WATER_BREATHING)) {
+					entity.addPotionEffect(new PotionEffect(MobEffects.WATER_BREATHING, ItemArmorZijingHelmet.effectTick, 0));
 				}
-			}else if(entity instanceof EntityShepherdCapability){
-	        	if(entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == BaseControl.itemArmorZijingHelmet && null == entity.getActivePotionEffect(MobEffects.WATER_BREATHING)) {
-	        		entity.addPotionEffect(new PotionEffect(MobEffects.WATER_BREATHING, ItemArmorZijingHelmet.effectTick, 0));
-	        	}
-	        	if(entity.getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == BaseControl.itemArmorZijingBody && null == entity.getActivePotionEffect(MobEffects.REGENERATION)) {
-	        		entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, ItemArmorZijingBody.effectTick, 0));
-	        	}
-	        	if(entity.getItemStackFromSlot(EntityEquipmentSlot.LEGS).getItem() == BaseControl.itemArmorZijingLegs && null == entity.getActivePotionEffect(MobEffects.RESISTANCE)) {
-	        		entity.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, ItemArmorZijingLegs.effectTick, 0));
-	        	}
-	        	if(entity.getItemStackFromSlot(EntityEquipmentSlot.FEET).getItem() == BaseControl.itemArmorZijingBoots && null == entity.getActivePotionEffect(MobEffects.SPEED)) {
-	        		entity.addPotionEffect(new PotionEffect(MobEffects.SPEED, ItemArmorZijingBoots.effectTick, 0));
-	        	}
+				if(null != stack && stack.getItem() == BaseControl.itemArmorZijingBody && null == entity.getActivePotionEffect(MobEffects.REGENERATION)) {
+					entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, ItemArmorZijingBody.effectTick, 0));
+				}
+				if(null != stack && stack.getItem() == BaseControl.itemArmorZijingLegs && null == entity.getActivePotionEffect(MobEffects.RESISTANCE)) {
+					entity.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, ItemArmorZijingLegs.effectTick, 0));
+				}
+				if(null != stack && stack.getItem() == BaseControl.itemArmorZijingBoots && null == entity.getActivePotionEffect(MobEffects.SPEED)) {
+					entity.addPotionEffect(new PotionEffect(MobEffects.SPEED, ItemArmorZijingBoots.effectTick, 0));
+				}
 			}
 		}
 	}
@@ -180,4 +165,32 @@ public class ZijingEvent {
 			}
 		}
 	}
+
+	@SubscribeEvent
+	public void wntityInteractWithVillager(PlayerInteractEvent.EntityInteract event) {
+		Entity target = event.getTarget();
+		if(null != target && target instanceof EntityVillager && ((EntityVillager)target).isChild()) {
+			EntityVillager villager = (EntityVillager)target;
+	        ItemStack itemstack = event.getEntityPlayer().getHeldItem(event.getHand());
+			if(null != itemstack && BaseControl.itemZiqi == itemstack.getItem()) {
+				if(!target.world.isRemote && villager.getRNG().nextInt(10) == 0) {
+					EntityDisciple entityDisciple = new EntityDisciple(target.world, 1, EntityDisciple.GENDER.FEMALE);
+		            entityDisciple.setLocationAndAngles(target.posX, target.posY, target.posZ, target.getPitchYaw().x, target.getPitchYaw().y);
+		            entityDisciple.setHomePos(target.getPosition());
+		            entityDisciple.updataSwordDamageAndArmorValue();
+		            entityDisciple.world.spawnEntity(entityDisciple);
+		            entityDisciple.spawnParticles(EnumParticleTypes.VILLAGER_HAPPY);
+		            target.setDead();
+				}else if(target.world.isRemote){
+			        for (int i = 0; i < 5; ++i){
+			            double d0 = villager.getRNG().nextGaussian() * 0.02D;
+			            double d1 = villager.getRNG().nextGaussian() * 0.02D;
+			            double d2 = villager.getRNG().nextGaussian() * 0.02D;
+			            target.world.spawnParticle(EnumParticleTypes.HEART, villager.posX + (double)(villager.getRNG().nextFloat() * villager.width * 2.0F) - (double)villager.width, villager.posY + 1.0D + (double)(villager.getRNG().nextFloat() * villager.height), villager.posZ + (double)(villager.getRNG().nextFloat() * villager.width * 2.0F) - (double)villager.width, d0, d1, d2);
+			        }
+				}
+			}
+		}
+	}
+	
 }

@@ -9,14 +9,14 @@ import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-public class EntityAIMoveToHome extends EntityAIBase{
+public class EntityAIMoveToHomeZJ extends EntityAIBase{
     private final EntityShepherdCapability shepherdEntity;
     private final double speed;
     private Path path;
     private final float maxDistance;
     private final float stopDistance;
 	
-	public EntityAIMoveToHome(EntityShepherdCapability shepherdEntity, double speed, float maxDistance, float stopDistance) {
+	public EntityAIMoveToHomeZJ(EntityShepherdCapability shepherdEntity, double speed, float maxDistance, float stopDistance) {
         this.shepherdEntity = shepherdEntity;
         this.speed = speed;
         this.maxDistance = maxDistance;
@@ -30,7 +30,7 @@ public class EntityAIMoveToHome extends EntityAIBase{
     public boolean shouldExecute(){
 		BlockPos pos = this.shepherdEntity.getHomePos();
 		if(null != pos && this.maxDistance > 0 && this.stopDistance >= 0) {
-			if(this.shepherdEntity.getDistanceSq(pos) > this.maxDistance * this.maxDistance) {
+			if(pos.getY() > 0 && this.shepherdEntity.getDistanceSq(pos) > this.maxDistance * this.maxDistance) {
                 PathNavigateGround pathnavigateground = (PathNavigateGround)this.shepherdEntity.getNavigator();
                 boolean flag = pathnavigateground.getEnterDoors();
                 pathnavigateground.setBreakDoors(false);

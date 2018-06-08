@@ -66,7 +66,13 @@ public class ItemZilingZhu extends ItemStaff{
 	}
 
 	public double skill1(EntityShepherdCapability thrower, EntityLivingBase target) {
-		SkillEntityShepherd.levitationSkill(thrower, target);
+		SkillEntityShepherd.levitationSkill(thrower, target, 160);
+		target.motionY += 0.6D;
+		if(null != thrower.getRevengeTarget() && target != thrower.getRevengeTarget()) {
+			thrower.setAttackTarget(thrower.getRevengeTarget());
+		}else {
+			thrower.setAttackTarget(null);
+		}
 		return 1;
 	}
 

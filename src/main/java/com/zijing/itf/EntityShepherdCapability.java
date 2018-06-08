@@ -28,7 +28,7 @@ public abstract class EntityShepherdCapability extends EntityCreature implements
 	protected int nextConnectTick = ConstantUtil.CONNECT_TICK;
 	protected int checkHomeTick = ConstantUtil.CHECK_HOME_TICK;
 
-	protected BlockPos homePos = BlockPos.ORIGIN;
+	protected BlockPos homePos = new BlockPos(0, -1, 0);
 	protected int baseLevel = 1;
 
 	protected ShepherdCapability shepherdCapability;
@@ -114,23 +114,29 @@ public abstract class EntityShepherdCapability extends EntityCreature implements
 	@Override
 	public void onDeath(DamageSource source) {
 		if(!this.world.isRemote) {
-			if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND)) {
-				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND)));
+			ItemStack mainHandItemStack = this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
+			if(null != mainHandItemStack && ItemStack.EMPTY != mainHandItemStack) {
+				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, mainHandItemStack));
 			}
-			if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.OFFHAND)) {
-				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.OFFHAND)));
+			ItemStack offHandItemStack = this.getItemStackFromSlot(EntityEquipmentSlot.OFFHAND);
+			if(null != offHandItemStack && ItemStack.EMPTY != offHandItemStack) {
+				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, offHandItemStack));
 			}
-			if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.HEAD)) {
-				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.HEAD)));
+			ItemStack headItemStack = this.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
+			if(null != headItemStack && ItemStack.EMPTY != headItemStack) {
+				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, headItemStack));
 			}
-			if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.CHEST)) {
-				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.CHEST)));
+			ItemStack chestItemStack = this.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
+			if(null != chestItemStack && ItemStack.EMPTY != chestItemStack) {
+				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, chestItemStack));
 			}
-			if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.LEGS)) {
-				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.LEGS)));
+			ItemStack legsItemStack = this.getItemStackFromSlot(EntityEquipmentSlot.LEGS);
+			if(null != legsItemStack && ItemStack.EMPTY != legsItemStack) {
+				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, legsItemStack));
 			}
-			if(ItemStack.EMPTY != this.getItemStackFromSlot(EntityEquipmentSlot.FEET)) {
-				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, this.getItemStackFromSlot(EntityEquipmentSlot.FEET)));
+			ItemStack feetItemStack = this.getItemStackFromSlot(EntityEquipmentSlot.FEET);
+			if(null != feetItemStack && ItemStack.EMPTY != feetItemStack) {
+				this.world.spawnEntity(new EntityItem(this.world, this.posX, this.posY, this.posZ, feetItemStack));
 			}
 		}
 		super.onDeath(source);
@@ -182,7 +188,7 @@ public abstract class EntityShepherdCapability extends EntityCreature implements
 	}
 	
     @SideOnly(Side.CLIENT)
-    protected void spawnParticles(EnumParticleTypes particleType){
+    public void spawnParticles(EnumParticleTypes particleType){
         for (int i = 0; i < 5; ++i){
             double d0 = this.rand.nextGaussian() * 0.02D;
             double d1 = this.rand.nextGaussian() * 0.02D;
@@ -196,7 +202,9 @@ public abstract class EntityShepherdCapability extends EntityCreature implements
 	}
 
 	public void setHomePos(BlockPos homePos) {
-		this.homePos = homePos;
+		if(null != homePos) {
+			this.homePos = homePos;
+		}
 	}
 	
 	public double getExperience() {

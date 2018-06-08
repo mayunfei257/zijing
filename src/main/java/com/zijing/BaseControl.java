@@ -308,7 +308,7 @@ public class BaseControl{
 		addShapelessRecipe(ConstantUtil.MODID + ":FJ_itemGuhuaNiunai", ConstantUtil.MODID, new ItemStack(Items.MILK_BUCKET, 1), itemGuhuaNiunai, Items.BUCKET);
 		addRecipe(ConstantUtil.MODID + ":HC_blockGuhuaNiunaiKuai", ConstantUtil.MODID, new ItemStack(blockGuhuaNiunaiKuai, 1), itemGuhuaNiunai, itemGuhuaNiunai, itemGuhuaNiunai, itemGuhuaNiunai, itemGuhuaNiunai, itemGuhuaNiunai, itemGuhuaNiunai, itemGuhuaNiunai, itemGuhuaNiunai);
 		
-		addSmelting(blockZilingCao, new ItemStack(itemZiqi, 1), 1);
+		addSmelting(blockZilingCao, new ItemStack(itemZiqi, 1), 0.5F);
 		addShapelessRecipe(ConstantUtil.MODID + ":FJ_itemZijing", ConstantUtil.MODID, new ItemStack(itemZiqi, 9), itemZijing);
 		addShapelessRecipe(ConstantUtil.MODID + ":FJ_blockZijingKuai", ConstantUtil.MODID, new ItemStack(itemZijing, 9), blockZijingKuai);
 		addRecipe(ConstantUtil.MODID + ":HC_itemZijing", ConstantUtil.MODID, new ItemStack(itemZijing, 1), itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi, itemZiqi);

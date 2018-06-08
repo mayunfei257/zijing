@@ -4,7 +4,7 @@ import com.google.common.collect.Sets;
 import com.zijing.BaseControl;
 import com.zijing.entity.ai.EntityAIAttackMeleeZJ;
 import com.zijing.entity.ai.EntityAIAttackRangedZJ;
-import com.zijing.entity.ai.EntityAIMoveToHome;
+import com.zijing.entity.ai.EntityAIMoveToHomeZJ;
 import com.zijing.itf.EntityEvil;
 import com.zijing.itf.EntityFriendly;
 import com.zijing.itf.ItemStaff;
@@ -75,14 +75,14 @@ public class EntityDisciple extends EntityFriendly implements IRangedAttackMob{
         this.tasks.addTask(3, new EntityAIAttackMeleeZJ(this, 1.0D, 10, false));
         this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
         this.tasks.addTask(5, new EntityAIMoveTowardsTarget(this, 1D, 16.0F));
-        this.tasks.addTask(6, new EntityAIMoveToHome(this, 1.0D, 32, 8));
+        this.tasks.addTask(6, new EntityAIMoveToHomeZJ(this, 1.0D, 32, 8));
 		this.tasks.addTask(7, new EntityAIWander(this, 0.9D));
         this.tasks.addTask(8, new EntityAIWanderAvoidWater(this, 1D));
         this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		this.tasks.addTask(10, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[0]));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityEvil.class, 5, true, false, IMob.MOB_SELECTOR));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 5, true, false, IMob.MOB_SELECTOR));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityEvil.class, 2, true, false, IMob.MOB_SELECTOR));
+        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 2, true, false, IMob.MOB_SELECTOR));
 	}
 
 	@Override
