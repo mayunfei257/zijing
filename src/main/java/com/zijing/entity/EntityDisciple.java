@@ -96,7 +96,7 @@ public class EntityDisciple extends EntityFriendly implements IRangedAttackMob{
 	@Override
 	protected void setBaseShepherdCapability() {
 		super.setBaseShepherdCapability();
-		if(this.gender == GENDER.FEMALE) {
+		if(GENDER.FEMALE.equals(this.gender)) {
 			this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entityFemaleDisciple.name", new Object[0]));
 		}else {
 			this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entityMaleDisciple.name", new Object[0]));

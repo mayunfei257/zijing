@@ -175,7 +175,7 @@ public class ZijingEvent {
 			if(null != itemstack && BaseControl.itemZiqi == itemstack.getItem()) {
 				if(!target.world.isRemote && villager.getRNG().nextInt(10) == 0) {
 					EntityDisciple entityDisciple = new EntityDisciple(target.world, 1, EntityDisciple.GENDER.FEMALE);
-		            entityDisciple.setLocationAndAngles(target.posX, target.posY, target.posZ, target.getPitchYaw().x, target.getPitchYaw().y);
+		            entityDisciple.setLocationAndAngles(target.posX, target.posY, target.posZ, 0.0F, 0.0F);
 		            entityDisciple.setHomePos(target.getPosition());
 		            entityDisciple.updataSwordDamageAndArmorValue();
 		            entityDisciple.world.spawnEntity(entityDisciple);
