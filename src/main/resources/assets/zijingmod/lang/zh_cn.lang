@@ -108,9 +108,9 @@ zijingmod.itemArmorZijingLegs.skill1=§4受伤会获得抗性提升状态%d秒�
 zijingmod.itemArmorZijingBoots.skill1=§4受伤会获得速度加成状态%d秒。
 
 #FY_Entity-------------------------------------------------------------------------
-zijingmod.entityFemaleDisciple.name=§6徒弟
+zijingmod.entityFemaleDisciple.name=§6女徒弟
 zijingmod.entityFemaleDisciple.special=可以穿戴装备，触发紫晶防具和紫灵珠被动效果！
-zijingmod.entityMaleDisciple.name=§6徒弟
+zijingmod.entityMaleDisciple.name=§6男徒弟
 zijingmod.entityMaleDisciple.special=可以穿戴装备，触发紫晶防具和紫灵珠被动效果！
 zijingmod.entitySuperIronGolem.name=§6超级铁傀儡
 zijingmod.entitySuperIronGolem.special=血量、血量恢复和防御%s倍于原等级！
