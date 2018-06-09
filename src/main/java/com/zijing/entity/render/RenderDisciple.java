@@ -26,7 +26,7 @@ public class RenderDisciple extends RenderBiped<EntityDisciple>{
 
 	@Override
 	protected ResourceLocation getEntityTexture(EntityDisciple entity) {
-		if(entity.getGender().getType().equals(EnumGender.FEMALE.getType())) {
+		if(EnumGender.FEMALE.getType().equals(entity.getGender().getType())) {
 			return FEMALE_DISCIPLE_TEXTURES;
 		}else {
 			return MALE_DISCIPLE_TEXTURES;

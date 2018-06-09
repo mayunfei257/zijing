@@ -45,6 +45,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -55,7 +56,7 @@ public class EntityDisciple extends EntityFriendly implements IRangedAttackMob{
 	
 	public EntityDisciple(World world) {
 		super(world);
-		this.gender = this.getRNG().nextInt(2) == 0 ?  EnumGender.FEMALE :  EnumGender.MALE;
+//		this.gender = this.getRNG().nextInt(2) == 0 ?  EnumGender.FEMALE :  EnumGender.MALE;
 		this.setNoAI(false);
 		this.enablePersistence();
 		if(EnumGender.FEMALE.equals(this.gender)) {
@@ -157,6 +158,7 @@ public class EntityDisciple extends EntityFriendly implements IRangedAttackMob{
 	public boolean processInteract(EntityPlayer player, EnumHand hand) {
 		ItemStack itemStack = player.getHeldItem(hand);
 		super.processInteract(player, hand);
+		player.sendMessage(new TextComponentString("genderType: " + this.gender.getType()));
 		return true;
 	}
 //	else if(!this.world.isRemote) {// && player instanceof EntityPlayerMP
