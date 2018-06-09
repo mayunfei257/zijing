@@ -11,6 +11,7 @@ import com.zijing.items.tool.ItemArmorZijingBoots;
 import com.zijing.items.tool.ItemArmorZijingHelmet;
 import com.zijing.items.tool.ItemArmorZijingLegs;
 import com.zijing.util.EntityUtil;
+import com.zijing.util.EnumGender;
 import com.zijing.util.SkillEntity;
 import com.zijing.util.StringUtil;
 
@@ -174,7 +175,7 @@ public class ZijingEvent {
 	        ItemStack itemstack = event.getEntityPlayer().getHeldItem(event.getHand());
 			if(null != itemstack && BaseControl.itemZiqi == itemstack.getItem()) {
 				if(!target.world.isRemote && villager.getRNG().nextInt(10) == 0) {
-					EntityDisciple entityDisciple = new EntityDisciple(target.world, 1, EntityDisciple.GENDER.FEMALE);
+					EntityDisciple entityDisciple = new EntityDisciple(target.world, 1, EnumGender.FEMALE.getType());
 		            entityDisciple.setLocationAndAngles(target.posX, target.posY, target.posZ, 0.0F, 0.0F);
 		            entityDisciple.setHomePos(target.getPosition());
 		            entityDisciple.updataSwordDamageAndArmorValue();

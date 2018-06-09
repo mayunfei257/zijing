@@ -10,6 +10,7 @@ import com.zijing.itf.EntityFriendly;
 import com.zijing.itf.ItemStaff;
 import com.zijing.util.ConstantUtil;
 import com.zijing.util.EntityUtil;
+import com.zijing.util.EnumGender;
 import com.zijing.util.SkillEntity;
 
 import net.minecraft.entity.Entity;
@@ -50,20 +51,31 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityDisciple extends EntityFriendly implements IRangedAttackMob{
-	private GENDER gender = GENDER.FEMALE;
+	private EnumGender gender = EnumGender.FEMALE;
 	
 	public EntityDisciple(World world) {
 		super(world);
+		this.gender = this.getRNG().nextInt(2) == 0 ?  EnumGender.FEMALE :  EnumGender.MALE;
 		this.setNoAI(false);
 		this.enablePersistence();
+		if(EnumGender.FEMALE.equals(this.gender)) {
+			this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entityFemaleDisciple.name", new Object[0]));
+		}else {
+			this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entityMaleDisciple.name", new Object[0]));
+		}
 		this.setAlwaysRenderNameTag(true);
 	}
 
-	public EntityDisciple(World world, int baseLevel, GENDER gender) {
+	public EntityDisciple(World world, int baseLevel, String genderType) {
 		super(world, baseLevel);
-		this.gender = gender;
+		this.gender = EnumGender.getEnumWithType(genderType);
 		this.setNoAI(false);
 		this.enablePersistence();
+		if(EnumGender.FEMALE.equals(this.gender)) {
+			this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entityFemaleDisciple.name", new Object[0]));
+		}else {
+			this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entityMaleDisciple.name", new Object[0]));
+		}
 		this.setAlwaysRenderNameTag(true);
 	}
 
@@ -96,23 +108,24 @@ public class EntityDisciple extends EntityFriendly implements IRangedAttackMob{
 	@Override
 	protected void setBaseShepherdCapability() {
 		super.setBaseShepherdCapability();
-		if(GENDER.FEMALE.equals(this.gender)) {
-			this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entityFemaleDisciple.name", new Object[0]));
-		}else {
-			this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entityMaleDisciple.name", new Object[0]));
-		}
+//		if(EnumGender.FEMALE.equals(this.gender)) {
+//			this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entityFemaleDisciple.name", new Object[0]));
+//		}else {
+//			this.setCustomNameTag(I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entityMaleDisciple.name", new Object[0]));
+//		}
 	}
 
 	@Override
     public void writeEntityToNBT(NBTTagCompound compound){
         super.writeEntityToNBT(compound);
-        compound.setInteger(ConstantUtil.MODID + ":gender", GENDER.FEMALE == this.gender ? 0 : 1 );
+        compound.setString(ConstantUtil.MODID + ":gender", EnumGender.FEMALE.getType());
     }
 
 	@Override
     public void readEntityFromNBT(NBTTagCompound compound){
         super.readEntityFromNBT(compound);
-        this.gender = 0 == compound.getInteger(ConstantUtil.MODID + ":gender") ? GENDER.FEMALE : GENDER.MALE;
+        this.gender = EnumGender.getEnumWithType(compound.getString(ConstantUtil.MODID + ":gender"));
+        this.gender = null == this.gender ? EnumGender.FEMALE : EnumGender.MALE;
     }
 	
 	@Override
@@ -206,22 +219,17 @@ public class EntityDisciple extends EntityFriendly implements IRangedAttackMob{
 		EntityUtil.setEntityAllValue(this);
 	}
 	
-	public GENDER getGender() {
+	public EnumGender getGender() {
 		return gender;
 	}
 
 	@Override
     @SideOnly(Side.CLIENT)
 	public String getSpecialInstructions() {
-		if(this.gender == GENDER.FEMALE) {
+		if(EnumGender.FEMALE.getType().equals(this.gender.getType())) {
 			return I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entityFemaleDisciple.special", new Object[0]);
 		}else {
 			return I18n.translateToLocalFormatted(ConstantUtil.MODID + ".entityMaleDisciple.special", new Object[0]);
 		}
-	}
-	
-	public enum GENDER{
-		FEMALE,
-		MALE;
 	}
 }

@@ -9,7 +9,6 @@ import com.zijing.entity.EntityArrowFengyinDan;
 import com.zijing.entity.EntityArrowHuoDan;
 import com.zijing.entity.EntityArrowXukongDan;
 import com.zijing.entity.EntityDisciple;
-import com.zijing.entity.EntityDisciple.GENDER;
 import com.zijing.entity.EntityEvilTaoist;
 import com.zijing.entity.EntitySuperIronGolem;
 import com.zijing.entity.EntitySuperSnowman;
@@ -125,8 +124,8 @@ public class SkillBase {
 		return entity;
 	}
 
-	protected static EntityDisciple summonDiscipleBase(World world, BlockPos blockPos, int baseLevel, GENDER gender, float yaw, float pitch, int distance) {
-		EntityDisciple entity = new EntityDisciple(world, baseLevel, gender);
+	protected static EntityDisciple summonDiscipleBase(World world, BlockPos blockPos, int baseLevel, EnumGender gender, float yaw, float pitch, int distance) {
+		EntityDisciple entity = new EntityDisciple(world, baseLevel, gender.getType());
 		entity.setLocationAndAngles(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D, yaw, pitch);
 		entity.setHomePosAndDistance(blockPos, distance);
 		entity.updataSwordDamageAndArmorValue();

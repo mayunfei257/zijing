@@ -2,6 +2,7 @@ package com.zijing.entity.render;
 
 import com.zijing.entity.EntityDisciple;
 import com.zijing.util.ConstantUtil;
+import com.zijing.util.EnumGender;
 
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.entity.RenderBiped;
@@ -25,7 +26,7 @@ public class RenderDisciple extends RenderBiped<EntityDisciple>{
 
 	@Override
 	protected ResourceLocation getEntityTexture(EntityDisciple entity) {
-		if(entity.getGender() == EntityDisciple.GENDER.FEMALE) {
+		if(entity.getGender().getType().equals(EnumGender.FEMALE.getType())) {
 			return FEMALE_DISCIPLE_TEXTURES;
 		}else {
 			return MALE_DISCIPLE_TEXTURES;
