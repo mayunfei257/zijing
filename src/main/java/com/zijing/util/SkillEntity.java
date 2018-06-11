@@ -8,13 +8,13 @@ import com.zijing.entity.EntityArrowFengyinDan;
 import com.zijing.entity.EntityArrowHuoDan;
 import com.zijing.entity.EntityArrowXukongDan;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IPlantable;
 
 public class SkillEntity extends SkillBase{
 	protected static final int DAN_GROUP_LAUNCH_HEIGHT = 32;
@@ -234,9 +234,18 @@ public class SkillEntity extends SkillBase{
 	
 	protected static void growAreaBlock(World world, BlockPos pos, int rangeX, int rangeY, int rangeZ) {
 		for(int i = - rangeX; i <= rangeX; i++) {
-			for(int j = - rangeY; j <= rangeY; j++) {
-				for(int k = - rangeZ; k <= rangeZ; k++) {
-					growBlockBase(world, new BlockPos(pos.getX() + i, pos.getY() + j, pos.getZ() + k));
+			for(int k = - rangeZ; k <= rangeZ; k++) {
+				for(int j = - rangeY; j <= rangeY; j++) {
+					BlockPos theBlockPos = new BlockPos(pos.getX() + i, pos.getY() + j, pos.getZ() + k);
+					if(world.getBlockState(theBlockPos).getBlock() instanceof IPlantable) {
+						for(;world.getBlockState(theBlockPos.up()).getBlock() instanceof IPlantable;) {
+							theBlockPos = theBlockPos.up();
+						}
+						growBlockBase(world, theBlockPos);
+						break;
+					}else {
+						growBlockBase(world, theBlockPos);
+					}
 				}
 			}
 		}

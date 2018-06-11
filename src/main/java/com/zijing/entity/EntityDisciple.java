@@ -83,10 +83,10 @@ public class EntityDisciple extends EntityFriendly implements IRangedAttackMob{
 	@Override
 	protected void initEntityAI() {
 		this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAITempt(this, 1.0D, false, Sets.newHashSet(BaseControl.itemZiqi, BaseControl.itemZijing, BaseControl.itemDanZiling, Item.getItemFromBlock(Blocks.RED_FLOWER), Item.getItemFromBlock(Blocks.YELLOW_FLOWER))));
-        this.tasks.addTask(2, new EntityAIAttackRangedZJ(this, 1.0D, 15, 3.0D, 16.0F, SkillEntity.MagicSkill_BingDan));
-        this.tasks.addTask(3, new EntityAIAttackMeleeZJ(this, 1.0D, 10, false));
-        this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
+        this.tasks.addTask(1, new EntityAIOpenDoor(this, true));
+        this.tasks.addTask(2, new EntityAITempt(this, 1.0D, false, Sets.newHashSet(BaseControl.itemZiqi, BaseControl.itemZijing, BaseControl.itemDanZiling, Item.getItemFromBlock(Blocks.RED_FLOWER), Item.getItemFromBlock(Blocks.YELLOW_FLOWER))));
+        this.tasks.addTask(3, new EntityAIAttackRangedZJ(this, 1.0D, 15, 3.0D, 16.0F, SkillEntity.MagicSkill_BingDan));
+        this.tasks.addTask(4, new EntityAIAttackMeleeZJ(this, 1.0D, 10, false));
         this.tasks.addTask(5, new EntityAIMoveTowardsTarget(this, 1D, 16.0F));
         this.tasks.addTask(6, new EntityAIMoveToHomeZJ(this, 1.0D, 32, 8));
 		this.tasks.addTask(7, new EntityAIWander(this, 0.9D));
@@ -189,13 +189,17 @@ public class EntityDisciple extends EntityFriendly implements IRangedAttackMob{
     public boolean attackEntityAsMob(Entity entityIn){
     	double attackDamage =  this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue() + this.swordDamage;
     	boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)attackDamage);
-        if(this.shepherdCapability.getLevel() >= SkillEntity.CAN_LIGHTNING_LEVEL) {
-        	entityIn.world.spawnEntity(new EntityLightningBolt(entityIn.world, entityIn.posX, entityIn.posY, entityIn.posZ, true));
-        }
+//        if(this.shepherdCapability.getLevel() >= SkillEntity.CAN_LIGHTNING_LEVEL) {
+//        	entityIn.world.spawnEntity(new EntityLightningBolt(entityIn.world, entityIn.posX, entityIn.posY, entityIn.posZ, true));
+//        }
         if (flag){
             entityIn.motionY += 0.4000000059604645D;
             this.applyEnchantments(this, entityIn);
 	        this.playSound(SoundEvents.ENTITY_IRONGOLEM_ATTACK, 1.0F, 1.0F);
+	        if(null != this.getHeldItemMainhand() && BaseControl.itemToolZijingJian == this.getHeldItemMainhand().getItem()) {
+	        	this.setHealth(this.getHealth() + 1);
+	        	this.experience += 1;
+	        }
         }
 		this.experience += attackDamage * ConstantUtil.EXPERIENCE_MAGNIFICATION;
         return flag;
