@@ -5,6 +5,7 @@ import com.zijing.ZijingMod;
 import com.zijing.data.playerdata.ShepherdProvider;
 import com.zijing.itf.EntityEvil;
 import com.zijing.itf.EntityFriendly;
+import com.zijing.itf.EntityShepherdCapability;
 import com.zijing.util.ConstantUtil;
 
 import net.minecraft.block.material.Material;
@@ -73,17 +74,15 @@ public class EntityArrowFengyinDan extends EntityThrowable {
 		Entity entity = raytraceResultIn.entityHit;
 		BlockPos blockPos = raytraceResultIn.getBlockPos();
 		if(null != entity && !this.world.isRemote && entity instanceof EntityLivingBase) {
-//			if(checkCanAttack((EntityLivingBase)entity)) {
+			if(checkCanAttack((EntityLivingBase)entity)) {
 				entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), this.attackDamage);
 				int throwerLevel = 1;
 				int entityLevel = 1;
 				
 				if(this.thrower instanceof EntityPlayer && ShepherdProvider.hasCapabilityFromPlayer(this.thrower)) {
 					throwerLevel = ShepherdProvider.getCapabilityFromPlayer(this.thrower).getLevel();
-				}else if(this.thrower instanceof EntityFriendly) {
-					throwerLevel = ((EntityFriendly)this.thrower).getShepherdCapability().getLevel();
-				}else if(this.thrower instanceof EntityEvil) {
-					throwerLevel = ((EntityEvil)this.thrower).getShepherdCapability().getLevel();
+				}else if(this.thrower instanceof EntityShepherdCapability) {
+					throwerLevel = ((EntityShepherdCapability)this.thrower).getShepherdCapability().getLevel();
 				}
 				
 				if(entity instanceof EntityPlayer || !entity.isNonBoss()) {
@@ -109,7 +108,7 @@ public class EntityArrowFengyinDan extends EntityThrowable {
 				}
 				world.playSound((EntityPlayer) null, entity.posX, entity.posY + 0.5D, entity.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.snowball.throw")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 				this.setDead();
-//			}
+			}
 		}else if(null != blockPos && !this.world.isRemote){
 			if(!canThrough(this.world.getBlockState(blockPos))){
 				this.setDead();
@@ -120,7 +119,13 @@ public class EntityArrowFengyinDan extends EntityThrowable {
 	private boolean checkCanAttack(EntityLivingBase entity) {
 		boolean canAttackFlag = true;
 		if(null != this.thrower) {
-			if(this.thrower instanceof EntityFriendly || this.thrower instanceof EntityPlayer) {
+			if(this.thrower instanceof EntityPlayer) {
+				if(entity instanceof EntityPlayer) {
+					canAttackFlag = false;
+				}else if(checkFaction && (entity instanceof EntityFriendly || entity instanceof EntityAnimal || entity instanceof EntityVillager)) {
+					canAttackFlag = false;
+				}
+			}else if(this.thrower instanceof EntityFriendly) {
 				if(entity instanceof EntityFriendly || entity instanceof EntityPlayer) {
 					canAttackFlag = false;
 				}else if(checkFaction && (entity instanceof EntityAnimal || entity instanceof EntityVillager)) {

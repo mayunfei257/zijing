@@ -26,7 +26,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class EntityShepherdCapability extends EntityCreature implements IRangedAttackMob{
 	protected int nextConnectTick = ConstantUtil.CONNECT_TICK;
-	protected int checkHomeTick = ConstantUtil.CHECK_HOME_TICK;
 
 	protected BlockPos homePos = new BlockPos(0, -1, 0);
 	protected int baseLevel = 1;
@@ -69,7 +68,6 @@ public abstract class EntityShepherdCapability extends EntityCreature implements
     public void writeEntityToNBT(NBTTagCompound compound){
         super.writeEntityToNBT(compound);
         compound.setBoolean("isImmuneToFire", this.isImmuneToFire);
-        compound.setInteger(ConstantUtil.MODID + ":checkHomeTick", this.checkHomeTick);
         compound.setInteger(ConstantUtil.MODID + ":homePosX", this.homePos.getX());
         compound.setInteger(ConstantUtil.MODID + ":homePosY", this.homePos.getY());
         compound.setInteger(ConstantUtil.MODID + ":homePosZ", this.homePos.getZ());
@@ -85,7 +83,6 @@ public abstract class EntityShepherdCapability extends EntityCreature implements
     public void readEntityFromNBT(NBTTagCompound compound){
         super.readEntityFromNBT(compound);
         this.isImmuneToFire = compound.getBoolean("isImmuneToFire");
-        this.checkHomeTick = compound.getInteger(ConstantUtil.MODID + ":checkHomeTick");
         int x = compound.getInteger(ConstantUtil.MODID + ":homePosX");
         int y = compound.getInteger(ConstantUtil.MODID + ":homePosY");
         int z = compound.getInteger(ConstantUtil.MODID + ":homePosZ");

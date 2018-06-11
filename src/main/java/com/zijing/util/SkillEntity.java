@@ -229,6 +229,11 @@ public class SkillEntity extends SkillBase{
 	}
 	
 	protected static void growBlock(World world, BlockPos pos) {
+		if(world.getBlockState(pos).getBlock() instanceof IPlantable) {
+			for(;world.getBlockState(pos.up()).getBlock() instanceof IPlantable;) {
+				pos = pos.up();
+			}
+		}
 		growBlockBase(world, pos);
     }
 	

@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import com.zijing.ZijingTab;
 import com.zijing.data.playerdata.ShepherdCapability;
 import com.zijing.data.playerdata.ShepherdProvider;
+import com.zijing.itf.EntityShepherdCapability;
 import com.zijing.util.ConstantUtil;
 
 import net.minecraft.client.resources.I18n;
@@ -65,7 +66,10 @@ public class ItemCardFengyin extends Item{
 					entity.readFromNBT(entityNBT);
 					entity.setLocationAndAngles(entityPos.getX() + 0.5D, entityPos.getY(), entityPos.getZ() + 0.5D, entity.rotationYaw, entity.rotationPitch);
 					if(entity instanceof EntityCreature) {
-						((EntityCreature)entity).setHomePosAndDistance(entityPos, 64);
+						((EntityCreature)entity).setHomePosAndDistance(entityPos, -1);
+					}
+					if(entity instanceof EntityShepherdCapability) {
+						((EntityShepherdCapability)entity).setHomePos(entityPos);
 					}
 					world.spawnEntity(entity);
 					world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);

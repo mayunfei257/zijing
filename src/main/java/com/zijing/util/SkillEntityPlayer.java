@@ -62,7 +62,7 @@ public class SkillEntityPlayer extends SkillEntity{
         if(null != shepherdCapability && shepherdCapability.getMagic() >= MagicSkill_FengyinDan || player.isCreative()) {
     		int level = shepherdCapability.getLevel();
         	float attackDamage = (float)player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
-        	entityDan = shootFengyinDan(player, 0, true);
+        	entityDan = shootFengyinDan(player, 0, false);
     		shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_FengyinDan);
         }else {
 			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_FengyinDan));
