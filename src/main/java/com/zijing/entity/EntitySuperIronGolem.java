@@ -212,6 +212,10 @@ public class EntitySuperIronGolem extends EntityFriendly{
         if (flag){
             entityIn.motionY += 0.4000000059604645D;
             this.applyEnchantments(this, entityIn);
+            if(this.shepherdCapability.getMagic() >= 1) {
+            	this.setHealth(this.getHealth() + 1);
+            	this.shepherdCapability.setMagic(this.shepherdCapability.getMagic() - 1);
+            }
         }
         this.playSound(SoundEvents.ENTITY_IRONGOLEM_ATTACK, 1.0F, 1.0F);
         return flag;

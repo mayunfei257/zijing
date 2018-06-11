@@ -10,8 +10,17 @@ import com.zijing.util.ConstantUtil;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -25,6 +34,37 @@ public class ItemWuxianBaoshi extends Item{
 		setUnlocalizedName("itemWuxianBaoshi");
 		setRegistryName(ConstantUtil.MODID + ":itemwuxianbaoshi");
 		setCreativeTab(ZijingTab.zijingTab);
+	}
+
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World world, final EntityPlayer player, EnumHand hand){
+		if(!world.isRemote) {
+			if(!player.isSneaking()) {
+				InventoryPlayer inventory = player.inventory;
+				int emeraldCount = 0;
+				for (int i = 0; i < inventory.mainInventory.size(); ++i){
+					ItemStack itemstack = inventory.mainInventory.get(i);
+					if(itemstack.getItem() == Items.EMERALD) {
+						emeraldCount += itemstack.getCount();
+						itemstack.setCount(0);
+					}
+				}
+				inventory.addItemStackToInventory(new ItemStack(Blocks.EMERALD_BLOCK, emeraldCount / 9));
+				inventory.addItemStackToInventory(new ItemStack(Items.EMERALD, emeraldCount % 9));
+			}else {
+			}
+		}
+        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, player.getHeldItem(hand));
+	}
+	
+	@Override
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
+		if(!world.isRemote) {
+			if(!player.isSneaking()) {
+			}else {
+			}
+		}
+		return EnumActionResult.SUCCESS;
 	}
 	
 	@Override
