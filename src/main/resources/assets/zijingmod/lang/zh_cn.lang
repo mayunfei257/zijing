@@ -139,6 +139,9 @@ zijingmod.gui.special=§l特性: §r
 #WaiGua-------------------------------------------------------------------------
 item.itemStaffBuilding.name=§6外挂-建设法杖
 item.itemWuxianBaoshi.name=§6外挂-无限宝石
+item.itemTriggerLongshi.name=§6外挂-龙石
+tile.blockPortalLongjie.name=§6外挂-龙界门
+
 zijingmod.itemStaffBuilding.skill1=§c技能1: 生成11*11的耕地，并种植紫灵草. (右键)
 zijingmod.itemStaffBuilding.skill2=§c技能2: 生成21*21的耕地，并种植紫灵草. (潜行 + 右键)
 zijingmod.itemWuxianBaoshi.skill1=§c技能1: 可以当做燃料，连续燃烧%s秒.

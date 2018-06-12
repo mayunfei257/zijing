@@ -55,6 +55,9 @@ import com.zijing.util.ConstantUtil;
 import com.zijing.waigua.BlockToushi;
 import com.zijing.waigua.ItemStaffBuilding;
 import com.zijing.waigua.ItemWuxianBaoshi;
+import com.zijing.waigua.world.BlockPortalLongjie;
+import com.zijing.waigua.world.DimensionLongjie;
+import com.zijing.waigua.world.ItemTriggerLongshi;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -67,7 +70,9 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.DimensionType;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -82,6 +87,7 @@ import net.minecraftforge.registries.GameData;
 public class BaseControl{
     private static int nextID = 0;
 	public static SimpleNetworkWrapper netWorkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(ConstantUtil.MODID);
+	public static DimensionType dtype = DimensionType.register("Longjie", "_Longjie", DimensionLongjie.DIMID, DimensionLongjie.WorldProviderMod.class, false);
 	
 	//TODO Instantiate mod item ---
 	public static Block blockGuhuaNiunaiKuai;
@@ -129,6 +135,8 @@ public class BaseControl{
 	public static Block blockToushi;
 	public static Item itemStaffBuilding;
 	public static Item itemWuxianBaoshi;
+	public static BlockPortalLongjie blockPortalLongjie;
+	public static ItemTriggerLongshi itemTriggerLongshi;
 
 	public static void init(FMLPreInitializationEvent event){
 		//TODO Instantiate mod item ---
@@ -176,10 +184,12 @@ public class BaseControl{
 		blockToushi = new BlockToushi();
 		itemStaffBuilding = new ItemStaffBuilding();
 		itemWuxianBaoshi = new ItemWuxianBaoshi();
-		
+		blockPortalLongjie = new BlockPortalLongjie();
+		itemTriggerLongshi = new ItemTriggerLongshi();
 	}
 	
 	public static void register(FMLPreInitializationEvent event){
+		//TODO In this registration items and blocks ---
 		CapabilityManager.INSTANCE.register(ShepherdCapability.class, ShepherdCapability.storage, ShepherdCapability.class);
     	netWorkWrapper.registerMessage(ChuansongCardToServerMessage.Handler.class, ChuansongCardToServerMessage.class, nextID++, Side.SERVER);
     	netWorkWrapper.registerMessage(ChuansongBookToServerMessage.Handler.class, ChuansongBookToServerMessage.class, nextID++, Side.SERVER);
@@ -187,7 +197,8 @@ public class BaseControl{
     	netWorkWrapper.registerMessage(UpgradeToServerMessage.Handler.class, UpgradeToServerMessage.class, nextID++, Side.SERVER);
     	netWorkWrapper.registerMessage(OpenClientGUIMessage.Handler.class, OpenClientGUIMessage.class, nextID++, Side.CLIENT);
     	netWorkWrapper.registerMessage(ShepherdEntityToClientMessage.Handler.class, ShepherdEntityToClientMessage.class, nextID++, Side.CLIENT);
-		//TODO In this registration items and blocks ---
+
+		DimensionManager.registerDimension(DimensionLongjie.DIMID, dtype);
 //		ForgeRegistries.BLOCKS.register(blockGuhuaNiunaiKuai);;
 //		ForgeRegistries.ITEMS.register(new ItemBlock(blockGuhuaNiunaiKuai).setRegistryName(blockGuhuaNiunaiKuai.getRegistryName()));
 		GameData.register_impl(blockGuhuaNiunaiKuai);
@@ -244,6 +255,9 @@ public class BaseControl{
 		GameData.register_impl(new ItemBlock(blockToushi).setRegistryName(blockToushi.getRegistryName()));
 		GameData.register_impl(itemStaffBuilding);
 		GameData.register_impl(itemWuxianBaoshi);
+		GameData.register_impl(blockPortalLongjie);
+		GameData.register_impl(new ItemBlock(blockPortalLongjie).setRegistryName(blockPortalLongjie.getRegistryName()));
+		GameData.register_impl(itemTriggerLongshi);
 		
 		EntityRegistry.registerModEntity(new ResourceLocation(ConstantUtil.MODID + ":entityarrowbingdan"), EntityArrowBingDan.class, "entityArrowBingDan", 257, ZijingMod.instance, 64, 1, true);
 		EntityRegistry.registerModEntity(new ResourceLocation(ConstantUtil.MODID + ":entityarrowhuodan"), EntityArrowHuoDan.class, "entityArrowHuoDan", 258, ZijingMod.instance, 64, 1, true);
@@ -299,6 +313,8 @@ public class BaseControl{
 		bolckResourceLoad(blockToushi);
 		itemResourceLoad(itemStaffBuilding);
 		itemResourceLoad(itemWuxianBaoshi);
+		bolckResourceLoad(blockPortalLongjie);
+		itemResourceLoad(itemTriggerLongshi);
     }
 	
 	public static void registerRecipe(FMLInitializationEvent event){

@@ -10,6 +10,7 @@ import com.zijing.util.ConstantUtil;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
@@ -49,8 +50,14 @@ public class ItemWuxianBaoshi extends Item{
 						itemstack.setCount(0);
 					}
 				}
-				inventory.addItemStackToInventory(new ItemStack(Blocks.EMERALD_BLOCK, emeraldCount / 9));
-				inventory.addItemStackToInventory(new ItemStack(Items.EMERALD, emeraldCount % 9));
+				ItemStack emeraldBlockItemStack = new ItemStack(Blocks.EMERALD_BLOCK, emeraldCount / 9);
+				if(!inventory.addItemStackToInventory(emeraldBlockItemStack)) {
+					world.spawnEntity(new EntityItem(world, player.posX, player.posY, player.posZ, emeraldBlockItemStack));
+				}
+				ItemStack emeraldItemStack = new ItemStack(Items.EMERALD, emeraldCount % 9);
+				if(!inventory.addItemStackToInventory(emeraldItemStack)) {
+					world.spawnEntity(new EntityItem(world, player.posX, player.posY, player.posZ, emeraldItemStack));
+				}
 			}else {
 			}
 		}
