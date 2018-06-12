@@ -3,7 +3,6 @@ package com.zijing.waigua.world;
 import java.util.Random;
 
 import com.zijing.util.ConstantUtil;
-import com.zijing.waigua.world.DimensionLongjie.TeleporterDimensionMod;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -13,7 +12,6 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
@@ -37,7 +35,7 @@ public class BlockPortalLongjie extends Block {
 		super(Material.PORTAL);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(AXIS, EnumFacing.Axis.Z));
 		this.setTickRandomly(true);
-		this.setHardness(-1.0F);
+		this.setHardness(1.0F);
 		this.setLightLevel(1F);
 		this.setUnlocalizedName("blockPortalLongjie");
 		this.setRegistryName(ConstantUtil.MODID + ":blockportallongjie");
@@ -78,55 +76,6 @@ public class BlockPortalLongjie extends Block {
 
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(AXIS, (meta & 3) == 2 ? EnumFacing.Axis.Z : EnumFacing.Axis.X);
-	}
-
-	
-
-	/**
-	 * Lets the block know when one of its neighbor changes. Doesn't know
-	 * which neighbor changed (coordinates passed are their own) Args: x, y,
-	 * z, neighbor blockID
-	 */
-	@Override
-	public void neighborChanged(IBlockState state, World par1World, BlockPos pos, Block neighborBlock, BlockPos fromPos) {
-
-		int par2 = pos.getX();
-		int par3 = pos.getY();
-		int par4 = pos.getZ();
-
-		byte b0 = 0;
-		byte b1 = 1;
-		if (getBlock(par1World, par2 - 1, par3, par4) == this || getBlock(par1World, par2 + 1, par3, par4) == this) {
-			b0 = 1;
-			b1 = 0;
-		}
-		int i1;
-		for (i1 = par3; getBlock(par1World, par2, i1 - 1, par4) == this; --i1) {
-			;
-		}
-		if (getBlock(par1World, par2, i1 - 1, par4) != Blocks.GOLD_BLOCK) {
-			par1World.setBlockToAir(new BlockPos(par2, par3, par4));
-		} else {
-			int j1;
-			for (j1 = 1; j1 < 4 && getBlock(par1World, par2, i1 + j1, par4) == this; ++j1) {
-				;
-			}
-			if (j1 == 3 && getBlock(par1World, par2, i1 + j1, par4) == Blocks.GOLD_BLOCK) {
-				boolean flag = getBlock(par1World, par2 - 1, par3, par4) == this || getBlock(par1World, par2 + 1, par3, par4) == this;
-				boolean flag1 = getBlock(par1World, par2, par3, par4 - 1) == this || getBlock(par1World, par2, par3, par4 + 1) == this;
-				if (flag && flag1) {
-					par1World.setBlockToAir(new BlockPos(par2, par3, par4));
-				} else {
-					if ((getBlock(par1World, par2 + b0, par3, par4 + b1) != Blocks.GOLD_BLOCK || getBlock(par1World, par2 - b0, par3, par4 - b1) != this)
-							&& (getBlock(par1World, par2 - b0, par3, par4 - b1) != Blocks.GOLD_BLOCK || getBlock(par1World, par2 + b0, par3, par4
-									+ b1) != this)) {
-						par1World.setBlockToAir(new BlockPos(par2, par3, par4));
-					}
-				}
-			} else {
-				par1World.setBlockToAir(new BlockPos(par2, par3, par4));
-			}
-		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -172,10 +121,10 @@ public class BlockPortalLongjie extends Block {
 				thePlayer.timeUntilPortal = 10;
 			} else if (thePlayer.dimension != DimensionLongjie.DIMID) {
 				thePlayer.timeUntilPortal = 10;
-				thePlayer.mcServer.getPlayerList().transferPlayerToDimension(thePlayer, DimensionLongjie.DIMID, new TeleporterDimensionMod(thePlayer.mcServer.getWorld(DimensionLongjie.DIMID)));
+				thePlayer.mcServer.getPlayerList().transferPlayerToDimension(thePlayer, DimensionLongjie.DIMID, new TeleporterLongjie(thePlayer.mcServer.getWorld(DimensionLongjie.DIMID)));
 			} else {
 				thePlayer.timeUntilPortal = 10;
-				thePlayer.mcServer.getPlayerList().transferPlayerToDimension(thePlayer, 0, new TeleporterDimensionMod(thePlayer.mcServer.getWorld(0)));
+				thePlayer.mcServer.getPlayerList().transferPlayerToDimension(thePlayer, 0, new TeleporterLongjie(thePlayer.mcServer.getWorld(0)));
 			}
 		}
 	}
