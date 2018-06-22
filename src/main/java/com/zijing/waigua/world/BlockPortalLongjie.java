@@ -2,6 +2,7 @@ package com.zijing.waigua.world;
 
 import java.util.Random;
 
+import com.zijing.ZijingMod;
 import com.zijing.util.ConstantUtil;
 
 import net.minecraft.block.Block;
@@ -119,9 +120,9 @@ public class BlockPortalLongjie extends Block {
 			EntityPlayerMP thePlayer = (EntityPlayerMP) entity;
 			if (thePlayer.timeUntilPortal > 0) {
 				thePlayer.timeUntilPortal = 10;
-			} else if (thePlayer.dimension != DimensionLongjie.DIMID) {
+			} else if (thePlayer.dimension != ZijingMod.config.getLONGJIE_DIMID()) {
 				thePlayer.timeUntilPortal = 10;
-				thePlayer.mcServer.getPlayerList().transferPlayerToDimension(thePlayer, DimensionLongjie.DIMID, new TeleporterLongjie(thePlayer.mcServer.getWorld(DimensionLongjie.DIMID)));
+				thePlayer.mcServer.getPlayerList().transferPlayerToDimension(thePlayer, ZijingMod.config.getLONGJIE_DIMID(), new TeleporterLongjie(thePlayer.mcServer.getWorld(ZijingMod.config.getLONGJIE_DIMID())));
 			} else {
 				thePlayer.timeUntilPortal = 10;
 				thePlayer.mcServer.getPlayerList().transferPlayerToDimension(thePlayer, 0, new TeleporterLongjie(thePlayer.mcServer.getWorld(0)));

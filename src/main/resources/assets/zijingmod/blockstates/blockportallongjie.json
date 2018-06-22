@@ -1,5 +1,6 @@
 {
     "variants": {
-        "normal": { "model": "zijingmod:blockportallongjie" }
+        "axis=x": { "model": "zijingmod:blockportallongjie"},
+        "axis=z": { "model": "zijingmod:blockportallongjie"}
     }
 }

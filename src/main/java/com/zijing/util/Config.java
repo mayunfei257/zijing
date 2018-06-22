@@ -43,6 +43,8 @@ public class Config {
 	private double UPGRADE_MAGICRESTORE_K;
 	private double UPGRADE_PHYSICALDEFENSE_K;
 	
+	private int LONGJIE_DIMID;
+	
 	
 	private Item.ToolMaterial zijingToolMaterial;
 	private ItemArmor.ArmorMaterial zijingArmorMaterial;
@@ -117,6 +119,8 @@ public class Config {
 		this.UPGRADE_BLOODRESTORE_K = configuration.get("PLAYER", "UPGRADE_BLOODRESTORE_K", 0.0002D, "The player upgrade bloodrestore K every tick.").getDouble();
 		this.UPGRADE_MAGICRESTORE_K = configuration.get("PLAYER", "UPGRADE_MAGICRESTORE_K", 0.001D, "The player upgrade magicrestore K every tick.").getDouble();
 		this.UPGRADE_PHYSICALDEFENSE_K = configuration.get("PLAYER", "UPGRADE_PHYSICALDEFENSE_K", 0.25D, "The player upgrade physicaldefense K every level.").getDouble();
+		
+		this.LONGJIE_DIMID = configuration.get("LONGJIE", "LONGJIE_DIMID", 5, "Long Jie Dimension ID.").getInt();
 	}
 
 
@@ -230,6 +234,10 @@ public class Config {
 
 	public ItemArmor.ArmorMaterial getZijingArmorMaterial() {
 		return zijingArmorMaterial;
+	}
+
+	public int getLONGJIE_DIMID() {
+		return LONGJIE_DIMID;
 	}
 }
 

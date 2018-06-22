@@ -88,7 +88,7 @@ import net.minecraftforge.registries.GameData;
 public class BaseControl{
     private static int nextID = 0;
 	public static SimpleNetworkWrapper netWorkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(ConstantUtil.MODID);
-	public static DimensionType dtype = DimensionType.register("Longjie", "_Longjie", DimensionLongjie.DIMID, DimensionLongjie.WorldProviderMod.class, false);
+	public static DimensionType dtype;
 	
 	//TODO Instantiate mod item ---
 	public static Block blockGuhuaNiunaiKuai;
@@ -140,6 +140,8 @@ public class BaseControl{
 	public static ItemTriggerLongshi itemTriggerLongshi;
 
 	public static void init(FMLPreInitializationEvent event){
+    	dtype = DimensionType.register("Longjie", "_Longjie", ZijingMod.config.getLONGJIE_DIMID(), DimensionLongjie.WorldProviderMod.class, false);
+    	
 		//TODO Instantiate mod item ---
 		blockGuhuaNiunaiKuai = new BlockGuhuaNiunaiKuai();
 		blockZilingCao = new BlockZilingCao();
@@ -199,9 +201,13 @@ public class BaseControl{
     	netWorkWrapper.registerMessage(OpenClientGUIMessage.Handler.class, OpenClientGUIMessage.class, nextID++, Side.CLIENT);
     	netWorkWrapper.registerMessage(ShepherdEntityToClientMessage.Handler.class, ShepherdEntityToClientMessage.class, nextID++, Side.CLIENT);
     	netWorkWrapper.registerMessage(OpenServerGUIMessage.Handler.class, OpenServerGUIMessage.class, nextID++, Side.SERVER);
-
-		DimensionManager.registerDimension(DimensionLongjie.DIMID, dtype);
-//		ForgeRegistries.BLOCKS.register(blockGuhuaNiunaiKuai);;
+    	
+    	try {
+    		DimensionManager.registerDimension(ZijingMod.config.getLONGJIE_DIMID(), dtype);
+    	}catch(IllegalArgumentException e) {
+    		throw new IllegalArgumentException(String.format("Failed to register dimension for id %d, One is already registered. Suggested change to %d .", ZijingMod.config.getLONGJIE_DIMID(), DimensionManager.getNextFreeDimId()));
+    	}
+//		ForgeRegistries.BLOCKS.register(blockGuhuaNiunaiKuai);
 //		ForgeRegistries.ITEMS.register(new ItemBlock(blockGuhuaNiunaiKuai).setRegistryName(blockGuhuaNiunaiKuai.getRegistryName()));
 		GameData.register_impl(blockGuhuaNiunaiKuai);
 		GameData.register_impl(new ItemBlock(blockGuhuaNiunaiKuai).setRegistryName(blockGuhuaNiunaiKuai.getRegistryName()));
