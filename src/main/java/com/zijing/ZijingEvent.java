@@ -169,25 +169,27 @@ public class ZijingEvent {
 
 	@SubscribeEvent
 	public void wntityInteractWithVillager(PlayerInteractEvent.EntityInteract event) {
-		Entity target = event.getTarget();
-		if(null != target && target instanceof EntityVillager && ((EntityVillager)target).isChild()) {
-			EntityVillager villager = (EntityVillager)target;
+		if(event.getTarget() instanceof EntityVillager && ((EntityVillager)event.getTarget()).isChild()) {
+			EntityVillager villager = (EntityVillager)event.getTarget();
 	        ItemStack itemstack = event.getEntityPlayer().getHeldItem(event.getHand());
 			if(null != itemstack && BaseControl.itemZiqi == itemstack.getItem()) {
-				if(!target.world.isRemote && villager.getRNG().nextInt(10) == 0) {
-					EntityDisciple entityDisciple = new EntityDisciple(target.world, 1, EnumGender.FEMALE.getType());
-		            entityDisciple.setLocationAndAngles(target.posX, target.posY, target.posZ, 0.0F, 0.0F);
-		            entityDisciple.setHomePos(target.getPosition());
-		            entityDisciple.updataSwordDamageAndArmorValue();
-		            entityDisciple.world.spawnEntity(entityDisciple);
-		            entityDisciple.spawnParticles(EnumParticleTypes.VILLAGER_HAPPY);
-		            target.setDead();
-				}else if(target.world.isRemote){
+				if(!villager.world.isRemote) {
+					if(villager.getRNG().nextInt(10) == 0) {
+						EntityDisciple entityDisciple = new EntityDisciple(villager.world, 1, EnumGender.FEMALE.getType());
+			            entityDisciple.setLocationAndAngles(villager.posX, villager.posY, villager.posZ, 0.0F, 0.0F);
+			            entityDisciple.setHomePos(villager.getPosition());
+			            entityDisciple.updataSwordDamageAndArmorValue();
+			            entityDisciple.world.spawnEntity(entityDisciple);
+			            entityDisciple.spawnParticles(EnumParticleTypes.VILLAGER_HAPPY);
+			            villager.setDead();
+					}
+					itemstack.shrink(1);
+				}else if(villager.world.isRemote){
 			        for (int i = 0; i < 5; ++i){
 			            double d0 = villager.getRNG().nextGaussian() * 0.02D;
 			            double d1 = villager.getRNG().nextGaussian() * 0.02D;
 			            double d2 = villager.getRNG().nextGaussian() * 0.02D;
-			            target.world.spawnParticle(EnumParticleTypes.HEART, villager.posX + (double)(villager.getRNG().nextFloat() * villager.width * 2.0F) - (double)villager.width, villager.posY + 1.0D + (double)(villager.getRNG().nextFloat() * villager.height), villager.posZ + (double)(villager.getRNG().nextFloat() * villager.width * 2.0F) - (double)villager.width, d0, d1, d2);
+			            villager.world.spawnParticle(EnumParticleTypes.HEART, villager.posX + (double)(villager.getRNG().nextFloat() * villager.width * 2.0F) - (double)villager.width, villager.posY + 1.0D + (double)(villager.getRNG().nextFloat() * villager.height), villager.posZ + (double)(villager.getRNG().nextFloat() * villager.width * 2.0F) - (double)villager.width, d0, d1, d2);
 			        }
 				}
 			}

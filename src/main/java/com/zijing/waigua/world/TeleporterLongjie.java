@@ -6,6 +6,7 @@ import com.zijing.BaseControl;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
@@ -403,12 +404,9 @@ public class TeleporterLongjie extends Teleporter{
 	public void removeStalePortalLocations(long worldTime) {
 		if (worldTime % 100L == 0L) {
 			long i = worldTime - 300L;
-			it.unimi.dsi.fastutil.objects.ObjectIterator<Teleporter.PortalPosition> objectiterator = this.destinationCoordinateCache.values()
-					.iterator();
-
+			ObjectIterator<Teleporter.PortalPosition> objectiterator = this.destinationCoordinateCache.values().iterator();
 			while (objectiterator.hasNext()) {
 				Teleporter.PortalPosition teleporter$portalposition = (Teleporter.PortalPosition) objectiterator.next();
-
 				if (teleporter$portalposition == null || teleporter$portalposition.lastUpdateTime < i) {
 					objectiterator.remove();
 				}
@@ -417,16 +415,11 @@ public class TeleporterLongjie extends Teleporter{
 	}
 
 	public class PortalPosition extends BlockPos {
-		/** The worldtime at which this PortalPosition was last verified */
 		public long lastUpdateTime;
 		private static final String __OBFID = "CL_00000154";
-
 		public PortalPosition(BlockPos pos, long p_i45747_3_) {
 			super(pos.getX(), pos.getY(), pos.getZ());
 			this.lastUpdateTime = p_i45747_3_;
 		}
 	}
-
-
-
 }
