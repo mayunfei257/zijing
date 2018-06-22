@@ -51,29 +51,37 @@ public class GuiBookChuansongUse {
 		}
 		
 		public String getCardName(int index) {
-			if(index > 0 && index < 29 && null != items.get(index) && !items.get(index).isEmpty() && items.get(index).hasTagCompound()) {
-				NBTTagCompound cardTag = items.get(index).getTagCompound();
-				if(null != cardTag && cardTag.getBoolean(ItemCardChuansong.IS_BIND)) {
-					return cardTag.getString(ItemCardChuansong.BIND_NAME);
+			if(index > 0 && index < 29) {
+				ItemStack itemStack = items.get(index);
+				if(null != itemStack && !itemStack.isEmpty() && itemStack.hasTagCompound()) {
+					NBTTagCompound cardTag = itemStack.getTagCompound();
+					if(cardTag.getBoolean(ItemCardChuansong.IS_BIND)) {
+						return cardTag.getString(ItemCardChuansong.BIND_NAME);
+					}
 				}
 			}
 			return null;
 		}
-		
+
+		@SideOnly(Side.CLIENT)
 		public void teleportEntity(int index) {
-			if(index > 0 && index < 29 && null != items.get(index) && !items.get(index).isEmpty()) {
-				NBTTagCompound chuansongCardTag = items.get(index).getTagCompound();
-				if(null != chuansongCardTag && chuansongCardTag.getBoolean(ItemCardChuansong.IS_BIND) && player.dimension == chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)) {
-					if(ShepherdProvider.hasCapabilityFromPlayer(player) && ShepherdProvider.getCapabilityFromPlayer(player).getMagic() >= ItemBookChuansong.MagicSkill1) {
-						ItemStackHelper.saveAllItems(chuansongBookTag, items, true);
-						BaseControl.netWorkWrapper.sendToServer(new ChuansongBookToServerMessage(chuansongBookTag, chuansongCardTag, hand, player.getUniqueID()));
+			if(index > 0 && index < 29) {
+				ItemStack itemStack = items.get(index);
+				if(null != itemStack && !itemStack.isEmpty() && itemStack.hasTagCompound()) {
+					NBTTagCompound chuansongCardTag = itemStack.getTagCompound();
+					if(chuansongCardTag.getBoolean(ItemCardChuansong.IS_BIND)) {
+						if(player.dimension == chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)) {
+							if(ShepherdProvider.hasCapabilityFromPlayer(player) && ShepherdProvider.getCapabilityFromPlayer(player).getMagic() >= ItemBookChuansong.MagicSkill1) {
+								BaseControl.netWorkWrapper.sendToServer(new ChuansongBookToServerMessage(chuansongBookTag, chuansongCardTag, hand, player.getUniqueID()));
+							}else {
+								player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + ItemBookChuansong.MagicSkill1 + " !"));
+							}
+						}else{
+							player.sendMessage(new TextComponentString("Not the same world! the world is " + player.dimension + ", this card is " + chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)));
+						}
 					}else {
-						player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + ItemBookChuansong.MagicSkill1 + " !"));
+						player.sendMessage(new TextComponentString("Not yet bound!"));
 					}
-				}else if(player.dimension != chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)){
-					player.sendMessage(new TextComponentString("Not the same world! the world is " + player.dimension + ", this card is " + chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)));
-				}else {
-					player.sendMessage(new TextComponentString("Not yet bound!"));
 				}
 			}
 		}
@@ -119,12 +127,8 @@ public class GuiBookChuansongUse {
 
 		@Override
 		protected void actionPerformed(GuiButton button) {
-			for(int index = 1; index < 29; index++) {
-				if (button.id == index) {
-					((MyContainer)this.inventorySlots).teleportEntity(index);
-					this.mc.player.closeScreen();
-				}
-			}
+			((MyContainer)this.inventorySlots).teleportEntity(button.id);
+			this.mc.player.closeScreen();
 		}
 	}
 }

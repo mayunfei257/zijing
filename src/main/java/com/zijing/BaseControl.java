@@ -9,6 +9,7 @@ import com.zijing.blocks.tool.BlockZilingZhaohuanZhen;
 import com.zijing.data.message.ChuansongBookToServerMessage;
 import com.zijing.data.message.ChuansongCardToServerMessage;
 import com.zijing.data.message.OpenClientGUIMessage;
+import com.zijing.data.message.OpenServerGUIMessage;
 import com.zijing.data.message.ShepherdEntityToClientMessage;
 import com.zijing.data.message.ShepherdToClientMessage;
 import com.zijing.data.message.UpgradeToServerMessage;
@@ -197,6 +198,7 @@ public class BaseControl{
     	netWorkWrapper.registerMessage(UpgradeToServerMessage.Handler.class, UpgradeToServerMessage.class, nextID++, Side.SERVER);
     	netWorkWrapper.registerMessage(OpenClientGUIMessage.Handler.class, OpenClientGUIMessage.class, nextID++, Side.CLIENT);
     	netWorkWrapper.registerMessage(ShepherdEntityToClientMessage.Handler.class, ShepherdEntityToClientMessage.class, nextID++, Side.CLIENT);
+    	netWorkWrapper.registerMessage(OpenServerGUIMessage.Handler.class, OpenServerGUIMessage.class, nextID++, Side.SERVER);
 
 		DimensionManager.registerDimension(DimensionLongjie.DIMID, dtype);
 //		ForgeRegistries.BLOCKS.register(blockGuhuaNiunaiKuai);;

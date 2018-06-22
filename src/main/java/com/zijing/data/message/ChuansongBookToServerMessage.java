@@ -9,6 +9,7 @@ import com.zijing.items.card.ItemCardChuansong;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
@@ -48,19 +49,18 @@ public class ChuansongBookToServerMessage implements IMessage{
 		@Override
 		public IMessage onMessage(ChuansongBookToServerMessage message, MessageContext ctx){
 			if (ctx.side == Side.SERVER){
+				EntityPlayerMP player = ctx.getServerHandler().player;
 				NBTTagCompound chuansongBookTag = (NBTTagCompound)message.dataTag.getTag("ChuansongBookTag");
 				NBTTagCompound chuansongCardTag = (NBTTagCompound)message.dataTag.getTag("ChuansongCardTag");
 				EnumHand hand = "MAIN_HAND".equals(message.dataTag.getString("Hand")) ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
-				((WorldServer) ctx.getServerHandler().player.world).addScheduledTask(new Runnable(){
+				((WorldServer) player.world).addScheduledTask(new Runnable(){
 					@Override
 					public void run(){
-						EntityPlayer player = ctx.getServerHandler().player;
-						if(null != chuansongCardTag && chuansongCardTag.getBoolean(ItemCardChuansong.IS_BIND) && player.dimension == chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)) {
-							if(ShepherdProvider.hasCapabilityFromPlayer(player) && ShepherdProvider.getCapabilityFromPlayer(player).getMagic() >= ItemBookChuansong.MagicSkill1) {
-								ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
-								try {
-									if(player.getHeldItem(hand).getItem() instanceof ItemBookChuansong) {
-										player.getHeldItem(hand).setTagCompound(chuansongBookTag);
+						if(null != chuansongCardTag && chuansongCardTag.getBoolean(ItemCardChuansong.IS_BIND)) {
+							if(player.dimension == chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)) {
+								if(ShepherdProvider.hasCapabilityFromPlayer(player) && ShepherdProvider.getCapabilityFromPlayer(player).getMagic() >= ItemBookChuansong.MagicSkill1) {
+									ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
+									try {
 										double x = chuansongCardTag.getDouble(ItemCardChuansong.BIND_LX);
 										double y = chuansongCardTag.getDouble(ItemCardChuansong.BIND_LY);
 										double z = chuansongCardTag.getDouble(ItemCardChuansong.BIND_LZ);
@@ -68,15 +68,15 @@ public class ChuansongBookToServerMessage implements IMessage{
 										player.world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 										shepherdCapability.setMagic(shepherdCapability.getMagic() - ItemBookChuansong.MagicSkill1);
 										ShepherdProvider.updateChangeToClient(player);
+									}catch(Exception e) {
+										player.sendMessage(new TextComponentString("Exception :" + e.getMessage()));
 									}
-								}catch(Exception e) {
-									player.sendMessage(new TextComponentString("Exception :" + e.getMessage()));
+								}else {
+									player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + ItemBookChuansong.MagicSkill1 + " !"));
 								}
-							}else {
-								player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + ItemBookChuansong.MagicSkill1 + " !"));
+							}else{
+								player.sendMessage(new TextComponentString("Not the same world! the world is " + player.dimension + ", this card is " + chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)));
 							}
-						}else if(player.dimension != chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)){
-							player.sendMessage(new TextComponentString("Not the same world! the world is " + player.dimension + ", this card is " + chuansongCardTag.getInteger(ItemCardChuansong.BIND_WORLD)));
 						}else {
 							player.sendMessage(new TextComponentString("Not yet bound!"));
 						}

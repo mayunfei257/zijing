@@ -2,6 +2,7 @@ package com.zijing;
 
 import org.lwjgl.input.Keyboard;
 
+import com.zijing.data.message.OpenServerGUIMessage;
 import com.zijing.data.playerdata.ShepherdCapability;
 import com.zijing.data.playerdata.ShepherdProvider;
 import com.zijing.entity.EntityDisciple;
@@ -15,7 +16,6 @@ import com.zijing.util.EnumGender;
 import com.zijing.util.SkillEntity;
 import com.zijing.util.StringUtil;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -132,10 +132,9 @@ public class ZijingEvent {
 	
 	@SubscribeEvent
 	public void bindingKeys(InputEvent.KeyInputEvent event) {
-		if (!FMLClientHandler.instance().isGUIOpen(GuiPlayeryCapability.MyGuiContainer.class)) {
-			if (Keyboard.isKeyDown(key1.getKeyCode())) {
-				EntityPlayer player = Minecraft.getMinecraft().player;
-				player.openGui(ZijingMod.instance, GuiPlayeryCapability.GUIID, player.world, (int) player.posX, (int) (player.posY + 1.62D), (int) player.posZ);
+		if (Keyboard.isKeyDown(key1.getKeyCode())) {
+			if (!FMLClientHandler.instance().isGUIOpen(GuiPlayeryCapability.MyGuiContainer.class)) {
+				BaseControl.netWorkWrapper.sendToServer(new OpenServerGUIMessage(GuiPlayeryCapability.GUIID, 0, 0, 0));
 			}
 		}
 	}

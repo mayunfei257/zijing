@@ -7,7 +7,7 @@ import com.zijing.data.playerdata.ShepherdProvider;
 import com.zijing.items.card.ItemCardChuansong;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextComponentString;
@@ -43,12 +43,12 @@ public class ChuansongCardToServerMessage implements IMessage{
 		@Override
 		public IMessage onMessage(ChuansongCardToServerMessage message, MessageContext ctx){
 			if (ctx.side == Side.SERVER){
+				EntityPlayerMP player = ctx.getServerHandler().player;
 				NBTTagCompound chuansongCardTag = (NBTTagCompound)message.dataTag.getTag("ChuansongCardTag");
 				EnumHand hand = "MAIN_HAND".equals(message.dataTag.getString("Hand")) ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
-				((WorldServer) ctx.getServerHandler().player.world).addScheduledTask(new Runnable(){
+				((WorldServer) player.world).addScheduledTask(new Runnable(){
 					@Override
 					public void run(){
-						EntityPlayer player = ctx.getServerHandler().player;
 						if(ShepherdProvider.hasCapabilityFromPlayer(player) && player.getHeldItem(hand).getItem() instanceof ItemCardChuansong) {
 							ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
 							if(shepherdCapability.getMagic() >= ItemCardChuansong.MagicSkill2) {

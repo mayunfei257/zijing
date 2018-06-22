@@ -98,21 +98,11 @@ public class GuiBookChuansong {
 	@SideOnly(Side.CLIENT)
 	public static class MyGuiContainer extends GuiContainer {
 		private final ResourceLocation texture = new ResourceLocation(ConstantUtil.MODID + ":featurebook.png");
-	    private final InventoryPlayer playerInventory;
-		private IInventory bookInv;
 
 		public MyGuiContainer(World world, int i, int j, int k, EntityPlayer player) {
 			super(new MyContainer(world, i, j, k, player));
 			this.xSize = 176;
 			this.ySize = 166;
-			playerInventory = player.inventory;
-			NBTTagCompound bookTag = player.getHeldItemMainhand().getItem() instanceof ItemBookChuansong ? player.getHeldItemMainhand().getTagCompound() : player.getHeldItemOffhand().getTagCompound();
-			this.bookInv = new InventoryBasic(ConstantUtil.MODID + ":itembookchuansong", true, 29);
-			NonNullList<ItemStack> items = NonNullList.<ItemStack>withSize(29, ItemStack.EMPTY);
-			ItemStackHelper.loadAllItems(bookTag, items);
-			for(int n = 0; n < items.size(); n++){
-				bookInv.setInventorySlotContents(n, items.get(n));
-			}
 		}
 
 		@Override

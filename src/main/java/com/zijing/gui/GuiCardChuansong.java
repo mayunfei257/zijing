@@ -40,6 +40,7 @@ public class GuiCardChuansong {
 			playerIn.world.updateEntity(playerIn);
 		}
 		
+		@SideOnly(Side.CLIENT)
 		public void saveDate(String name){
 			chuansongCardTag.setDouble(ItemCardChuansong.BIND_LX, player.posX);
 			chuansongCardTag.setDouble(ItemCardChuansong.BIND_LY, player.posY);
