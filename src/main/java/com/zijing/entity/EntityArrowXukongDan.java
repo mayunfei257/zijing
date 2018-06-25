@@ -7,6 +7,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityGolem;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityVillager;
@@ -132,7 +133,7 @@ public class EntityArrowXukongDan extends EntityThrowable {
 			if(this.thrower instanceof EntityFriendly || this.thrower instanceof EntityPlayer) {
 				if(entity instanceof EntityFriendly || entity instanceof EntityPlayer) {
 					canAttackFlag = false;
-				}else if(checkFaction && (entity instanceof EntityAnimal || entity instanceof EntityVillager)) {
+				}else if(checkFaction && (entity instanceof EntityAnimal || entity instanceof EntityVillager || entity instanceof EntityGolem)) {
 					canAttackFlag = false;
 				}
 			}else if(this.thrower instanceof EntityEvil) {
