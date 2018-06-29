@@ -1,18 +1,10 @@
 package com.zijing.entity;
 
-import com.zijing.itf.EntityEvil;
-import com.zijing.itf.EntityFriendly;
+import com.zijing.itf.EntityArrowDan;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityGolem;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -22,9 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class EntityArrowXukongDan extends EntityThrowable {
-	private float attackDamage = 0;
-	private boolean checkFaction = false;
+public class EntityArrowXukongDan extends EntityArrowDan {
 	
 	public EntityArrowXukongDan(World a) {
 		super(a);
@@ -34,13 +24,9 @@ public class EntityArrowXukongDan extends EntityThrowable {
 		super(worldIn, x, y, z);
 	}
 
-	public EntityArrowXukongDan(World worldIn, double x, double y, double z, float attackDamage) {
+	public EntityArrowXukongDan(World worldIn, double x, double y, double z, float attackDamage, boolean checkFaction) {
 		this(worldIn, x, y, z);
 		this.attackDamage = attackDamage;
-	}
-
-	public EntityArrowXukongDan(World worldIn, double x, double y, double z, float attackDamage, boolean checkFaction) {
-		this(worldIn, x, y, z, attackDamage);
 		this.checkFaction = checkFaction;
 	}
 
@@ -48,13 +34,9 @@ public class EntityArrowXukongDan extends EntityThrowable {
 		super(worldIn, shooter);
 	}
 
-	public EntityArrowXukongDan(World worldIn, EntityLivingBase shooter, float attackDamage) {
+	public EntityArrowXukongDan(World worldIn, EntityLivingBase shooter, float attackDamage, boolean checkFaction) {
 		this(worldIn, shooter);
 		this.attackDamage = attackDamage;
-	}
-
-	public EntityArrowXukongDan(World worldIn, EntityLivingBase shooter, float attackDamage, boolean checkFaction) {
-		this(worldIn, shooter, attackDamage);
 		this.checkFaction = checkFaction;
 	}
 	
@@ -127,39 +109,4 @@ public class EntityArrowXukongDan extends EntityThrowable {
 		return false;
 	}
 	
-	private boolean checkCanAttack(EntityLivingBase entity) {
-		boolean canAttackFlag = true;
-		if(null != this.thrower) {
-			if(this.thrower instanceof EntityFriendly || this.thrower instanceof EntityPlayer) {
-				if(entity instanceof EntityFriendly || entity instanceof EntityPlayer) {
-					canAttackFlag = false;
-				}else if(checkFaction && (entity instanceof EntityAnimal || entity instanceof EntityVillager || entity instanceof EntityGolem)) {
-					canAttackFlag = false;
-				}
-			}else if(this.thrower instanceof EntityEvil) {
-				if(entity instanceof EntityEvil) {
-					canAttackFlag = false;
-				}else if(checkFaction && entity instanceof IMob) {
-					canAttackFlag = false;
-				}
-			}
-		}
-		return canAttackFlag;
-	}
-	
-	private boolean canThrough(IBlockState blockState) {
-		boolean canThroughFlag = false;
-		Material material = blockState.getMaterial();
-		if(material == Material.AIR || material == Material.GRASS || material == Material.WATER
-				|| material == Material.LAVA || material == Material.PLANTS || material == Material.FIRE
-				|| material == Material.VINE || material == Material.CIRCUITS || material == Material.WEB
-				|| material == Material.CARPET) {
-			canThroughFlag = true;
-		}
-		return canThroughFlag;
-	}
-
-	public float getAttackDamage() {
-		return attackDamage;
-	}
 }
