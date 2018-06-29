@@ -138,12 +138,26 @@ public class SkillEntityPlayer extends SkillEntity{
         return resultPos;
 	}
 	
+	public static void thousandsFrozenSkill(EntityPlayer player) {
+		ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
+        if(null != shepherdCapability && shepherdCapability.getMagic() >= MagicSkill_ThousandsFrozen || player.isCreative()) {
+    		int level = shepherdCapability.getLevel();
+    		BlockPos centerPos = player.getPosition();
+        	float attackDamage = (float)player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
+        	thousandsFrozen( player, player.world, centerPos, 4, 3, 4, level * SLOWNESS_PROBABILITY_K, (int)(level * SLOWNESS_STRENGTH_K), attackDamage/2);
+    		shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_ThousandsFrozen);
+        }else {
+			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_ThousandsFrozen));
+		}
+	}
+	
 	public static void firestormSkill(EntityPlayer player) {
 		ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
         if(null != shepherdCapability && shepherdCapability.getMagic() >= MagicSkill_Firestorm || player.isCreative()) {
     		int level = shepherdCapability.getLevel();
     		BlockPos centerPos = player.getPosition();
-    		firestorm(player.world, centerPos, 3, 2, 3, level * EXPLOSION_PROBABILITY_K, level * EXPLOSION_STRENGTH_K, true);
+        	float attackDamage = (float)player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
+    		firestorm(player, player.world, centerPos, 3, 2, 3, level * EXPLOSION_PROBABILITY_K, level * EXPLOSION_STRENGTH_K, true, attackDamage/2);
     		shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_Firestorm);
         }else {
 			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_Firestorm));
@@ -155,7 +169,8 @@ public class SkillEntityPlayer extends SkillEntity{
         if(null != shepherdCapability && shepherdCapability.getMagic() >= MagicSkill_Firestorm || player.isCreative()) {
     		int level = shepherdCapability.getLevel();
     		BlockPos centerPos = target.getPosition();
-    		firestorm(player.world, centerPos, 2, 2, 2, level * EXPLOSION_PROBABILITY_K, level * EXPLOSION_STRENGTH_K, false);
+        	float attackDamage = (float)player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
+    		firestorm(player, player.world, centerPos, 2, 2, 2, level * EXPLOSION_PROBABILITY_K, level * EXPLOSION_STRENGTH_K, false, attackDamage/2);
     		shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_Firestorm);
         }else {
 			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_Firestorm));

@@ -48,6 +48,7 @@ public class ItemWuxianBaoshi extends Item{
 					if(itemstack.getItem() == Items.EMERALD) {
 						emeraldCount += itemstack.getCount();
 						itemstack.setCount(0);
+						inventory.mainInventory.set(i, itemstack.EMPTY);
 					}
 				}
 				ItemStack emeraldBlockItemStack = new ItemStack(Blocks.EMERALD_BLOCK, emeraldCount / 9);

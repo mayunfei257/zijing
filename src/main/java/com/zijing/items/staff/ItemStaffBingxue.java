@@ -45,7 +45,7 @@ public class ItemStaffBingxue extends ItemStaff{
 			if(!player.isSneaking()) {
 				SkillEntityPlayer.shootBingDanSkill(player);
 			}else {
-//				world.getEntitiesInAABBexcluding(entityIn, boundingBox, predicate);
+				SkillEntityPlayer.thousandsFrozenSkill(player);
 			}
 		}
 		return new ActionResult(EnumActionResult.SUCCESS, itemStack);
@@ -85,7 +85,7 @@ public class ItemStaffBingxue extends ItemStaff{
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
 		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemStaffBingxue.skill1", new Object[] {SkillEntity.MagicSkill_BingDan}));
-		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemStaffBingxue.skill2", new Object[] {0}));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemStaffBingxue.skill2", new Object[] {SkillEntity.MagicSkill_ThousandsFrozen}));
 	}
 	//	
 	//	@Override

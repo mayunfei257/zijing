@@ -21,9 +21,9 @@ public class SkillEntity extends SkillBase{
 	protected static final int DAN_GROUP_FREQUENCY_TICK = 5;
 	
 	public static final float EXPLOSION_PROBABILITY_K = 0.01F;
-	public static final float EXPLOSION_STRENGTH_K = 0.02F;
-	public static final float SLOWNESS_PROBABILITY_K = 0.05F;
-	public static final float SLOWNESS_STRENGTH_K = 0.3F;
+	public static final float EXPLOSION_STRENGTH_K = 0.05F;
+	public static final float SLOWNESS_PROBABILITY_K = 0.02F;
+	public static final float SLOWNESS_STRENGTH_K = 0.1F;
 	
 	public static final int CAN_SHOOT_HUODAN_LEVEL = 15;
 	public static final int IMMUNE_FIRE_LEVEL = 30;
@@ -40,6 +40,7 @@ public class SkillEntity extends SkillBase{
 	public static final int MagicSkill_TeleportUp = 2;
 	public static final int MagicSkill_TeleportDown = 2;
 	public static final int MagicSkill_ImmuneFallDamage = 2;
+	public static final int MagicSkill_ThousandsFrozen = 3;
 	public static final int MagicSkill_Firestorm = 3;
 	public static final int MagicSkill_RandomTeleport = 2;
 	public static final int MagicSkill_RandomTeleportFar = 5;
@@ -205,9 +206,13 @@ public class SkillEntity extends SkillBase{
 	protected static BlockPos teleportDown(EntityLivingBase entityLivingBase, BlockPos basePos, boolean checkBedRock) {
 		return teleportDownBase(entityLivingBase, basePos, checkBedRock);
 	}
+
+	protected static void thousandsFrozen(EntityLivingBase entity, World world, BlockPos centerPos, int rangeX, int rangeY, int rangeZ, float slownessProbability, int slownessStrength, float attackDamage) {
+		thousandsFrozenBase(entity, world, centerPos.getX(), centerPos.getY(), centerPos.getZ(), rangeX, rangeY, rangeZ, slownessProbability, slownessStrength, attackDamage);
+	}
 	
-	protected static void firestorm(World world, BlockPos centerPos, int rangeX, int rangeY, int rangeZ, float explosionProbability, float explosionStrength, boolean exceptCenter) {
-		firestormBase(world, centerPos.getX(), centerPos.getY(), centerPos.getZ(), rangeX, rangeY, rangeZ, explosionProbability, explosionStrength, exceptCenter);
+	protected static void firestorm(EntityLivingBase entity, World world, BlockPos centerPos, int rangeX, int rangeY, int rangeZ, float explosionProbability, float explosionStrength, boolean exceptCenter, float attackDamage) {
+		firestormBase(entity, world, centerPos.getX(), centerPos.getY(), centerPos.getZ(), rangeX, rangeY, rangeZ, explosionProbability, explosionStrength, exceptCenter, attackDamage);
 	}
 
 	protected static BlockPos randomTeleport(EntityLivingBase entityLivingBase, int blurRange, int distance) {
