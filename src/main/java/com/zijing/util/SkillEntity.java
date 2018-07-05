@@ -24,6 +24,8 @@ public class SkillEntity extends SkillBase{
 	public static final float EXPLOSION_STRENGTH_K = 0.05F;
 	public static final float SLOWNESS_PROBABILITY_K = 0.02F;
 	public static final float SLOWNESS_STRENGTH_K = 0.1F;
+	public static final float ThousandsFrozen_Range_K = 0.25F;
+	public static final float Firestorm_Range_K = 0.25F;
 	
 	public static final int CAN_SHOOT_HUODAN_LEVEL = 15;
 	public static final int IMMUNE_FIRE_LEVEL = 30;

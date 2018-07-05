@@ -144,7 +144,7 @@ public class SkillEntityPlayer extends SkillEntity{
     		int level = shepherdCapability.getLevel();
     		BlockPos centerPos = player.getPosition();
         	float attackDamage = (float)player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
-        	thousandsFrozen( player, player.world, centerPos, 4, 3, 4, level * SLOWNESS_PROBABILITY_K, (int)(level * SLOWNESS_STRENGTH_K), attackDamage/2);
+        	thousandsFrozen( player, player.world, centerPos, (int)(level * ThousandsFrozen_Range_K), 3, (int)(level * ThousandsFrozen_Range_K), level * SLOWNESS_PROBABILITY_K, (int)(level * SLOWNESS_STRENGTH_K), attackDamage/2);
     		shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_ThousandsFrozen);
         }else {
 			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_ThousandsFrozen));
@@ -157,7 +157,7 @@ public class SkillEntityPlayer extends SkillEntity{
     		int level = shepherdCapability.getLevel();
     		BlockPos centerPos = player.getPosition();
         	float attackDamage = (float)player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
-    		firestorm(player, player.world, centerPos, 3, 2, 3, level * EXPLOSION_PROBABILITY_K, level * EXPLOSION_STRENGTH_K, true, attackDamage/2);
+    		firestorm(player, player.world, centerPos, (int)(level * Firestorm_Range_K), 3, (int)(level * Firestorm_Range_K), level * EXPLOSION_PROBABILITY_K, level * EXPLOSION_STRENGTH_K, true, attackDamage/2);
     		shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_Firestorm);
         }else {
 			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_Firestorm));
@@ -170,7 +170,7 @@ public class SkillEntityPlayer extends SkillEntity{
     		int level = shepherdCapability.getLevel();
     		BlockPos centerPos = target.getPosition();
         	float attackDamage = (float)player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
-    		firestorm(player, player.world, centerPos, 2, 2, 2, level * EXPLOSION_PROBABILITY_K, level * EXPLOSION_STRENGTH_K, false, attackDamage/2);
+    		firestorm(player, player.world, centerPos, (int)(level * Firestorm_Range_K/2), 3, (int)(level * Firestorm_Range_K/2), level * EXPLOSION_PROBABILITY_K, level * EXPLOSION_STRENGTH_K, false, attackDamage/2);
     		shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_Firestorm);
         }else {
 			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_Firestorm));
