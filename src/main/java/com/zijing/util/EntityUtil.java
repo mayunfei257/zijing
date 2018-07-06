@@ -1,16 +1,20 @@
 package com.zijing.util;
 
+import com.zijing.BaseControl;
 import com.zijing.ZijingMod;
 import com.zijing.data.playerdata.ShepherdCapability;
 import com.zijing.data.playerdata.ShepherdProvider;
 import com.zijing.itf.EntityShepherdCapability;
 
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.ResourceLocation;
@@ -86,6 +90,7 @@ public class EntityUtil {
     			player.world.playSound((EntityPlayer) null, player.posX, player.posY + player.getEyeHeight(), player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("block.end_portal.spawn")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
     			
     			setPlayerAllValue(player, shepherdCapability);
+    			setRewards(player);
     			ShepherdProvider.updateChangeToClient(player);
 			}else {
 				player.sendMessage(new TextComponentString("Magic energy or experience is not enough!"));
@@ -113,6 +118,19 @@ public class EntityUtil {
 		return true;
 	}
 
+	/**
+	 * Using
+	 * @param player
+	 * @return
+	 */
+	public static boolean setRewards(EntityPlayer player) {
+		InventoryPlayer inventory = player.inventory;
+		ItemStack itenStack = new ItemStack(BaseControl.blockZilingCao, 1);
+		if(!inventory.addItemStackToInventory(itenStack)) {
+			player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, itenStack));
+		}
+		return true;
+	}
 	//--------------------------------------------upSide = player ----- downSide = EntityHasShepherdCapability----------------------------------------------------------------------
 	
 	/**
