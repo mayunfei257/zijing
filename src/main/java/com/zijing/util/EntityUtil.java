@@ -83,8 +83,8 @@ public class EntityUtil {
 //    			shepherdCapability.setSpeed(level * 0.1 + 1);
     			shepherdCapability.setAttack((level - 1) * ZijingMod.config.getUPGRADE_ATTACK_K());
 //            	shepherdCapability.setIntellect(intellect);
-    			shepherdCapability.setBloodRestore(level * ZijingMod.config.getUPGRADE_BLOODRESTORE_K());
-    			shepherdCapability.setMagicRestore(level * ZijingMod.config.getUPGRADE_MAGICRESTORE_K());
+    			shepherdCapability.setBloodRestore(level * ZijingMod.config.getUPGRADE_BLOODRESTORE_K() + 0.002D);
+    			shepherdCapability.setMagicRestore(level * ZijingMod.config.getUPGRADE_MAGICRESTORE_K() + 0.01D);
             	shepherdCapability.setPhysicalDefense((level - 1) * ZijingMod.config.getUPGRADE_PHYSICALDEFENSE_K());
 //            	shepherdCapability.setMagicDefense(magicDefense);
     			player.world.playSound((EntityPlayer) null, player.posX, player.posY + player.getEyeHeight(), player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("block.end_portal.spawn")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
@@ -154,8 +154,8 @@ public class EntityUtil {
     			shepherdCapability.setSpeed(level * 0.005D + 0.2D);
     			shepherdCapability.setAttack((level - 1) * ZijingMod.config.getUPGRADE_ATTACK_K());
 //            	shepherdCapability.setIntellect(intellect);
-    			shepherdCapability.setBloodRestore(level * ZijingMod.config.getUPGRADE_BLOODRESTORE_K());
-    			shepherdCapability.setMagicRestore(level * ZijingMod.config.getUPGRADE_MAGICRESTORE_K());
+    			shepherdCapability.setBloodRestore(level * ZijingMod.config.getUPGRADE_BLOODRESTORE_K() + 0.002D);
+    			shepherdCapability.setMagicRestore(level * ZijingMod.config.getUPGRADE_MAGICRESTORE_K() + 0.01D);
             	shepherdCapability.setPhysicalDefense((level - 1) * ZijingMod.config.getUPGRADE_PHYSICALDEFENSE_K());
 //            	shepherdCapability.setMagicDefense(magicDefense);
             	shepherdEntity.world.playSound(null, shepherdEntity.posX, shepherdEntity.posY + shepherdEntity.getEyeHeight(), shepherdEntity.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("block.end_portal.spawn")), SoundCategory.NEUTRAL, 1.0F, 1.0F);

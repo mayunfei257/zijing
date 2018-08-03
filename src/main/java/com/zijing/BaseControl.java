@@ -57,7 +57,6 @@ import com.zijing.waigua.BlockToushi;
 import com.zijing.waigua.ItemStaffBuilding;
 import com.zijing.waigua.ItemWuxianBaoshi;
 import com.zijing.waigua.world.BlockPortalLongjie;
-import com.zijing.waigua.world.DimensionLongjie;
 import com.zijing.waigua.world.ItemTriggerLongshi;
 
 import net.minecraft.block.Block;
@@ -71,7 +70,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.DimensionType;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -88,7 +86,7 @@ import net.minecraftforge.registries.GameData;
 public class BaseControl{
     private static int nextID = 0;
 	public static SimpleNetworkWrapper netWorkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(ConstantUtil.MODID);
-	public static DimensionType dtype;
+//	public static DimensionType dtype;
 	
 	//TODO Instantiate mod item ---
 	public static Block blockGuhuaNiunaiKuai;
@@ -140,7 +138,7 @@ public class BaseControl{
 	public static ItemTriggerLongshi itemTriggerLongshi;
 
 	public static void init(FMLPreInitializationEvent event){
-    	dtype = DimensionType.register("Longjie", "_Longjie", ZijingMod.config.getLONGJIE_DIMID(), DimensionLongjie.WorldProviderMod.class, false);
+//    	dtype = DimensionType.register("Longjie", "_Longjie", ZijingMod.config.getLONGJIE_DIMID(), DimensionLongjie.WorldProviderMod.class, false);
     	
 		//TODO Instantiate mod item ---
 		blockGuhuaNiunaiKuai = new BlockGuhuaNiunaiKuai();
@@ -203,7 +201,7 @@ public class BaseControl{
     	netWorkWrapper.registerMessage(OpenServerGUIMessage.Handler.class, OpenServerGUIMessage.class, nextID++, Side.SERVER);
     	
     	try {
-    		DimensionManager.registerDimension(ZijingMod.config.getLONGJIE_DIMID(), dtype);
+//    		DimensionManager.registerDimension(ZijingMod.config.getLONGJIE_DIMID(), dtype);
     	}catch(IllegalArgumentException e) {
     		throw new IllegalArgumentException(String.format("Failed to register dimension for id %d, One is already registered. Suggested change to %d .", ZijingMod.config.getLONGJIE_DIMID(), DimensionManager.getNextFreeDimId()));
     	}
