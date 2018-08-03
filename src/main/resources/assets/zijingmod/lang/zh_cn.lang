@@ -61,6 +61,7 @@ zijingmod.blockZilingCao.1=§4重要植物，可在耕地上生长，可烧炼�
 
 #FY_Item---------------------------------------------------------------------------
 zijingmod.itemZiqi.magic=§4灵力值 : %d
+zijingmod.itemZiqi.burnTime=§4燃烧时间 : %d T
 zijingmod.itemZijing.magic=§4灵力值 : %d
 zijingmod.itemDanZiling.1=§4持续%d秒各种有益状态.
 zijingmod.itemDanZiling.2=§4恢复%d点法力值.
