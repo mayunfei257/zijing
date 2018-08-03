@@ -70,6 +70,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.DimensionType;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -86,7 +87,7 @@ import net.minecraftforge.registries.GameData;
 public class BaseControl{
     private static int nextID = 0;
 	public static SimpleNetworkWrapper netWorkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(ConstantUtil.MODID);
-//	public static DimensionType dtype;
+	public static DimensionType dtype;
 	
 	//TODO Instantiate mod item ---
 	public static Block blockGuhuaNiunaiKuai;
