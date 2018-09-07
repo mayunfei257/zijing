@@ -8,8 +8,15 @@ import com.zijing.entity.EntityArrowFengyinDan;
 import com.zijing.entity.EntityArrowHuoDan;
 import com.zijing.entity.EntityArrowXukongDan;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemAxe;
+import net.minecraft.item.ItemHoe;
+import net.minecraft.item.ItemPickaxe;
+import net.minecraft.item.ItemSpade;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -262,7 +269,13 @@ public class SkillEntity extends SkillBase{
 			}
 		}
     }
-
+	
+	protected static int chainDrop(ItemStack toolStack, World world, IBlockState blockState, BlockPos pos, int maxAmount) {
+		if(canChainDrop(toolStack, blockState)) {
+			return chainDropBlockBase(world, blockState, pos, 0, maxAmount);
+		}
+		return 0;
+	}
 	//TODO------Skill Util--------------------
     private static BlockPos getLaunchBlock(World world, BlockPos targetPos) {
 		int x = targetPos.getX();
@@ -288,5 +301,27 @@ public class SkillEntity extends SkillBase{
 			}
 		}
 		return throwerPos;
+    }
+    
+    private static boolean canChainDrop(ItemStack toolStack, IBlockState blockState) {
+    	if(null == toolStack || null == toolStack.getItem() || null == blockState) {
+    		return false;
+    	}
+		if(toolStack.getItem().getDestroySpeed(toolStack, blockState) > 1.0F) {
+			return true;
+		}
+		
+    	if(toolStack.getItem() instanceof ItemSword) {
+    		
+		}else if(toolStack.getItem() instanceof ItemAxe) {
+			
+		}else if(toolStack.getItem() instanceof ItemPickaxe) {
+			
+		}else if(toolStack.getItem() instanceof ItemSpade) {
+			
+		}else if(toolStack.getItem() instanceof ItemHoe) {
+			
+		}
+    	return false;
     }
 }

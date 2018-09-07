@@ -1,5 +1,6 @@
 package com.zijing.util;
 
+import com.zijing.ZijingMod;
 import com.zijing.data.playerdata.ShepherdCapability;
 import com.zijing.data.playerdata.ShepherdProvider;
 import com.zijing.entity.EntityArrowBingDan;
@@ -7,11 +8,14 @@ import com.zijing.entity.EntityArrowFengyinDan;
 import com.zijing.entity.EntityArrowHuoDan;
 import com.zijing.entity.EntityArrowXukongDan;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class SkillEntityPlayer extends SkillEntity{
 
@@ -220,4 +224,13 @@ public class SkillEntityPlayer extends SkillEntity{
 			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_GrowBlock));
 		}
     }
+	
+	public static void chainDropSkill(ItemStack toolStack, World world, IBlockState blockState, BlockPos pos, EntityPlayer player) {
+		int damage = toolStack.getMaxDamage() - toolStack.getItemDamage();
+		int maxAmount = damage > ZijingMod.config.getTOOL_DMAMOUNT()? ZijingMod.config.getTOOL_DMAMOUNT() : damage * 2;
+		int amount = chainDrop(toolStack, world, blockState, pos, maxAmount);
+		if(amount > 0) {
+			toolStack.damageItem(amount/2 >= 1 ? amount/2 : 1, player);
+		}
+	}
 }

@@ -42,24 +42,22 @@ public class BlockZilingMieshaZhen extends Block{
 		int i = pos.getX();
 		int j = pos.getY();
 		int k = pos.getZ();
-		if(!world.isRemote &&  entity instanceof EntityLivingBase) {
+		if(!world.isRemote && entity instanceof EntityLivingBase) {
 			EntityLivingBase entityLive = (EntityLivingBase) entity;
 			if(entity instanceof IMob){
 				if(entityLive.getHealth() > 0){
 					if(null == entityLive.getActivePotionEffect(MobEffects.SLOWNESS))
 						entityLive.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 40, 2));
 					entityLive.setFire(2);
-					world.spawnEntity(new EntityLightningBolt(world, i, j, k, false));
 					entityLive.attackEntityFrom(DamageSource.MAGIC, 3);
 				}
 			}else if(entity instanceof EntityPlayer){
 				if(null == entityLive.getActivePotionEffect(MobEffects.SPEED))
 					entityLive.addPotionEffect(new PotionEffect(MobEffects.SPEED, 40, 2));
 			}
-		}else if(world.isRemote && entity instanceof EntityLivingBase){
-			if(entity instanceof IMob){
-				world.spawnEntity(new EntityLightningBolt(world, i, j, k, true));
-			}
+		}
+		if(entity instanceof IMob){
+			world.spawnEntity(new EntityLightningBolt(world, i, j, k, true));
 		}
 	}
 
