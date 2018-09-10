@@ -24,6 +24,7 @@ import net.minecraft.world.World;
 
 public class BlockZilingMieshaZhen extends Block{
     protected static final AxisAlignedBB ZLMSZ_AABB = new AxisAlignedBB(0D, 0D, 0D, 1D, 0.125D, 1D);
+    protected static int MAX_INTERVAL = 5;
 
 	public BlockZilingMieshaZhen() {
 		super(Material.IRON);
@@ -49,7 +50,8 @@ public class BlockZilingMieshaZhen extends Block{
 					if(null == entityLive.getActivePotionEffect(MobEffects.SLOWNESS))
 						entityLive.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 40, 2));
 					entityLive.setFire(2);
-					entityLive.attackEntityFrom(DamageSource.MAGIC, 3);
+					entityLive.attackEntityFrom(DamageSource.MAGIC, 4);
+					world.spawnEntity(new EntityLightningBolt(world, entity.posX, entity.posY, entity.posZ, false));
 				}
 			}else if(entity instanceof EntityPlayer){
 				if(null == entityLive.getActivePotionEffect(MobEffects.SPEED))
@@ -57,7 +59,7 @@ public class BlockZilingMieshaZhen extends Block{
 			}
 		}
 		if(entity instanceof IMob){
-			world.spawnEntity(new EntityLightningBolt(world, i, j, k, true));
+//			world.spawnEntity(new EntityLightningBolt(world, i, j, k, false));
 		}
 	}
 

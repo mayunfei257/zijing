@@ -227,10 +227,8 @@ public class SkillEntityPlayer extends SkillEntity{
 	
 	public static void chainDropSkill(ItemStack toolStack, World world, IBlockState blockState, BlockPos pos, EntityPlayer player) {
 		int damage = toolStack.getMaxDamage() - toolStack.getItemDamage();
-		int maxAmount = damage > ZijingMod.config.getTOOL_DMAMOUNT()? ZijingMod.config.getTOOL_DMAMOUNT() : damage * 2;
+		int maxAmount = damage > ZijingMod.config.getTOOL_DMAMOUNT()/2 ? ZijingMod.config.getTOOL_DMAMOUNT() : damage * 2;
 		int amount = chainDrop(toolStack, world, blockState, pos, maxAmount);
-		if(amount > 0) {
-			toolStack.damageItem(amount/2 >= 1 ? amount/2 : 1, player);
-		}
+		toolStack.damageItem(amount/2 >= 1 ? amount/2 : 1, player);
 	}
 }
