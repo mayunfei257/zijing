@@ -2,6 +2,7 @@ package com.zijing.blocks.tool;
 
 import java.util.Random;
 
+import com.zijing.BaseControl;
 import com.zijing.ZijingMod;
 import com.zijing.ZijingTab;
 import com.zijing.entity.TileEntityZhulingTai;
@@ -17,6 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
@@ -28,9 +30,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockZhulingTai extends BlockContainer{
-	private final boolean isBurning;
+	private final boolean isWorking;
 
-	public BlockZhulingTai(boolean isBurning){
+	public BlockZhulingTai(boolean isWorking){
 		super(Material.ROCK);
 		setHardness(50f);
 		setResistance(1000.0f);
@@ -40,18 +42,21 @@ public class BlockZhulingTai extends BlockContainer{
 		setRegistryName(ConstantUtil.MODID + ":blockzhulingtai");
 		setCreativeTab(ZijingTab.zijingTab);
 		this.setDefaultState(this.blockState.getBaseState());
-		this.isBurning = isBurning;
+		this.isWorking = isWorking;
 	}
+	
+    /**
+     * Get the Item that this Block should drop when harvested.
+     */
+	@Override
+	public Item getItemDropped(IBlockState state, Random rand, int fortune){
+        return Item.getItemFromBlock(BaseControl.blockZhulingTai);
+    }
 
+	@Override
 	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand){
-		if(!worldIn.isRemote) {
-			if (this.isBurning){
-				setLightLevel(1.0f);
-			}else {
-				setLightLevel(0.0f);
-			}
-		}else {
-			if (this.isBurning){
+		if(worldIn.isRemote) {
+			if (this.isWorking){
 				double x = pos.getX() + 0.5D;
 				double y = pos.getY() + 0.5D + rand.nextDouble() / 2.0D;
 				double z = pos.getZ() + 0.5D;
@@ -63,10 +68,11 @@ public class BlockZhulingTai extends BlockContainer{
 			}
 		}
 	}
-
+	
 	/**
-	 * Called when the block is right clicked by a player.
-	 */
+     * Called when the block is right clicked by a player.
+     */
+	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
 		if (!worldIn.isRemote){
 			playerIn.openGui(ZijingMod.instance, GuiZhulingTai.GUIID, worldIn, pos.getX(), pos.getY(), pos.getZ());
@@ -74,9 +80,11 @@ public class BlockZhulingTai extends BlockContainer{
 		return true;
 	}
 
+	 
 	/**
 	 * Returns a new instance of a block's tile entity class. Called on placing the block.
 	 */
+	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta){
 		return new TileEntityZhulingTai();
 	}
@@ -84,6 +92,7 @@ public class BlockZhulingTai extends BlockContainer{
 	/**
 	 * Called by ItemBlocks after a block is set in the world, to allow post-place logic
 	 */
+	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack){
 		if (stack.hasDisplayName()){
 			TileEntity tileentity = worldIn.getTileEntity(pos);
@@ -96,6 +105,7 @@ public class BlockZhulingTai extends BlockContainer{
 	/**
 	 * Called serverside after this block is replaced with another in Chunk, but before the Tile Entity is updated
 	 */
+	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state){
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 		if (tileentity instanceof TileEntityZhulingTai){
@@ -105,10 +115,12 @@ public class BlockZhulingTai extends BlockContainer{
 		super.breakBlock(worldIn, pos, state);
 	}
 
+	@Override
 	public boolean hasComparatorInputOverride(IBlockState state){
 		return true;
 	}
 
+	@Override
 	public int getComparatorInputOverride(IBlockState blockState, World worldIn, BlockPos pos){
 		return Container.calcRedstone(worldIn.getTileEntity(pos));
 	}
