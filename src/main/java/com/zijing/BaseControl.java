@@ -425,7 +425,7 @@ public class BaseControl{
 			Character.valueOf('2'), null == item3 ? Items.AIR : item3, Character.valueOf('3'), null == item4 ? Items.AIR : item4,
 			Character.valueOf('4'), null == item5 ? Items.AIR : item5, Character.valueOf('5'), null == item6 ? Items.AIR : item6,
 			Character.valueOf('6'), null == item7 ? Items.AIR : item7, Character.valueOf('7'), null == item8 ? Items.AIR : item8,
-			Character.valueOf('8'), null == item9 ? Items.AIR : item9,
+			Character.valueOf('8'), null == item9 ? Items.AIR : item9
 		};
 		GameRegistry.addShapedRecipe(new ResourceLocation(nameStr), new ResourceLocation(groupStr), itemStack, object);
 	}
