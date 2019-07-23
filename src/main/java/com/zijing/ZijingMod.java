@@ -26,7 +26,7 @@ public class ZijingMod{
     @EventHandler
     public void preInit(FMLPreInitializationEvent event){
     	config = Config.getConfig(event);
-    	((RangedAttribute)SharedMonsterAttributes.MAX_HEALTH).maximumValue = 10240;
+    	((RangedAttribute)SharedMonsterAttributes.MAX_HEALTH).maximumValue = config.getMAX_BLOOD();
         proxy.preInit(event);
     }
     
