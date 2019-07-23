@@ -75,6 +75,7 @@ public class ItemWuxianBaoshi extends Item{
     public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flagIn){
 		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemWuxianBaoshi.skill1", new Object[] {brunTick/20}));
 		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemWuxianBaoshi.skill2", new Object[] {upExperience}));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemWuxianBaoshi.skill3", new Object[] {}));
     }
 	
 	private boolean compoundItem1ToItem2(World world, EntityPlayer player, Object item1, Object item2, int countK) {

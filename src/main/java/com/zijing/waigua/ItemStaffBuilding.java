@@ -72,7 +72,7 @@ public class ItemStaffBuilding extends Item  implements MagicConsumer{
 	@Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flagIn){
-		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemStaffWaigua.skill1", new Object[0]));
-		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemStaffWaigua.skill2", new Object[0]));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemStaffBuilding.skill1", new Object[0]));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemStaffBuilding.skill2", new Object[0]));
     }
 }

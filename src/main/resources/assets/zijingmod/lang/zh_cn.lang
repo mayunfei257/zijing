@@ -102,7 +102,9 @@ zijingmod.itemToolZijingJian.4=§4击中敌人，掉落%d点经验.
 zijingmod.itemToolZijingFu.skill1=§4打破需使用斧头类工具的方块时，连锁掉落，最大连锁量%d。 (潜行 + 打破)
 zijingmod.itemToolZijingGao.skill1=§4打破需使用镐类工具的方块时，连锁掉落，最大连锁量%d。 (潜行 + 打破)
 zijingmod.itemToolZijingChan.skill1=§4打破需使用铲类工具的方块时，连锁掉落，最大连锁量%d。 (潜行 + 打破)
-zijingmod.itemToolZijingChu.skill1=§4打破多节高植物时，连锁掉落，并保留根部. (潜行 + 打破)
+zijingmod.itemToolZijingChu.skill1=§4收获多节植物时，连锁收获，并保留根部. (潜行 + 打破)
+zijingmod.itemToolZijingChu.skill2=§4收获农作物时，连锁收获已成熟作物. (潜行 + 打破)
+zijingmod.itemToolZijingChu.skill3=§4对耕地使用，可快速种植. (潜行 + 右键)
 zijingmod.itemArmorZijingHelmet.skill1=§4受伤会获得水下呼吸状态%d秒。
 zijingmod.itemArmorZijingBody.skill1=§4受伤会获得血量恢复状态%d秒。
 zijingmod.itemArmorZijingLegs.skill1=§4受伤会获得抗性提升状态%d秒。
@@ -143,10 +145,11 @@ item.itemWuxianBaoshi.name=§6外挂-无限宝石
 item.itemTriggerLongshi.name=§6外挂-龙石
 tile.blockPortalLongjie.name=§6外挂-龙界门
 
-zijingmod.itemStaffBuilding.skill1=§c技能1: 生成11*11的耕地，并种植紫灵草. (右键)
-zijingmod.itemStaffBuilding.skill2=§c技能2: 生成21*21的耕地，并种植紫灵草. (潜行 + 右键)
+zijingmod.itemStaffBuilding.skill1=§c技能1: 以玩家脚下为中心生成11*11的耕地，并种植紫灵草. (右键)
+zijingmod.itemStaffBuilding.skill2=§c技能2: 以玩家脚下为中心生成21*21的耕地，并种植紫灵草. (潜行 + 右键)
 zijingmod.itemWuxianBaoshi.skill1=§c技能1: 可以当做燃料，连续燃烧%s秒.
 zijingmod.itemWuxianBaoshi.skill2=§c技能2: 增加可升级生物经验%s点. (潜行 + 右键生物)
+zijingmod.itemWuxianBaoshi.skill3=§c技能3: 自动合成背包里的紫气和绿宝石. (右键)
 
 #FY_BASE---------------------------------------------------------------------------
 zijingmod.line.1=§d----------------.

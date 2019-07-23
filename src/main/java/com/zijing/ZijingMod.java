@@ -3,6 +3,8 @@ package com.zijing;
 import com.zijing.util.Config;
 import com.zijing.util.ConstantUtil;
 
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -24,6 +26,7 @@ public class ZijingMod{
     @EventHandler
     public void preInit(FMLPreInitializationEvent event){
     	config = Config.getConfig(event);
+    	((RangedAttribute)SharedMonsterAttributes.MAX_HEALTH).maximumValue = 10240;
         proxy.preInit(event);
     }
     

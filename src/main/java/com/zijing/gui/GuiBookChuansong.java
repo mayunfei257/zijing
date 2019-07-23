@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.zijing.items.card.ItemBookChuansong;
 import com.zijing.items.card.ItemCardChuansong;
 import com.zijing.items.staff.ItemZilingZhu;
+import com.zijing.items.tool.ItemToolZijingChu;
 import com.zijing.util.ConstantUtil;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -15,6 +16,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
@@ -32,10 +35,15 @@ public class GuiBookChuansong {
 		private NonNullList<ItemStack> items;
 		private NBTTagCompound bookTag;
 		private EnumHand hand;
+		private String type;
 		
 		public MyContainer(World world, int i, int j, int k, EntityPlayer player) {
 			this.hand = null == player.getActiveHand() ? EnumHand.MAIN_HAND : player.getActiveHand();
-			this.hand = player.getHeldItem(this.hand).getItem() instanceof ItemBookChuansong ? this.hand : (this.hand == EnumHand.MAIN_HAND ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND);
+			
+			Item item = player.getHeldItem(this.hand).getItem();
+			this.hand = (item instanceof ItemBookChuansong || item instanceof ItemToolZijingChu) ? this.hand : (this.hand == EnumHand.MAIN_HAND ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND);
+			this.type = player.getHeldItem(this.hand).getItem() instanceof ItemBookChuansong ? "ItemBookChuansong" : "ItemToolZijingChu";
+			
 			this.bookTag = player.getHeldItem(this.hand).getTagCompound();
 			this.bookInv = new InventoryBasic(ConstantUtil.MODID + ":itembookchuansong", true, 29);
 			this.items = NonNullList.<ItemStack>withSize(29, ItemStack.EMPTY);
@@ -52,7 +60,7 @@ public class GuiBookChuansong {
 				for(int n = 1; n<= 7; n++){
 					this.addSlotToContainer(new Slot(bookInv, n + m*7, (n - 1)*18 + 8, m*18 + 8) {
 						public boolean isItemValid(ItemStack stack) {
-							return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemCardChuansong;
+							return null != stack && null != stack.getItem() && ("ItemBookChuansong".equals(type) ? stack.getItem() instanceof ItemCardChuansong : stack.getItem() instanceof ItemSeeds);
 						}
 					});
 				}
