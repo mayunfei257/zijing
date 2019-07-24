@@ -13,6 +13,7 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.init.MobEffects;
@@ -43,34 +44,29 @@ public class BlockZilingZhaohuanZhen extends Block{
 	
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random random) {
-		if(!worldIn.isRemote) {
-			int age = ((Integer) state.getValue(AGE)).intValue();
-			if (age >= 15) {
-				EntityIronGolem entity = new EntityIronGolem(worldIn);
-				entity.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, worldIn.rand.nextFloat() * 360F, 0.0F);
-				entity.addPotionEffect(new PotionEffect(MobEffects.SPEED, 400, 1));
-				entity.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 400, 1));
-				entity.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 400, 1));
-				entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 400, 1));
-				entity.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 400, 1));
-				entity.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 400, 1));
-				entity.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 400, 1));
-				entity.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 400, 1));
-				entity.setPlayerCreated(true);
-				entity.playLivingSound();
-				worldIn.spawnEntity(entity);
-				worldIn.spawnEntity(new EntityLightningBolt(worldIn, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, false));
-				worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(0)), 4);
-	            setLightLevel(0.0F);
-			} else if(Math.random() <= 0.25){
-				worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(age + 1)), 4);
-	            setLightLevel((age + 1) * 0.066F);
-			}
-		} else {
-			int age = ((Integer) state.getValue(AGE)).intValue();
-			if(age >= 15) {
-				worldIn.spawnEntity(new EntityLightningBolt(worldIn, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, false));
-			}
+		int age = ((Integer) state.getValue(AGE)).intValue();
+		if (age >= 15) {
+			EntityIronGolem entity = new EntityIronGolem(worldIn);
+			entity.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, worldIn.rand.nextFloat() * 360F, 0.0F);
+			entity.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(200.0D);
+			entity.addPotionEffect(new PotionEffect(MobEffects.SPEED, 400, 1));
+			entity.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 400, 1));
+			entity.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 400, 1));
+			entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 400, 1));
+			entity.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 400, 1));
+			entity.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 400, 1));
+			entity.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 400, 1));
+			entity.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 400, 1));
+			entity.setPlayerCreated(true);
+			entity.setHealth(200F);
+			entity.playLivingSound();
+			worldIn.spawnEntity(entity);
+			worldIn.spawnEntity(new EntityLightningBolt(worldIn, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, false));
+			worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(0)), 4);
+			setLightLevel(0.0F);
+		} else if(Math.random() <= 0.25){
+			worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(age + 1)), 4);
+			setLightLevel((age + 1) * 0.066F);
 		}
 	}
 

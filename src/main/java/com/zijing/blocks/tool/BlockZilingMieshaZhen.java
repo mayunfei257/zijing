@@ -43,7 +43,7 @@ public class BlockZilingMieshaZhen extends Block{
 		int i = pos.getX();
 		int j = pos.getY();
 		int k = pos.getZ();
-		if(!world.isRemote && entity instanceof EntityLivingBase) {
+		if(entity instanceof EntityLivingBase) {
 			EntityLivingBase entityLive = (EntityLivingBase) entity;
 			if(entity instanceof IMob){
 				if(entityLive.getHealth() > 0){
@@ -57,9 +57,6 @@ public class BlockZilingMieshaZhen extends Block{
 				if(null == entityLive.getActivePotionEffect(MobEffects.SPEED))
 					entityLive.addPotionEffect(new PotionEffect(MobEffects.SPEED, 40, 2));
 			}
-		}
-		if(entity instanceof IMob){
-//			world.spawnEntity(new EntityLightningBolt(world, i, j, k, false));
 		}
 	}
 

@@ -17,13 +17,13 @@ import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -60,7 +60,7 @@ public class GuiBookChuansong {
 				for(int n = 1; n<= 7; n++){
 					this.addSlotToContainer(new Slot(bookInv, n + m*7, (n - 1)*18 + 8, m*18 + 8) {
 						public boolean isItemValid(ItemStack stack) {
-							return null != stack && null != stack.getItem() && ("ItemBookChuansong".equals(type) ? stack.getItem() instanceof ItemCardChuansong : stack.getItem() instanceof ItemSeeds);
+							return null != stack && null != stack.getItem() && ("ItemBookChuansong".equals(type) ? stack.getItem() instanceof ItemCardChuansong : (stack.getItem() instanceof IPlantable && stack.getItem() instanceof Item));
 						}
 					});
 				}

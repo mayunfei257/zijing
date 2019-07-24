@@ -19,7 +19,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemHoe;
-import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
@@ -66,7 +65,7 @@ public class ItemToolZijingChu extends ItemHoe{
 	
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
-		if(!world.isRemote && player.isSneaking() && world.getBlockState(pos).getBlock() == Blocks.FARMLAND) {
+		if(player.isSneaking() && world.getBlockState(pos).getBlock() == Blocks.FARMLAND) {
 			if(player.getHeldItem(hand).hasTagCompound()) {
 				NBTTagCompound chuansongBookTag = player.getHeldItem(hand).getTagCompound();
 				NonNullList<ItemStack> items = NonNullList.<ItemStack>withSize(29, ItemStack.EMPTY);
@@ -146,6 +145,7 @@ public class ItemToolZijingChu extends ItemHoe{
 				int skipTemp = skip;
 				BlockPos posTem = new BlockPos(pos.getX() + x, pos.getY(), pos.getZ() + z);
 				IBlockState state = world.getBlockState(posTem);
+//				System.out.println("============================================================================" + state.getBlock().getClass().getName());
 				if(state.getBlock() == block) {
 					if(((BlockCrops)block).isMaxAge(state)) {
 						block.dropBlockAsItem(world, posTem, world.getBlockState(posTem), 1);
@@ -189,14 +189,14 @@ public class ItemToolZijingChu extends ItemHoe{
 	public boolean planting(World world, NonNullList<ItemStack> items, BlockPos pos) {
 		ItemStack itemStack = items.get(0);
 		for(ItemStack itemStacktemp: items) {
-			if(!itemStacktemp.isEmpty() && itemStacktemp.getItem() instanceof ItemSeeds) {
+			if(!itemStacktemp.isEmpty() && itemStacktemp.getItem() instanceof IPlantable) {
 				itemStack = itemStacktemp;
 				break;
 			}
 		}
 		if(itemStack.isEmpty()) return false;
 		
-		world.setBlockState(pos, ((ItemSeeds)(itemStack.getItem())).getPlant(world, pos));
+		world.setBlockState(pos, ((IPlantable)(itemStack.getItem())).getPlant(world, pos));
 		itemStack.shrink(1);
 		return true;
 	}
