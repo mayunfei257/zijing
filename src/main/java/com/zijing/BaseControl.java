@@ -54,7 +54,6 @@ import com.zijing.items.tool.ItemToolZijingFu;
 import com.zijing.items.tool.ItemToolZijingGao;
 import com.zijing.items.tool.ItemToolZijingJian;
 import com.zijing.util.ConstantUtil;
-import com.zijing.waigua.BlockToushi;
 import com.zijing.waigua.ItemStaffBuilding;
 import com.zijing.waigua.ItemWuxianBaoshi;
 import com.zijing.waigua.world.BlockPortalLongjie;
@@ -132,7 +131,6 @@ public class BaseControl{
 	public static Item itemArmorZijingLegs;
 	public static Item itemArmorZijingBoots;
 	//waigua
-	public static Block blockToushi;
 	public static Item itemStaffBuilding;
 	public static Item itemWuxianBaoshi;
 	public static BlockPortalLongjie blockPortalLongjie;
@@ -183,7 +181,6 @@ public class BaseControl{
 		itemArmorZijingBoots = new ItemArmorZijingBoots();
 		
 		//waigua
-		blockToushi = new BlockToushi();
 		itemStaffBuilding = new ItemStaffBuilding();
 		itemWuxianBaoshi = new ItemWuxianBaoshi();
 		blockPortalLongjie = new BlockPortalLongjie();
@@ -258,8 +255,6 @@ public class BaseControl{
 		GameData.register_impl(itemArmorZijingBoots);
 
 		//waigua
-		GameData.register_impl(blockToushi);
-		GameData.register_impl(new ItemBlock(blockToushi).setRegistryName(blockToushi.getRegistryName()));
 		GameData.register_impl(itemStaffBuilding);
 		GameData.register_impl(itemWuxianBaoshi);
 		GameData.register_impl(blockPortalLongjie);
@@ -317,7 +312,6 @@ public class BaseControl{
 		itemResourceLoad(itemArmorZijingLegs);
 		itemResourceLoad(itemArmorZijingBoots);
 		//waigua
-		bolckResourceLoad(blockToushi);
 		itemResourceLoad(itemStaffBuilding);
 		itemResourceLoad(itemWuxianBaoshi);
 		bolckResourceLoad(blockPortalLongjie);

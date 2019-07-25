@@ -14,6 +14,7 @@ import com.zijing.entity.EntitySuperIronGolem;
 import com.zijing.entity.EntitySuperSnowman;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -414,7 +415,7 @@ public class SkillBase {
     		return true;
 		}else if((Blocks.LIT_REDSTONE_ORE == baseBlockState.getBlock() || Blocks.REDSTONE_ORE == baseBlockState.getBlock()) && (Blocks.LIT_REDSTONE_ORE == thisBlockState.getBlock() || Blocks.REDSTONE_ORE == thisBlockState.getBlock())) {
 			return true;
-		}else if(Blocks.LOG == baseBlockState.getBlock() && Blocks.LOG == thisBlockState.getBlock()) {
+		}else if(baseBlockState.getBlock() == thisBlockState.getBlock() && baseBlockState.getBlock() instanceof BlockLog) {
 			int baseMeta = baseBlockState.getBlock().getMetaFromState(baseBlockState);
 			int thisMeta = thisBlockState.getBlock().getMetaFromState(thisBlockState);
 			BlockPlanks.EnumType baseBlockPlanksType = BlockPlanks.EnumType.byMetadata((baseMeta & 3) % 4);

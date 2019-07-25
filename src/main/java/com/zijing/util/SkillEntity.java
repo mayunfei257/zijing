@@ -304,12 +304,10 @@ public class SkillEntity extends SkillBase{
     }
     
     private static boolean canChainDrop(ItemStack toolStack, IBlockState blockState) {
-    	if(null == toolStack || null == toolStack.getItem() || null == blockState) {
+    	if(null == toolStack || null == toolStack.getItem() || null == blockState)
     		return false;
-    	}
-		if(toolStack.getItem().getDestroySpeed(toolStack, blockState) > 1.0F) {
+		if(toolStack.getItem().getDestroySpeed(toolStack, blockState) > 1.0F)
 			return true;
-		}
 		
     	if(toolStack.getItem() instanceof ItemSword) {
     		
