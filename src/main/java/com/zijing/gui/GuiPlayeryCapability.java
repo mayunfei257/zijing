@@ -25,6 +25,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -56,6 +57,11 @@ public class GuiPlayeryCapability {
 		@Override
 		public boolean canInteractWith(EntityPlayer playerIn) {return true;}
 
+		@Override
+        public ItemStack transferStackInSlot(EntityPlayer playerIn, int index){
+            return ItemStack.EMPTY;
+        }
+        
 		public void upgrade(int upLevel){
 			if(null != shepherdCapability) {
 	    		double needMagic = MathUtil.getUpgradeK(shepherdCapability.getLevel(), upLevel) * ZijingMod.config.getUPGRADE_NEED_MAGIC_K();

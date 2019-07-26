@@ -1,5 +1,7 @@
 package com.zijing;
 
+import org.apache.logging.log4j.Logger;
+
 import com.zijing.util.Config;
 import com.zijing.util.ConstantUtil;
 
@@ -22,9 +24,11 @@ public class ZijingMod{
     @Instance(ConstantUtil.MODID)
 	public static ZijingMod instance;
     public static Config config;
+    private static Logger logger;
     
     @EventHandler
     public void preInit(FMLPreInitializationEvent event){
+        logger = event.getModLog();
     	config = Config.getConfig(event);
     	((RangedAttribute)SharedMonsterAttributes.MAX_HEALTH).maximumValue = config.getMAX_BLOOD();
         proxy.preInit(event);
