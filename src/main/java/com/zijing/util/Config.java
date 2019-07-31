@@ -43,6 +43,7 @@ public class Config {
 	private double UPGRADE_BLOODRESTORE_K;
 	private double UPGRADE_MAGICRESTORE_K;
 	private double UPGRADE_PHYSICALDEFENSE_K;
+	private int ALLOWFLYING_LEVEL;
 	
 	private int LONGJIE_DIMID;
 	
@@ -122,6 +123,7 @@ public class Config {
 			this.UPGRADE_BLOODRESTORE_K = configuration.get("PLAYER", "UPGRADE_BLOODRESTORE_K", 0.0002D, new String(new byte[]{-2,-1,107,-49,83,71,78,0,126,-89,-1,12,88,-98,82,-96,118,-124,117,31,84,125,80,60,96,98,89,13,-112,31,94,-90}, "unicode")).getDouble();
 			this.UPGRADE_MAGICRESTORE_K = configuration.get("PLAYER", "UPGRADE_MAGICRESTORE_K", 0.0025D, new String(new byte[]{-2,-1,107,-49,83,71,78,0,126,-89,-1,12,88,-98,82,-96,118,-124,108,-43,82,-101,80,60,96,98,89,13,-112,31,94,-90}, "unicode")).getDouble();
 			this.UPGRADE_PHYSICALDEFENSE_K = configuration.get("PLAYER", "UPGRADE_PHYSICALDEFENSE_K", 0.2D, new String(new byte[]{-2,-1,107,-49,83,71,78,0,126,-89,-1,12,88,-98,82,-96,118,-124,114,105,116,6,-106,50,95,-95}, "unicode")).getDouble();
+			this.ALLOWFLYING_LEVEL = configuration.get("PLAYER", "ALLOWFLYING_LEVEL", 60, new String(new byte[]{-2,-1,-113,-66,82,48,89,26,92,17,126,-89,83,-17,78,-27,-104,-34,-120,76}, "unicode")).getInt();
 			
 			this.LONGJIE_DIMID = configuration.get("LONGJIE", "LONGJIE_DIMID", 5, "Long Jie Dimension ID.").getInt();
 		}catch(Exception e) {
@@ -248,6 +250,10 @@ public class Config {
 
 	public int getLONGJIE_DIMID() {
 		return LONGJIE_DIMID;
+	}
+
+	public int getALLOWFLYING_LEVEL() {
+		return ALLOWFLYING_LEVEL;
 	}
 }
 
