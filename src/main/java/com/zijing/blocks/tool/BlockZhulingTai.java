@@ -44,42 +44,38 @@ public class BlockZhulingTai extends BlockContainer{
 		this.setDefaultState(this.blockState.getBaseState());
 		this.isWorking = isWorking;
 	}
-	
-    /**
-     * Get the Item that this Block should drop when harvested.
-     */
-	@Override
-	public Item getItemDropped(IBlockState state, Random rand, int fortune){
-        return Item.getItemFromBlock(BaseControl.blockZhulingTai);
-    }
 
-	@Override
-	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand){
-		if(worldIn.isRemote) {
-			if (this.isWorking){
-				double x = pos.getX() + 0.5D;
-				double y = pos.getY() + 0.5D + rand.nextDouble() / 2.0D;
-				double z = pos.getZ() + 0.5D;
-				if (rand.nextDouble() < 0.2D){
-					worldIn.playSound(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
-				}
-				worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x - 0.52D, y, z - 0.52D, 0.0D, 0.0D, 0.0D);
-				worldIn.spawnParticle(EnumParticleTypes.FLAME, x - 0.52D, y, z - 0.52D, 0.0D, 0.0D, 0.0D);
-			}
-		}
-	}
+//	@Override
+//	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand){
+//		if(worldIn.isRemote) {
+//			if (this.isWorking){
+//				double x = pos.getX() + 0.5D;
+//				double y = pos.getY() + 0.5D + rand.nextDouble() / 2.0D;
+//				double z = pos.getZ() + 0.5D;
+//				if (rand.nextDouble() < 0.2D){
+//					worldIn.playSound(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+//				}
+//				worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x - 0.52D, y, z - 0.52D, 0.0D, 0.0D, 0.0D);
+//				worldIn.spawnParticle(EnumParticleTypes.FLAME, x - 0.52D, y, z - 0.52D, 0.0D, 0.0D, 0.0D);
+//			}
+//		}
+//	}
 	
 	/**
      * Called when the block is right clicked by a player.
      */
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
-		if (!worldIn.isRemote){
-			playerIn.openGui(ZijingMod.instance, GuiZhulingTai.GUIID, worldIn, pos.getX(), pos.getY(), pos.getZ());
-		}
-		return true;
+		if (worldIn.isRemote){
+            return true;
+        } else{
+        	TileEntityZhulingTai tileEntityZhulingTai = (TileEntityZhulingTai)worldIn.getTileEntity(pos);
+            if (tileEntityZhulingTai != null){
+            	playerIn.openGui(ZijingMod.instance, GuiZhulingTai.GUIID, worldIn, pos.getX(), pos.getY(), pos.getZ());
+            }
+            return true;
+        }
 	}
-
 	 
 	/**
 	 * Returns a new instance of a block's tile entity class. Called on placing the block.

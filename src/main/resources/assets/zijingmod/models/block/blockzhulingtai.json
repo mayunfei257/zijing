@@ -1,6 +1,8 @@
 {
-    "parent": "block/cube_all",
+    "parent": "block/orientable",
     "textures": {
-        "all": "zijingmod:blocks/blockzhulingtai"
+        "top": "zijingmod:blocks/blockzhulingtai_up",
+        "front": "zijingmod:blocks/blockzhulingtai",
+        "side": "zijingmod:blocks/blockzhulingtai"
     }
 }
