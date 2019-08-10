@@ -9,6 +9,7 @@ import com.zijing.blocks.tool.BlockZilingMieshaZhen;
 import com.zijing.blocks.tool.BlockZilingZhaohuanZhen;
 import com.zijing.data.message.ChuansongBookToServerMessage;
 import com.zijing.data.message.ChuansongCardToServerMessage;
+import com.zijing.data.message.ClientToServerMessage;
 import com.zijing.data.message.OpenClientGUIMessage;
 import com.zijing.data.message.OpenServerGUIMessage;
 import com.zijing.data.message.ShepherdEntityToClientMessage;
@@ -22,6 +23,7 @@ import com.zijing.entity.EntityArrowXukongDan;
 import com.zijing.entity.EntityDisciple;
 import com.zijing.entity.EntitySuperIronGolem;
 import com.zijing.entity.EntitySuperSnowman;
+import com.zijing.entity.TileEntityZhulingTai;
 import com.zijing.entity.render.RenderDisciple;
 import com.zijing.entity.render.RenderSuperIronGolem;
 import com.zijing.entity.render.RenderSuperSnowman;
@@ -69,6 +71,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DimensionType;
 import net.minecraftforge.client.model.ModelLoader;
@@ -76,6 +79,7 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -197,6 +201,7 @@ public class BaseControl{
     	netWorkWrapper.registerMessage(OpenClientGUIMessage.Handler.class, OpenClientGUIMessage.class, nextID++, Side.CLIENT);
     	netWorkWrapper.registerMessage(ShepherdEntityToClientMessage.Handler.class, ShepherdEntityToClientMessage.class, nextID++, Side.CLIENT);
     	netWorkWrapper.registerMessage(OpenServerGUIMessage.Handler.class, OpenServerGUIMessage.class, nextID++, Side.SERVER);
+    	netWorkWrapper.registerMessage(ClientToServerMessage.Handler.class, ClientToServerMessage.class, nextID++, Side.SERVER);
     	
     	try {
 //    		DimensionManager.registerDimension(ZijingMod.config.getLONGJIE_DIMID(), dtype);
@@ -335,7 +340,7 @@ public class BaseControl{
 		addRecipe(ConstantUtil.MODID + ":HC_blockSuperNangua2", ConstantUtil.MODID, new ItemStack(blockSuperNangua, 1), itemZijing, itemZijing, itemZijing, itemZijing, Blocks.LIT_PUMPKIN, itemZijing, itemZijing, itemZijing, itemZijing);
 		addRecipe(ConstantUtil.MODID + ":HC_blockZilingMieshaZhen", ConstantUtil.MODID, new ItemStack(blockZilingMieshaZhen, 1), itemZiqi, itemZiqi, itemZiqi, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, itemToolZijingJian, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, itemZijing, itemZijing, itemZijing);
 		addRecipe(ConstantUtil.MODID + ":HC_blockZilingZhaohuanZhen", ConstantUtil.MODID, new ItemStack(blockZilingZhaohuanZhen, 1), itemZijing, Items.ENDER_PEARL, itemZijing, blockZijingKuai, Blocks.PUMPKIN, blockZijingKuai, blockZijingKuai, Blocks.IRON_BLOCK, blockZijingKuai);
-		addRecipe(ConstantUtil.MODID + ":HC_blockZhulingTai", ConstantUtil.MODID, new ItemStack(blockZhulingTai, 1), itemZijing, Blocks.CAULDRON, itemZijing, itemZijing, Blocks.CRAFTING_TABLE, itemZijing, itemZijing, Blocks.ANVIL, itemZijing);
+		addRecipe(ConstantUtil.MODID + ":HC_blockZhulingTai", ConstantUtil.MODID, new ItemStack(blockZhulingTai, 1), itemZijing, Blocks.CAULDRON, itemZijing, blockZijingKuai, Blocks.CRAFTING_TABLE, blockZijingKuai, blockZijingKuai, Blocks.ANVIL, blockZijingKuai);
 		//item and food
 		addShapelessRecipe(ConstantUtil.MODID + ":HC_itemDanZiling1", ConstantUtil.MODID, new ItemStack(itemDanZiling, 2), Items.WHEAT, itemZiqi, Items.WHEAT);
 		addRecipe(ConstantUtil.MODID + ":HC_itemDanShenshu1", ConstantUtil.MODID, new ItemStack(itemDanShenshu, 4), Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, itemZiqi, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS);
@@ -389,6 +394,9 @@ public class BaseControl{
 		RenderingRegistry.registerEntityRenderingHandler(EntitySuperSnowman.class, new RenderSuperSnowman(Minecraft.getMinecraft().getRenderManager()));
 	}
 
+	public static void tileEntityAddMapping(FMLPostInitializationEvent event) {
+		TileEntity.register(ConstantUtil.MODID + ":tileEntityZhulingTai", TileEntityZhulingTai.class);
+	}
 	//*****************************************************************************************************************************************************//
 	//Render items
   	private static void itemResourceLoad(Item item){

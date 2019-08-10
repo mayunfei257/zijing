@@ -4,8 +4,12 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.zijing.BaseControl;
+import com.zijing.blocks.BlockZijingKuai;
+import com.zijing.data.message.ClientToServerMessage;
 import com.zijing.entity.TileEntityZhulingTai;
+import com.zijing.items.ItemQiankunDai;
 import com.zijing.items.ItemZijing;
+import com.zijing.items.ItemZiqi;
 import com.zijing.itf.MagicConsumer;
 import com.zijing.itf.MagicSource;
 import com.zijing.util.ConstantUtil;
@@ -20,6 +24,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
@@ -50,9 +55,15 @@ public class GuiZhulingTai {
 			for(int i = 0; i < 3; i++) {//Input
 				for(int j = 0; j < 3; j++) {
 					this.addSlotToContainer(new Slot(entityInventory, i * 3 + j + 1, 8 + j * 18, 8 + i * 18) {
-//						public boolean isItemValid(ItemStack stack) {
-//							return stack != null && !(stack.getItem() instanceof CrystalItemType) && !(stack.getItem() instanceof CrystalBlockType);
-//						}
+						public boolean isItemValid(ItemStack stack) {
+							boolean value = stack != null 
+									&& (stack.getItem() != BaseControl.itemZiqi)
+									&& (stack.getItem() != BaseControl.itemZijing) 
+									&& (stack.getItem() != Item.getItemFromBlock(BaseControl.blockZijingKuai))
+									&& (stack.getItem() != Item.getItemFromBlock(BaseControl.blockZilingCao))
+									&& (stack.getItem() != BaseControl.itemQiankunDai);
+							return value;
+						}
 					});
 				}
 			}
@@ -130,23 +141,17 @@ public class GuiZhulingTai {
 			this.z = k;
 		}
 
+		@Override
+		public void drawScreen(int mouseX, int mouseY, float partialTicks){
+	        this.drawDefaultBackground();
+	        super.drawScreen(mouseX, mouseY, partialTicks);
+	        this.renderHoveredToolTip(mouseX, mouseY);
+	    }
 
 		protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
-			int posX = (this.width) / 2;
-			int posY = (this.height) / 2;
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-
 			this.mc.renderEngine.bindTexture(texture);
-			int k = (this.width - this.xSize) / 2;
-			int l = (this.height - this.ySize) / 2;
-			this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
-
-//			this.mc.renderEngine.bindTexture(new ResourceLocation("jia.png"));
-//			this.drawTexturedModalRect((this.guiLeft + 53), (this.guiTop + 34), 0, 0, 256, 256);
-//
-//			this.mc.renderEngine.bindTexture(new ResourceLocation("you.png"));
-//			this.drawTexturedModalRect((this.guiLeft + 108), (this.guiTop + 34), 0, 0, 256, 256);
-
+			this.drawTexturedModalRect((this.width - this.xSize)/2, (this.height - this.ySize)/2, 0, 0, this.xSize, this.ySize);
 		}
 
 		public void onGuiClosed() {
@@ -161,7 +166,7 @@ public class GuiZhulingTai {
 			Keyboard.enableRepeatEvents(true);
 			this.buttonList.clear();
 
-			guiButton = new GuiButton(0, this.guiLeft + 72, this.guiTop + 40, 32, 20, I18n.format(ConstantUtil.MODID + ".guiHunDunTable.button.type0", new Object[]{}));
+			guiButton = new GuiButton(0, this.guiLeft + 72, this.guiTop + 40, 32, 20, I18n.format(ConstantUtil.MODID + ".gui.blockZhulingTai.button.type0", new Object[]{}));
 			this.buttonList.add(guiButton);
 		}
 		
@@ -175,14 +180,14 @@ public class GuiZhulingTai {
 				nbtTag.setInteger("X", this.x);
 				nbtTag.setInteger("Y", this.y);
 				nbtTag.setInteger("Z", this.z);
-//				BaseControl.netWorkWrapper.sendToServer(new ClientToServerMessage(this.player.getUniqueID(), GuiZhulingTai.GUINAME, nbtTag));
+				BaseControl.netWorkWrapper.sendToServer(new ClientToServerMessage(this.player.getUniqueID(), GuiZhulingTai.GUINAME, nbtTag));
 			}
 		}
 
 		@Override
 		protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
 			ItemStack itemCrystal = ((MyContainer)this.inventorySlots).getCrystalItemStack();
-			String buttonName = I18n.format(ConstantUtil.MODID + ".guiHunDunTable.button.type0", new Object[]{});
+			String buttonName = I18n.format(ConstantUtil.MODID + ".gui.blockZhulingTai.button.type0", new Object[]{});
 			if(null != itemCrystal && !itemCrystal.isEmpty()) {
 //				if(itemCrystal.getItem() == BaseControl.itemHunDunCrystal)
 //					buttonName = I18n.format(ConstantUtil.MODID + ".guiHunDunTable.button.type1", new Object[]{});

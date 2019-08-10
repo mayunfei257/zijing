@@ -151,7 +151,7 @@ public class GuiBookChuansong {
 		protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.renderEngine.bindTexture(texture);
-			this.drawTexturedModalRect((this.width-this.xSize)/2, (this.height-this.ySize)/2, 0, 0, this.xSize, this.ySize);
+			this.drawTexturedModalRect((this.width - this.xSize)/2, (this.height - this.ySize)/2, 0, 0, this.xSize, this.ySize);
 		}
 	}
 }

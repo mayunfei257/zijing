@@ -138,6 +138,8 @@ zijingmod.gui.physicalDefense=§l物理防御: §r
 zijingmod.gui.magicDefense=§l魔法防御: §r
 zijingmod.gui.needExperience=§l升级经验: §r
 zijingmod.gui.special=§l特性: §r
+zijingmod.gui.blockZhulingTai.button.type0=§l复制
+
 
 #WaiGua-------------------------------------------------------------------------
 item.itemStaffBuilding.name=§6外挂-建设法杖
