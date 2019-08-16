@@ -395,7 +395,7 @@ public class BaseControl{
 	}
 
 	public static void tileEntityAddMapping(FMLPostInitializationEvent event) {
-		TileEntity.register(ConstantUtil.MODID + ":tileEntityZhulingTai", TileEntityZhulingTai.class);
+		TileEntity.register(ConstantUtil.MODID + ":zhulingtai", TileEntityZhulingTai.class);
 	}
 	//*****************************************************************************************************************************************************//
 	//Render items

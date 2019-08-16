@@ -103,7 +103,7 @@ public class TileEntityZhulingTai extends TileEntity implements ITickable, ISide
 	 * Get the name of this object. For players this returns their username
 	 */
 	public String getName(){
-		return this.hasCustomName() ? this.furnaceCustomName : "container.furnace";
+		return this.hasCustomName() ? this.furnaceCustomName : "zhulingtai";
 	}
 
 	/**
