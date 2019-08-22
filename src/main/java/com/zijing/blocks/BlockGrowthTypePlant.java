@@ -69,7 +69,7 @@ public class BlockGrowthTypePlant extends Block implements net.minecraftforge.co
 						worldIn.setBlockState(pos.up(), this.getDefaultState());
 						worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(0)), 4);
 					} else {
-						worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(age + growthKey)), 4);
+						worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(age + Math.max(0, this.growthKey))), 4);
 					}
 					ForgeHooks.onCropsGrowPost(worldIn, pos, state, worldIn.getBlockState(pos));
 				}

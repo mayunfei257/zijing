@@ -76,6 +76,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DimensionType;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -368,6 +369,8 @@ public class BaseControl{
 		addRecipe(ConstantUtil.MODID + ":HC_itemArmorZijingBody", ConstantUtil.MODID, new ItemStack(itemArmorZijingBody, 1), itemZijing, null, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing, itemZijing);
 		addRecipe(ConstantUtil.MODID + ":HC_itemArmorZijingLegs", ConstantUtil.MODID, new ItemStack(itemArmorZijingLegs, 1), itemZijing, itemZijing, itemZijing, itemZijing, null, itemZijing, itemZijing, null, itemZijing);
 		addRecipe(ConstantUtil.MODID + ":HC_itemArmorZijingBoots", ConstantUtil.MODID, new ItemStack(itemArmorZijingBoots, 1), null, null, null, itemZijing, null, itemZijing, itemZijing, null, itemZijing);
+		
+//		BrewingRecipeRegistry.addRecipe(new ItemStack(), ingredient, output);
 		
 		addSmelting(Blocks.GRAVEL, new ItemStack(Items.FLINT, 1), 1);
 		addShapelessRecipe(ConstantUtil.MODID + ":HC_GUNPOWDER1", "custom", new ItemStack(Items.GUNPOWDER, 3), new ItemStack(Items.FLINT, 1), new ItemStack(Items.DYE, 1, 15), new ItemStack(Items.COAL, 1));

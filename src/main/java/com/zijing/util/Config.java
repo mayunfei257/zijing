@@ -28,6 +28,7 @@ public class Config {
 
 	private int ZILINGCAO_MAX_HIGHT;
 	private double ZILINGCAO_GROWTH_PROBABILITY;
+	private int ZILINGCAO_GROWTH_KEY;
 	private int ZIQI_BURN_TICK;
 	private int ZIQI_MAGIC_ENERGY;
 	private int STAFF_MAX_MAGIC_ENERGY;
@@ -109,6 +110,7 @@ public class Config {
 
 			this.ZILINGCAO_MAX_HIGHT = configuration.get("MAGIC", "ZILINGCAO_MAX_HIGHT", 8, new String(new byte[]{-2,-1,125,43,112,117,-125,73,103,0,-102,-40,117,31,-107,127,-102,-40,94,-90}, "unicode")).getInt();
 			this.ZILINGCAO_GROWTH_PROBABILITY = configuration.get("MAGIC", "ZILINGCAO_GROWTH_PROBABILITY", 1D, new String(new byte[]{-2,-1,125,43,112,117,-125,73,118,-124,117,31,-107,127,105,-126,115,-121,0,48,0,126,0,49}, "unicode")).getDouble();
+			this.ZILINGCAO_GROWTH_KEY = configuration.get("MAGIC", "ZILINGCAO_GROWTH_KEY", 1, new String(new byte[]{-2,-1,125,43,112,117,-125,73,107,-49,107,33,117,31,-107,127,118,-124,-126,-126,101,112}, "unicode")).getInt();
 			this.ZIQI_BURN_TICK = configuration.get("MAGIC", "ZIQI_BURN_TICK", 16000, new String(new byte[]{-2,-1,125,43,108,20,113,-61,112,-25,101,-10,-107,-12}, "unicode")).getInt();
 			this.ZIQI_MAGIC_ENERGY = configuration.get("MAGIC", "ZIQI_MAGIC_ENERGY", 30, new String(new byte[]{-2,-1,125,43,108,20,-123,116,84,43,118,-124,108,-43,82,-101,80,60}, "unicode")).getInt();
 			this.STAFF_MAX_MAGIC_ENERGY = configuration.get("MAGIC", "STAFF_MAX_MAGIC_ENERGY", 512, new String(new byte[]{-2,-1,95,3,117,40}, "unicode")).getInt();
@@ -144,6 +146,10 @@ public class Config {
 
 	public double getZILINGCAO_GROWTH_PROBABILITY() {
 		return ZILINGCAO_GROWTH_PROBABILITY;
+	}
+
+	public int getZILINGCAO_GROWTH_KEY() {
+		return ZILINGCAO_GROWTH_KEY;
 	}
 
 	public int getZIQI_MAGIC_ENERGY() {

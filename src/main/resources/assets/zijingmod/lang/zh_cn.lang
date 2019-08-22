@@ -6,7 +6,7 @@ tile.blockZilingCao.name=§6紫灵草
 tile.blockZijingKuai.name=§6紫晶块
 tile.blockZilingZhaohuanZhen.name=§6紫灵召唤阵
 tile.blockZilingMieshaZhen.name=§6紫灵灭杀阵
-tile.blockZhulingTai.name=§6注灵台
+tile.blockZhulingTai.name=§6外挂-注灵台
 tile.blockSuperNangua.name=§6超级南瓜
 tile.blockToushi.name=§6透视方块
 
@@ -148,7 +148,7 @@ item.itemTriggerLongshi.name=§6外挂-龙石
 tile.blockPortalLongjie.name=§6外挂-龙界门
 
 zijingmod.itemStaffBuilding.skill1=§c技能1: 以玩家脚下为中心生成11*11的耕地，并种植紫灵草. (右键)
-zijingmod.itemStaffBuilding.skill2=§c技能2: 以玩家脚下为中心生成21*21的耕地，并种植紫灵草. (潜行 + 右键)
+zijingmod.itemStaffBuilding.skill2=§c技能2: 以玩家脚下为中心生成41*41的耕地，并种植紫灵草. (潜行 + 右键)
 zijingmod.itemWuxianBaoshi.skill1=§c技能1: 可以当做燃料，连续燃烧%s秒.
 zijingmod.itemWuxianBaoshi.skill2=§c技能2: 增加可升级生物经验%s点. (潜行 + 右键生物)
 zijingmod.itemWuxianBaoshi.skill3=§c技能3: 自动合成背包里的紫气和绿宝石. (右键)
