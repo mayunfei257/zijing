@@ -84,5 +84,6 @@ public class ItemZiqi extends ItemFood implements MagicSource{
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
 		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemZiqi.magic", new Object[] {getMagicEnergy()}));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemZiqi.burnTime", new Object[] {ZijingMod.config.getZIQI_BURN_TICK()/20}));
 	}
 }

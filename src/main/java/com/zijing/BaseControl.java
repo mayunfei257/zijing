@@ -4,10 +4,12 @@ import com.zijing.blocks.BlockGuhuaNiunaiKuai;
 import com.zijing.blocks.BlockSuperNangua;
 import com.zijing.blocks.BlockZijingKuai;
 import com.zijing.blocks.BlockZilingCao;
+import com.zijing.blocks.tool.BlockZhulingTai;
 import com.zijing.blocks.tool.BlockZilingMieshaZhen;
 import com.zijing.blocks.tool.BlockZilingZhaohuanZhen;
 import com.zijing.data.message.ChuansongBookToServerMessage;
 import com.zijing.data.message.ChuansongCardToServerMessage;
+import com.zijing.data.message.ClientToServerMessage;
 import com.zijing.data.message.OpenClientGUIMessage;
 import com.zijing.data.message.OpenServerGUIMessage;
 import com.zijing.data.message.ShepherdEntityToClientMessage;
@@ -21,6 +23,7 @@ import com.zijing.entity.EntityArrowXukongDan;
 import com.zijing.entity.EntityDisciple;
 import com.zijing.entity.EntitySuperIronGolem;
 import com.zijing.entity.EntitySuperSnowman;
+import com.zijing.entity.TileEntityZhulingTai;
 import com.zijing.entity.render.RenderDisciple;
 import com.zijing.entity.render.RenderSuperIronGolem;
 import com.zijing.entity.render.RenderSuperSnowman;
@@ -53,7 +56,6 @@ import com.zijing.items.tool.ItemToolZijingFu;
 import com.zijing.items.tool.ItemToolZijingGao;
 import com.zijing.items.tool.ItemToolZijingJian;
 import com.zijing.util.ConstantUtil;
-import com.zijing.waigua.BlockToushi;
 import com.zijing.waigua.ItemStaffBuilding;
 import com.zijing.waigua.ItemWuxianBaoshi;
 import com.zijing.waigua.world.BlockPortalLongjie;
@@ -69,12 +71,16 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.DimensionType;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -86,7 +92,7 @@ import net.minecraftforge.registries.GameData;
 public class BaseControl{
     private static int nextID = 0;
 	public static SimpleNetworkWrapper netWorkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(ConstantUtil.MODID);
-//	public static DimensionType dtype;
+	public static DimensionType dtype;
 	
 	//TODO Instantiate mod item ---
 	public static Block blockGuhuaNiunaiKuai;
@@ -95,8 +101,7 @@ public class BaseControl{
 	public static Block blockZilingMieshaZhen;
 	public static Block blockZilingZhaohuanZhen;
 	public static Block blockSuperNangua;
-	
-//	public static Block blockZhulingTai;
+	public static Block blockZhulingTai;
 	
 	//item
 	public static Item itemGuhuaNiunai;
@@ -131,7 +136,6 @@ public class BaseControl{
 	public static Item itemArmorZijingLegs;
 	public static Item itemArmorZijingBoots;
 	//waigua
-	public static Block blockToushi;
 	public static Item itemStaffBuilding;
 	public static Item itemWuxianBaoshi;
 	public static BlockPortalLongjie blockPortalLongjie;
@@ -147,7 +151,7 @@ public class BaseControl{
 		blockZilingMieshaZhen = new BlockZilingMieshaZhen();
 		blockZilingZhaohuanZhen = new BlockZilingZhaohuanZhen();
 		blockSuperNangua = new BlockSuperNangua();
-//		blockZhulingTai = new BlockZhulingTai(false);
+		blockZhulingTai = new BlockZhulingTai(false);
 		//item
 		itemGuhuaNiunai = new ItemGuhuaNiunai();
 		itemZiqi = new ItemZiqi();
@@ -182,7 +186,6 @@ public class BaseControl{
 		itemArmorZijingBoots = new ItemArmorZijingBoots();
 		
 		//waigua
-		blockToushi = new BlockToushi();
 		itemStaffBuilding = new ItemStaffBuilding();
 		itemWuxianBaoshi = new ItemWuxianBaoshi();
 		blockPortalLongjie = new BlockPortalLongjie();
@@ -199,6 +202,7 @@ public class BaseControl{
     	netWorkWrapper.registerMessage(OpenClientGUIMessage.Handler.class, OpenClientGUIMessage.class, nextID++, Side.CLIENT);
     	netWorkWrapper.registerMessage(ShepherdEntityToClientMessage.Handler.class, ShepherdEntityToClientMessage.class, nextID++, Side.CLIENT);
     	netWorkWrapper.registerMessage(OpenServerGUIMessage.Handler.class, OpenServerGUIMessage.class, nextID++, Side.SERVER);
+    	netWorkWrapper.registerMessage(ClientToServerMessage.Handler.class, ClientToServerMessage.class, nextID++, Side.SERVER);
     	
     	try {
 //    		DimensionManager.registerDimension(ZijingMod.config.getLONGJIE_DIMID(), dtype);
@@ -219,8 +223,8 @@ public class BaseControl{
 		GameData.register_impl(new ItemBlock(blockZilingZhaohuanZhen).setRegistryName(blockZilingZhaohuanZhen.getRegistryName()));
 		GameData.register_impl(blockSuperNangua);
 		GameData.register_impl(new ItemBlock(blockSuperNangua).setRegistryName(blockSuperNangua.getRegistryName()));
-//		GameData.register_impl(blockZhulingTai);
-//		GameData.register_impl(new ItemBlock(blockZhulingTai).setRegistryName(blockZhulingTai.getRegistryName()));
+		GameData.register_impl(blockZhulingTai);
+		GameData.register_impl(new ItemBlock(blockZhulingTai).setRegistryName(blockZhulingTai.getRegistryName()));
 
 //		ForgeRegistries.ITEMS.register(itemGuhuaNiunai);
 		//item
@@ -257,8 +261,6 @@ public class BaseControl{
 		GameData.register_impl(itemArmorZijingBoots);
 
 		//waigua
-		GameData.register_impl(blockToushi);
-		GameData.register_impl(new ItemBlock(blockToushi).setRegistryName(blockToushi.getRegistryName()));
 		GameData.register_impl(itemStaffBuilding);
 		GameData.register_impl(itemWuxianBaoshi);
 		GameData.register_impl(blockPortalLongjie);
@@ -282,7 +284,7 @@ public class BaseControl{
 		bolckResourceLoad(blockZilingMieshaZhen);
 		bolckResourceLoad(blockZilingZhaohuanZhen);
 		bolckResourceLoad(blockSuperNangua);
-//		bolckResourceLoad(blockZhulingTai);
+		bolckResourceLoad(blockZhulingTai);
 		//item
 		itemResourceLoad(itemGuhuaNiunai);
 		itemResourceLoad(itemZiqi);
@@ -316,7 +318,6 @@ public class BaseControl{
 		itemResourceLoad(itemArmorZijingLegs);
 		itemResourceLoad(itemArmorZijingBoots);
 		//waigua
-		bolckResourceLoad(blockToushi);
 		itemResourceLoad(itemStaffBuilding);
 		itemResourceLoad(itemWuxianBaoshi);
 		bolckResourceLoad(blockPortalLongjie);
@@ -340,7 +341,7 @@ public class BaseControl{
 		addRecipe(ConstantUtil.MODID + ":HC_blockSuperNangua2", ConstantUtil.MODID, new ItemStack(blockSuperNangua, 1), itemZijing, itemZijing, itemZijing, itemZijing, Blocks.LIT_PUMPKIN, itemZijing, itemZijing, itemZijing, itemZijing);
 		addRecipe(ConstantUtil.MODID + ":HC_blockZilingMieshaZhen", ConstantUtil.MODID, new ItemStack(blockZilingMieshaZhen, 1), itemZiqi, itemZiqi, itemZiqi, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, itemToolZijingJian, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, itemZijing, itemZijing, itemZijing);
 		addRecipe(ConstantUtil.MODID + ":HC_blockZilingZhaohuanZhen", ConstantUtil.MODID, new ItemStack(blockZilingZhaohuanZhen, 1), itemZijing, Items.ENDER_PEARL, itemZijing, blockZijingKuai, Blocks.PUMPKIN, blockZijingKuai, blockZijingKuai, Blocks.IRON_BLOCK, blockZijingKuai);
-//		addRecipe(ConstantUtil.MODID + ":HC_blockZhulingTai", ConstantUtil.MODID, new ItemStack(blockZhulingTai, 1), itemZijing, Blocks.CAULDRON, itemZijing, itemZijing, Blocks.CRAFTING_TABLE, itemZijing, itemZijing, Blocks.ANVIL, itemZijing);
+		addRecipe(ConstantUtil.MODID + ":HC_blockZhulingTai", ConstantUtil.MODID, new ItemStack(blockZhulingTai, 1), itemZijing, Blocks.CAULDRON, itemZijing, blockZijingKuai, Blocks.CRAFTING_TABLE, blockZijingKuai, blockZijingKuai, Blocks.ANVIL, blockZijingKuai);
 		//item and food
 		addShapelessRecipe(ConstantUtil.MODID + ":HC_itemDanZiling1", ConstantUtil.MODID, new ItemStack(itemDanZiling, 2), Items.WHEAT, itemZiqi, Items.WHEAT);
 		addRecipe(ConstantUtil.MODID + ":HC_itemDanShenshu1", ConstantUtil.MODID, new ItemStack(itemDanShenshu, 4), Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, itemZiqi, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS);
@@ -369,6 +370,8 @@ public class BaseControl{
 		addRecipe(ConstantUtil.MODID + ":HC_itemArmorZijingLegs", ConstantUtil.MODID, new ItemStack(itemArmorZijingLegs, 1), itemZijing, itemZijing, itemZijing, itemZijing, null, itemZijing, itemZijing, null, itemZijing);
 		addRecipe(ConstantUtil.MODID + ":HC_itemArmorZijingBoots", ConstantUtil.MODID, new ItemStack(itemArmorZijingBoots, 1), null, null, null, itemZijing, null, itemZijing, itemZijing, null, itemZijing);
 		
+//		BrewingRecipeRegistry.addRecipe(new ItemStack(), ingredient, output);
+		
 		addSmelting(Blocks.GRAVEL, new ItemStack(Items.FLINT, 1), 1);
 		addShapelessRecipe(ConstantUtil.MODID + ":HC_GUNPOWDER1", "custom", new ItemStack(Items.GUNPOWDER, 3), new ItemStack(Items.FLINT, 1), new ItemStack(Items.DYE, 1, 15), new ItemStack(Items.COAL, 1));
 		addShapelessRecipe(ConstantUtil.MODID + ":HC_GUNPOWDER2", "custom", new ItemStack(Items.GUNPOWDER, 3), new ItemStack(Items.FLINT, 1), new ItemStack(Items.DYE, 1, 15),new ItemStack(Items.COAL, 1, 1));
@@ -394,6 +397,9 @@ public class BaseControl{
 		RenderingRegistry.registerEntityRenderingHandler(EntitySuperSnowman.class, new RenderSuperSnowman(Minecraft.getMinecraft().getRenderManager()));
 	}
 
+	public static void tileEntityAddMapping(FMLPostInitializationEvent event) {
+		TileEntity.register(ConstantUtil.MODID + ":zhulingtai", TileEntityZhulingTai.class);
+	}
 	//*****************************************************************************************************************************************************//
 	//Render items
   	private static void itemResourceLoad(Item item){
@@ -424,7 +430,7 @@ public class BaseControl{
 			Character.valueOf('2'), null == item3 ? Items.AIR : item3, Character.valueOf('3'), null == item4 ? Items.AIR : item4,
 			Character.valueOf('4'), null == item5 ? Items.AIR : item5, Character.valueOf('5'), null == item6 ? Items.AIR : item6,
 			Character.valueOf('6'), null == item7 ? Items.AIR : item7, Character.valueOf('7'), null == item8 ? Items.AIR : item8,
-			Character.valueOf('8'), null == item9 ? Items.AIR : item9,
+			Character.valueOf('8'), null == item9 ? Items.AIR : item9
 		};
 		GameRegistry.addShapedRecipe(new ResourceLocation(nameStr), new ResourceLocation(groupStr), itemStack, object);
 	}

@@ -35,7 +35,7 @@ public class ItemTriggerLongshi extends Item {
 		if(!world.isRemote) {
 			if(world.getBlockState(pos).getBlock() == frameBlock && world.getBlockState(pos.offset(facing)).getBlock() == Blocks.AIR) {
 				world.playSound(player, pos.offset(facing), SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
-				tryToCreatePortal(world, pos, facing);
+//				tryToCreatePortal(world, pos, facing);
 			}
 			player.getHeldItem(hand).damageItem(1, player);
 		}

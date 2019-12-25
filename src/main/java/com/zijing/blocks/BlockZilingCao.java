@@ -19,8 +19,9 @@ public class BlockZilingCao extends BlockGrowthTypePlant{
 
 	public BlockZilingCao() {
 		super();
-        this.high = ZijingMod.config.getZILINGCAO_MAX_HIGHT();
-        this.growthKey = 1;
+        this.maxHigh = ZijingMod.config.getZILINGCAO_MAX_HIGHT();
+        this.growthKey = ZijingMod.config.getZILINGCAO_GROWTH_KEY();
+        this.growthProbability = ZijingMod.config.getZILINGCAO_GROWTH_PROBABILITY();
         this.dropAmount = 1;
         this.enumPlantType = EnumPlantType.Crop;
         setLightLevel(1.0f);

@@ -62,6 +62,7 @@ public class ItemQiankunDai extends Item {
 		NBTTagCompound bagTag = stack.getTagCompound();
 		tooltip.add("bagCount:" + (null == bagTag ? 0 : bagTag.getTagList("Items", 10).tagCount()));
 	}
+	
 	//*****************************************************************************************************
 	public int getQKBagSize(ItemStack itemStack) {
 		if(itemStack.getItem() instanceof ItemQiankunDai) {

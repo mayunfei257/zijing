@@ -20,7 +20,7 @@ public class  CommonProxy {
 	}
 	
 	public void postinit(FMLPostInitializationEvent event){
-        
+		BaseControl.tileEntityAddMapping(event);
     }
 	
 	public boolean isServerSider() {

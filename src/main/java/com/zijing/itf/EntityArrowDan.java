@@ -9,6 +9,8 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
 public abstract class EntityArrowDan extends EntityThrowable {
@@ -39,6 +41,11 @@ public abstract class EntityArrowDan extends EntityThrowable {
 		this.checkFaction = checkFaction;
 	}
 
+	@Override
+    public boolean canExplosionDestroyBlock(Explosion explosionIn, World worldIn, BlockPos pos, IBlockState blockStateIn, float p_174816_5_){
+        return worldIn.getGameRules().getBoolean("mobGriefing");
+    }
+    
 	//
 	protected boolean checkCanAttack(EntityLivingBase entity) {
 		boolean canAttackFlag = true;

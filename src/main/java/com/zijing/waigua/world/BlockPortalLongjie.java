@@ -2,7 +2,6 @@ package com.zijing.waigua.world;
 
 import java.util.Random;
 
-import com.zijing.ZijingMod;
 import com.zijing.util.ConstantUtil;
 
 import net.minecraft.block.Block;
@@ -12,7 +11,6 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
@@ -116,18 +114,18 @@ public class BlockPortalLongjie extends Block {
 
 	@Override
 	public void onEntityCollidedWithBlock(World par1World, BlockPos pos, IBlockState blockState, Entity entity) {
-		if (entity.getRidingEntity() == null && !entity.isBeingRidden() && entity instanceof EntityPlayerMP) {
-			EntityPlayerMP thePlayer = (EntityPlayerMP) entity;
-			if (thePlayer.timeUntilPortal > 0) {
-				thePlayer.timeUntilPortal = 10;
-			} else if (thePlayer.dimension != ZijingMod.config.getLONGJIE_DIMID()) {
-				thePlayer.timeUntilPortal = 10;
-				thePlayer.mcServer.getPlayerList().transferPlayerToDimension(thePlayer, ZijingMod.config.getLONGJIE_DIMID(), new TeleporterLongjie(thePlayer.mcServer.getWorld(ZijingMod.config.getLONGJIE_DIMID())));
-			} else {
-				thePlayer.timeUntilPortal = 10;
-				thePlayer.mcServer.getPlayerList().transferPlayerToDimension(thePlayer, 0, new TeleporterLongjie(thePlayer.mcServer.getWorld(0)));
-			}
-		}
+//		if (entity.getRidingEntity() == null && !entity.isBeingRidden() && entity instanceof EntityPlayerMP) {
+//			EntityPlayerMP thePlayer = (EntityPlayerMP) entity;
+//			if (thePlayer.timeUntilPortal > 0) {
+//				thePlayer.timeUntilPortal = 10;
+//			} else if (thePlayer.dimension != ZijingMod.config.getLONGJIE_DIMID()) {
+//				thePlayer.timeUntilPortal = 10;
+//				thePlayer.mcServer.getPlayerList().transferPlayerToDimension(thePlayer, ZijingMod.config.getLONGJIE_DIMID(), new TeleporterLongjie(thePlayer.mcServer.getWorld(ZijingMod.config.getLONGJIE_DIMID())));
+//			} else {
+//				thePlayer.timeUntilPortal = 10;
+//				thePlayer.mcServer.getPlayerList().transferPlayerToDimension(thePlayer, 0, new TeleporterLongjie(thePlayer.mcServer.getWorld(0)));
+//			}
+//		}
 	}
 
 	@SideOnly(Side.CLIENT)

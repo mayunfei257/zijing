@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.zijing.items.card.ItemBookChuansong;
 import com.zijing.items.card.ItemCardChuansong;
 import com.zijing.items.staff.ItemZilingZhu;
+import com.zijing.items.tool.ItemToolZijingChu;
 import com.zijing.util.ConstantUtil;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -15,12 +16,14 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -32,10 +35,15 @@ public class GuiBookChuansong {
 		private NonNullList<ItemStack> items;
 		private NBTTagCompound bookTag;
 		private EnumHand hand;
+		private String type;
 		
 		public MyContainer(World world, int i, int j, int k, EntityPlayer player) {
 			this.hand = null == player.getActiveHand() ? EnumHand.MAIN_HAND : player.getActiveHand();
-			this.hand = player.getHeldItem(this.hand).getItem() instanceof ItemBookChuansong ? this.hand : (this.hand == EnumHand.MAIN_HAND ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND);
+			
+			Item item = player.getHeldItem(this.hand).getItem();
+			this.hand = (item instanceof ItemBookChuansong || item instanceof ItemToolZijingChu) ? this.hand : (this.hand == EnumHand.MAIN_HAND ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND);
+			this.type = player.getHeldItem(this.hand).getItem() instanceof ItemBookChuansong ? "ItemBookChuansong" : "ItemToolZijingChu";
+			
 			this.bookTag = player.getHeldItem(this.hand).getTagCompound();
 			this.bookInv = new InventoryBasic(ConstantUtil.MODID + ":itembookchuansong", true, 29);
 			this.items = NonNullList.<ItemStack>withSize(29, ItemStack.EMPTY);
@@ -52,7 +60,7 @@ public class GuiBookChuansong {
 				for(int n = 1; n<= 7; n++){
 					this.addSlotToContainer(new Slot(bookInv, n + m*7, (n - 1)*18 + 8, m*18 + 8) {
 						public boolean isItemValid(ItemStack stack) {
-							return null != stack && null != stack.getItem() && stack.getItem() instanceof ItemCardChuansong;
+							return null != stack && null != stack.getItem() && ("ItemBookChuansong".equals(type) ? stack.getItem() instanceof ItemCardChuansong : (stack.getItem() instanceof IPlantable && stack.getItem() instanceof Item));
 						}
 					});
 				}
@@ -85,6 +93,33 @@ public class GuiBookChuansong {
 		public boolean canInteractWith(EntityPlayer player) {
 			return true;
 		}
+
+		@Override
+		public ItemStack transferStackInSlot(EntityPlayer playerIn, int index){
+			ItemStack itemstack = ItemStack.EMPTY;
+			Slot slot = this.inventorySlots.get(index);
+
+			if (slot != null && slot.getHasStack()){
+				ItemStack itemstack1 = slot.getStack();
+				itemstack = itemstack1.copy();
+
+				if (index < 29){
+					if (!this.mergeItemStack(itemstack1, 29, this.inventorySlots.size(), true)){
+						return ItemStack.EMPTY;
+					}
+				}else if (!this.mergeItemStack(itemstack1, 0, 29, false)){
+					return ItemStack.EMPTY;
+				}
+
+				if (itemstack1.isEmpty()){
+					slot.putStack(ItemStack.EMPTY);
+				}else{
+					slot.onSlotChanged();
+				}
+			}
+
+			return itemstack;
+		}
 		
 		@Override
 		public void onContainerClosed(EntityPlayer playerIn) {
@@ -116,7 +151,7 @@ public class GuiBookChuansong {
 		protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			this.mc.renderEngine.bindTexture(texture);
-			this.drawTexturedModalRect((this.width-this.xSize)/2, (this.height-this.ySize)/2, 0, 0, this.xSize, this.ySize);
+			this.drawTexturedModalRect((this.width - this.xSize)/2, (this.height - this.ySize)/2, 0, 0, this.xSize, this.ySize);
 		}
 	}
 }

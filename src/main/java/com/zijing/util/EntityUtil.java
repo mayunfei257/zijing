@@ -16,6 +16,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
@@ -115,6 +116,11 @@ public class EntityUtil {
 		player.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(shepherdCapability.getPhysicalDefense());
 //		player.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(shepherdCapability.getPhysicalDefense());
 		player.setHealth((float) shepherdCapability.getBlood());
+		if(shepherdCapability.getLevel() >= ZijingMod.config.getALLOWFLYING_LEVEL()) {
+//			player.capabilities.disableDamage = true;
+			player.capabilities.allowFlying = true;
+//			player.capabilities.isCreativeMode = true;
+		}
 		return true;
 	}
 

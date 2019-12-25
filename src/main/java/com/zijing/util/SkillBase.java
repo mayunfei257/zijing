@@ -14,6 +14,8 @@ import com.zijing.entity.EntitySuperIronGolem;
 import com.zijing.entity.EntitySuperSnowman;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLog;
+import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -364,6 +366,26 @@ public class SkillBase {
 		world.playSound((EntityPlayer) null, blockPos.getX() + 0.5D, blockPos.getY() + 0.5D, blockPos.getZ() + 0.5D, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 		return entity;
 	}
+	
+	protected static int chainDropBlockBase(World world, IBlockState blockState, BlockPos pos, int amount, int maxAmount) {
+		for(int y = 1; y >= -1; y--) {
+			for(int x = 1; x >= -1; x--) {
+				for(int z = 1; z >= -1; z--) {
+					if(amount >= maxAmount) { return amount; }
+					BlockPos thisPos = new BlockPos(pos.getX() + x, pos.getY() + y, pos.getZ() + z);
+					IBlockState thisState = world.getBlockState(thisPos);
+					if((x == 0 && y == 0 && z == 0) || thisState.getBlock() == Blocks.AIR) {
+						continue;
+					}else if(isSameBlock(thisState, blockState)) {
+						thisState.getBlock().dropBlockAsItem(world, thisPos, world.getBlockState(thisPos), 1);
+						world.setBlockToAir(thisPos);
+						amount = chainDropBlockBase(world, blockState, thisPos, ++amount, maxAmount);
+					}
+				}
+			}
+		}
+		return amount;
+	}
 	//------Base Skill End--------------------
 	
 
@@ -387,4 +409,25 @@ public class SkillBase {
 		}
 		return false;
 	}
+    
+    private static boolean isSameBlock(IBlockState thisBlockState, IBlockState baseBlockState) {
+    	if(baseBlockState.getBlock() == thisBlockState.getBlock() && baseBlockState.getBlock().getMetaFromState(baseBlockState) == thisBlockState.getBlock().getMetaFromState(thisBlockState)) {
+    		return true;
+		}else if((Blocks.LIT_REDSTONE_ORE == baseBlockState.getBlock() || Blocks.REDSTONE_ORE == baseBlockState.getBlock()) && (Blocks.LIT_REDSTONE_ORE == thisBlockState.getBlock() || Blocks.REDSTONE_ORE == thisBlockState.getBlock())) {
+			return true;
+		}else if(baseBlockState.getBlock() == thisBlockState.getBlock() && baseBlockState.getBlock() instanceof BlockLog) {
+			int baseMeta = baseBlockState.getBlock().getMetaFromState(baseBlockState);
+			int thisMeta = thisBlockState.getBlock().getMetaFromState(thisBlockState);
+			BlockPlanks.EnumType baseBlockPlanksType = BlockPlanks.EnumType.byMetadata((baseMeta & 3) % 4);
+			BlockPlanks.EnumType thisBlockPlanksType = BlockPlanks.EnumType.byMetadata((thisMeta & 3) % 4);
+			return baseBlockPlanksType == thisBlockPlanksType;
+		}else if(Blocks.LOG2 == baseBlockState.getBlock() && Blocks.LOG2 == thisBlockState.getBlock()) {
+			int baseMeta = baseBlockState.getBlock().getMetaFromState(baseBlockState);
+			int thisMeta = thisBlockState.getBlock().getMetaFromState(thisBlockState);
+			BlockPlanks.EnumType baseBlockPlanksType = BlockPlanks.EnumType.byMetadata((baseMeta & 3) + 4);
+			BlockPlanks.EnumType thisBlockPlanksType = BlockPlanks.EnumType.byMetadata((thisMeta & 3) + 4);
+			return baseBlockPlanksType == thisBlockPlanksType;
+		}
+    	return false;
+    }
 }

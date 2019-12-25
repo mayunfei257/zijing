@@ -40,11 +40,11 @@ public class GuiQiankunDai {
 			this.qiankunDaiTag = player.getHeldItem(hand).getTagCompound();
 			
 			this.qiankunDaiSize = qiankunDaiTag.getInteger(ConstantUtil.MODID + ":invsize");
-			this.QKDInv = new InventoryBasic(ConstantUtil.MODID + ":qkdinventory", true, qiankunDaiSize);
-			this.items = NonNullList.<ItemStack>withSize(qiankunDaiSize, ItemStack.EMPTY);
+			this.QKDInv = new InventoryBasic(ConstantUtil.MODID + ":qkdinventory", true, this.qiankunDaiSize);
+			this.items = NonNullList.<ItemStack>withSize(this.qiankunDaiSize, ItemStack.EMPTY);
 			ItemStackHelper.loadAllItems(qiankunDaiTag, items);
 			
-			for(int n = 0; n < qiankunDaiSize; n++) {
+			for(int n = 0; n < this.qiankunDaiSize; n++) {
 				QKDInv.setInventorySlotContents(n, items.get(n));
 			}
 			
@@ -93,6 +93,33 @@ public class GuiQiankunDai {
 			return true;
 		}
 
+		@Override
+		public ItemStack transferStackInSlot(EntityPlayer playerIn, int index){
+			ItemStack itemstack = ItemStack.EMPTY;
+			Slot slot = this.inventorySlots.get(index);
+
+			if (slot != null && slot.getHasStack()){
+				ItemStack itemstack1 = slot.getStack();
+				itemstack = itemstack1.copy();
+
+				if (index < this.qiankunDaiSize){
+					if (!this.mergeItemStack(itemstack1, this.qiankunDaiSize, this.inventorySlots.size(), true)){
+						return ItemStack.EMPTY;
+					}
+				}else if (!this.mergeItemStack(itemstack1, 0, this.qiankunDaiSize, false)){
+					return ItemStack.EMPTY;
+				}
+
+				if (itemstack1.isEmpty()){
+					slot.putStack(ItemStack.EMPTY);
+				}else{
+					slot.onSlotChanged();
+				}
+			}
+
+			return itemstack;
+		}
+		
 		@Override
 		public void onContainerClosed(EntityPlayer playerIn) {
 			for(int n = 0; n < qiankunDaiSize; n++){

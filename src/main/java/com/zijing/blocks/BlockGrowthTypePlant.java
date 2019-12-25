@@ -23,6 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -30,14 +31,16 @@ public class BlockGrowthTypePlant extends Block implements net.minecraftforge.co
     public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 15);
     protected static final AxisAlignedBB GROWTHTYPE_AABB = new AxisAlignedBB(0.125D, 0.0D, 0.125D, 0.875D, 1.0D, 0.875D);
     protected EnumPlantType enumPlantType;
-    protected int high;
+    protected int maxHigh;
     protected int growthKey;
+    protected double growthProbability;
     protected int dropAmount;
 
 	public BlockGrowthTypePlant() {
         super(Material.PLANTS);
-        this.high = 3;
+        this.maxHigh = 3;
         this.growthKey = 1;
+        this.growthProbability = 1.0;
         this.dropAmount = 1;
         this.enumPlantType = EnumPlantType.Crop;
 		setHardness(0.0F);
@@ -54,23 +57,21 @@ public class BlockGrowthTypePlant extends Block implements net.minecraftforge.co
 
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random random) {
-		if (worldIn.getBlockState(pos.down()).getBlock() == this || this.checkForDrop(worldIn, pos, state)) {
-			if (worldIn.isAirBlock(pos.up())) {
-				int l;
-				for (l = 1; worldIn.getBlockState(pos.down(l)).getBlock() == this; ++l) {
-					;
-				}
-				if (l < high) {
-					int age = ((Integer) state.getValue(AGE)).intValue();
-					if(net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, pos, state, true)){
-						if (age >= 15) {
-							worldIn.setBlockState(pos.up(), this.getDefaultState());
-							worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(0)), 4);
-						} else {
-							worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(age + growthKey)), 4);
-						}
-						net.minecraftforge.common.ForgeHooks.onCropsGrowPost(worldIn, pos, state, worldIn.getBlockState(pos));
+		if ((worldIn.getBlockState(pos.down()).getBlock() == this || this.checkForDrop(worldIn, pos, state)) && worldIn.isAirBlock(pos.up())) {
+			int high;
+			for (high = 1; worldIn.getBlockState(pos.down(high)).getBlock() == this; ++high) {
+				;
+			}
+			if (high < maxHigh && worldIn.rand.nextFloat() < this.growthProbability) {
+				int age = ((Integer) state.getValue(AGE)).intValue();
+				if(ForgeHooks.onCropsGrowPre(worldIn, pos, state, true)){
+					if (age >= 15) {
+						worldIn.setBlockState(pos.up(), this.getDefaultState());
+						worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(0)), 4);
+					} else {
+						worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(age + Math.max(0, this.growthKey))), 4);
 					}
+					ForgeHooks.onCropsGrowPost(worldIn, pos, state, worldIn.getBlockState(pos));
 				}
 			}
 		}

@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFurnace;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -22,31 +23,30 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.tileentity.TileEntityLockable;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileEntityZhulingTai extends TileEntityLockable implements ITickable, ISidedInventory
+public class TileEntityZhulingTai extends TileEntity implements ITickable, ISidedInventory
 {
-	private static final int[] SLOTS_TOP = new int[] {0};
-	private static final int[] SLOTS_BOTTOM = new int[] {2, 1};
-	private static final int[] SLOTS_SIDES = new int[] {1};
+	private static final int[] SLOTS_TOP = new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9};
+	private static final int[] SLOTS_BOTTOM = new int[] {10, 11, 12, 13, 14, 15, 16, 17, 18};
+	private static final int[] SLOTS_SIDES = new int[] {0};
 	/** The ItemStacks that hold the items currently being used in the furnace */
-	private NonNullList<ItemStack> furnaceItemStacks = NonNullList.<ItemStack>withSize(3, ItemStack.EMPTY);
-	/** The number of ticks that the furnace will keep burning */
-	private int furnaceBurnTime;
-	/** The number of ticks that a fresh copy of the currently-burning item would keep the furnace burning for */
-	private int currentItemBurnTime;
-	private int cookTime;
-	private int totalCookTime;
+	private NonNullList<ItemStack> furnaceItemStacks = NonNullList.<ItemStack>withSize(19, ItemStack.EMPTY);
 	private String furnaceCustomName;
 
 	/**
@@ -97,19 +97,13 @@ public class TileEntityZhulingTai extends TileEntityLockable implements ITickabl
 		if (stack.getCount() > this.getInventoryStackLimit()){
 			stack.setCount(this.getInventoryStackLimit());
 		}
-
-		if (index == 0 && !flag){
-			this.totalCookTime = this.getCookTime(stack);
-			this.cookTime = 0;
-			this.markDirty();
-		}
 	}
 
 	/**
 	 * Get the name of this object. For players this returns their username
 	 */
 	public String getName(){
-		return this.hasCustomName() ? this.furnaceCustomName : "container.furnace";
+		return this.hasCustomName() ? this.furnaceCustomName : "zhulingtai";
 	}
 
 	/**
@@ -123,18 +117,10 @@ public class TileEntityZhulingTai extends TileEntityLockable implements ITickabl
 		this.furnaceCustomName = p_145951_1_;
 	}
 
-	public static void registerFixesFurnace(DataFixer fixer){
-		fixer.registerWalker(FixTypes.BLOCK_ENTITY, new ItemStackDataLists(TileEntityFurnace.class, new String[] {"Items"}));
-	}
-
 	public void readFromNBT(NBTTagCompound compound){
 		super.readFromNBT(compound);
 		this.furnaceItemStacks = NonNullList.<ItemStack>withSize(this.getSizeInventory(), ItemStack.EMPTY);
 		ItemStackHelper.loadAllItems(compound, this.furnaceItemStacks);
-		this.furnaceBurnTime = compound.getInteger("BurnTime");
-		this.cookTime = compound.getInteger("CookTime");
-		this.totalCookTime = compound.getInteger("CookTimeTotal");
-		this.currentItemBurnTime = getItemBurnTime(this.furnaceItemStacks.get(1));
 
 		if (compound.hasKey("CustomName", 8)){
 			this.furnaceCustomName = compound.getString("CustomName");
@@ -143,9 +129,6 @@ public class TileEntityZhulingTai extends TileEntityLockable implements ITickabl
 
 	public NBTTagCompound writeToNBT(NBTTagCompound compound){
 		super.writeToNBT(compound);
-		compound.setInteger("BurnTime", (short)this.furnaceBurnTime);
-		compound.setInteger("CookTime", (short)this.cookTime);
-		compound.setInteger("CookTimeTotal", (short)this.totalCookTime);
 		ItemStackHelper.saveAllItems(compound, this.furnaceItemStacks);
 
 		if (this.hasCustomName()){
@@ -162,190 +145,14 @@ public class TileEntityZhulingTai extends TileEntityLockable implements ITickabl
 	}
 
 	/**
-	 * Furnace isBurning
-	 */
-	public boolean isBurning(){
-		return this.furnaceBurnTime > 0;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public static boolean isBurning(IInventory inventory){
-		return inventory.getField(0) > 0;
-	}
-
-	/**
 	 * Like the old updateEntity(), except more generic.
 	 */
 	public void update(){
-		boolean flag = this.isBurning();
 		boolean flag1 = false;
-
-		if (this.isBurning()){
-			--this.furnaceBurnTime;
-		}
-
-		if (!this.world.isRemote){
-			ItemStack itemstack = this.furnaceItemStacks.get(1);
-
-			if (this.isBurning() || !itemstack.isEmpty() && !((ItemStack)this.furnaceItemStacks.get(0)).isEmpty()){
-				if (!this.isBurning() && this.canSmelt()){
-					this.furnaceBurnTime = getItemBurnTime(itemstack);
-					this.currentItemBurnTime = this.furnaceBurnTime;
-
-					if (this.isBurning()){
-						flag1 = true;
-
-						if (!itemstack.isEmpty()){
-							Item item = itemstack.getItem();
-							itemstack.shrink(1);
-
-							if (itemstack.isEmpty()){
-								ItemStack item1 = item.getContainerItem(itemstack);
-								this.furnaceItemStacks.set(1, item1);
-							}
-						}
-					}
-				}
-
-				if (this.isBurning() && this.canSmelt()){
-					++this.cookTime;
-
-					if (this.cookTime == this.totalCookTime){
-						this.cookTime = 0;
-						this.totalCookTime = this.getCookTime(this.furnaceItemStacks.get(0));
-						this.smeltItem();
-						flag1 = true;
-					}
-				}else{
-					this.cookTime = 0;
-				}
-			}else if (!this.isBurning() && this.cookTime > 0){
-				this.cookTime = MathHelper.clamp(this.cookTime - 2, 0, this.totalCookTime);
-			}
-
-			if (flag != this.isBurning()){
-				flag1 = true;
-				BlockFurnace.setState(this.isBurning(), this.world, this.pos);
-			}
-		}
 
 		if (flag1){
 			this.markDirty();
 		}
-	}
-
-	public int getCookTime(ItemStack stack){
-		return 200;
-	}
-
-	/**
-	 * Returns true if the furnace can smelt an item, i.e. has a source item, destination stack isn't full, etc.
-	 */
-	private boolean canSmelt(){
-		if (((ItemStack)this.furnaceItemStacks.get(0)).isEmpty()){
-			return false;
-		}else{
-			ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult(this.furnaceItemStacks.get(0));
-
-			if (itemstack.isEmpty()){
-				return false;
-			}else{
-				ItemStack itemstack1 = this.furnaceItemStacks.get(2);
-
-				if (itemstack1.isEmpty()){
-					return true;
-				}else if (!itemstack1.isItemEqual(itemstack)){
-					return false;
-				}else if (itemstack1.getCount() + itemstack.getCount() <= this.getInventoryStackLimit() && itemstack1.getCount() + itemstack.getCount() <= itemstack1.getMaxStackSize()){  // Forge fix: make furnace respect stack sizes in furnace recipes
-					return true;
-				}else{
-					return itemstack1.getCount() + itemstack.getCount() <= itemstack.getMaxStackSize(); // Forge fix: make furnace respect stack sizes in furnace recipes
-				}
-			}
-		}
-	}
-
-	/**
-	 * Turn one item from the furnace source stack into the appropriate smelted item in the furnace result stack
-	 */
-	public void smeltItem(){
-		if (this.canSmelt()){
-			ItemStack itemstack = this.furnaceItemStacks.get(0);
-			ItemStack itemstack1 = FurnaceRecipes.instance().getSmeltingResult(itemstack);
-			ItemStack itemstack2 = this.furnaceItemStacks.get(2);
-
-			if (itemstack2.isEmpty()){
-				this.furnaceItemStacks.set(2, itemstack1.copy());
-			}else if (itemstack2.getItem() == itemstack1.getItem()){
-				itemstack2.grow(itemstack1.getCount());
-			}
-			if (itemstack.getItem() == Item.getItemFromBlock(Blocks.SPONGE) && itemstack.getMetadata() == 1 && !((ItemStack)this.furnaceItemStacks.get(1)).isEmpty() && ((ItemStack)this.furnaceItemStacks.get(1)).getItem() == Items.BUCKET){
-				this.furnaceItemStacks.set(1, new ItemStack(Items.WATER_BUCKET));
-			}
-			itemstack.shrink(1);
-		}
-	}
-
-	/**
-	 * Returns the number of ticks that the supplied fuel item will keep the furnace burning, or 0 if the item isn't
-	 * fuel
-	 */
-	public static int getItemBurnTime(ItemStack stack){
-		if (stack.isEmpty()){
-			return 0;
-		}else{
-			int burnTime = net.minecraftforge.event.ForgeEventFactory.getItemBurnTime(stack);
-			if (burnTime >= 0) return burnTime;
-			Item item = stack.getItem();
-
-			if (item == Item.getItemFromBlock(Blocks.WOODEN_SLAB)){
-				return 150;
-			}else if (item == Item.getItemFromBlock(Blocks.WOOL)){
-				return 100;
-			}else if (item == Item.getItemFromBlock(Blocks.CARPET)){
-				return 67;
-			}else if (item == Item.getItemFromBlock(Blocks.LADDER)){
-				return 300;
-			}else if (item == Item.getItemFromBlock(Blocks.WOODEN_BUTTON)){
-				return 100;
-			}else if (Block.getBlockFromItem(item).getDefaultState().getMaterial() == Material.WOOD){
-				return 300;
-			}else if (item == Item.getItemFromBlock(Blocks.COAL_BLOCK)){
-				return 16000;
-			}else if (item instanceof ItemTool && "WOOD".equals(((ItemTool)item).getToolMaterialName())){
-				return 200;
-			}else if (item instanceof ItemSword && "WOOD".equals(((ItemSword)item).getToolMaterialName())){
-				return 200;
-			}else if (item instanceof ItemHoe && "WOOD".equals(((ItemHoe)item).getMaterialName())){
-				return 200;
-			}else if (item == Items.STICK){
-				return 100;
-			}else if (item != Items.BOW && item != Items.FISHING_ROD){
-				if (item == Items.SIGN){
-					return 200;
-				}else if (item == Items.COAL){
-					return 1600;
-				}else if (item == Items.LAVA_BUCKET){
-					return 20000;
-				}else if (item != Item.getItemFromBlock(Blocks.SAPLING) && item != Items.BOWL){
-					if (item == Items.BLAZE_ROD){
-						return 2400;
-					}else if (item instanceof ItemDoor && item != Items.IRON_DOOR){
-						return 200;
-					}else{
-						return item instanceof ItemBoat ? 400 : 0;
-					}
-				}else{
-					return 100;
-				}
-			}else{
-				return 300;
-			}
-		}
-	}
-
-	public static boolean isItemFuel(ItemStack stack){
-		return getItemBurnTime(stack) > 0;
 	}
 
 	/**
@@ -370,14 +177,14 @@ public class TileEntityZhulingTai extends TileEntityLockable implements ITickabl
 	 * guis use Slot.isItemValid
 	 */
 	public boolean isItemValidForSlot(int index, ItemStack stack){
-		if (index == 2){
-			return false;
-		}else if (index != 1){
+		if (1 <= index && index <= 9){
 			return true;
-		}else{
-			ItemStack itemstack = this.furnaceItemStacks.get(1);
-			return isItemFuel(stack) || SlotFurnaceFuel.isBucket(stack) && itemstack.getItem() != Items.BUCKET;
+		}else if (10 <= index && index <= 18){
+			return false;
+		}else if(index == 0) {
+			return false;
 		}
+		return false;
 	}
 
 	public int[] getSlotsForFace(EnumFacing side){
@@ -408,47 +215,39 @@ public class TileEntityZhulingTai extends TileEntityLockable implements ITickabl
 		return true;
 	}
 
-	public String getGuiID(){
-		return "minecraft:furnace";
-	}
-
-	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn){
-		return new ContainerFurnace(playerInventory, this);
-	}
-
 	public int getField(int id){
 		switch (id){
-		case 0:
-			return this.furnaceBurnTime;
-		case 1:
-			return this.currentItemBurnTime;
-		case 2:
-			return this.cookTime;
-		case 3:
-			return this.totalCookTime;
+//		case 0:
+//			return this.furnaceBurnTime;
+//		case 1:
+//			return this.currentItemBurnTime;
+//		case 2:
+//			return this.cookTime;
+//		case 3:
+//			return this.totalCookTime;
 		default:
 			return 0;
 		}
 	}
 
 	public void setField(int id, int value){
-		switch (id){
-		case 0:
-			this.furnaceBurnTime = value;
-			break;
-		case 1:
-			this.currentItemBurnTime = value;
-			break;
-		case 2:
-			this.cookTime = value;
-			break;
-		case 3:
-			this.totalCookTime = value;
-		}
+//		switch (id){
+//		case 0:
+//			this.furnaceBurnTime = value;
+//			break;
+//		case 1:
+//			this.currentItemBurnTime = value;
+//			break;
+//		case 2:
+//			this.cookTime = value;
+//			break;
+//		case 3:
+//			this.totalCookTime = value;
+//		}
 	}
 
 	public int getFieldCount(){
-		return 4;
+		return 0;
 	}
 
 	public void clear(){
@@ -470,4 +269,290 @@ public class TileEntityZhulingTai extends TileEntityLockable implements ITickabl
 				return (T) handlerSide;
 		return super.getCapability(capability, facing);
 	}
+
+    @Override
+    public boolean hasCapability(net.minecraftforge.common.capabilities.Capability<?> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing){
+        return capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+    }
+    
+  //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+  	public void execute(EntityPlayerMP player) {
+  		final World world = player.getEntityWorld();
+  		if(!world.isRemote) {
+  			if(!isItemStackEmpty(furnaceItemStacks.get(0))) {
+				if(executeFuZhiCrystal2(player)) {
+					world.playSound(null, this.pos, SoundEvent.REGISTRY.getObject(new ResourceLocation("block.anvil.use")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+				}
+//  				//Crystal
+//  				if(itemCrystal.getItem() == BaseControl.itemHunDunCrystal) {
+//  					if(executeHunDunCrystal(player))
+//  						world.playSoundEffect(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D, "block.end_portal.spawn", 1.0F, 1.0F);
+//  				}else if(itemCrystal.getItem() == BaseControl.itemFuZhiCrystal) {
+//  					if(executeFuZhiCrystal(player))
+//  						world.playSoundEffect(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D, "block.end_portal.spawn", 1.0F, 1.0F);
+//  				}else if(itemCrystal.getItem() == BaseControl.itemHuiMieCrystal) {
+//  					if(executeHuiMieCrystal(player))
+//  						world.playSoundEffect(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D, "random.anvil_land", 1.0F, 1.0F);
+//  				}else if(itemCrystal.getItem() == BaseControl.itemShengMingCrystal) {
+//  					if(executeShengMingCrystal(player))
+//  						world.playSoundEffect(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D, "random.anvil_land", 1.0F, 1.0F);
+//  				}
+//  				//Set Empty
+//  				for(int index = 0; index < furnaceItemStacks.size(); index++) {
+//  					if(isItemStackEmpty(furnaceItemStacks.get(index)))
+//  						furnaceItemStacks.set(index, ItemStack.EMPTY);
+//  				}
+  			}else {
+//  				ContainerWorkbench
+  			}
+  		}
+  	}
+  	
+//  	private boolean executeHunDunCrystal(EntityPlayerMP player) {//HunDun
+//  		final World world = player.getEntityWorld();
+//  		int hunDunCrystalNum = hunDunTableItemStacks[0].stackSize;
+//  		
+//  		int needStackNum = (hunDunCrystalNum / 64) * 3 + (hunDunCrystalNum % 64) > 0 ? 3 : 0;
+//  		if(emptyStackNumOfOutputStack() >= needStackNum) {
+//  			int remaining1 = putItemIntoOutputStack(BaseControl.itemHuiMieCrystal, hunDunCrystalNum);
+//  			if(remaining1 > 0) {
+//  				EntityItem entityitem1 = new EntityItem(world, this.xCoord, this.yCoord, this.zCoord, new ItemStack(BaseControl.itemHuiMieCrystal, remaining1));
+//  				world.spawnEntityInWorld(entityitem1);
+//  			}
+//  			int remaining2 = putItemIntoOutputStack(BaseControl.itemShengMingCrystal, hunDunCrystalNum);
+//  			if(remaining2 > 0) {
+//  				EntityItem entityitem2 = new EntityItem(world, this.xCoord, this.yCoord, this.zCoord, new ItemStack(BaseControl.itemShengMingCrystal, remaining1));
+//  				world.spawnEntityInWorld(entityitem2);
+//  			}
+//  			int remaining3 = putItemIntoOutputStack(BaseControl.itemFuZhiCrystal, hunDunCrystalNum);
+//  			if(remaining3 > 0) {
+//  				EntityItem entityitem3 = new EntityItem(world, this.xCoord, this.yCoord, this.zCoord, new ItemStack(BaseControl.itemFuZhiCrystal, remaining1));
+//  				world.spawnEntityInWorld(entityitem3);
+//  			}
+//  			hunDunTableItemStacks[0].stackSize = 0;
+//  			return true;
+//  		}else {
+//  			player.addChatMessage(new ChatComponentText(I18n.format(Config.MODID + ".tileEntityHunDunTable.hunDunCrystal1", new Object[] {})));
+//  		}
+//  		
+//  		return false;
+//  	}
+  	
+//  	private boolean executeFuZhiCrystal(EntityPlayerMP player) {//FuZhi
+//  		ItemStack sourceItemStack = null;
+//  		for(int index = 1; index < 10; index++) {//The first one
+//  			if(!isItemStackEmpty(hunDunTableItemStacks[index])) {
+//  				sourceItemStack = hunDunTableItemStacks[index];
+//  				break;
+//  			}
+//  		}
+//  		if(null != sourceItemStack){
+//  			if(sourceItemStack.getItem() instanceof CrystalItemType || sourceItemStack.getItem() instanceof CrystalBlockType) {
+//  				player.addChatMessage(new ChatComponentText(I18n.format(Config.MODID + ".tileEntityHunDunTable.fuZhiCrystal4", new Object[] {})));
+//  				return false;
+//  			}
+//  			int index = getTheEmptyIndexOfOutputStack();
+//  			if(isItemStackEmpty(hunDunTableItemStacks[index])) {
+//  				hunDunTableItemStacks[index] = sourceItemStack.copy();
+//  				hunDunTableItemStacks[0].stackSize -= 1;
+//  				player.addChatMessage(new ChatComponentText(I18n.format(Config.MODID + ".tileEntityHunDunTable.fuZhiCrystal1", new Object[] {})));
+//  				return true;
+//  			}else {
+//  				player.addChatMessage(new ChatComponentText(I18n.format(Config.MODID + ".tileEntityHunDunTable.fuZhiCrystal2", new Object[] {})));
+//  			}
+//  		}else {
+//  			player.addChatMessage(new ChatComponentText(I18n.format(Config.MODID + ".tileEntityHunDunTable.fuZhiCrystal3", new Object[] {})));
+//  		}
+//  		return false;
+//  	}
+
+  	private boolean executeFuZhiCrystal2(EntityPlayerMP player) {//FuZhi
+  		boolean inputNotEmpty = false;
+  		boolean outputEmpty = true;
+  		
+  		for(int index = 1; index <= 9; index++) {
+  			inputNotEmpty = inputNotEmpty || !isItemStackEmpty(furnaceItemStacks.get(index));
+  		}
+  		for(int index = 10; index <= 18; index++) {
+  			outputEmpty = outputEmpty && isItemStackEmpty(furnaceItemStacks.get(index));
+  		}
+
+  		if(inputNotEmpty && outputEmpty) {
+  			furnaceItemStacks.get(0).shrink(1);
+  	  		for(int index = 10; index <= 18; index++) {
+  	  			furnaceItemStacks.set(index, isItemStackEmpty(furnaceItemStacks.get(index - 9)) ? ItemStack.EMPTY : furnaceItemStacks.get(index - 9).copy());
+  	  		}
+  	  		return true;
+  		}
+
+  		return false;
+  	}
+//  	private boolean executeHuiMieCrystal(EntityPlayerMP player) {//HuiMie
+//  		ItemStack sourceItemStack = null;
+//  		for(int index = 1; index < 10; index++) {//The first tool
+//  			ItemStack itemStack = hunDunTableItemStacks[index];
+//  			if(!isItemStackEmpty(itemStack) && !(itemStack.getItem() instanceof ItemArmor) && itemStack.getMaxStackSize() == 1) {
+//  				sourceItemStack = itemStack;
+//  				break;
+//  			}
+//  		}
+//  		if(null != sourceItemStack) {
+//  			int index = getTheEmptyIndexOfOutputStack();
+//  			if(isItemStackEmpty(hunDunTableItemStacks[index])) {
+//  				NBTTagCompound stackTagCompound = sourceItemStack.getTagCompound();
+//  				if(null == stackTagCompound){
+//  					stackTagCompound = new NBTTagCompound();
+//  					stackTagCompound.setString(Config.NBTTAG_TYPE, Config.NBTTAG_TYPE_ATTACK);
+//  					stackTagCompound.setInteger(Config.NBTTAG_LEVEL, 0);
+//  					stackTagCompound.setFloat(Config.NBTTAG_STRENGTH, 0F);
+//  					sourceItemStack.setTagCompound(stackTagCompound);
+//  				}
+//  				int quantity = (int) ((stackTagCompound.getInteger(Config.NBTTAG_LEVEL) + 1) * FuZhuMod.config.getNbttag_Type_Attack_CK() + FuZhuMod.config.getNbttag_Type_Attack_CB());
+//  				if(hunDunTableItemStacks[0].stackSize >= quantity) {
+//  					stackTagCompound.setString(Config.NBTTAG_TYPE, Config.NBTTAG_TYPE_ATTACK);
+//  					stackTagCompound.setInteger(Config.NBTTAG_LEVEL, stackTagCompound.getInteger(Config.NBTTAG_LEVEL) + 1);
+//  					stackTagCompound.setFloat(Config.NBTTAG_STRENGTH, (float) (stackTagCompound.getInteger(Config.NBTTAG_LEVEL) * FuZhuMod.config.getNbttag_Type_Attack_K()));
+//  					hunDunTableItemStacks[index] = sourceItemStack.copy();
+//  					sourceItemStack.stackSize = 0;
+//  					hunDunTableItemStacks[0].stackSize -= quantity;
+//  					player.addChatMessage(new ChatComponentText(I18n.format(Config.MODID + ".tileEntityHunDunTable.huiMieCrystal1", new Object[] {stackTagCompound.getInteger(Config.NBTTAG_LEVEL)})));
+//  					return true;
+//  				}else {
+//  					player.addChatMessage(new ChatComponentText(I18n.format(Config.MODID + ".tileEntityHunDunTable.huiMieCrystal2", new Object[] {quantity})));
+//  				}
+//  			}else {
+//  				player.addChatMessage(new ChatComponentText(I18n.format(Config.MODID + ".tileEntityHunDunTable.huiMieCrystal3", new Object[] {})));
+//  			}
+//  		}else {
+//  			player.addChatMessage(new ChatComponentText(I18n.format(Config.MODID + ".tileEntityHunDunTable.huiMieCrystal4", new Object[] {})));
+//  		}
+//  		return false;
+//  	}
+  	
+//  	private boolean executeShengMingCrystal(EntityPlayerMP player) {//ShengMing
+//  		ItemStack sourceItemStack = null;
+//  		for(int index = 1; index < 10; index++) {//The first armor
+//  			if(!isItemStackEmpty(hunDunTableItemStacks[index]) && hunDunTableItemStacks[index].getItem() instanceof ItemArmor) {
+//  				sourceItemStack = hunDunTableItemStacks[index];
+//  				break;
+//  			}
+//  		}
+//  		if(null != sourceItemStack) {
+//  			int index = getTheEmptyIndexOfOutputStack();
+//  			if(isItemStackEmpty(hunDunTableItemStacks[index])) {
+//  				NBTTagCompound stackTagCompound = sourceItemStack.getTagCompound();
+//  				if(null == stackTagCompound){
+//  					stackTagCompound = new NBTTagCompound();
+//  					stackTagCompound.setString(Config.NBTTAG_TYPE, Config.NBTTAG_TYPE_DEFENSE);
+//  					stackTagCompound.setInteger(Config.NBTTAG_LEVEL, 0);
+//  					stackTagCompound.setFloat(Config.NBTTAG_STRENGTH, 0F);
+//  					sourceItemStack.setTagCompound(stackTagCompound);
+//  				}
+//  				int quantity = (int) ((stackTagCompound.getInteger(Config.NBTTAG_LEVEL) + 1) * FuZhuMod.config.getNbttag_Type_Defense_CK() + FuZhuMod.config.getNbttag_Type_Defense_CB());
+//  				if(hunDunTableItemStacks[0].stackSize >= quantity) {
+//  					stackTagCompound.setString(Config.NBTTAG_TYPE, Config.NBTTAG_TYPE_DEFENSE);
+//  					stackTagCompound.setInteger(Config.NBTTAG_LEVEL, stackTagCompound.getInteger(Config.NBTTAG_LEVEL) + 1);
+//  					stackTagCompound.setFloat(Config.NBTTAG_STRENGTH, (float) (stackTagCompound.getInteger(Config.NBTTAG_LEVEL) * FuZhuMod.config.getNbttag_Type_Defense_K()));
+//  					hunDunTableItemStacks[index] = sourceItemStack.copy();
+//  					sourceItemStack.stackSize = 0;
+//  					hunDunTableItemStacks[0].stackSize -= quantity;
+//  					player.addChatMessage(new ChatComponentText(I18n.format(Config.MODID + ".tileEntityHunDunTable.shengMingCrystal1", new Object[] {stackTagCompound.getInteger(Config.NBTTAG_LEVEL)})));
+//  					return true;
+//  				}else {
+//  					player.addChatMessage(new ChatComponentText(I18n.format(Config.MODID + ".tileEntityHunDunTable.shengMingCrystal2", new Object[] {quantity})));
+//  				}
+//  			}else {
+//  				player.addChatMessage(new ChatComponentText(I18n.format(Config.MODID + ".tileEntityHunDunTable.shengMingCrystal3", new Object[] {})));
+//  			}
+//  		}else {
+//  			player.addChatMessage(new ChatComponentText(I18n.format(Config.MODID + ".tileEntityHunDunTable.shengMingCrystal4", new Object[] {})));
+//  		}
+//  		return false;
+//  	}
+  	
+  	//------------------------------------------------------------------------------------------------------------------
+  	
+  	private boolean isItemStackEmpty(ItemStack itemStack) {
+  		return null == itemStack || itemStack.isEmpty();
+  	}
+  	
+//  	private int emptyStackNumOfOutputStack() {
+//  		int emptyNum = 0;
+//  		for(int index = 10; index < furnaceItemStacks.size(); index++) {
+//  			if(isItemStackEmpty(furnaceItemStacks[index])) {
+//  				emptyNum++;
+//  			}
+//  		}
+//  		return emptyNum;
+//  	}
+  	
+//  	private int getTheEmptyIndexOfOutputStack() {
+//  		for(int index = 10; index < hunDunTableItemStacks.length; index++) {
+//  			if(isItemStackEmpty(hunDunTableItemStacks[index])) {
+//  				return index;
+//  			}
+//  		}
+//  		return hunDunTableItemStacks.length - 1;
+//  	}
+  	
+//  	private boolean hasItemOfInputStack(Item item) {
+//  		for(int index = 1; index < 10; index++) {
+//  			if(!isItemStackEmpty(hunDunTableItemStacks[index]) && hunDunTableItemStacks[index].getItem() == item && hunDunTableItemStacks[index].stackSize > 0) {
+//  				return true;
+//  			}
+//  		}
+//  		return false;
+//  	}
+  	
+//  	private boolean hasEmptyOfOutputStack(Item item) {
+//  		for(int index = 10; index < hunDunTableItemStacks.length; index++) {
+//  			if(isItemStackEmpty(hunDunTableItemStacks[index])) {
+//  				return true;
+//  			}else if(hunDunTableItemStacks[index].getItem() == item && hunDunTableItemStacks[index].stackSize < hunDunTableItemStacks[index].getMaxStackSize()){
+//  				return true;
+//  			}
+//  		}
+//  		return false;
+//  	}
+  	
+//  	private int removeItemFromInputStack(Item item, int num) {
+//  		for(int index = 1; index < 10; index++) {
+//  			if(num <= 0) break;
+//  			if(!isItemStackEmpty(hunDunTableItemStacks[index]) && hunDunTableItemStacks[index].getItem() == item) {
+//  				if(hunDunTableItemStacks[index].stackSize > num) {
+//  					hunDunTableItemStacks[index].stackSize -= num;
+//  					num = 0;
+//  				}else {
+//  					num -= hunDunTableItemStacks[index].stackSize;
+//  					hunDunTableItemStacks[index].stackSize = 0;
+//  				}
+//  			}
+//  		}
+//  		return num;
+//  	}
+  	
+//  	private int putItemIntoOutputStack(Item item, int num) {
+//  		for(int index = 10; index < hunDunTableItemStacks.length; index++) {
+//  			if(num <= 0) break;
+//  			if(isItemStackEmpty(hunDunTableItemStacks[index])) {
+//  				if(num > item.getItemStackLimit()) {
+//  					num -= item.getItemStackLimit();
+//  					hunDunTableItemStacks[index] = new ItemStack(item, item.getItemStackLimit());
+//  				}else {
+//  					hunDunTableItemStacks[index] = new ItemStack(item, num);
+//  					num = 0;
+//  				}
+//  			}else if(hunDunTableItemStacks[index].getItem() == item && hunDunTableItemStacks[index].stackSize < item.getItemStackLimit()){
+//  				if(num > item.getItemStackLimit() - hunDunTableItemStacks[index].stackSize) {
+//  					num -= item.getItemStackLimit() - hunDunTableItemStacks[index].stackSize;
+//  					hunDunTableItemStacks[index].stackSize = item.getItemStackLimit();
+//  				}else {
+//  					hunDunTableItemStacks[index].stackSize += num;
+//  					num = 0;
+//  				}
+//  			}
+//  		}
+//  		return num;
+//  	}
 }

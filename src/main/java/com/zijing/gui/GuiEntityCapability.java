@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import com.zijing.data.playerdata.ShepherdCapability;
 import com.zijing.entity.EntityDisciple;
 import com.zijing.itf.EntityFriendly;
+import com.zijing.itf.EntityShepherdCapability;
 import com.zijing.itf.ItemStaff;
 import com.zijing.util.ConstantUtil;
 
@@ -112,6 +113,33 @@ public class GuiEntityCapability {
 		public boolean canInteractWith(EntityPlayer player) {
 			return true;
 		}
+
+		@Override
+		public ItemStack transferStackInSlot(EntityPlayer playerIn, int index){
+			ItemStack itemstack = ItemStack.EMPTY;
+			Slot slot = this.inventorySlots.get(index);
+
+			if (slot != null && slot.getHasStack()){
+				ItemStack itemstack1 = slot.getStack();
+				itemstack = itemstack1.copy();
+
+				if (index < 6){
+					if (!this.mergeItemStack(itemstack1, 6, this.inventorySlots.size(), true)){
+						return ItemStack.EMPTY;
+					}
+				}else if (!this.mergeItemStack(itemstack1, 0, 6, false)){
+					return ItemStack.EMPTY;
+				}
+
+				if (itemstack1.isEmpty()){
+					slot.putStack(ItemStack.EMPTY);
+				}else{
+					slot.onSlotChanged();
+				}
+			}
+
+			return itemstack;
+		}
 		
 		@Override
 		public void onContainerClosed(EntityPlayer player) {
@@ -197,7 +225,7 @@ public class GuiEntityCapability {
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.magicDefense", new Object[0]) + df2.format(shepherdCapability.getMagicDefense()), 64, 62, 0xFF9933);
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.bloodRestore", new Object[0]) + df4.format(shepherdCapability.getBloodRestore()) + "/T", 64, 71, 0xFF9933);
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.magicRestore", new Object[0]) + df4.format(shepherdCapability.getMagicRestore()) + "/T", 64, 80, 0xFF9933);
-				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.needExperience", new Object[0]) + ((EntityFriendly)shepherdEntity).getExperience() + "/" + ((EntityFriendly)shepherdEntity).getNextLevelNeedExperience(), 64, 89, 0xFF9933);
+				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.needExperience", new Object[0]) + df1.format(((EntityShepherdCapability)shepherdEntity).getExperience()) + "/" + df1.format(((EntityShepherdCapability)shepherdEntity).getNextLevelNeedExperience()), 64, 89, 0xFF9933);
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.special", new Object[0]) + ((EntityFriendly)shepherdEntity).getSpecialInstructions(), 64, 98, 0xFF9933);
 			}
 		}

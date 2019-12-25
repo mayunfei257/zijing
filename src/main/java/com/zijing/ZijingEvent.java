@@ -95,7 +95,7 @@ public class ZijingEvent {
 
 	@SubscribeEvent
 	public void playerClone(PlayerEvent.Clone event){
-		if(event.isWasDeath() && !event.getEntity().world.isRemote){
+		if(event.isWasDeath()){
 			EntityPlayer newPlayer = event.getEntityPlayer();
 			EntityPlayer oldPlayer = event.getOriginal();
 			if(ShepherdProvider.hasCapabilityFromPlayer(newPlayer) && ShepherdProvider.hasCapabilityFromPlayer(oldPlayer)) {
@@ -105,19 +105,17 @@ public class ZijingEvent {
 				newCapb.setBlood(1);
 				newCapb.setMagic(0);
     			EntityUtil.setPlayerAllValue(newPlayer, newCapb);
-				ShepherdProvider.updateChangeToClient(newPlayer);
 			}
 		}
 	}
 	
     @SubscribeEvent
     public void entityJoinWorld(EntityJoinWorldEvent event) {
-        if (event.getEntity() instanceof EntityPlayer && !event.getEntity().world.isRemote) {
+        if (event.getEntity() instanceof EntityPlayer) {
         	EntityPlayer player = (EntityPlayer) event.getEntity();
         	if(ShepherdProvider.hasCapabilityFromPlayer(player)){
     			ShepherdCapability newCapb = ShepherdProvider.getCapabilityFromPlayer(player);
     			EntityUtil.setPlayerAllValue(player, newCapb);
-                ShepherdProvider.updateChangeToClient(player);
         	}
         }
     }

@@ -8,6 +8,7 @@ import com.zijing.BaseControl;
 import com.zijing.ZijingTab;
 import com.zijing.util.ConstantUtil;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.item.EntityItem;
@@ -41,25 +42,10 @@ public class ItemWuxianBaoshi extends Item{
 	public ActionResult<ItemStack> onItemRightClick(World world, final EntityPlayer player, EnumHand hand){
 		if(!world.isRemote) {
 			if(!player.isSneaking()) {
-				InventoryPlayer inventory = player.inventory;
-				int emeraldCount = 0;
-				for (int i = 0; i < inventory.mainInventory.size(); ++i){
-					ItemStack itemstack = inventory.mainInventory.get(i);
-					if(itemstack.getItem() == Items.EMERALD) {
-						emeraldCount += itemstack.getCount();
-						itemstack.setCount(0);
-						inventory.mainInventory.set(i, itemstack.EMPTY);
-					}
-				}
-				ItemStack emeraldBlockItemStack = new ItemStack(Blocks.EMERALD_BLOCK, emeraldCount / 9);
-				if(!inventory.addItemStackToInventory(emeraldBlockItemStack)) {
-					world.spawnEntity(new EntityItem(world, player.posX, player.posY, player.posZ, emeraldBlockItemStack));
-				}
-				ItemStack emeraldItemStack = new ItemStack(Items.EMERALD, emeraldCount % 9);
-				if(!inventory.addItemStackToInventory(emeraldItemStack)) {
-					world.spawnEntity(new EntityItem(world, player.posX, player.posY, player.posZ, emeraldItemStack));
-				}
+				this.compoundItem1ToItem2(world, player, Items.EMERALD, Blocks.EMERALD_BLOCK, 9);
+				this.compoundItem1ToItem2(world, player, BaseControl.itemZiqi, BaseControl.itemZijing, 9);
 			}else {
+				
 			}
 		}
         return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, player.getHeldItem(hand));
@@ -69,7 +55,9 @@ public class ItemWuxianBaoshi extends Item{
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
 		if(!world.isRemote) {
 			if(!player.isSneaking()) {
+				
 			}else {
+				
 			}
 		}
 		return EnumActionResult.SUCCESS;
@@ -87,5 +75,48 @@ public class ItemWuxianBaoshi extends Item{
     public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flagIn){
 		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemWuxianBaoshi.skill1", new Object[] {brunTick/20}));
 		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemWuxianBaoshi.skill2", new Object[] {upExperience}));
+		tooltip.add(I18n.format(ConstantUtil.MODID + ".itemWuxianBaoshi.skill3", new Object[] {}));
     }
+	
+	private boolean compoundItem1ToItem2(World world, EntityPlayer player, Object item1, Object item2, int countK) {
+		if((item1 instanceof Item || item1 instanceof Block) && (item2 instanceof Item || item2 instanceof Block)) {
+			//get all item1 count
+			InventoryPlayer inventory = player.inventory;
+			int itemCount = 0;
+			for (int i = 0; i < inventory.mainInventory.size(); ++i){
+				ItemStack itemstack = inventory.mainInventory.get(i);
+				if(itemstack.getItem() == item1) {
+					itemCount += itemstack.getCount();
+					itemstack.setCount(0);
+					inventory.mainInventory.set(i, itemstack.EMPTY);
+				}
+			}
+			//add item2
+			if(item2 instanceof Item) {
+				ItemStack blockStack = new ItemStack((Item)item2, itemCount / countK);
+				if(!inventory.addItemStackToInventory(blockStack)) {
+					world.spawnEntity(new EntityItem(world, player.posX, player.posY, player.posZ, blockStack));
+				}
+			}else {
+				ItemStack blockStack = new ItemStack((Block)item2, itemCount / countK);
+				if(!inventory.addItemStackToInventory(blockStack)) {
+					world.spawnEntity(new EntityItem(world, player.posX, player.posY, player.posZ, blockStack));
+				}
+			}
+			//add surplus item1
+			if(item1 instanceof Item) {
+				ItemStack itemStack = new ItemStack((Item)item1, itemCount % countK);
+				if(!inventory.addItemStackToInventory(itemStack)) {
+					world.spawnEntity(new EntityItem(world, player.posX, player.posY, player.posZ, itemStack));
+				}
+			}else {
+				ItemStack itemStack = new ItemStack((Block)item1, itemCount % countK);
+				if(!inventory.addItemStackToInventory(itemStack)) {
+					world.spawnEntity(new EntityItem(world, player.posX, player.posY, player.posZ, itemStack));
+				}
+			}
+			return true;
+		}
+		return false;
+	}
 }
