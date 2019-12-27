@@ -1,0 +1,22 @@
+{
+    "defaults" : { "model": "zijingmod:blockyanquan" },
+    "variants": {
+        "normal": { "model": "zijingmod:blockyanquan" },
+        "age=0": { "model": "zijingmod:blockyanquan" },
+        "age=1": { "model": "zijingmod:blockyanquan" },
+        "age=2": { "model": "zijingmod:blockyanquan" },
+        "age=3": { "model": "zijingmod:blockyanquan" },
+        "age=4": { "model": "zijingmod:blockyanquan" },
+        "age=5": { "model": "zijingmod:blockyanquan" },
+        "age=6": { "model": "zijingmod:blockyanquan" },
+        "age=7": { "model": "zijingmod:blockyanquan" },
+        "age=8": { "model": "zijingmod:blockyanquan" },
+        "age=9": { "model": "zijingmod:blockyanquan" },
+        "age=10": { "model": "zijingmod:blockyanquan" },
+        "age=11": { "model": "zijingmod:blockyanquan" },
+        "age=12": { "model": "zijingmod:blockyanquan" },
+        "age=13": { "model": "zijingmod:blockyanquan" },
+        "age=14": { "model": "zijingmod:blockyanquan" },
+        "age=15": { "model": "zijingmod:blockyanquan" }
+    }
+}

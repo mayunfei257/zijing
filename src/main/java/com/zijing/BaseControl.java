@@ -4,6 +4,7 @@ import com.zijing.blocks.BlockGuhuaNiunaiKuai;
 import com.zijing.blocks.BlockSuperNangua;
 import com.zijing.blocks.BlockZijingKuai;
 import com.zijing.blocks.BlockZilingCao;
+import com.zijing.blocks.tool.BlockYanQuan;
 import com.zijing.blocks.tool.BlockZhulingTai;
 import com.zijing.blocks.tool.BlockZilingMieshaZhen;
 import com.zijing.blocks.tool.BlockZilingZhaohuanZhen;
@@ -102,6 +103,7 @@ public class BaseControl{
 	public static Block blockZilingZhaohuanZhen;
 	public static Block blockSuperNangua;
 	public static Block blockZhulingTai;
+	public static Block blockYanQuan;
 	
 	//item
 	public static Item itemGuhuaNiunai;
@@ -152,6 +154,7 @@ public class BaseControl{
 		blockZilingZhaohuanZhen = new BlockZilingZhaohuanZhen();
 		blockSuperNangua = new BlockSuperNangua();
 		blockZhulingTai = new BlockZhulingTai(false);
+		blockYanQuan = new BlockYanQuan();
 		//item
 		itemGuhuaNiunai = new ItemGuhuaNiunai();
 		itemZiqi = new ItemZiqi();
@@ -225,6 +228,8 @@ public class BaseControl{
 		GameData.register_impl(new ItemBlock(blockSuperNangua).setRegistryName(blockSuperNangua.getRegistryName()));
 		GameData.register_impl(blockZhulingTai);
 		GameData.register_impl(new ItemBlock(blockZhulingTai).setRegistryName(blockZhulingTai.getRegistryName()));
+		GameData.register_impl(blockYanQuan);
+		GameData.register_impl(new ItemBlock(blockYanQuan).setRegistryName(blockYanQuan.getRegistryName()));
 
 //		ForgeRegistries.ITEMS.register(itemGuhuaNiunai);
 		//item
@@ -285,6 +290,7 @@ public class BaseControl{
 		bolckResourceLoad(blockZilingZhaohuanZhen);
 		bolckResourceLoad(blockSuperNangua);
 		bolckResourceLoad(blockZhulingTai);
+		bolckResourceLoad(blockYanQuan);
 		//item
 		itemResourceLoad(itemGuhuaNiunai);
 		itemResourceLoad(itemZiqi);
@@ -342,6 +348,8 @@ public class BaseControl{
 		addRecipe(ConstantUtil.MODID + ":HC_blockZilingMieshaZhen", ConstantUtil.MODID, new ItemStack(blockZilingMieshaZhen, 1), itemZiqi, itemZiqi, itemZiqi, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, itemToolZijingJian, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, itemZijing, itemZijing, itemZijing);
 		addRecipe(ConstantUtil.MODID + ":HC_blockZilingZhaohuanZhen", ConstantUtil.MODID, new ItemStack(blockZilingZhaohuanZhen, 1), itemZijing, Items.ENDER_PEARL, itemZijing, blockZijingKuai, Blocks.PUMPKIN, blockZijingKuai, blockZijingKuai, Blocks.IRON_BLOCK, blockZijingKuai);
 		addRecipe(ConstantUtil.MODID + ":HC_blockZhulingTai", ConstantUtil.MODID, new ItemStack(blockZhulingTai, 1), itemZijing, Blocks.CAULDRON, itemZijing, blockZijingKuai, Blocks.CRAFTING_TABLE, blockZijingKuai, blockZijingKuai, Blocks.ANVIL, blockZijingKuai);
+		addRecipe(ConstantUtil.MODID + ":HC_blockYanQuan", ConstantUtil.MODID, new ItemStack(blockYanQuan, 1), itemZijing, Blocks.MAGMA, itemZijing, Blocks.MAGMA, Items.ENDER_PEARL, Blocks.MAGMA, itemZijing, Blocks.MAGMA, itemZijing);
+		
 		//item and food
 		addShapelessRecipe(ConstantUtil.MODID + ":HC_itemDanZiling1", ConstantUtil.MODID, new ItemStack(itemDanZiling, 2), Items.WHEAT, itemZiqi, Items.WHEAT);
 		addRecipe(ConstantUtil.MODID + ":HC_itemDanShenshu1", ConstantUtil.MODID, new ItemStack(itemDanShenshu, 4), Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, itemZiqi, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS, Items.WHEAT_SEEDS);
