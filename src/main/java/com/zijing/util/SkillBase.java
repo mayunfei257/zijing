@@ -132,7 +132,7 @@ public class SkillBase {
 	}
 
 	protected static void firestormBase(EntityLivingBase entity, World world, int centerX, int centerY, int centerZ, int rangeX, int rangeY, int rangeZ, float explosionProbability, float explosionStrength, boolean exceptCenter, float attackDamage) {
-		boolean explosionFlag = world.rand.nextFloat() < explosionProbability;
+//		boolean explosionFlag = world.rand.nextFloat() < explosionProbability;
 		for(int i = - rangeX; i <= rangeX; i++) {
 			for(int j = - rangeY; j <= rangeY; j++) {
 				for(int k = - rangeZ; k <= rangeZ; k++) {
@@ -140,11 +140,11 @@ public class SkillBase {
 					BlockPos blockPos = new BlockPos(centerX + i, centerY + j, centerZ + k);
 					IBlockState blockState = world.getBlockState(blockPos);
 					if((blockState.getBlock() == Blocks.AIR || blockState.getBlock() == Blocks.SNOW_LAYER) && world.getBlockState(blockPos.down()).getBlock() != Blocks.AIR) {
-						if(explosionFlag) {
-							world.createExplosion(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), explosionStrength, true);
-						}else {
+//						if(explosionFlag) {
+//							world.createExplosion(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), explosionStrength, true);
+//						}else {
 							world.setBlockState(blockPos, Blocks.FIRE.getDefaultState());
-						}
+//						}
 						world.spawnEntity(new EntityLightningBolt(world, blockPos.getX(), blockPos.getY(), blockPos.getZ(), true));
 					}else if(blockState.getBlock() == Blocks.ICE || blockState.getBlock() == Blocks.PACKED_ICE || blockState.getBlock() == Blocks.FROSTED_ICE) {
 						world.setBlockState(blockPos, Blocks.WATER.getDefaultState());

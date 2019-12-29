@@ -14,8 +14,10 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
 public abstract class EntityArrowDan extends EntityThrowable {
+	protected static int maxLiveTime = 20 * 60;
 	protected float attackDamage = 0;
 	protected boolean checkFaction = false;
+	protected int liveTime = 0;
 
 
 	public EntityArrowDan(World world) {
@@ -46,9 +48,17 @@ public abstract class EntityArrowDan extends EntityThrowable {
 	}
 
 	protected void init() {
-		
+		this.liveTime = 0;
 	}
 
+	@Override
+	public void onUpdate() {
+		super.onUpdate();
+		if(liveTime++ > maxLiveTime) {
+			this.setDead();
+		}
+	}
+	
 	@Override
     public boolean canExplosionDestroyBlock(Explosion explosionIn, World worldIn, BlockPos pos, IBlockState blockStateIn, float p_174816_5_){
         return worldIn.getGameRules().getBoolean("mobGriefing");

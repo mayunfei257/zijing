@@ -49,8 +49,8 @@ public class SkillEntity extends SkillBase{
 	public static final int MagicSkill_TeleportUp = 2;
 	public static final int MagicSkill_TeleportDown = 2;
 	public static final int MagicSkill_ImmuneFallDamage = 2;
-	public static final int MagicSkill_ThousandsFrozen = 3;
-	public static final int MagicSkill_Firestorm = 3;
+	public static final int MagicSkill_ThousandsFrozen = 5;
+	public static final int MagicSkill_Firestorm = 5;
 	public static final int MagicSkill_RandomTeleport = 2;
 	public static final int MagicSkill_RandomTeleportFar = 5;
 	public static final int MagicSkill_GrowBlock = 1;
