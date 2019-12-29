@@ -4,6 +4,8 @@ import com.zijing.ZijingTab;
 import com.zijing.entity.EntityArrowFengyinDan;
 import com.zijing.util.ConstantUtil;
 
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -28,8 +30,10 @@ public class ItemArrowFengyinDan extends Item{
 	public ActionResult<ItemStack> onItemRightClick(World world, final EntityPlayer player, EnumHand hand){
 		ItemStack itemStack = player.getHeldItem(hand);
 		if(!world.isRemote && player.inventory.hasItemStack(new ItemStack(this))) {
-			EntityArrowFengyinDan fengyinDan = new EntityArrowFengyinDan(world, player);
+			
+			EntityArrowFengyinDan fengyinDan = new EntityArrowFengyinDan(world, player, 0, false);
 			fengyinDan.shoot(player.getLookVec().x, player.getLookVec().y, player.getLookVec().z, 4.0F, 0);
+			
 			world.spawnEntity(fengyinDan);
 			world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation(("entity.snowball.throw"))), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 			player.inventory.clearMatchingItems(this, -1, 1, null);

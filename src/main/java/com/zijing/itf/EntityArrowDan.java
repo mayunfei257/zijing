@@ -17,16 +17,20 @@ public abstract class EntityArrowDan extends EntityThrowable {
 	protected float attackDamage = 0;
 	protected boolean checkFaction = false;
 
+
 	public EntityArrowDan(World world) {
 		super(world);
+		init();
 	}
-
+	
 	public EntityArrowDan(World world, EntityLivingBase shooter) {
 		super(world, shooter);
+		init();
 	}
 
 	public EntityArrowDan(World world, double x, double y, double z) {
 		super(world, x, y, z);
+		init();
 	}
 
 	public EntityArrowDan(World world, EntityLivingBase shooter, float attackDamage, boolean checkFaction) {
@@ -39,6 +43,10 @@ public abstract class EntityArrowDan extends EntityThrowable {
 		this(world, x, y, z);
 		this.attackDamage = attackDamage;
 		this.checkFaction = checkFaction;
+	}
+
+	protected void init() {
+		
 	}
 
 	@Override

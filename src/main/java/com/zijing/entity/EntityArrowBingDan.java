@@ -3,6 +3,8 @@ package com.zijing.entity;
 import com.zijing.itf.EntityArrowDan;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,6 +12,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -22,33 +25,35 @@ public class EntityArrowBingDan extends EntityArrowDan {
 	protected int slownessStrength = 2;
 	protected int slownessTick = 80;
 
-	public EntityArrowBingDan(World a) {
-		super(a);
-	}
-
-	public EntityArrowBingDan(World worldIn, double x, double y, double z) {
-		super(worldIn, x, y, z);
+	public EntityArrowBingDan(World world) {
+		super(world);
 	}
 	
-	public EntityArrowBingDan(World worldIn, double x, double y, double z, float attackDamage, float slownessProbability, int slownessStrength, boolean checkFaction) {
-		this(worldIn, x, y, z);
-		this.attackDamage = attackDamage;
-		this.slownessProbability = slownessProbability;
-		this.slownessStrength = slownessStrength;
-		this.checkFaction = checkFaction;
-	}
-
-	public EntityArrowBingDan(World worldIn, EntityLivingBase shooter) {
-		super(worldIn, shooter);
-	}
-
-	public EntityArrowBingDan(World worldIn, EntityLivingBase shooter, float attackDamage, float slownessProbability, int slownessTick, int slownessStrength, boolean checkFaction) {
-		this(worldIn, shooter);
-		this.attackDamage = attackDamage;
+//	public EntityArrowBingDan(World world, double x, double y, double z) {
+//		super(world, x, y, z);
+//	}
+//
+//	public EntityArrowBingDan(World world, EntityLivingBase shooter) {
+//		super(world, shooter);
+//	}
+	
+	public EntityArrowBingDan(World worldIn, double x, double y, double z, float attackDamage, float slownessProbability, int slownessTick, int slownessStrength, boolean checkFaction) {
+		super(worldIn, x, y, z, attackDamage, checkFaction);
 		this.slownessProbability = slownessProbability;
 		this.slownessTick = slownessTick;
 		this.slownessStrength = slownessStrength;
-		this.checkFaction = checkFaction;
+	}
+
+	public EntityArrowBingDan(World worldIn, EntityLivingBase shooter, float attackDamage, float slownessProbability, int slownessTick, int slownessStrength, boolean checkFaction) {
+		super(worldIn, shooter, attackDamage, checkFaction);
+		this.slownessProbability = slownessProbability;
+		this.slownessTick = slownessTick;
+		this.slownessStrength = slownessStrength;
+	}
+
+	@Override
+	protected void init() {
+		setNoGravity(true);
 	}
 	
 	@Override
@@ -72,10 +77,17 @@ public class EntityArrowBingDan extends EntityArrowDan {
 		}else if(null != blockPos && !this.world.isRemote && null != raytraceResultIn.sideHit){
 			if(!canThrough(this.world.getBlockState(blockPos))){
 				BlockPos sideBlockPos = blockPos.offset(raytraceResultIn.sideHit);
-				Block sideBlock = this.world.getBlockState(sideBlockPos).getBlock();
-				if(Blocks.SNOW_LAYER.canPlaceBlockAt(this.world, sideBlockPos) && (sideBlock == Blocks.AIR || sideBlock == Blocks.TALLGRASS)) {
+				IBlockState blockState = this.world.getBlockState(sideBlockPos);
+				if(Blocks.SNOW_LAYER.canPlaceBlockAt(this.world, sideBlockPos) && blockState.getMaterial() == Material.AIR) {
 					this.world.setBlockState(sideBlockPos, Blocks.SNOW_LAYER.getDefaultState());
 				}
+				
+				sideBlockPos = blockPos.offset(EnumFacing.UP);
+				blockState = this.world.getBlockState(sideBlockPos);
+				if(Blocks.SNOW_LAYER.canPlaceBlockAt(this.world, sideBlockPos) && blockState.getMaterial() == Material.AIR) {
+					this.world.setBlockState(sideBlockPos, Blocks.SNOW_LAYER.getDefaultState());
+				}
+				
 				world.playSound((EntityPlayer) null, blockPos.getX() + 0.5D, blockPos.getY() + 0.5D, blockPos.getZ() + 0.5D, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.arrow.hit")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 				this.setDead();
 			}

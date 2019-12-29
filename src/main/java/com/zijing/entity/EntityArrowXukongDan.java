@@ -15,29 +15,30 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntityArrowXukongDan extends EntityArrowDan {
-	
-	public EntityArrowXukongDan(World a) {
-		super(a);
-	}
 
-	public EntityArrowXukongDan(World worldIn, double x, double y, double z) {
-		super(worldIn, x, y, z);
+	public EntityArrowXukongDan(World world) {
+		super(world);
 	}
+	
+//	public EntityArrowXukongDan(World world, double x, double y, double z) {
+//		super(world, x, y, z);
+//	}
+//
+//	public EntityArrowXukongDan(World world, EntityLivingBase shooter) {
+//		super(world, shooter);
+//	}
 
 	public EntityArrowXukongDan(World worldIn, double x, double y, double z, float attackDamage, boolean checkFaction) {
-		this(worldIn, x, y, z);
-		this.attackDamage = attackDamage;
-		this.checkFaction = checkFaction;
-	}
-
-	public EntityArrowXukongDan(World worldIn, EntityLivingBase shooter) {
-		super(worldIn, shooter);
+		super(worldIn, x, y, z, attackDamage, checkFaction);
 	}
 
 	public EntityArrowXukongDan(World worldIn, EntityLivingBase shooter, float attackDamage, boolean checkFaction) {
-		this(worldIn, shooter);
-		this.attackDamage = attackDamage;
-		this.checkFaction = checkFaction;
+		super(worldIn, shooter, attackDamage, checkFaction);
+	}
+
+	@Override
+	protected void init() {
+		setNoGravity(true);
 	}
 	
 	@Override

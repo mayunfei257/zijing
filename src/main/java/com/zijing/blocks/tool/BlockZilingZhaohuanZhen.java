@@ -27,6 +27,7 @@ import net.minecraft.world.World;
 public class BlockZilingZhaohuanZhen extends Block{
     public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 15);
     protected static final AxisAlignedBB ZLZHZ_AABB = new AxisAlignedBB(0D, 0D, 0D, 1D, 0.125D, 1D);
+    private double randomR = 1D;
 
 	public BlockZilingZhaohuanZhen() {
 		super(Material.IRON);
@@ -49,14 +50,16 @@ public class BlockZilingZhaohuanZhen extends Block{
 			EntityIronGolem entity = new EntityIronGolem(worldIn);
 			entity.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, worldIn.rand.nextFloat() * 360F, 0.0F);
 			entity.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(200.0D);
-			entity.addPotionEffect(new PotionEffect(MobEffects.SPEED, 400, 1));
-			entity.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 400, 1));
-			entity.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 400, 1));
-			entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 400, 1));
-			entity.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 400, 1));
-			entity.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 400, 1));
-			entity.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 400, 1));
-			entity.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 400, 1));
+			entity.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(10.0D);
+			entity.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(4.0D);
+			entity.addPotionEffect(new PotionEffect(MobEffects.SPEED, 600, 1));
+			entity.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 600, 1));
+			entity.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 600, 1));
+			entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 600, 1));
+			entity.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 600, 1));
+			entity.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 600, 1));
+			entity.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 600, 1));
+			entity.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 600, 1));
 			entity.setPlayerCreated(true);
 			entity.setHealth(200F);
 			entity.playLivingSound();
@@ -64,7 +67,7 @@ public class BlockZilingZhaohuanZhen extends Block{
 			worldIn.spawnEntity(new EntityLightningBolt(worldIn, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, false));
 			worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(0)), 4);
 			setLightLevel(0.0F);
-		} else if(Math.random() <= 0.25){
+		} else if(Math.random() <= this.randomR){
 			worldIn.setBlockState(pos, state.withProperty(AGE, Integer.valueOf(age + 1)), 4);
 			setLightLevel((age + 1) * 0.066F);
 		}

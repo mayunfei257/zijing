@@ -4,6 +4,8 @@ import com.zijing.ZijingTab;
 import com.zijing.entity.EntityArrowHuoDan;
 import com.zijing.util.ConstantUtil;
 
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -28,8 +30,11 @@ public class ItemArrowHuoDan extends Item{
 	public ActionResult<ItemStack> onItemRightClick(World world, final EntityPlayer player, EnumHand hand){
 		ItemStack itemStack = player.getHeldItem(hand);
 		if(!world.isRemote && player.inventory.hasItemStack(new ItemStack(this))) {
-			EntityArrowHuoDan huoDan = new EntityArrowHuoDan(world, player);
+			
+        	float attackDamage = (float)player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
+			EntityArrowHuoDan huoDan = new EntityArrowHuoDan(world, player, attackDamage, 0.5F, 2, true, true);
 			huoDan.shoot(player.getLookVec().x, player.getLookVec().y, player.getLookVec().z, 4.0F, 0);
+			
 			huoDan.setFire(5);
 			world.spawnEntity(huoDan);
 			world.playSound((EntityPlayer) null, player.posX, player.posY + 0.5D, player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation(("entity.snowball.throw"))), SoundCategory.NEUTRAL, 1.0F, 1.0F);

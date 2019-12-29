@@ -17,6 +17,9 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -25,6 +28,7 @@ import net.minecraft.world.World;
 public class BlockZilingMieshaZhen extends Block{
     protected static final AxisAlignedBB ZLMSZ_AABB = new AxisAlignedBB(0D, 0D, 0D, 1D, 0.125D, 1D);
     protected static int MAX_INTERVAL = 5;
+    private double randomR = 0.2D;
 
 	public BlockZilingMieshaZhen() {
 		super(Material.IRON);
@@ -40,22 +44,25 @@ public class BlockZilingMieshaZhen extends Block{
 
 	@Override
 	public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
-		int i = pos.getX();
-		int j = pos.getY();
-		int k = pos.getZ();
 		if(entity instanceof EntityLivingBase) {
 			EntityLivingBase entityLive = (EntityLivingBase) entity;
 			if(entity instanceof IMob){
 				if(entityLive.getHealth() > 0){
 					if(null == entityLive.getActivePotionEffect(MobEffects.SLOWNESS))
-						entityLive.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 40, 2));
-					entityLive.setFire(2);
-					entityLive.attackEntityFrom(DamageSource.MAGIC, 4);
-					world.spawnEntity(new EntityLightningBolt(world, entity.posX, entity.posY, entity.posZ, false));
+						entityLive.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 60, 2));
+					entityLive.setFire(3);
+					entityLive.attackEntityFrom(DamageSource.MAGIC, 10);
+					world.playSound((EntityPlayer) null, pos.getX(), pos.getY(), pos.getZ(), SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.generic.explode")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+//					world.createExplosion(entityLive, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, 1, true);
+					if(Math.random() <= this.randomR) {
+						world.spawnEntity(new EntityLightningBolt(world, entity.posX, entity.posY, entity.posZ, false));
+					}
 				}
 			}else if(entity instanceof EntityPlayer){
 				if(null == entityLive.getActivePotionEffect(MobEffects.SPEED))
-					entityLive.addPotionEffect(new PotionEffect(MobEffects.SPEED, 40, 2));
+					entityLive.addPotionEffect(new PotionEffect(MobEffects.SPEED, 60, 2));
+				if(null == entityLive.getActivePotionEffect(MobEffects.ABSORPTION))
+					entityLive.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 60, 2));
 			}
 		}
 	}

@@ -19,35 +19,36 @@ public class EntityArrowHuoDan extends EntityArrowDan {
 	protected float explosionProbability = 0.125F;
 	protected float explosionStrength = 1F;
 	protected boolean canExplosionOnBlock = true;
-	
-	public EntityArrowHuoDan(World a) {
-		super(a);
-	}
 
-	public EntityArrowHuoDan(World worldIn, double x, double y, double z) {
-		super(worldIn, x, y, z);
+	public EntityArrowHuoDan(World world) {
+		super(world);
 	}
+	
+//	public EntityArrowHuoDan(World world, double x, double y, double z) {
+//		super(world, x, y, z);
+//	}
+//
+//	public EntityArrowHuoDan(World world, EntityLivingBase shooter) {
+//		super(world, shooter);
+//	}
 	
 	public EntityArrowHuoDan(World worldIn, double x, double y, double z, float attackDamage, float explosionProbability, float explosionStrength, boolean canExplosionOnBlock, boolean checkFaction) {
-		this(worldIn, x, y, z);
-		this.attackDamage = attackDamage;
+		super(worldIn, x, y, z, attackDamage, checkFaction);
 		this.explosionProbability = explosionProbability;
 		this.explosionStrength = explosionStrength;
 		this.canExplosionOnBlock = canExplosionOnBlock;
-		this.checkFaction = checkFaction;
-	}
-
-	public EntityArrowHuoDan(World worldIn, EntityLivingBase shooter) {
-		super(worldIn, shooter);
 	}
 
 	public EntityArrowHuoDan(World worldIn, EntityLivingBase shooter, float attackDamage, float explosionProbability, float explosionStrength, boolean canExplosionOnBlock, boolean checkFaction) {
-		this(worldIn, shooter);
-		this.attackDamage = attackDamage;
+		super(worldIn, shooter, attackDamage, checkFaction);
 		this.explosionProbability = explosionProbability;
 		this.explosionStrength = explosionStrength;
 		this.canExplosionOnBlock = canExplosionOnBlock;
-		this.checkFaction = checkFaction;
+	}
+	
+	@Override
+	protected void init() {
+		setNoGravity(true);
 	}
 
 	@Override
