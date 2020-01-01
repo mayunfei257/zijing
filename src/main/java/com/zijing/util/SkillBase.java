@@ -115,9 +115,9 @@ public class SkillBase {
 				for(int k = - rangeZ; k <= rangeZ; k++) {
 					BlockPos blockPos = new BlockPos(centerX + i, centerY + j, centerZ + k);
 					IBlockState blockState = world.getBlockState(blockPos);
-					if(blockState.getBlock() == Blocks.FIRE || blockState.getBlock() == Blocks.FLOWING_WATER) {
+					if(blockState.getBlock() == Blocks.FIRE) {
 						world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
-					}else if(blockState.getBlock() == Blocks.WATER) {
+					}else if(blockState.getBlock() == Blocks.WATER || blockState.getBlock() == Blocks.FLOWING_WATER) {
 						world.setBlockState(blockPos, Blocks.ICE.getDefaultState());
 					}else if(blockState.getBlock() == Blocks.FLOWING_LAVA) {
 						world.setBlockState(blockPos, Blocks.COBBLESTONE.getDefaultState());

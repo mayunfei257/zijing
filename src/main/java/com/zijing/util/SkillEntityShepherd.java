@@ -127,7 +127,7 @@ public class SkillEntityShepherd extends SkillEntity{
     		int level = shepherdCapability.getLevel();
     		BlockPos centerPos = shepherdEntity.getPosition();
         	float attackDamage = (float)shepherdEntity.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
-        	thousandsFrozen( shepherdEntity, shepherdEntity.world, centerPos, (int)(level * ThousandsFrozen_Range_K), 3, (int)(level * ThousandsFrozen_Range_K), level * SLOWNESS_PROBABILITY_K, (int)(level * SLOWNESS_STRENGTH_K), attackDamage/2);
+        	thousandsFrozen( shepherdEntity, shepherdEntity.world, centerPos, (int)(ThousandsFrozen_Range_Base + level * ThousandsFrozen_Range_K), 3, (int)(ThousandsFrozen_Range_Base + level * ThousandsFrozen_Range_K), level * SLOWNESS_PROBABILITY_K, (int)(level * SLOWNESS_STRENGTH_K), attackDamage/2);
     		shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill_ThousandsFrozen);
         }
 	}
@@ -138,7 +138,7 @@ public class SkillEntityShepherd extends SkillEntity{
     		int level = shepherdCapability.getLevel();
     		BlockPos centerPos = shepherdEntity.getPosition();
         	float attackDamage = (float)shepherdEntity.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
-    		firestorm(shepherdEntity, shepherdEntity.world, centerPos, (int)(level * Firestorm_Range_K), 3, (int)(level * Firestorm_Range_K), level * EXPLOSION_PROBABILITY_K, level * EXPLOSION_STRENGTH_K, true, attackDamage);
+    		firestorm(shepherdEntity, shepherdEntity.world, centerPos, (int)(Firestorm_Range_Base + level * Firestorm_Range_K), 3, (int)(Firestorm_Range_Base + level * Firestorm_Range_K), level * EXPLOSION_PROBABILITY_K, level * EXPLOSION_STRENGTH_K, true, attackDamage);
     		shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill_Firestorm);
         }
 	}
