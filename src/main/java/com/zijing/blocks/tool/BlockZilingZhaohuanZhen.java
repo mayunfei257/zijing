@@ -27,7 +27,7 @@ import net.minecraft.world.World;
 public class BlockZilingZhaohuanZhen extends Block{
     public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 15);
     protected static final AxisAlignedBB ZLZHZ_AABB = new AxisAlignedBB(0D, 0D, 0D, 1D, 0.125D, 1D);
-    private double randomR = 1D;
+    private double randomR = 0.5D;
 
 	public BlockZilingZhaohuanZhen() {
 		super(Material.IRON);

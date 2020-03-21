@@ -23,7 +23,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemDanZiling extends ItemFood implements ItemFoodDan{
-	public static final int effectTick = 400;
+	public static final int effectTick = 600;
 	public static final int magicRestore = 10;
 	
 	public ItemDanZiling() {

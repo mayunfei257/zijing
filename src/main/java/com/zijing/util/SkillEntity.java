@@ -63,8 +63,8 @@ public class SkillEntity extends SkillBase{
 
 	
 	protected static EntityArrowBingDan shootBingDan(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, float slownessProbability, int slownessStrength, boolean checkFaction) {
-		double throwerY = thrower.posY + (double)thrower.getEyeHeight() - 0.10000000149011612D;
-		double targetY = target.getEntityBoundingBox().minY + target.height * 0.75D;
+		double throwerY = thrower.posY + (double)thrower.getEyeHeight();
+		double targetY = target.getEntityBoundingBox().minY + target.height * 0.7D;
 		double vecX = target.posX - thrower.posX;
 		double vecY = targetY - throwerY;
 		double vecZ = target.posZ - thrower.posZ;
@@ -72,8 +72,8 @@ public class SkillEntity extends SkillBase{
 	}
 
 	protected static EntityArrowHuoDan shootHuoDan(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, float explosionProbability, float explosionStrength, boolean canExplosionOnBlock, boolean checkFaction) {
-		double throwerY = thrower.posY + (double)thrower.getEyeHeight() - 0.10000000149011612D;
-		double targetY = target.getEntityBoundingBox().minY + target.height * 0.75D;
+		double throwerY = thrower.posY + (double)thrower.getEyeHeight();
+		double targetY = target.getEntityBoundingBox().minY + target.height * 0.7D;
 		double vecX = target.posX - thrower.posX;
 		double vecY = targetY - throwerY;
 		double vecZ = target.posZ - thrower.posZ;
@@ -81,8 +81,8 @@ public class SkillEntity extends SkillBase{
 	}
 
 	protected static EntityArrowXukongDan shootXukongDan(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, boolean checkFaction) {
-		double throwerY = thrower.posY + (double)thrower.getEyeHeight() - 0.10000000149011612D;
-		double targetY = target.getEntityBoundingBox().minY + target.height * 0.75D;
+		double throwerY = thrower.posY + (double)thrower.getEyeHeight();
+		double targetY = target.getEntityBoundingBox().minY + target.height * 0.7D;
 		double vecX = target.posX - thrower.posX;
 		double vecY = targetY - throwerY;
 		double vecZ = target.posZ - thrower.posZ;
@@ -90,8 +90,8 @@ public class SkillEntity extends SkillBase{
 	}
 	
 	protected static EntityArrowFengyinDan shootFengyinDan(EntityLivingBase thrower, EntityLivingBase target, float attackDamage, boolean checkFaction) {
-		double throwerY = thrower.posY + (double)thrower.getEyeHeight() - 0.10000000149011612D;
-		double targetY = target.getEntityBoundingBox().minY + target.height * 0.75D;
+		double throwerY = thrower.posY + (double)thrower.getEyeHeight();
+		double targetY = target.getEntityBoundingBox().minY + target.height * 0.7D;
 		double vecX = target.posX - thrower.posX;
 		double vecY = targetY - throwerY;
 		double vecZ = target.posZ - thrower.posZ;

@@ -77,23 +77,22 @@ public class BlockYanQuan extends Block{
 	private boolean checkAndSetLava(World worldIn, BlockPos pos, IBlockState state) {
 		BlockPos baseBlockPos = pos.up();
 		Material blockMaterial = worldIn.getBlockState(baseBlockPos).getMaterial();
+		boolean flag = false;
 		
-		if(blockMaterial == Material.AIR || blockMaterial == Material.LAVA || blockMaterial == Material.WATER || blockMaterial == Material.FIRE || blockMaterial == Material.SNOW) {
-			for(int y = 0; y < 2; y ++) {
-				for(int x = -1; x <= 1; x ++) {
-					for(int z = -1; z <= 1; z ++) {
-						BlockPos nowBlockPos = new BlockPos(baseBlockPos.getX() + x, baseBlockPos.getY() + y, baseBlockPos.getZ() + z);
-						Block nowBlock = worldIn.getBlockState(nowBlockPos).getBlock();
-						if(Blocks.LAVA != nowBlock && nowBlock.isReplaceable(worldIn, pos)) {
-							worldIn.setBlockState(nowBlockPos, Blocks.LAVA.getDefaultState());
-							worldIn.neighborChanged(nowBlockPos, Blocks.LAVA, nowBlockPos);
-							return true;
-						}
+		for(int y = 0; y < 2; y ++) {
+			for(int x = -1; x <= 1; x ++) {
+				for(int z = -1; z <= 1; z ++) {
+					BlockPos nowBlockPos = new BlockPos(baseBlockPos.getX() + x, baseBlockPos.getY() + y, baseBlockPos.getZ() + z);
+					Block nowBlock = worldIn.getBlockState(nowBlockPos).getBlock();
+					if(Blocks.LAVA != nowBlock && nowBlock.isReplaceable(worldIn, pos)) {
+						worldIn.setBlockState(nowBlockPos, Blocks.LAVA.getDefaultState());
+						worldIn.neighborChanged(nowBlockPos, Blocks.LAVA, nowBlockPos);
+						flag = true;
 					}
 				}
-			}	
+			}
 		}
-		return false;
+		return flag;
 	}
 	
 }
