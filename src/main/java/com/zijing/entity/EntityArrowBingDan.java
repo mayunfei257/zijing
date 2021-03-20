@@ -50,11 +50,6 @@ public class EntityArrowBingDan extends EntityArrowDan {
 		this.slownessTick = slownessTick;
 		this.slownessStrength = slownessStrength;
 	}
-
-	@Override
-	protected void init() {
-		setNoGravity(true);
-	}
 	
 	@Override
 	public void onUpdate() {

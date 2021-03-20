@@ -37,26 +37,26 @@ public class SkillEntity extends SkillBase{
 	public static final float Firestorm_Range_Base = 3F;
 	
 	public static final int CAN_SHOOT_HUODAN_LEVEL = 15;
-	public static final int IMMUNE_FIRE_LEVEL = 30;
+	public static final int IMMUNE_FIRE_LEVEL = 20;
 	public static final int CAN_LIGHTNING_LEVEL = 45;
 	public static final int CAN_EXPLOSION_LEVEL = 60;
 	
 	public static final int MagicSkill_BingDan = 1;
 	public static final int MagicSkill_HuoDan = 1;
-	public static final int MagicSkill_XukongDan = 2;
-	public static final int MagicSkill_FengyinDan = 1;
+	public static final int MagicSkill_XukongDan = 5;
+	public static final int MagicSkill_FengyinDan = 5;
 
 	public static final int MagicSkill_Levitation = 1;
-	public static final int MagicSkill_RemoveEffect = 2;
-	public static final int MagicSkill_TeleportUp = 2;
-	public static final int MagicSkill_TeleportDown = 2;
-	public static final int MagicSkill_ImmuneFallDamage = 2;
-	public static final int MagicSkill_ThousandsFrozen = 5;
-	public static final int MagicSkill_Firestorm = 5;
-	public static final int MagicSkill_RandomTeleport = 2;
-	public static final int MagicSkill_RandomTeleportFar = 5;
+	public static final int MagicSkill_RemoveEffect = 10;
+	public static final int MagicSkill_TeleportUp = 10;
+	public static final int MagicSkill_TeleportDown = 10;
+	public static final int MagicSkill_ImmuneFallDamage = 5;
+	public static final int MagicSkill_ThousandsFrozen = 30;
+	public static final int MagicSkill_Firestorm = 30;
+	public static final int MagicSkill_RandomTeleport = 10;
+	public static final int MagicSkill_RandomTeleportFar = 10;
 	public static final int MagicSkill_GrowBlock = 1;
-	public static final int MagicSkill_GrowAreaBlock = 32;
+	public static final int MagicSkill_GrowAreaBlock = 40;
 	
 	public static final int MagicSkill_SummonSnowman = 100;
 	public static final int MagicSkill_SummonTaoistPriest = 1000;

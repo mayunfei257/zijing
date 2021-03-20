@@ -49,6 +49,7 @@ public abstract class EntityArrowDan extends EntityThrowable {
 
 	protected void init() {
 		this.liveTime = 0;
+		setNoGravity(true);
 	}
 
 	@Override

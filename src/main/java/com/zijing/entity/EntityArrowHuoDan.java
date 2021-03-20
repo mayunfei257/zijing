@@ -47,11 +47,6 @@ public class EntityArrowHuoDan extends EntityArrowDan {
 	}
 	
 	@Override
-	protected void init() {
-		setNoGravity(true);
-	}
-
-	@Override
 	public void onUpdate() {
 		super.onUpdate();
 	}

@@ -133,7 +133,9 @@ public class EntityEvilTaoist extends EntityEvil{
 
     @Override
 	protected void upEntityGrade(int upLevel) {
-		EntityUtil.upEntityGrade(this, upLevel);
+		for (int n = 0; n < upLevel; n++) {
+			EntityUtil.upEntityGrade(this);
+		}
 		if(this.shepherdCapability.getLevel() >= SkillEntity.IMMUNE_FIRE_LEVEL) {
 			this.isImmuneToFire = true;
 		}

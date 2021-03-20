@@ -69,9 +69,9 @@ public class ShepherdProvider implements ICapabilityProvider, INBTSerializable {
         }
     }
     
-    public static void upgradeToServer(EntityPlayer player, int upLevel) {
+    public static void upgradeToServer(EntityPlayer player) {
         if(null != player && player.hasCapability(SHE_CAP, null)){
-        	BaseControl.netWorkWrapper.sendToServer(new UpgradeToServerMessage(player.getCapability(SHE_CAP, null).writeNBT(null), upLevel, player.getUniqueID()));
+        	BaseControl.netWorkWrapper.sendToServer(new UpgradeToServerMessage(player.getCapability(SHE_CAP, null).writeNBT(null), player.getUniqueID()));
         }
     }
 }

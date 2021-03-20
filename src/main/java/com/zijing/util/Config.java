@@ -38,7 +38,6 @@ public class Config {
 	private int MAX_BLOOD;
 	private float RESTORE_NEED_FOOD;
 	private int UPGRADE_NEED_XP_K;
-	private int UPGRADE_NEED_MAGIC_K;
 	private int UPGRADE_MAXMAGIC_K;
 	private int UPGRADE_MAXBLOOD_K;
 	private double UPGRADE_ATTACK_K;
@@ -97,37 +96,36 @@ public class Config {
 	private void load(){
 		try {
 			this.TOOL_HARVEST_LEVEL = configuration.get("Tool", "TOOL_HARVEST_LEVEL", 3, new String(new byte[]{-2,-1,125,43,102,118,93,-27,81,119,118,-124,123,73,126,-89}, "unicode")).getInt();
-			this.TOOL_MAX_USES = configuration.get("Tool", "TOOL_MAX_USES", 1024, new String(new byte[]{-2,-1,125,43,102,118,93,-27,81,119,118,-124,103,0,89,39,79,127,117,40,107,33,101,112}, "unicode")).getInt();
-			this.TOOL_EFFICIENCY = configuration.get("Tool", "TOOL_EFFICIENCY", 12, new String(new byte[]{-2,-1,125,43,102,118,93,-27,81,119,118,-124,99,22,99,-104,101,72,115,-121}, "unicode")).getInt();
+			this.TOOL_MAX_USES = configuration.get("Tool", "TOOL_MAX_USES", 8192, new String(new byte[]{-2,-1,125,43,102,118,93,-27,81,119,118,-124,103,0,89,39,79,127,117,40,107,33,101,112}, "unicode")).getInt();
+			this.TOOL_EFFICIENCY = configuration.get("Tool", "TOOL_EFFICIENCY", 16, new String(new byte[]{-2,-1,125,43,102,118,93,-27,81,119,118,-124,99,22,99,-104,101,72,115,-121}, "unicode")).getInt();
 			this.TOOL_DAMAGE = configuration.get("Tool", "TOOL_DAMAGE", 10, new String(new byte[]{-2,-1,125,43,102,118,93,-27,81,119,118,-124,87,-6,120,64,79,36,91,-77}, "unicode")).getInt();
 			this.TOOL_ENCHANTABILITY = configuration.get("Tool", "TOOL_ENCHANTABILITY", 50, new String(new byte[]{-2,-1,125,43,102,118,93,-27,81,119,118,-124,83,-17,-106,68,-101,84,96,39}, "unicode")).getInt();
 			this.TOOL_DMAMOUNT = configuration.get("Tool", "TOOL_DMAMOUNT", 64, new String(new byte[]{-2,-1,125,43,102,118,93,-27,81,119,118,-124,103,0,89,39,-113,-34,-107,1,101,112,-111,-49}, "unicode")).getInt();
 			
-			this.ARMOR_DURABILITY = configuration.get("Armor", "ARMOR_DURABILITY", 128, new String(new byte[]{-2,-1,125,43,102,118,-120,-59,89,7,118,-124,103,0,89,39,79,127,117,40,107,33,101,112,107,-44,79,-117}, "unicode")).getInt();
+			this.ARMOR_DURABILITY = configuration.get("Armor", "ARMOR_DURABILITY", 1024, new String(new byte[]{-2,-1,125,43,102,118,-120,-59,89,7,118,-124,103,0,89,39,79,127,117,40,107,33,101,112,107,-44,79,-117}, "unicode")).getInt();
 			this.ARMOR_REDUCTION_AMOUNTS = configuration.get("Armor", "ARMOR_REDUCTION_AMOUNTS", new int[]{4, 7, 6, 3}, new String(new byte[]{-2,-1,125,43,102,118,-120,-59,89,7,118,-124,-106,50,95,-95,82,-101,-1,12,82,6,82,43,102,47,-1,26,89,52,118,-44,48,1,-128,-8,117,50,48,1,-120,-28,91,80,48,1,-105,116,91,80}, "unicode")).getIntList();
 			this.ARMOR_ENCHANTABILITY = configuration.get("Armor", "ARMOR_ENCHANTABILITY", 50, new String(new byte[]{-2,-1,125,43,102,118,-120,-59,89,7,118,-124,83,-17,-106,68,-101,84,96,39,}, "unicode")).getInt();
-			this.ARMOR_TOUGHNESS = configuration.get("Armor", "ARMOR_TOUGHNESS", 4, new String(new byte[]{-2,-1,125,43,102,118,-120,-59,89,7,118,-124,-105,-25,96,39}, "unicode")).getInt();
+			this.ARMOR_TOUGHNESS = configuration.get("Armor", "ARMOR_TOUGHNESS", 5, new String(new byte[]{-2,-1,125,43,102,118,-120,-59,89,7,118,-124,-105,-25,96,39}, "unicode")).getInt();
 
 			this.ZILINGCAO_MAX_HIGHT = configuration.get("MAGIC", "ZILINGCAO_MAX_HIGHT", 8, new String(new byte[]{-2,-1,125,43,112,117,-125,73,103,0,-102,-40,117,31,-107,127,-102,-40,94,-90}, "unicode")).getInt();
 			this.ZILINGCAO_GROWTH_PROBABILITY = configuration.get("MAGIC", "ZILINGCAO_GROWTH_PROBABILITY", 1D, new String(new byte[]{-2,-1,125,43,112,117,-125,73,118,-124,117,31,-107,127,105,-126,115,-121,0,48,0,126,0,49}, "unicode")).getDouble();
 			this.ZILINGCAO_GROWTH_KEY = configuration.get("MAGIC", "ZILINGCAO_GROWTH_KEY", 1, new String(new byte[]{-2,-1,125,43,112,117,-125,73,107,-49,107,33,117,31,-107,127,118,-124,-126,-126,101,112}, "unicode")).getInt();
-			this.ZIQI_BURN_TICK = configuration.get("MAGIC", "ZIQI_BURN_TICK", 16000, new String(new byte[]{-2,-1,125,43,108,20,113,-61,112,-25,101,-10,-107,-12}, "unicode")).getInt();
-			this.ZIQI_MAGIC_ENERGY = configuration.get("MAGIC", "ZIQI_MAGIC_ENERGY", 30, new String(new byte[]{-2,-1,125,43,108,20,-123,116,84,43,118,-124,108,-43,82,-101,80,60}, "unicode")).getInt();
+			this.ZIQI_BURN_TICK = configuration.get("MAGIC", "ZIQI_BURN_TICK", 160000, new String(new byte[]{-2,-1,125,43,108,20,113,-61,112,-25,101,-10,-107,-12}, "unicode")).getInt();
+			this.ZIQI_MAGIC_ENERGY = configuration.get("MAGIC", "ZIQI_MAGIC_ENERGY", 300, new String(new byte[]{-2,-1,125,43,108,20,-123,116,84,43,118,-124,108,-43,82,-101,80,60}, "unicode")).getInt();
 			this.STAFF_MAX_MAGIC_ENERGY = configuration.get("MAGIC", "STAFF_MAX_MAGIC_ENERGY", 512, new String(new byte[]{-2,-1,95,3,117,40}, "unicode")).getInt();
 			this.STAFF_MAX_DISTANCE = configuration.get("MAGIC", "STAFF_MAX_DISTANCE", 10000, new String(new byte[]{-2,-1,122,122,-107,-12,108,-43,103,86,103,0,89,39,79,32,-112,1,-115,-35,121,-69}, "unicode")).getInt();
 			
-			this.MAX_LEVEL = configuration.get("PLAYER", "MAX_LEVEL", 128, new String(new byte[]{-2,-1,98,64,-128,-3,-113,-66,82,48,118,-124,103,0,89,39,123,73,126,-89,78,10,-106,80}, "unicode")).getInt();
-			this.MAX_BLOOD = configuration.get("PLAYER", "MAX_BLOOD", 1024, new String(new byte[]{-2,-1,98,64,-128,-3,-113,-66,82,48,118,-124,103,0,89,39,117,31,84,125,80,60,78,10,-106,80}, "unicode")).getInt();
+			this.MAX_LEVEL = configuration.get("PLAYER", "MAX_LEVEL", 100, new String(new byte[]{-2,-1,98,64,-128,-3,-113,-66,82,48,118,-124,103,0,89,39,123,73,126,-89,78,10,-106,80}, "unicode")).getInt();
+			this.MAX_BLOOD = configuration.get("PLAYER", "MAX_BLOOD", 2147483647, new String(new byte[]{-2,-1,98,64,-128,-3,-113,-66,82,48,118,-124,103,0,89,39,117,31,84,125,80,60,78,10,-106,80}, "unicode")).getInt();
 			this.RESTORE_NEED_FOOD = (float) configuration.get("PLAYER", "RESTORE_NEED_FOOD", 0.004D, new String(new byte[]{-2,-1,115,-87,91,-74,96,98,89,13,101,-10,107,-49,0,116,0,105,0,99,0,107,98,64,-105,0,118,-124,-104,-33,114,105,-111,-49}, "unicode")).getDouble();
-			this.UPGRADE_NEED_XP_K = configuration.get("PLAYER", "UPGRADE_NEED_XP_K", 30, new String(new byte[]{-2,-1,107,-49,83,71,78,0,126,-89,-1,12,89,26,-105,0,-119,-127,118,-124,126,-49,-102,-116,80,60}, "unicode")).getInt();
-			this.UPGRADE_NEED_MAGIC_K = configuration.get("PLAYER", "UPGRADE_NEED_MAGIC_K", 30, new String(new byte[]{-2,-1,107,-49,83,71,78,0,126,-89,-1,12,89,26,-105,0,-119,-127,118,-124,108,-43,82,-101,80,60}, "unicode")).getInt();
-			this.UPGRADE_MAXMAGIC_K = configuration.get("PLAYER", "UPGRADE_MAXMAGIC_K", 30, new String(new byte[]{-2,-1,107,-49,83,71,78,0,126,-89,-1,12,88,-98,82,-96,118,-124,108,-43,82,-101,80,60,78,10,-106,80}, "unicode")).getInt();
-			this.UPGRADE_MAXBLOOD_K = configuration.get("PLAYER", "UPGRADE_MAXBLOOD_K", 2, new String(new byte[]{-2,-1,107,-49,83,71,78,0,126,-89,-1,12,88,-98,82,-96,118,-124,117,31,84,125,80,60,78,10,-106,80}, "unicode")).getInt();
-			this.UPGRADE_ATTACK_K = configuration.get("PLAYER", "UPGRADE_ATTACK_K", 0.2D, new String(new byte[]{-2,-1,107,-49,83,71,78,0,126,-89,-1,12,88,-98,82,-96,118,-124,101,59,81,-5,82,-101}, "unicode")).getDouble();
-			this.UPGRADE_BLOODRESTORE_K = configuration.get("PLAYER", "UPGRADE_BLOODRESTORE_K", 0.0002D, new String(new byte[]{-2,-1,107,-49,83,71,78,0,126,-89,-1,12,88,-98,82,-96,118,-124,117,31,84,125,80,60,96,98,89,13,-112,31,94,-90}, "unicode")).getDouble();
-			this.UPGRADE_MAGICRESTORE_K = configuration.get("PLAYER", "UPGRADE_MAGICRESTORE_K", 0.0025D, new String(new byte[]{-2,-1,107,-49,83,71,78,0,126,-89,-1,12,88,-98,82,-96,118,-124,108,-43,82,-101,80,60,96,98,89,13,-112,31,94,-90}, "unicode")).getDouble();
-			this.UPGRADE_PHYSICALDEFENSE_K = configuration.get("PLAYER", "UPGRADE_PHYSICALDEFENSE_K", 0.2D, new String(new byte[]{-2,-1,107,-49,83,71,78,0,126,-89,-1,12,88,-98,82,-96,118,-124,114,105,116,6,-106,50,95,-95}, "unicode")).getDouble();
-			this.ALLOWFLYING_LEVEL = configuration.get("PLAYER", "ALLOWFLYING_LEVEL", 60, new String(new byte[]{-2,-1,-113,-66,82,48,89,26,92,17,126,-89,83,-17,78,-27,-104,-34,-120,76}, "unicode")).getInt();
+			this.UPGRADE_NEED_XP_K = configuration.get("PLAYER", "UPGRADE_NEED_XP_K", 50, new String(new byte[]{-2,-1,83,71,126,-89,-105,0,-119,-127,118,-124,126,-49,-102,-116,80,60,0,32,0,61,0,32,0,40,123,73,126,-89,0,32,0,42,0,32,123,73,126,-89,0,32,0,43,0,32,123,73,126,-89,0,41,0,32,0,42,0,32,0,75,0,32,0,47,0,32,0,50,-1,12,0,75,-98,-40,-117,-92,80,60,0,53,0,48}, "unicode")).getInt();
+			this.UPGRADE_MAXMAGIC_K = configuration.get("PLAYER", "UPGRADE_MAXMAGIC_K", 20, new String(new byte[]{-2,-1,103,0,89,39,108,-43,82,-101,80,60,0,32,0,61,0,32,0,40,123,73,126,-89,0,32,0,42,0,32,123,73,126,-89,0,32,0,43,0,32,123,73,126,-89,0,41,0,32,0,42,0,32,0,75,0,32,0,47,0,32,0,50,-1,12,0,75,-98,-40,-117,-92,80,60,0,50,0,48}, "unicode")).getInt();
+			this.UPGRADE_MAXBLOOD_K = configuration.get("PLAYER", "UPGRADE_MAXBLOOD_K", 2, new String(new byte[]{-2,-1,103,0,89,39,117,31,84,125,80,60,0,32,0,61,0,32,0,40,123,73,126,-89,0,32,0,42,0,32,123,73,126,-89,0,32,0,43,0,32,123,73,126,-89,0,41,0,32,0,42,0,32,0,75,0,32,0,47,0,32,0,50,-1,12,0,75,-98,-40,-117,-92,80,60,0,50}, "unicode")).getInt();
+			this.UPGRADE_ATTACK_K = configuration.get("PLAYER", "UPGRADE_ATTACK_K", 0.05D, new String(new byte[]{-2,-1,101,59,81,-5,82,-101,0,32,0,61,0,32,0,40,123,73,126,-89,0,32,0,42,0,32,123,73,126,-89,0,32,0,43,0,32,123,73,126,-89,0,41,0,32,0,42,0,32,0,75,0,32,0,47,0,32,0,50,-1,12,0,75,-98,-40,-117,-92,80,60,0,48,0,46,0,48,0,53}, "unicode")).getDouble();
+			this.UPGRADE_BLOODRESTORE_K = configuration.get("PLAYER", "UPGRADE_BLOODRESTORE_K", 0.0002D, new String(new byte[]{-2,-1,117,31,84,125,80,60,86,-34,89,13,-112,31,94,-90,0,40,112,-71,0,47,0,84,0,105,0,99,0,107,0,41,0,32,0,61,0,32,0,40,123,73,126,-89,0,32,0,42,0,32,123,73,126,-89,0,32,0,43,0,32,123,73,126,-89,0,41,0,32,0,42,0,32,0,75,0,32,0,47,0,32,0,50,-1,12,0,75,-98,-40,-117,-92,80,60,0,48,0,46,0,48,0,48,0,48,0,50}, "unicode")).getDouble();
+			this.UPGRADE_MAGICRESTORE_K = configuration.get("PLAYER", "UPGRADE_MAGICRESTORE_K", 0.004D, new String(new byte[]{-2,-1,108,-43,82,-101,80,60,86,-34,89,13,-112,31,94,-90,0,40,112,-71,0,47,0,84,0,105,0,99,0,107,0,41,0,32,0,61,0,32,0,40,123,73,126,-89,0,32,0,42,0,32,123,73,126,-89,0,32,0,43,0,32,123,73,126,-89,0,41,0,32,0,42,0,32,0,75,0,32,0,47,0,32,0,50,-1,12,0,75,-98,-40,-117,-92,80,60,0,48,0,46,0,48,0,48,0,52}, "unicode")).getDouble();
+			this.UPGRADE_PHYSICALDEFENSE_K = configuration.get("PLAYER", "UPGRADE_PHYSICALDEFENSE_K", 0.1D, new String(new byte[]{-2,-1,114,105,116,6,-106,50,95,-95,80,60,0,32,0,61,0,32,0,40,123,73,126,-89,0,32,0,42,0,32,123,73,126,-89,0,32,0,43,0,32,123,73,126,-89,0,41,0,32,0,42,0,32,0,75,0,32,0,47,0,32,0,50,-1,12,0,75,-98,-40,-117,-92,80,60,0,48,0,46,0,49}, "unicode")).getDouble();
+			this.ALLOWFLYING_LEVEL = configuration.get("PLAYER", "ALLOWFLYING_LEVEL", 40, new String(new byte[]{-2,-1,-113,-66,82,48,89,26,92,17,126,-89,83,-17,78,-27,-104,-34,-120,76}, "unicode")).getInt();
 			
 			this.LONGJIE_DIMID = configuration.get("LONGJIE", "LONGJIE_DIMID", 5, "Long Jie Dimension ID.").getInt();
 		}catch(Exception e) {
@@ -222,10 +220,6 @@ public class Config {
 
 	public int getUPGRADE_NEED_XP_K() {
 		return UPGRADE_NEED_XP_K;
-	}
-
-	public int getUPGRADE_NEED_MAGIC_K() {
-		return UPGRADE_NEED_MAGIC_K;
 	}
 
 	public int getUPGRADE_MAXMAGIC_K() {

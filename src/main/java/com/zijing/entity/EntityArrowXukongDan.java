@@ -38,7 +38,7 @@ public class EntityArrowXukongDan extends EntityArrowDan {
 
 	@Override
 	protected void init() {
-		setNoGravity(true);
+		setNoGravity(false);
 	}
 	
 	@Override

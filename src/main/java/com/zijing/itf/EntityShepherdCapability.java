@@ -60,8 +60,8 @@ public abstract class EntityShepherdCapability extends EntityCreature implements
 	
 	protected void setBaseShepherdCapability() {
 		this.shepherdCapability = new ShepherdCapability();
-		this.experience = (int) MathUtil.getUpgradeK(this.shepherdCapability.getLevel(), baseLevel - 1) * ZijingMod.config.getUPGRADE_NEED_XP_K();
-		this.upEntityGrade(baseLevel - 1);
+		this.experience = MathUtil.getNeedXP(shepherdCapability.getLevel(), baseLevel - shepherdCapability.getLevel());
+		this.upEntityGrade(baseLevel - shepherdCapability.getLevel());
 	}
 
 	@Override
@@ -169,7 +169,9 @@ public abstract class EntityShepherdCapability extends EntityCreature implements
 
 	//Over write this function to add special about level.
 	protected void upEntityGrade(int upLevel) {
-		EntityUtil.upEntityGrade(this, 1);
+		for (int n = 0; n < upLevel; n++) {
+			EntityUtil.upEntityGrade(this);
+		}
 		if(this.shepherdCapability.getLevel() >= SkillEntity.IMMUNE_FIRE_LEVEL) {
 			this.isImmuneToFire = true;
 		}

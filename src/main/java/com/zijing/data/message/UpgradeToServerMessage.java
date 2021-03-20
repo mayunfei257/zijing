@@ -18,10 +18,10 @@ public class UpgradeToServerMessage implements IMessage {
 	private NBTTagCompound dataTag;
 
 	public UpgradeToServerMessage() {}
-	public UpgradeToServerMessage(NBTBase shepherdCapabilityTag, int upLevel, UUID uuid) {
+	
+	public UpgradeToServerMessage(NBTBase shepherdCapabilityTag, UUID uuid) {
 		this.dataTag = new NBTTagCompound();
 		this.dataTag.setTag("ShepherdCapabilityTag", (NBTTagCompound)shepherdCapabilityTag);
-		this.dataTag.setInteger("UpLevel", upLevel);
 		this.dataTag.setString("UUID", uuid.toString());
 	}
 
@@ -39,11 +39,10 @@ public class UpgradeToServerMessage implements IMessage {
 		@Override
 		public IMessage onMessage(final UpgradeToServerMessage message, final MessageContext ctx) {
 			if (ctx.side == Side.SERVER){
-				int upLevel = message.dataTag.getInteger("UpLevel");
 				((WorldServer) ctx.getServerHandler().player.world).addScheduledTask(new Runnable(){
 					@Override
 					public void run() {
-						EntityUtil.upPlayerGrade(ctx.getServerHandler().player, upLevel);
+						EntityUtil.upPlayerGrade(ctx.getServerHandler().player);
 					}
 				});
 			}

@@ -171,7 +171,9 @@ public class EntitySuperIronGolem extends EntityFriendly{
 
     @Override
 	protected void upEntityGrade(int upLevel) {
-		EntityUtil.upEntityGrade(this, upLevel);
+		for (int n = 0; n < upLevel; n++) {
+			EntityUtil.upEntityGrade(this);
+		}
 		if(this.shepherdCapability.getLevel() >= SkillEntity.IMMUNE_FIRE_LEVEL) {
 			this.isImmuneToFire = true;
 		}
@@ -187,11 +189,11 @@ public class EntitySuperIronGolem extends EntityFriendly{
      */
 	@Override
     public boolean canAttackClass(Class <? extends EntityLivingBase > cls){
-		if((cls == EntitySkeleton.class || cls == EntityStray.class) && this.shepherdCapability.getLevel() < 15){
+		if((cls == EntitySkeleton.class || cls == EntityStray.class) && this.shepherdCapability.getLevel() < 5){
         	return false;
-        }else if(cls == EntityCreeper.class && this.shepherdCapability.getLevel() < 30){
+        }else if(cls == EntityCreeper.class && this.shepherdCapability.getLevel() < 10){
             return false;
-        }else if(cls == EntityEnderman.class && this.shepherdCapability.getLevel() < 45){
+        }else if(cls == EntityEnderman.class && this.shepherdCapability.getLevel() < 10){
             return false;
         }else if(EntityVillager.class.isAssignableFrom(cls) || EntityGhast.class.isAssignableFrom(cls) || EntityDragon.class.isAssignableFrom(cls) || EntityWither.class.isAssignableFrom(cls)) {
         	return false;

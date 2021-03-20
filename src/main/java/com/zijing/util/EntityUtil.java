@@ -63,12 +63,14 @@ public class EntityUtil {
 	 * @param upLevel
 	 * @return
 	 */
-	public static boolean upPlayerGrade(EntityPlayerMP player, int upLevel) {
-    	if(ShepherdProvider.hasCapabilityFromPlayer(player) && upLevel >= 0) {
+	public static boolean upPlayerGrade(EntityPlayerMP player) {
+    	if(ShepherdProvider.hasCapabilityFromPlayer(player)) {
+    		
 			ShepherdCapability shepherdCapability = ShepherdProvider.getCapabilityFromPlayer(player);
-    		int needXP = (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), upLevel) * ZijingMod.config.getUPGRADE_NEED_XP_K();
-    		double needMagic = MathUtil.getUpgradeK(shepherdCapability.getLevel(), upLevel) * ZijingMod.config.getUPGRADE_NEED_MAGIC_K();
-    		int level = shepherdCapability.getLevel() + upLevel;
+    		int needXP = MathUtil.getNeedXP(shepherdCapability.getLevel());
+    		double needMagic = MathUtil.getMaxMagic(shepherdCapability.getLevel());
+    		int level = shepherdCapability.getLevel() + 1;
+    		
 			if(shepherdCapability.getMagic() >= needMagic && player.experienceTotal >= needXP && level <= ZijingMod.config.getMAX_LEVEL()) {
     			int remainingXP = player.experienceTotal - needXP;
     			player.experience = 0.0F;
@@ -79,25 +81,23 @@ public class EntityUtil {
     			shepherdCapability.setLevel(level);
     			shepherdCapability.setBlood(shepherdCapability.getBlood());
     			shepherdCapability.setMagic(shepherdCapability.getMagic() - needMagic);
-    			shepherdCapability.setMaxBlood(level * ZijingMod.config.getUPGRADE_MAXBLOOD_K());
-    			shepherdCapability.setMaxMagic(level * ZijingMod.config.getUPGRADE_MAXMAGIC_K());
+    			shepherdCapability.setMaxBlood(MathUtil.getMaxBlood(level));
+    			shepherdCapability.setMaxMagic(MathUtil.getMaxMagic(level));
 //    			shepherdCapability.setSpeed(level * 0.1 + 1);
-    			shepherdCapability.setAttack((level - 1) * ZijingMod.config.getUPGRADE_ATTACK_K());
+    			shepherdCapability.setAttack(MathUtil.getAttack(level));
 //            	shepherdCapability.setIntellect(intellect);
-    			shepherdCapability.setBloodRestore(level * ZijingMod.config.getUPGRADE_BLOODRESTORE_K() + 0.002D);
-    			shepherdCapability.setMagicRestore(level * ZijingMod.config.getUPGRADE_MAGICRESTORE_K() + 0.01D);
-            	shepherdCapability.setPhysicalDefense((level - 1) * ZijingMod.config.getUPGRADE_PHYSICALDEFENSE_K());
+    			shepherdCapability.setBloodRestore(MathUtil.getBloodRestore(level));
+    			shepherdCapability.setMagicRestore(MathUtil.getMagicRestore(level));
+            	shepherdCapability.setPhysicalDefense(MathUtil.getPhysicalDefense(level));
 //            	shepherdCapability.setMagicDefense(magicDefense);
     			player.world.playSound((EntityPlayer) null, player.posX, player.posY + player.getEyeHeight(), player.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("block.end_portal.spawn")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
     			
     			setPlayerAllValue(player, shepherdCapability);
-    			setRewards(player);
+    			setRewards(player, level);
     			ShepherdProvider.updateChangeToClient(player);
 			}else {
 				player.sendMessage(new TextComponentString("Magic energy or experience is not enough!"));
 			}
-    	}else if(upLevel < 0){
-			player.sendMessage(new TextComponentString("Error upLevel! upLevel < 0"));
     	}else {
 			player.sendMessage(new TextComponentString("You have not the capability!"));
     	}
@@ -111,7 +111,7 @@ public class EntityUtil {
 	 * @return
 	 */
 	public static boolean setPlayerAllValue(EntityPlayer player, ShepherdCapability shepherdCapability) {
-		player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D + shepherdCapability.getAttack());
+		player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(shepherdCapability.getAttack());
 		player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(shepherdCapability.getMaxBlood());
 		player.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(shepherdCapability.getPhysicalDefense());
 //		player.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).setBaseValue(shepherdCapability.getPhysicalDefense());
@@ -129,11 +129,18 @@ public class EntityUtil {
 	 * @param player
 	 * @return
 	 */
-	public static boolean setRewards(EntityPlayer player) {
+	public static boolean setRewards(EntityPlayer player, int level) {
 		InventoryPlayer inventory = player.inventory;
-		ItemStack itenStack = new ItemStack(BaseControl.blockZilingCao, 1);
+		ItemStack itenStack = new ItemStack(BaseControl.blockZilingCao, level);
 		if(!inventory.addItemStackToInventory(itenStack)) {
 			player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, itenStack));
+		}
+		
+		if(level == ZijingMod.config.getMAX_LEVEL()) {
+			ItemStack zhulingTai = new ItemStack(BaseControl.blockZhulingTai, 1);
+			if(!inventory.addItemStackToInventory(zhulingTai)) {
+				player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, zhulingTai));
+			}
 		}
 		return true;
 	}
@@ -145,32 +152,29 @@ public class EntityUtil {
 	 * @param upLevel
 	 * @return
 	 */
-	public static boolean upEntityGrade(EntityShepherdCapability shepherdEntity, int upLevel) {
-    	if(upLevel >= 0) {
-			ShepherdCapability shepherdCapability = shepherdEntity.getShepherdCapability();
-    		int needXP = (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), upLevel) * ZijingMod.config.getUPGRADE_NEED_XP_K();
-    		int level = shepherdCapability.getLevel() + upLevel;
-			if(shepherdEntity.getExperience() >= needXP && level <= ZijingMod.config.getMAX_LEVEL()) {
-				shepherdEntity.setExperience(shepherdEntity.getExperience() - needXP);
-    			shepherdCapability.setLevel(level);
-    			shepherdCapability.setBlood(shepherdCapability.getBlood());
-    			shepherdCapability.setMagic(shepherdCapability.getMagic());
-    			shepherdCapability.setMaxBlood(level * ZijingMod.config.getUPGRADE_MAXBLOOD_K());
-    			shepherdCapability.setMaxMagic(level * ZijingMod.config.getUPGRADE_MAXMAGIC_K());
-    			shepherdCapability.setSpeed(level * 0.005D + 0.2D);
-    			shepherdCapability.setAttack((level - 1) * ZijingMod.config.getUPGRADE_ATTACK_K());
-//            	shepherdCapability.setIntellect(intellect);
-    			shepherdCapability.setBloodRestore(level * ZijingMod.config.getUPGRADE_BLOODRESTORE_K() + 0.002D);
-    			shepherdCapability.setMagicRestore(level * ZijingMod.config.getUPGRADE_MAGICRESTORE_K() + 0.01D);
-            	shepherdCapability.setPhysicalDefense((level - 1) * ZijingMod.config.getUPGRADE_PHYSICALDEFENSE_K());
-//            	shepherdCapability.setMagicDefense(magicDefense);
-            	shepherdEntity.world.playSound(null, shepherdEntity.posX, shepherdEntity.posY + shepherdEntity.getEyeHeight(), shepherdEntity.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("block.end_portal.spawn")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+	public static boolean upEntityGrade(EntityShepherdCapability shepherdEntity) {
+		ShepherdCapability shepherdCapability = shepherdEntity.getShepherdCapability();
+		int needXP = MathUtil.getNeedXP(shepherdCapability.getLevel());
+		int level = shepherdCapability.getLevel() + 1;
+		
+		if(shepherdEntity.getExperience() >= needXP && level <= ZijingMod.config.getMAX_LEVEL()) {
+			shepherdEntity.setExperience(shepherdEntity.getExperience() - needXP);
+			shepherdCapability.setLevel(level);
+			shepherdCapability.setMaxBlood(MathUtil.getMaxBlood(level));
+			shepherdCapability.setMaxMagic(MathUtil.getMaxMagic(level));
+			shepherdCapability.setSpeed(level * 0.005D + 0.2D);
+			shepherdCapability.setAttack(MathUtil.getAttack(level));
+//          shepherdCapability.setIntellect(intellect);
+			shepherdCapability.setBloodRestore(MathUtil.getBloodRestore(level));
+			shepherdCapability.setMagicRestore(MathUtil.getMagicRestore(level));
+        	shepherdCapability.setPhysicalDefense(MathUtil.getPhysicalDefense(level));
+//          shepherdCapability.setMagicDefense(magicDefense);
+        	shepherdEntity.world.playSound(null, shepherdEntity.posX, shepherdEntity.posY + shepherdEntity.getEyeHeight(), shepherdEntity.posZ, SoundEvent.REGISTRY.getObject(new ResourceLocation("block.end_portal.spawn")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
 
-        		shepherdCapability.setBlood(shepherdCapability.getMaxBlood());
-    			shepherdCapability.setMagic(shepherdCapability.getMaxMagic());
-    			shepherdEntity.setNextLevelNeedExperience((int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), 1) * ZijingMod.config.getUPGRADE_NEED_XP_K());
-			}
-    	}
+    		shepherdCapability.setBlood(shepherdCapability.getMaxBlood());
+			shepherdCapability.setMagic(shepherdCapability.getMaxMagic());
+			shepherdEntity.setNextLevelNeedExperience(MathUtil.getNeedXP(shepherdCapability.getLevel()));
+		}
 		return true;
 	}
 	

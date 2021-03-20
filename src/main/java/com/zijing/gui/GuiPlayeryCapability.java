@@ -62,14 +62,14 @@ public class GuiPlayeryCapability {
             return ItemStack.EMPTY;
         }
         
-		public void upgrade(int upLevel){
+		public void upgrade(){
 			if(null != shepherdCapability) {
-	    		double needMagic = MathUtil.getUpgradeK(shepherdCapability.getLevel(), upLevel) * ZijingMod.config.getUPGRADE_NEED_MAGIC_K();
-	    		int needXP = (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), upLevel) * ZijingMod.config.getUPGRADE_NEED_XP_K();
+	    		double needMagic = MathUtil.getMaxMagic(shepherdCapability.getLevel());
+	    		int needXP = MathUtil.getNeedXP(shepherdCapability.getLevel());;
 				if(shepherdCapability.getMagic() >= needMagic) {
 					if(player.experienceTotal >= needXP) {
 						if(player.world.isRemote) {
-							ShepherdProvider.upgradeToServer(player, upLevel);
+							ShepherdProvider.upgradeToServer(player);
 						}
 					}else {
 						player.sendMessage(new TextComponentString("Experience is not enough, need at least " + needXP));
@@ -137,7 +137,7 @@ public class GuiPlayeryCapability {
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.magicDefense", new Object[0]) + df2.format(shepherdCapability.getMagicDefense()), 64, 71, 0xFFAA00);
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.bloodRestore", new Object[0]) + df4.format(shepherdCapability.getBloodRestore()) + "/T", 64, 80, 0xFFAA00);
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.magicRestore", new Object[0]) + df4.format(shepherdCapability.getMagicRestore()) + "/T", 64, 89, 0xFFAA00);
-				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.needExperience", new Object[0]) + player.experienceTotal + "/" + (int) MathUtil.getUpgradeK(shepherdCapability.getLevel(), 1) * ZijingMod.config.getUPGRADE_NEED_XP_K(), 64, 98, 0xFFAA00);
+				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.needExperience", new Object[0]) + player.experienceTotal + "/" + MathUtil.getNeedXP(shepherdCapability.getLevel()), 64, 98, 0xFFAA00);
 			}
 		}
 
@@ -151,7 +151,7 @@ public class GuiPlayeryCapability {
 		@Override
 		protected void actionPerformed(GuiButton button) {
 			if (button.id == 1) {
-				((MyContainer)this.inventorySlots).upgrade(1);
+				((MyContainer)this.inventorySlots).upgrade();
 			}
 		}
 		

@@ -44,11 +44,6 @@ public class EntityArrowFengyinDan extends EntityArrowDan {
 	public EntityArrowFengyinDan(World worldIn, EntityLivingBase shooter, float attackDamage, boolean checkFaction) {
 		super(worldIn, shooter, attackDamage, checkFaction);
 	}
-
-	@Override
-	protected void init() {
-		setNoGravity(true);
-	}
 	
 	@Override
 	public void onUpdate() {

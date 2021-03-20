@@ -11,6 +11,7 @@ import com.zijing.items.tool.ItemArmorZijingBody;
 import com.zijing.items.tool.ItemArmorZijingBoots;
 import com.zijing.items.tool.ItemArmorZijingHelmet;
 import com.zijing.items.tool.ItemArmorZijingLegs;
+import com.zijing.itf.EntityShepherdCapability;
 import com.zijing.util.EntityUtil;
 import com.zijing.util.EnumGender;
 import com.zijing.util.SkillEntity;
@@ -31,6 +32,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -71,6 +73,21 @@ public class ZijingEvent {
 //		}
 //	}
 
+	
+	@SubscribeEvent
+	public void livingHurt(LivingHurtEvent event) {
+		EntityLivingBase entity = event.getEntityLiving();
+		if (!entity.world.isRemote && event.getAmount() > 0) {
+
+			ShepherdCapability shepherdCapability = entity instanceof EntityShepherdCapability ? ((EntityShepherdCapability)entity).getShepherdCapability() : ShepherdProvider.getCapabilityFromPlayer(entity);
+			if(null != shepherdCapability && shepherdCapability.getPhysicalDefense() > 30) {
+				double overPhysical = shepherdCapability.getPhysicalDefense() - 30;
+				event.setAmount(Math.max(event.getAmount() - (float)(overPhysical * 0.02), 0));
+			}
+		}
+	}
+	
+	
 	@SubscribeEvent
 	public void entityAttack(LivingAttackEvent event) {
 		EntityLivingBase entity = event.getEntityLiving();

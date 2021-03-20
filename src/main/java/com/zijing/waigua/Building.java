@@ -127,26 +127,54 @@ public class Building {
 		IBlockState waterCover = Blocks.WOODEN_SLAB.getDefaultState().withProperty(BlockWoodSlab.VARIANT, BlockPlanks.EnumType.DARK_OAK).withProperty(BlockWoodSlab.HALF, BlockSlab.EnumBlockHalf.BOTTOM);
 		
 		//arable land
-		for(int x = -20; x <= 20; x++) {
-			for(int z = -20; z <= 20; z++) {
-				if(x % 10 == 0 || z % 10 == 0) {
-					BlockPos blockPos = new BlockPos(baseBlockPos.getX() + x, baseBlockPos.getY(), baseBlockPos.getZ() + z);
-					if(world.getBlockState(blockPos.up()).getBlock() != Blocks.AIR) {
-						world.setBlockState(blockPos.up(), Blocks.AIR.getDefaultState(), 11);
-					}
-					world.setBlockState(blockPos , fieldRoad, 11);
-				}else if(x % 5 == 0 && z % 5 == 0){
-					BlockPos blockPos = new BlockPos(baseBlockPos.getX() + x, baseBlockPos.getY(), baseBlockPos.getZ() + z);
+		for(int x = 1; x <= 18; x++) {//-20 20
+			for(int z = 1; z <= 18; z++) {//-20 20
+				BlockPos blockPos = new BlockPos(baseBlockPos.getX() + x, baseBlockPos.getY(), baseBlockPos.getZ() + z);
+//				if(x % 10 == 0 || z % 10 == 0) {
+//					if(world.getBlockState(blockPos.up()).getBlock() != Blocks.AIR) {
+//						world.setBlockState(blockPos.up(), Blocks.AIR.getDefaultState(), 11);
+//					}
+//					world.setBlockState(blockPos , fieldRoad, 11);
+//				}else 
+					if((x-5) % 9 == 0 && (z-5) % 9 == 0){//x % 5 == 0 && z % 5 == 0
 					world.setBlockState(blockPos, Blocks.WATER.getDefaultState(), 11);
 					world.setBlockState(blockPos.up(), waterCover, 11);
 				}else {
-					BlockPos blockPos = new BlockPos(baseBlockPos.getX() + x, baseBlockPos.getY(), baseBlockPos.getZ() + z);
-					if(world.getBlockState(blockPos.up()).getBlock() != Blocks.AIR) {
-						world.setBlockState(blockPos.up(), Blocks.AIR.getDefaultState(), 11);
-					}
+//					if(world.getBlockState(blockPos.up()).getBlock() != Blocks.AIR) {
+//						world.setBlockState(blockPos.up(), Blocks.AIR.getDefaultState(), 11);
+//					}
 					world.setBlockState(blockPos, Blocks.FARMLAND.getDefaultState(), 11);
 					if(null != plant) {
-						world.setBlockState(blockPos.up(), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(1), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(2), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(3), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(4), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(5), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(6), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(7), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(8), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(9), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(10), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(11), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(12), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(13), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(14), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(15), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(16), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(17), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(18), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(19), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(20), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(21), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(22), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(23), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(24), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(25), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(26), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(27), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(28), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(29), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(30), plant.getDefaultState(), 11);
 					}
 				}
 			}
@@ -161,24 +189,51 @@ public class Building {
 		//arable land
 		for(int x = -5; x <= 5; x++) {
 			for(int z = -5; z <= 5; z++) {
+				BlockPos blockPos = new BlockPos(baseBlockPos.getX() + x, baseBlockPos.getY(), baseBlockPos.getZ() + z);
 				if(x == -5 || x == 5 || z == -5 || z == 5) {
-					BlockPos blockPos = new BlockPos(baseBlockPos.getX() + x, baseBlockPos.getY(), baseBlockPos.getZ() + z);
 					if(world.getBlockState(blockPos.up()).getBlock() != Blocks.AIR) {
 						world.setBlockState(blockPos.up(), Blocks.AIR.getDefaultState(), 11);
 					}
 					world.setBlockState(blockPos , fieldRoad, 11);
 				}else if(x == 0 && z == 0){
-					BlockPos blockPos = new BlockPos(baseBlockPos.getX() + x, baseBlockPos.getY(), baseBlockPos.getZ() + z);
 					world.setBlockState(blockPos, Blocks.WATER.getDefaultState(), 11);
 					world.setBlockState(blockPos.up(), waterCover, 11);
 				}else {
-					BlockPos blockPos = new BlockPos(baseBlockPos.getX() + x, baseBlockPos.getY(), baseBlockPos.getZ() + z);
 					if(world.getBlockState(blockPos.up()).getBlock() != Blocks.AIR) {
 						world.setBlockState(blockPos.up(), Blocks.AIR.getDefaultState(), 11);
 					}
 					world.setBlockState(blockPos, Blocks.FARMLAND.getDefaultState(), 11);
 					if(null != plant) {
-						world.setBlockState(blockPos.up(), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(1), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(2), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(3), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(4), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(5), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(6), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(7), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(8), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(9), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(10), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(11), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(12), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(13), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(14), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(15), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(16), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(17), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(18), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(19), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(20), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(21), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(22), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(23), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(24), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(25), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(26), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(27), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(28), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(29), plant.getDefaultState(), 11);
+						world.setBlockState(blockPos.up(30), plant.getDefaultState(), 11);
 					}
 				}
 			}

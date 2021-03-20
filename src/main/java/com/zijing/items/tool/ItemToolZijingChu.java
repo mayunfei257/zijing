@@ -1,6 +1,8 @@
 package com.zijing.items.tool;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -46,13 +48,16 @@ public class ItemToolZijingChu extends ItemHoe{
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		player.setActiveHand(hand);
 		ItemStack itemStack = player.getHeldItem(hand);
-		if(null == itemStack || ItemStack.EMPTY == itemStack || null == itemStack.getItem()) return super.onItemRightClick(world, player, hand);
+		if(null == itemStack || ItemStack.EMPTY == itemStack || null == itemStack.getItem()) 
+			return super.onItemRightClick(world, player, hand);
+		
 		if(!itemStack.hasTagCompound() || null == itemStack.getTagCompound()){
 			NBTTagCompound bookTag = new NBTTagCompound();
 			ItemStackHelper.saveAllItems(bookTag, NonNullList.<ItemStack>withSize(29, ItemStack.EMPTY), true);
 			itemStack.setTagCompound(bookTag);
 		}
-		if(!world.isRemote && itemStack.hasTagCompound() && null != itemStack.getTagCompound()){
+		
+		if(!world.isRemote){
 			if(player.isSneaking()){
 				player.openGui(ZijingMod.instance, GuiBookChuansong.GUIID, world, (int) player.posX, (int) (player.posY + 1.62D), (int) player.posZ);
 				return new ActionResult(EnumActionResult.SUCCESS, itemStack);
@@ -91,7 +96,11 @@ public class ItemToolZijingChu extends ItemHoe{
 						Block thisBlock = world.getBlockState(pos).getBlock();
 						Block thisBlockDown = world.getBlockState(pos.down()).getBlock();
 						if((thisBlock == Blocks.AIR || thisBlock == block) && (thisBlockDown != block && thisBlockDown != Blocks.AIR)) {
-							dropBlock(world, block, pos);
+							long start = System.currentTimeMillis();
+							dropBlockBew(world, block, pos.up(), new HashMap<String, Boolean>());
+//							dropBlock(world, block, pos);
+							long end = System.currentTimeMillis();
+							System.out.println("=============================================================================================== " + (end - start));
 							break;
 						}
 						pos = pos.down();
@@ -102,6 +111,48 @@ public class ItemToolZijingChu extends ItemHoe{
     	return true;
     }
 
+	private void dropBlockBew2(World world, Block block, BlockPos pos, Map<String, Boolean> didMap) {
+		if(world.getBlockState(pos).getBlock() == block) {
+
+			block.dropBlockAsItem(world, pos, world.getBlockState(pos), 1);
+			world.setBlockToAir(pos);
+//			world.notifyNeighborsOfStateChange(pos.up(), block, true);
+			didMap.put(pos.getX() + "_" + pos.getZ(), true);
+			
+			for(int x = 1; x >= -1; x--) {
+				for(int z = 1; z >= -1; z--) {
+					
+					if((x == 0 && z == 0) || Boolean.TRUE.equals(didMap.get((pos.getX() + x) + "_" + (pos.getZ() + z)))) 
+						continue; 
+					
+					BlockPos posNext = new BlockPos(pos.getX() + x, pos.getY(), pos.getZ() + z);
+					dropBlockBew(world, block, posNext, didMap);
+				}
+			}
+		}
+	}
+	
+	private void dropBlockBew(World world, Block block, BlockPos pos, Map<String, Boolean> didMap) {
+		if(world.getBlockState(pos).getBlock() == block) {
+
+			block.dropBlockAsItem(world, pos, world.getBlockState(pos), 1);
+			world.setBlockToAir(pos);
+//			world.notifyNeighborsOfStateChange(pos.up(), block, true);
+			didMap.put(pos.getX() + "_" + pos.getZ(), true);
+			
+			for(int x = 1; x >= -1; x--) {
+				for(int z = 1; z >= -1; z--) {
+					
+					if((x == 0 && z == 0) || Boolean.TRUE.equals(didMap.get((pos.getX() + x) + "_" + (pos.getZ() + z)))) 
+						continue; 
+					
+					BlockPos posNext = new BlockPos(pos.getX() + x, pos.getY(), pos.getZ() + z);
+					dropBlockBew(world, block, posNext, didMap);
+				}
+			}
+		}
+	}
+	
 	private void dropBlock(World world, Block block, BlockPos pos) {
 		for(int x = 1; x >= -1; x--) {
 			for(int z = 1; z >= -1; z--) {

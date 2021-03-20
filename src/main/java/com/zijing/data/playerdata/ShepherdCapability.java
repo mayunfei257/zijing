@@ -2,6 +2,7 @@ package com.zijing.data.playerdata;
 
 import com.zijing.ZijingMod;
 import com.zijing.util.ConstantUtil;
+import com.zijing.util.MathUtil;
 
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -35,17 +36,18 @@ public class ShepherdCapability{
 	public ShepherdCapability(){
 		this.level = ShepherdCapability.BASE_LEVEL;
 		this.race = ShepherdCapability.BASE_RACE;
-		this.blood = ZijingMod.config.getUPGRADE_MAXBLOOD_K() * this.level;
-		this.magic = ZijingMod.config.getUPGRADE_MAXMAGIC_K() * this.level;
-		this.maxBlood = ZijingMod.config.getUPGRADE_MAXBLOOD_K() * this.level;
-		this.maxMagic = ZijingMod.config.getUPGRADE_MAXMAGIC_K() * this.level;
+		this.maxBlood = MathUtil.getMaxBlood(this.level);
+		this.maxMagic = MathUtil.getMaxMagic(this.level);;
 		this.speed = ShepherdCapability.BASE_SPEED;
-		this.attack = ZijingMod.config.getUPGRADE_ATTACK_K() * (this.level - 1);
+		this.attack = MathUtil.getAttack(this.level);
 		this.intellect = ShepherdCapability.BASE_INTELLECT;
-		this.bloodRestore = ZijingMod.config.getUPGRADE_BLOODRESTORE_K() * this.level;
-		this.magicRestore = ZijingMod.config.getUPGRADE_MAGICRESTORE_K() * this.level;
-		this.physicalDefense = ShepherdCapability.BASE_PHYSICALDEFENSE;
+		this.bloodRestore = MathUtil.getBloodRestore(this.level);
+		this.magicRestore = MathUtil.getMagicRestore(this.level);
+		this.physicalDefense = MathUtil.getPhysicalDefense(this.level);
 		this.magicDefense = ShepherdCapability.BASE_MAGICDEFENSE;
+
+		this.blood = this.maxBlood;
+		this.magic = this.maxMagic;
 	}
 	
 	public void readNBT(EnumFacing side, NBTBase nbt){
