@@ -28,7 +28,7 @@ public class SkillEntityPlayer extends SkillEntity{
         	entityDan = shootBingDan(player, attackDamage, level * SLOWNESS_PROBABILITY_K, (int)(level * SLOWNESS_STRENGTH_K), true);
     		shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_BingDan);
         }else {
-			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_BingDan));
+			player.sendMessage(StringUtil.magicIsNotEnough(MagicSkill_BingDan));
 		}
         return entityDan;
 	}
@@ -42,7 +42,7 @@ public class SkillEntityPlayer extends SkillEntity{
 			entityDan = shootHuoDan(player, attackDamage, level * EXPLOSION_PROBABILITY_K, level * EXPLOSION_STRENGTH_K, canExplosionOnBlock, true);
 			shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_HuoDan);
 		}else {
-			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_HuoDan));
+			player.sendMessage(StringUtil.magicIsNotEnough(MagicSkill_HuoDan));
 		}
 		return entityDan;
 	}
@@ -55,7 +55,7 @@ public class SkillEntityPlayer extends SkillEntity{
         	entityDan = shootXukongDan(player, 0, false);
     		shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_XukongDan);
         }else {
-			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_XukongDan));
+			player.sendMessage(StringUtil.magicIsNotEnough(MagicSkill_XukongDan));
 		}
         return entityDan;
 	}
@@ -69,7 +69,7 @@ public class SkillEntityPlayer extends SkillEntity{
         	entityDan = shootFengyinDan(player, 0, false);
     		shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_FengyinDan);
         }else {
-			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_FengyinDan));
+			player.sendMessage(StringUtil.magicIsNotEnough(MagicSkill_FengyinDan));
 		}
         return entityDan;
 	}
@@ -104,7 +104,7 @@ public class SkillEntityPlayer extends SkillEntity{
         	addEffect(player, MobEffects.LEVITATION, 80, 0);
     		shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_Levitation);
         }else {
-			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_Levitation));
+			player.sendMessage(StringUtil.magicIsNotEnough(MagicSkill_Levitation));
 		}
 	}
 
@@ -114,7 +114,7 @@ public class SkillEntityPlayer extends SkillEntity{
     		removeEffect(player);
     		shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_RemoveEffect);
         }else {
-			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_RemoveEffect));
+			player.sendMessage(StringUtil.magicIsNotEnough(MagicSkill_RemoveEffect));
 		}
 	}
 
@@ -125,7 +125,7 @@ public class SkillEntityPlayer extends SkillEntity{
         	resultPos = teleportUp(player, basePos, true);
     		shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_TeleportUp);
         }else {
-			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_TeleportUp));
+			player.sendMessage(StringUtil.magicIsNotEnough(MagicSkill_TeleportUp));
 		}
         return resultPos;
 	}
@@ -137,7 +137,7 @@ public class SkillEntityPlayer extends SkillEntity{
         	resultPos = teleportDown(player, basePos, true);
     		shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_TeleportDown);
         }else {
-			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_TeleportDown));
+			player.sendMessage(StringUtil.magicIsNotEnough(MagicSkill_TeleportDown));
 		}
         return resultPos;
 	}
@@ -151,7 +151,7 @@ public class SkillEntityPlayer extends SkillEntity{
         	thousandsFrozen(player, player.world, centerPos, (int)(ThousandsFrozen_Range_Base + level * ThousandsFrozen_Range_K), 3, (int)(ThousandsFrozen_Range_Base + level * ThousandsFrozen_Range_K), level * SLOWNESS_PROBABILITY_K, (int)(level * SLOWNESS_STRENGTH_K), attackDamage/2);
     		shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_ThousandsFrozen);
         }else {
-			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_ThousandsFrozen));
+			player.sendMessage(StringUtil.magicIsNotEnough(MagicSkill_ThousandsFrozen));
 		}
 	}
 	
@@ -164,7 +164,7 @@ public class SkillEntityPlayer extends SkillEntity{
     		firestorm(player, player.world, centerPos, (int)(Firestorm_Range_Base + level * Firestorm_Range_K), 3, (int)(Firestorm_Range_Base + level * Firestorm_Range_K), level * EXPLOSION_PROBABILITY_K, level * EXPLOSION_STRENGTH_K, true, attackDamage);
     		shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_Firestorm);
         }else {
-			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_Firestorm));
+			player.sendMessage(StringUtil.magicIsNotEnough(MagicSkill_Firestorm));
 		}
 	}
 	
@@ -177,7 +177,7 @@ public class SkillEntityPlayer extends SkillEntity{
     		firestorm(player, player.world, centerPos, (int)(level * Firestorm_Range_K/2), 3, (int)(level * Firestorm_Range_K/2), level * EXPLOSION_PROBABILITY_K, level * EXPLOSION_STRENGTH_K, false, attackDamage);
     		shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_Firestorm);
         }else {
-			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_Firestorm));
+			player.sendMessage(StringUtil.magicIsNotEnough(MagicSkill_Firestorm));
 		}
 	}
 	
@@ -188,7 +188,7 @@ public class SkillEntityPlayer extends SkillEntity{
         	resultPos = randomTeleport(player, 2, 5);
     		shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_RandomTeleport);
         }else {
-			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_RandomTeleport));
+			player.sendMessage(StringUtil.magicIsNotEnough(MagicSkill_RandomTeleport));
 		}
         return resultPos;
 	}
@@ -200,7 +200,7 @@ public class SkillEntityPlayer extends SkillEntity{
         	resultPos = randomTeleportFar(player, 3, 1000);
     		shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_RandomTeleportFar);
         }else {
-			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_RandomTeleportFar));
+			player.sendMessage(StringUtil.magicIsNotEnough(MagicSkill_RandomTeleportFar));
 		}
         return resultPos;
 	}
@@ -211,7 +211,7 @@ public class SkillEntityPlayer extends SkillEntity{
         	growBlock(player.world, pos);
     		shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_GrowBlock);
         }else {
-			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_GrowBlock));
+			player.sendMessage(StringUtil.magicIsNotEnough(MagicSkill_GrowBlock));
 		}
     }
 	
@@ -221,7 +221,7 @@ public class SkillEntityPlayer extends SkillEntity{
         	growAreaBlock(player.world, pos, 4, 1, 4);
     		shepherdCapability.setMagic(player.isCreative() ? shepherdCapability.getMagic() : shepherdCapability.getMagic() - MagicSkill_GrowAreaBlock);
         }else {
-			player.sendMessage(StringUtil.MagicIsNotEnough(MagicSkill_GrowBlock));
+			player.sendMessage(StringUtil.magicIsNotEnough(MagicSkill_GrowBlock));
 		}
     }
 	

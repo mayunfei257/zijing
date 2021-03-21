@@ -28,6 +28,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -49,6 +50,7 @@ public class GuiEntityCapability {
 			if(entity instanceof EntityLiving && entity instanceof EntityFriendly) {
 				this.shepherdEntity = (EntityLiving)entity ;
 				this.entityInv = new InventoryBasic(ConstantUtil.MODID + ":entityInv", true, 6);
+				
 				if(shepherdEntity instanceof EntityDisciple) {
 					NonNullList<ItemStack> inventoryArmor = (NonNullList<ItemStack>) shepherdEntity.getArmorInventoryList();
 					NonNullList<ItemStack> inventoryHands = (NonNullList<ItemStack>) shepherdEntity.getHeldEquipment();
@@ -97,6 +99,7 @@ public class GuiEntityCapability {
 					});
 				}
 			}
+			
 			InventoryPlayer inventory = player.inventory;
 			for (int m = 0; m < 4; ++m) {
 				for (int n = 0; n < 9; ++n) {
@@ -172,6 +175,9 @@ public class GuiEntityCapability {
 		private DecimalFormat df1;
 		private DecimalFormat df2;
 		private DecimalFormat df4;
+		
+		private int armorDefense;
+		private int swordAttack;
 
 		public MyGuiContainer(World world, int entityId, EntityPlayer player) {
 			super(new MyContainer(world, entityId, player));
@@ -185,6 +191,8 @@ public class GuiEntityCapability {
 			df4 = new DecimalFormat("#0.0000");
 			this.xSize = 176;
 			this.ySize = 205;
+			armorDefense = getArmorDefense();
+			swordAttack = getSwordAttack();
 		}
 
 		@Override
@@ -219,9 +227,11 @@ public class GuiEntityCapability {
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.blood", new Object[0]) + df1.format(shepherdCapability.getBlood()) + "/" + df1.format(shepherdCapability.getMaxBlood()), 64, 17, 0xFF9933);
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.magic", new Object[0]) + df1.format(shepherdCapability.getMagic()) + "/" + df1.format(shepherdCapability.getMaxMagic()), 64, 26, 0xFF9933);
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.speed", new Object[0]) + df2.format(shepherdCapability.getSpeed()), 64, 35, 0xFF9933);
-				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.attack", new Object[0]) + df2.format(shepherdCapability.getAttack()), 64, 44, 0xFF9933);
+				String attack = String.format("%s +(%s)", df2.format(shepherdCapability.getAttack()), swordAttack);
+				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.attack", new Object[0]) + attack, 64, 44, 0xFF9933);
 //				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.intellect", new Object[0]) + df2.format(shepherdCapability.getIntellect()), 64, 64, 0xFF9933);
-				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.physicalDefense", new Object[0]) + df2.format(shepherdCapability.getPhysicalDefense()), 64, 53, 0xFF9933);
+				String physicalDefense = String.format("%s +(%s)", df2.format(shepherdCapability.getPhysicalDefense()), armorDefense);
+				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.physicalDefense", new Object[0]) + physicalDefense, 64, 53, 0xFF9933);
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.magicDefense", new Object[0]) + df2.format(shepherdCapability.getMagicDefense()), 64, 62, 0xFF9933);
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.bloodRestore", new Object[0]) + df4.format(shepherdCapability.getBloodRestore()) + "/T", 64, 71, 0xFF9933);
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.magicRestore", new Object[0]) + df4.format(shepherdCapability.getMagicRestore()) + "/T", 64, 80, 0xFF9933);
@@ -266,5 +276,38 @@ public class GuiEntityCapability {
 	            this.mc.player.closeScreen();
 	        }
 	    }
+
+		/**
+		 * Get entity's armors defense
+		 * @return
+		 */
+		public int getArmorDefense() {
+			int armorDefense = 0;
+			Iterable<ItemStack> armorList = shepherdEntity.getArmorInventoryList();
+			for(ItemStack itemStack : armorList) {
+				Item item = itemStack.getItem();
+				if(item instanceof ItemArmor) {
+					armorDefense += ((ItemArmor)item).damageReduceAmount;
+				}
+			}
+			return armorDefense;
+		}
+
+
+		/**
+		 * Get entity's sword attack
+		 * @return
+		 */
+		public int getSwordAttack() {
+			int swordAttack = 0;
+			ItemStack swordStack = shepherdEntity.getHeldItemMainhand();
+			if(ItemStack.EMPTY != swordStack) {
+				Item sword = swordStack.getItem();
+				if(sword instanceof ItemSword) {
+					swordAttack += ((ItemSword)sword).getAttackDamage() + 3;
+				}
+			}
+			return swordAttack;
+		}
 	}
 }

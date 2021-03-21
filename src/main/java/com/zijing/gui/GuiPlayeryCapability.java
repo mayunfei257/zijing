@@ -25,7 +25,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -64,18 +67,8 @@ public class GuiPlayeryCapability {
         
 		public void upgrade(){
 			if(null != shepherdCapability) {
-	    		double needMagic = MathUtil.getMaxMagic(shepherdCapability.getLevel());
-	    		int needXP = MathUtil.getNeedXP(shepherdCapability.getLevel());;
-				if(shepherdCapability.getMagic() >= needMagic) {
-					if(player.experienceTotal >= needXP) {
-						if(player.world.isRemote) {
-							ShepherdProvider.upgradeToServer(player);
-						}
-					}else {
-						player.sendMessage(new TextComponentString("Experience is not enough, need at least " + needXP));
-					}
-				}else {
-					player.sendMessage(new TextComponentString("Magic energy is not enough, need at least " + needMagic));
+				if(player.world.isRemote) {
+					ShepherdProvider.upgradeToServer(player);
 				}
 			}
 		}
@@ -94,6 +87,9 @@ public class GuiPlayeryCapability {
 		private DecimalFormat df2;
 		private DecimalFormat df4;
 		
+		private int armorDefense;
+		private int swordAttack;
+		
 		public MyGuiContainer(World world, int i, int j, int k, EntityPlayer player) {
 			super(new MyContainer(world, i, j, k, player));
 			this.player = player;
@@ -103,6 +99,8 @@ public class GuiPlayeryCapability {
 			df1 = new DecimalFormat("#0.0");
 			df2 = new DecimalFormat("#0.00");
 			df4 = new DecimalFormat("#0.0000");
+			armorDefense = getArmorDefense();
+			swordAttack = getSwordAttack();
 		}
 
 		@Override
@@ -131,9 +129,11 @@ public class GuiPlayeryCapability {
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.blood", new Object[0]) + df1.format(shepherdCapability.getBlood()) + "/" + df1.format(shepherdCapability.getMaxBlood()), 64, 26, 0xFFAA00);
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.magic", new Object[0]) + df1.format(shepherdCapability.getMagic()) + "/" + df1.format(shepherdCapability.getMaxMagic()), 64, 35, 0xFFAA00);
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.speed", new Object[0]) + df2.format(shepherdCapability.getSpeed()), 64, 44, 0xFFAA00);
-				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.attack", new Object[0]) + df2.format(shepherdCapability.getAttack()), 64, 53, 0xFFAA00);
+				String attack = String.format("%s +(%s)", df2.format(shepherdCapability.getAttack()), swordAttack);
+				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.attack", new Object[0]) + attack, 64, 53, 0xFFAA00);
 //				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.intellect", new Object[0]) + df2.format(shepherdCapability.getIntellect()), 64, 62, 0xFFAA00);
-				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.physicalDefense", new Object[0]) + df2.format(shepherdCapability.getPhysicalDefense()), 64, 62, 0xFFAA00);
+				String physicalDefense = String.format("%s +(%s)", df2.format(shepherdCapability.getPhysicalDefense()), armorDefense);
+				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.physicalDefense", new Object[0]) + physicalDefense, 64, 62, 0xFFAA00);
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.magicDefense", new Object[0]) + df2.format(shepherdCapability.getMagicDefense()), 64, 71, 0xFFAA00);
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.bloodRestore", new Object[0]) + df4.format(shepherdCapability.getBloodRestore()) + "/T", 64, 80, 0xFFAA00);
 				this.fontRenderer.drawString(I18n.format(ConstantUtil.MODID + ".gui.magicRestore", new Object[0]) + df4.format(shepherdCapability.getMagicRestore()) + "/T", 64, 89, 0xFFAA00);
@@ -161,6 +161,41 @@ public class GuiPlayeryCapability {
 				this.mc.player.closeScreen();
 			}
 			super.keyTyped(typedChar, keyCode);
+		}
+		
+		/**
+		 * Get player's armors defense
+		 * @return
+		 */
+		public int getArmorDefense() {
+			int armorDefense = 0;
+			Iterable<ItemStack> armorList = player.getArmorInventoryList();
+			for(ItemStack itemStack : armorList) {
+				if(ItemStack.EMPTY != itemStack) {
+					Item item = itemStack.getItem();
+					if(item instanceof ItemArmor) {
+						armorDefense += ((ItemArmor)item).damageReduceAmount;
+					}
+				}
+			}
+			return armorDefense;
+		}
+
+
+		/**
+		 * Get player's sword attack
+		 * @return
+		 */
+		public int getSwordAttack() {
+			int swordAttack = 0;
+			ItemStack swordStack = player.getHeldItemMainhand();
+			if(ItemStack.EMPTY != swordStack) {
+				Item sword = swordStack.getItem();
+				if(sword instanceof ItemSword) {
+					swordAttack += ((ItemSword)sword).getAttackDamage() + 3;
+				}
+			}
+			return swordAttack;
 		}
 
 	    /**

@@ -20,14 +20,18 @@ import com.zijing.util.StringUtil;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -58,7 +62,7 @@ public class ZijingEvent {
 						shepherdCapability.setMagic(shepherdCapability.getMagic() - SkillEntity.MagicSkill_ImmuneFallDamage);
 						ShepherdProvider.updateChangeToClient(player);
 					}else {
-						player.sendMessage(StringUtil.MagicIsNotEnough(SkillEntity.MagicSkill_ImmuneFallDamage));
+						player.sendMessage(StringUtil.magicIsNotEnough(SkillEntity.MagicSkill_ImmuneFallDamage));
 					}
 				}
 			}
@@ -80,9 +84,26 @@ public class ZijingEvent {
 		if (!entity.world.isRemote && event.getAmount() > 0) {
 
 			ShepherdCapability shepherdCapability = entity instanceof EntityShepherdCapability ? ((EntityShepherdCapability)entity).getShepherdCapability() : ShepherdProvider.getCapabilityFromPlayer(entity);
-			if(null != shepherdCapability && shepherdCapability.getPhysicalDefense() > 30) {
-				double overPhysical = shepherdCapability.getPhysicalDefense() - 30;
-				event.setAmount(Math.max(event.getAmount() - (float)(overPhysical * 0.02), 0));
+			if(null != shepherdCapability) {
+
+				int totalDefense = 0;
+				Iterable<ItemStack> armorList = entity.getArmorInventoryList();
+				for(ItemStack itemStack : armorList) {
+					Item item = itemStack.getItem();
+					if(item instanceof ItemArmor) {
+						totalDefense += ((ItemArmor)item).damageReduceAmount;
+					}
+				}
+				totalDefense += shepherdCapability.getPhysicalDefense();
+				
+				if(totalDefense > 30) {
+					double reduction = (totalDefense - 30) * ZijingMod.config.getDAMAGE_REDUCTION_K();
+					float amount = Math.max(event.getAmount() - (float)reduction, 0);
+					event.setAmount(amount);
+					if(entity instanceof EntityPlayer) {
+						entity.sendMessage(StringUtil.damageReduction(reduction, amount));
+					}
+				}
 			}
 		}
 	}
@@ -92,7 +113,7 @@ public class ZijingEvent {
 	public void entityAttack(LivingAttackEvent event) {
 		EntityLivingBase entity = event.getEntityLiving();
 		if (!entity.world.isRemote && event.getAmount() > 0) {
-			Iterable<ItemStack> armorList = entity instanceof EntityPlayer ? ((EntityPlayer)entity).getArmorInventoryList() : entity.getArmorInventoryList();
+			Iterable<ItemStack> armorList = entity.getArmorInventoryList();
 			for(ItemStack stack: armorList) {
 				if(null != stack && stack.getItem() == BaseControl.itemArmorZijingHelmet && null == entity.getActivePotionEffect(MobEffects.WATER_BREATHING)) {
 					entity.addPotionEffect(new PotionEffect(MobEffects.WATER_BREATHING, ItemArmorZijingHelmet.effectTick, 0));

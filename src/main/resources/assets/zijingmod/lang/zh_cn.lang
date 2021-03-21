@@ -141,7 +141,6 @@ zijingmod.gui.needExperience=§l升级经验: §r
 zijingmod.gui.special=§l特性: §r
 zijingmod.gui.blockZhulingTai.button.type0=§l复制
 
-
 #WaiGua-------------------------------------------------------------------------
 item.itemStaffBuilding.name=§6外挂-建设法杖
 item.itemWuxianBaoshi.name=§6外挂-无限宝石
@@ -157,4 +156,5 @@ zijingmod.itemWuxianBaoshi.skill3=§c技能3: 自动合成背包里的紫气和�
 #FY_BASE---------------------------------------------------------------------------
 zijingmod.line.1=§d----------------.
 zijingmod.line.2=§d--------------------------------.
-zijingmod.magic.notenough=§3法力值不足，需要至少%d点!
+zijingmod.magic.notenough=法力值不足，需要至少%d点!
+zijingmod.damage.reduction=防御前伤害减免-%d，剩余伤害%d!
