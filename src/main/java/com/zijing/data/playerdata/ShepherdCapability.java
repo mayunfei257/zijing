@@ -37,7 +37,7 @@ public class ShepherdCapability{
 		this.level = ShepherdCapability.BASE_LEVEL;
 		this.race = ShepherdCapability.BASE_RACE;
 		this.maxBlood = MathUtil.getMaxBlood(this.level);
-		this.maxMagic = MathUtil.getMaxMagic(this.level);;
+		this.maxMagic = MathUtil.getMaxMagic(this.level);
 		this.speed = ShepherdCapability.BASE_SPEED;
 		this.attack = MathUtil.getAttack(this.level);
 		this.intellect = ShepherdCapability.BASE_INTELLECT;

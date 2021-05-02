@@ -62,6 +62,7 @@ public abstract class EntityShepherdCapability extends EntityCreature implements
 		this.shepherdCapability = new ShepherdCapability();
 		this.experience = MathUtil.getNeedXP(shepherdCapability.getLevel(), baseLevel - shepherdCapability.getLevel());
 		this.upEntityGrade(baseLevel - shepherdCapability.getLevel());
+		this.nextLevelNeedExperience = MathUtil.getNeedXP(shepherdCapability.getLevel());
 	}
 
 	@Override
@@ -145,6 +146,7 @@ public abstract class EntityShepherdCapability extends EntityCreature implements
 		if(!this.isDead && this.getHealth() > 0) {
 			if(this.nextLevelNeedExperience <= this.experience && this.shepherdCapability.getLevel() < ZijingMod.config.getMAX_LEVEL()) {
 				this.upEntityGrade(1);
+				this.nextLevelNeedExperience = MathUtil.getNeedXP(shepherdCapability.getLevel());
 			}
 			if(this.getHealth() < this.getMaxHealth()) {
 				this.setHealth(this.getHealth() + (float)this.shepherdCapability.getBloodRestore());

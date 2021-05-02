@@ -58,6 +58,7 @@ public class BlockSuperNangua extends BlockHorizontal{
 		setCreativeTab(ZijingTab.zijingTab);
 	}
 
+	@Override
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state){
         super.onBlockAdded(worldIn, pos, state);
         this.trySpawnGolem(worldIn, pos);

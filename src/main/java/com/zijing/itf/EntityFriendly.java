@@ -54,7 +54,7 @@ public abstract class EntityFriendly extends EntityShepherdCapability{
         if (EntityPlayer.class.isAssignableFrom(cls) || EntityFriendly.class.isAssignableFrom(cls)){
         	return false;
         }else {
-            return super.canAttackClass(cls);
+            return true;
         }
     }
 }

@@ -21,8 +21,10 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -97,8 +99,8 @@ public class ZijingEvent {
 				totalDefense += shepherdCapability.getPhysicalDefense();
 				
 				if(totalDefense > 30) {
-					double reduction = (totalDefense - 30) * ZijingMod.config.getDAMAGE_REDUCTION_K();
-					float amount = Math.max(event.getAmount() - (float)reduction, 0);
+					double reduction = Math.min((totalDefense - 30) * ZijingMod.config.getDAMAGE_REDUCTION_K(), event.getAmount());
+					float amount = event.getAmount() - (float)reduction;
 					event.setAmount(amount);
 					if(entity instanceof EntityPlayer) {
 						entity.sendMessage(StringUtil.damageReduction(reduction, amount));

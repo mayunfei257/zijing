@@ -21,7 +21,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemDanShenshu extends ItemFood implements ItemFoodDan{
-	public static final int effectTick = 600;
+	public static final int effectTick = 1200;
 
 	public ItemDanShenshu() {
 		super(1, 1F, true);

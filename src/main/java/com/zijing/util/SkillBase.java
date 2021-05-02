@@ -12,6 +12,7 @@ import com.zijing.entity.EntityDisciple;
 import com.zijing.entity.EntityEvilTaoist;
 import com.zijing.entity.EntitySuperIronGolem;
 import com.zijing.entity.EntitySuperSnowman;
+import com.zijing.entity.EntityZhenling;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
@@ -338,6 +339,17 @@ public class SkillBase {
 
 	protected static EntitySuperIronGolem summonSuperIronGolemBase(World world, BlockPos blockPos, int baseLevel, float yaw, float pitch, int distance) {
 		EntitySuperIronGolem entity = new EntitySuperIronGolem(world, 20);
+		entity.setLocationAndAngles(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D, yaw, pitch);
+		entity.setHomePosAndDistance(blockPos, distance);
+		entity.updataSwordDamageAndArmorValue();
+		entity.playLivingSound();
+		world.spawnEntity(entity);
+		world.playSound((EntityPlayer) null, blockPos.getX() + 0.5D, blockPos.getY() + 0.5D, blockPos.getZ() + 0.5D, SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.endermen.teleport")), SoundCategory.NEUTRAL, 1.0F, 1.0F);
+		return entity;
+	}
+	
+	protected static EntityZhenling SummonZhenlingBase(World world, BlockPos blockPos, int baseLevel, float yaw, float pitch, int distance) {
+		EntityZhenling entity = new EntityZhenling(world, baseLevel);
 		entity.setLocationAndAngles(blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D, yaw, pitch);
 		entity.setHomePosAndDistance(blockPos, distance);
 		entity.updataSwordDamageAndArmorValue();

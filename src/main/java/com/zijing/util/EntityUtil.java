@@ -136,7 +136,7 @@ public class EntityUtil {
 			player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, itenStack));
 		}
 		
-		if(level == ZijingMod.config.getMAX_LEVEL()) {
+		if(level == ZijingMod.config.getREWARDS_LEVEL()) {
 			ItemStack zhulingTai = new ItemStack(BaseControl.blockZhulingTai, 1);
 			if(!inventory.addItemStackToInventory(zhulingTai)) {
 				player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, zhulingTai));

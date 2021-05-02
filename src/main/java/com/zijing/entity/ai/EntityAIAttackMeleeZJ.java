@@ -22,4 +22,5 @@ public class EntityAIAttackMeleeZJ extends EntityAIAttackMelee{
             this.attacker.attackEntityAsMob(attackTarget);
         }
     }
+	
 }

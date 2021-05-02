@@ -46,6 +46,7 @@ public class Config {
 	private double UPGRADE_PHYSICALDEFENSE_K;
 	
 	private int ALLOWFLYING_LEVEL;
+	private int REWARDS_LEVEL;
 	private double DAMAGE_REDUCTION_K;
 	
 	private int LONGJIE_DIMID;
@@ -128,6 +129,7 @@ public class Config {
 			this.UPGRADE_MAGICRESTORE_K = configuration.get("PLAYER", "UPGRADE_MAGICRESTORE_K", 0.004D, new String(new byte[]{-2,-1,108,-43,82,-101,80,60,86,-34,89,13,-112,31,94,-90,0,40,112,-71,0,47,0,84,0,105,0,99,0,107,0,41,0,32,0,61,0,32,0,40,123,73,126,-89,0,32,0,42,0,32,123,73,126,-89,0,32,0,43,0,32,123,73,126,-89,0,41,0,32,0,42,0,32,0,75,0,32,0,47,0,32,0,50,-1,12,0,75,-98,-40,-117,-92,80,60,0,48,0,46,0,48,0,48,0,52}, "unicode")).getDouble();
 			this.UPGRADE_PHYSICALDEFENSE_K = configuration.get("PLAYER", "UPGRADE_PHYSICALDEFENSE_K", 0.2D, new String(new byte[]{-2,-1,114,105,116,6,-106,50,95,-95,80,60,0,32,0,61,0,32,0,40,123,73,126,-89,0,32,0,42,0,32,123,73,126,-89,0,32,0,43,0,32,123,73,126,-89,0,41,0,32,0,42,0,32,0,75,0,32,0,47,0,32,0,50,-1,12,0,75,-98,-40,-117,-92,80,60,0,48,0,46,0,50}, "unicode")).getDouble();
 			this.ALLOWFLYING_LEVEL = configuration.get("PLAYER", "ALLOWFLYING_LEVEL", 40, new String(new byte[]{-2,-1,-113,-66,82,48,89,26,92,17,126,-89,83,-17,78,-27,-104,-34,-120,76}, "unicode")).getInt();
+			this.REWARDS_LEVEL = configuration.get("PLAYER", "REWARDS_LEVEL", 100, new String(new byte[]{-2,-1,-113,-66,82,48,99,7,91,-102,123,73,126,-89,89,86,82,-79,108,-24,112,117,83,-16,-1,12,-98,-40,-117,-92,0,49,0,48,0,48,126,-89}, "unicode")).getInt();
 			this.DAMAGE_REDUCTION_K = configuration.get("PLAYER", "DAMAGE_REDUCTION_K", 0.06, new String(new byte[]{-2,-1,79,36,91,-77,81,-49,81,77,107,-44,79,-117,0,75,-1,12,-106,50,95,-95,82,77,79,36,91,-77,0,32,0,61,0,32,83,-97,79,36,91,-77,0,32,0,45,0,32,0,77,0,65,0,88,0,40,0,48,0,44,0,32,0,40,-106,50,95,-95,80,60,0,32,0,45,0,32,0,51,0,48,0,41,0,32,0,42,0,32,0,75,0,41,-1,12,-98,-40,-117,-92,78,58,0,48,0,46,0,48,0,54}, "unicode")).getDouble();
 			
 			this.LONGJIE_DIMID = configuration.get("LONGJIE", "LONGJIE_DIMID", 5, "Long Jie Dimension ID.").getInt();
@@ -263,6 +265,10 @@ public class Config {
 
 	public int getALLOWFLYING_LEVEL() {
 		return ALLOWFLYING_LEVEL;
+	}
+
+	public int getREWARDS_LEVEL() {
+		return REWARDS_LEVEL;
 	}
 
 	public double getDAMAGE_REDUCTION_K() {

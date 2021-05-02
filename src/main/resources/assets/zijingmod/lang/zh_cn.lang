@@ -56,6 +56,7 @@ entity.entityDisciple.name=§6徒弟
 entity.entitySuperIronGolem.name=§6超级铁傀儡
 entity.entitySuperSnowman.name=§6超级雪人
 entity.entityEvilTaoist.name=§6邪修
+entity.entityZhenling.name=§6阵灵
 
 #FY_Block----------------------------------------------------------------------
 zijingmod.blockZilingCao.1=§4重要植物，种植在耕地上，可提炼出紫气
@@ -122,6 +123,8 @@ zijingmod.entitySuperSnowman.name=§6超级雪人
 zijingmod.entitySuperSnowman.special=法力、法力回复和移速%s倍于等级基础属性！
 zijingmod.entityEvilTaoist.name=§6邪修
 zijingmod.entityEvilTaoist.special=可以穿戴装备，触发紫晶防具被动效果！
+zijingmod.entityZhenling.name=§6阵灵
+zijingmod.entityZhenling.special=全属性%s倍于等级基础属性。不能移动！
 
 #FY_GUI-------------------------------------------------------------------------
 zijingmod.gui.upGrade=§6§l升级
@@ -157,4 +160,4 @@ zijingmod.itemWuxianBaoshi.skill3=§c技能3: 自动合成背包里的紫气和�
 zijingmod.line.1=§d----------------.
 zijingmod.line.2=§d--------------------------------.
 zijingmod.magic.notenough=法力值不足，需要至少%d点!
-zijingmod.damage.reduction=防御前伤害减免-%d，剩余伤害%d!
+zijingmod.damage.reduction=伤害减免-%d，剩余%d!

@@ -1,5 +1,10 @@
 package com.zijing.util;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
+import com.google.common.base.Predicate;
 import com.zijing.data.playerdata.ShepherdCapability;
 import com.zijing.entity.EntityArrowBingDan;
 import com.zijing.entity.EntityArrowFengyinDan;
@@ -7,10 +12,18 @@ import com.zijing.entity.EntityArrowHuoDan;
 import com.zijing.entity.EntityArrowXukongDan;
 import com.zijing.itf.EntityShepherdCapability;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.init.MobEffects;
+import net.minecraft.potion.Potion;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class SkillEntityShepherd extends SkillEntity{
 
@@ -189,4 +202,32 @@ public class SkillEntityShepherd extends SkillEntity{
     		shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill_GrowAreaBlock);
         }
     }
+	
+	public static boolean repelAttack(EntityShepherdCapability thrower) {
+		ShepherdCapability shepherdCapability = thrower.getShepherdCapability();
+        if(shepherdCapability.getMagic() >= MagicSkill_BingDan) {
+        	float attackDamage = (float)thrower.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
+        	AxisAlignedBB axisAlignedBB = new AxisAlignedBB(thrower.posX - 4, thrower.posY - 4, thrower.posZ - 4, thrower.posX + 4, thrower.posY + 4, thrower.posZ + 4);
+        	
+        	List<EntityLiving> entityLivingList = (List<EntityLiving>) getEntitiesBase(thrower.world, EntityLiving.class, axisAlignedBB, (entity) -> {return entity instanceof EntityLiving;});
+    		if(null != entityLivingList && entityLivingList.size() > 0) {
+    			for(EntityLiving entityLiving: entityLivingList) {
+    				if(entityLiving instanceof IMob) {
+        				entityLiving.attackEntityFrom(DamageSource.causeMobDamage(thrower), attackDamage);
+        				entityLiving.motionX = entityLiving.posX - thrower.posX > 0 ? 4 : -4;
+        				entityLiving.motionZ = entityLiving.posZ - thrower.posZ > 0 ? 4 : -4;
+        				entityLiving.motionY = entityLiving.posY - thrower.posY > 0 ? 4 : -4;
+    				}else if(entityLiving instanceof IAnimals) {
+        				entityLiving.motionX = entityLiving.posX - thrower.posX > 0 ? 6 : -6;
+        				entityLiving.motionZ = entityLiving.posZ - thrower.posZ > 0 ? 6 : -6;
+        				entityLiving.motionY = entityLiving.posY - thrower.posY > 0 ? 1 : -1;
+    				}
+    			}
+    		}
+
+    		shepherdCapability.setMagic(shepherdCapability.getMagic() - MagicSkill_BingDan);
+    		return true;
+        }
+        return false;
+	}
 }
