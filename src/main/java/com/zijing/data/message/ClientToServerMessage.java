@@ -2,7 +2,9 @@ package com.zijing.data.message;
 
 import java.util.UUID;
 
+import com.zijing.entity.TileEntityTiandaoGaiwu;
 import com.zijing.entity.TileEntityZhulingTai;
+import com.zijing.gui.GuiTiandaoGaiwu;
 import com.zijing.gui.GuiZhulingTai;
 import com.zijing.util.ConstantUtil;
 
@@ -63,12 +65,27 @@ public class ClientToServerMessage implements IMessage{
 						if(null != tileEntity && tileEntity instanceof TileEntityZhulingTai) {
 							((TileEntityZhulingTai)tileEntity).execute(player);
 						}else {
-							player.sendMessage(new TextComponentString(I18n.format(ConstantUtil.MODID + ".guiHunDunTable.error2", new Object[] {null == tileEntity ? "NULL" : tileEntity.getClass().getSimpleName()})));
+							player.sendMessage(new TextComponentString(I18n.format(ConstantUtil.MODID + ".message.titleEntity.error2", new Object[] {null == tileEntity ? "NULL" : tileEntity.getClass().getSimpleName()})));
 						}
 					}else {
-						player.sendMessage(new TextComponentString(I18n.format(ConstantUtil.MODID + ".guiHunDunTable.error1", new Object[] {dimensionId, world.provider.getDimension()})));
+						player.sendMessage(new TextComponentString(I18n.format(ConstantUtil.MODID + ".message.blockZhulingTai.error1", new Object[] {dimensionId, world.provider.getDimension()})));
 					}
-				}else {
+					
+				} else if(GuiTiandaoGaiwu.GUINAME.equals(messageType)) {
+					String operationType = messageDate.getString("OperationType");
+					int dimensionId = messageDate.getInteger("DimensionId");
+					int x = messageDate.getInteger("X");
+					int y = messageDate.getInteger("Y");
+					int z = messageDate.getInteger("Z");
+					String nbtStr = messageDate.getString("nbtStr");
+					
+					TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
+					if(null != tileEntity && tileEntity instanceof TileEntityTiandaoGaiwu) {
+						((TileEntityTiandaoGaiwu)tileEntity).execute(player, operationType, nbtStr);
+					}else {
+						player.sendMessage(new TextComponentString(I18n.format(ConstantUtil.MODID + ".message.titleEntity.error2", new Object[] {null == tileEntity ? "NULL" : tileEntity.getClass().getSimpleName()})));
+					}
+				} else {
 					player.sendMessage(new TextComponentString(I18n.format(ConstantUtil.MODID + ".clientToServerMessage.error1", new Object[] {messageType})));
 				}
 			}

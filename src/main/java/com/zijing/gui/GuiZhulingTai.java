@@ -36,10 +36,10 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class GuiZhulingTai {
 	public static final int GUIID = 4;
-	public static final String GUINAME = "GuiHunDunTable";
+	public static final String GUINAME = "GuiZhulingTai";
 	
 	public static class MyContainer extends Container {
-		public static IInventory entityInventory;
+		public IInventory entityInventory;
 
 		public MyContainer(World world, int x, int y, int z, EntityPlayer player) {
 			TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
@@ -166,7 +166,7 @@ public class GuiZhulingTai {
 			Keyboard.enableRepeatEvents(true);
 			this.buttonList.clear();
 
-			guiButton = new GuiButton(0, this.guiLeft + 72, this.guiTop + 40, 32, 20, I18n.format(ConstantUtil.MODID + ".gui.blockZhulingTai.button.type0", new Object[]{}));
+			guiButton = new GuiButton(0, this.guiLeft + 72, this.guiTop + 41, 32, 20, I18n.format(ConstantUtil.MODID + ".gui.blockZhulingTai.button.type0", new Object[]{}));
 			this.buttonList.add(guiButton);
 		}
 		

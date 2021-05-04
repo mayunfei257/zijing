@@ -141,6 +141,10 @@ public class EntityUtil {
 			if(!inventory.addItemStackToInventory(zhulingTai)) {
 				player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, zhulingTai));
 			}
+			ItemStack tiandaoGaiwu = new ItemStack(BaseControl.blockTiandaoGaiwu, 1);
+			if(!inventory.addItemStackToInventory(tiandaoGaiwu)) {
+				player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, tiandaoGaiwu));
+			}
 		}
 		return true;
 	}

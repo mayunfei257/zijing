@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "zijingmod:blocks/blocktiandaogaiwu_up",
+        "front": "zijingmod:blocks/blocktiandaogaiwu",
+        "side": "zijingmod:blocks/blocktiandaogaiwu"
+    }
+}

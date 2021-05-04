@@ -43,8 +43,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TileEntityZhulingTai extends TileEntity implements ITickable, ISidedInventory
 {
 	private static final int[] SLOTS_TOP = new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9};
-	private static final int[] SLOTS_BOTTOM = new int[] {10, 11, 12, 13, 14, 15, 16, 17, 18};
 	private static final int[] SLOTS_SIDES = new int[] {0};
+	private static final int[] SLOTS_BOTTOM = new int[] {10, 11, 12, 13, 14, 15, 16, 17, 18};
 	/** The ItemStacks that hold the items currently being used in the furnace */
 	private NonNullList<ItemStack> furnaceItemStacks = NonNullList.<ItemStack>withSize(19, ItemStack.EMPTY);
 	private String furnaceCustomName;

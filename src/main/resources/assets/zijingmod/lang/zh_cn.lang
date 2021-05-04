@@ -10,6 +10,7 @@ tile.blockZhulingTai.name=§6外挂-注灵台
 tile.blockSuperNangua.name=§6超级南瓜
 tile.blockToushi.name=§6透视方块
 tile.blockYanQuan.name=§6岩泉
+tile.blockTiandaoGaiwu.name=§6外挂-天道改物
 
 #Item----------------------------------------------------------------------
 item.itemGuhuaNiunai.name=§6固化牛奶
@@ -143,6 +144,8 @@ zijingmod.gui.magicDefense=§l魔法防御: §r
 zijingmod.gui.needExperience=§l升级经验: §r
 zijingmod.gui.special=§l特性: §r
 zijingmod.gui.blockZhulingTai.button.type0=§l复制
+zijingmod.gui.blockTiandaoGaiwu.button1=§l清除NBT数据
+zijingmod.gui.blockTiandaoGaiwu.button2=§l添加NBT数据
 
 #WaiGua-------------------------------------------------------------------------
 item.itemStaffBuilding.name=§6外挂-建设法杖
@@ -159,5 +162,16 @@ zijingmod.itemWuxianBaoshi.skill3=§c技能3: 自动合成背包里的紫气和�
 #FY_BASE---------------------------------------------------------------------------
 zijingmod.line.1=§d----------------.
 zijingmod.line.2=§d--------------------------------.
+
+#FY_MESSAGE---------------------------------------------------------------------------
 zijingmod.magic.notenough=法力值不足，需要至少%d点!
 zijingmod.damage.reduction=伤害减免-%d，剩余%d!
+zijingmod.clientToServerMessage.error1=暂不支持的信息类型：%s!
+zijingmod.message.titleEntity.error2=TitleEntity异常：%s！
+
+zijingmod.message.blockZhulingTai.error1=注灵台和玩家不在同一空间维度:%d != %d！
+
+zijingmod.message.blockTiandaoGaiwu.error1=NBT字符串为空！
+zijingmod.message.blockTiandaoGaiwu.error2=NBT解析异常：%s！
+zijingmod.message.blockTiandaoGaiwu.error3=没有需要清除的NBT数据！
+

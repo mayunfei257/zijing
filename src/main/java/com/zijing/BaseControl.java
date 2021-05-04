@@ -4,6 +4,7 @@ import com.zijing.blocks.BlockGuhuaNiunaiKuai;
 import com.zijing.blocks.BlockSuperNangua;
 import com.zijing.blocks.BlockZijingKuai;
 import com.zijing.blocks.BlockZilingCao;
+import com.zijing.blocks.tool.BlockTiandaoGaiwu;
 import com.zijing.blocks.tool.BlockYanQuan;
 import com.zijing.blocks.tool.BlockZhulingTai;
 import com.zijing.blocks.tool.BlockZilingMieshaZhen;
@@ -25,6 +26,7 @@ import com.zijing.entity.EntityDisciple;
 import com.zijing.entity.EntitySuperIronGolem;
 import com.zijing.entity.EntitySuperSnowman;
 import com.zijing.entity.EntityZhenling;
+import com.zijing.entity.TileEntityTiandaoGaiwu;
 import com.zijing.entity.TileEntityZhulingTai;
 import com.zijing.entity.render.RenderDisciple;
 import com.zijing.entity.render.RenderSuperIronGolem;
@@ -106,6 +108,7 @@ public class BaseControl{
 	public static Block blockSuperNangua;
 	public static Block blockZhulingTai;
 	public static Block blockYanQuan;
+	public static Block blockTiandaoGaiwu;
 	
 	//item
 	public static Item itemGuhuaNiunai;
@@ -156,6 +159,7 @@ public class BaseControl{
 		blockZilingZhaohuanZhen = new BlockZilingZhaohuanZhen();
 		blockSuperNangua = new BlockSuperNangua();
 		blockZhulingTai = new BlockZhulingTai(false);
+		blockTiandaoGaiwu = new BlockTiandaoGaiwu();
 		blockYanQuan = new BlockYanQuan();
 		//item
 		itemGuhuaNiunai = new ItemGuhuaNiunai();
@@ -230,9 +234,11 @@ public class BaseControl{
 		GameData.register_impl(new ItemBlock(blockSuperNangua).setRegistryName(blockSuperNangua.getRegistryName()));
 		GameData.register_impl(blockZhulingTai);
 		GameData.register_impl(new ItemBlock(blockZhulingTai).setRegistryName(blockZhulingTai.getRegistryName()));
+		GameData.register_impl(blockTiandaoGaiwu);
+		GameData.register_impl(new ItemBlock(blockTiandaoGaiwu).setRegistryName(blockTiandaoGaiwu.getRegistryName()));
 		GameData.register_impl(blockYanQuan);
 		GameData.register_impl(new ItemBlock(blockYanQuan).setRegistryName(blockYanQuan.getRegistryName()));
-
+		
 //		ForgeRegistries.ITEMS.register(itemGuhuaNiunai);
 		//item
 		GameData.register_impl(itemGuhuaNiunai);
@@ -293,6 +299,7 @@ public class BaseControl{
 		bolckResourceLoad(blockZilingZhaohuanZhen);
 		bolckResourceLoad(blockSuperNangua);
 		bolckResourceLoad(blockZhulingTai);
+		bolckResourceLoad(blockTiandaoGaiwu);
 		bolckResourceLoad(blockYanQuan);
 		//item
 		itemResourceLoad(itemGuhuaNiunai);
@@ -350,7 +357,7 @@ public class BaseControl{
 		addRecipe(ConstantUtil.MODID + ":HC_blockSuperNangua2", ConstantUtil.MODID, new ItemStack(blockSuperNangua, 1), itemZijing, itemZijing, itemZijing, itemZijing, Blocks.LIT_PUMPKIN, itemZijing, itemZijing, itemZijing, itemZijing);
 		addRecipe(ConstantUtil.MODID + ":HC_blockZilingMieshaZhen", ConstantUtil.MODID, new ItemStack(blockZilingMieshaZhen, 1), itemZiqi, itemZiqi, itemZiqi, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, itemToolZijingJian, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, itemZijing, itemZijing, itemZijing);
 		addRecipe(ConstantUtil.MODID + ":HC_blockZilingZhaohuanZhen", ConstantUtil.MODID, new ItemStack(blockZilingZhaohuanZhen, 1), itemZijing, Items.ENDER_PEARL, itemZijing, blockZijingKuai, Blocks.PUMPKIN, blockZijingKuai, blockZijingKuai, Blocks.IRON_BLOCK, blockZijingKuai);
-		addRecipe(ConstantUtil.MODID + ":HC_blockZhulingTai", ConstantUtil.MODID, new ItemStack(blockZhulingTai, 1), itemZijing, Blocks.CAULDRON, itemZijing, blockZijingKuai, Blocks.CRAFTING_TABLE, blockZijingKuai, blockZijingKuai, Blocks.ANVIL, blockZijingKuai);
+//		addRecipe(ConstantUtil.MODID + ":HC_blockZhulingTai", ConstantUtil.MODID, new ItemStack(blockZhulingTai, 1), itemZijing, Blocks.CAULDRON, itemZijing, blockZijingKuai, Blocks.CRAFTING_TABLE, blockZijingKuai, blockZijingKuai, Blocks.ANVIL, blockZijingKuai);
 		addRecipe(ConstantUtil.MODID + ":HC_blockYanQuan", ConstantUtil.MODID, new ItemStack(blockYanQuan, 1), itemZijing, Blocks.MAGMA, itemZijing, Blocks.MAGMA, Items.ENDER_PEARL, Blocks.MAGMA, itemZijing, Blocks.MAGMA, itemZijing);
 		
 		//item and food
@@ -411,6 +418,7 @@ public class BaseControl{
 
 	public static void tileEntityAddMapping(FMLPostInitializationEvent event) {
 		TileEntity.register(ConstantUtil.MODID + ":zhulingtai", TileEntityZhulingTai.class);
+		TileEntity.register(ConstantUtil.MODID + ":tiandaogaiwu", TileEntityTiandaoGaiwu.class);
 	}
 	//*****************************************************************************************************************************************************//
 	//Render items
