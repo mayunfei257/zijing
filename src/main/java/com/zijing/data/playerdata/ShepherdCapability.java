@@ -32,6 +32,7 @@ public class ShepherdCapability{
 	private double magicRestore;
 	private double physicalDefense;
 	private double magicDefense;
+	private boolean giftBoxFlag;
 
 	public ShepherdCapability(){
 		this.level = ShepherdCapability.BASE_LEVEL;
@@ -45,6 +46,7 @@ public class ShepherdCapability{
 		this.magicRestore = MathUtil.getMagicRestore(this.level);
 		this.physicalDefense = MathUtil.getPhysicalDefense(this.level);
 		this.magicDefense = ShepherdCapability.BASE_MAGICDEFENSE;
+		this.giftBoxFlag = false;
 
 		this.blood = this.maxBlood;
 		this.magic = this.maxMagic;
@@ -84,7 +86,9 @@ public class ShepherdCapability{
 	public void setPhysicalDefense(double physicalDefense) {this.physicalDefense = physicalDefense;}
 	public double getMagicDefense() {return magicDefense;}
 	public void setMagicDefense(double magicDefense) {this.magicDefense = magicDefense;}
-	
+	public boolean isGiftBoxFlag() {return giftBoxFlag;}
+	public void setGiftBoxFlag(boolean giftBoxFlag) {this.giftBoxFlag = giftBoxFlag;}
+
 	public static class ShepherdStorage implements Capability.IStorage<ShepherdCapability> {
 		@Override
 		public void readNBT(Capability<ShepherdCapability> capability, ShepherdCapability instance, EnumFacing side, NBTBase nbtTag) {
@@ -101,6 +105,7 @@ public class ShepherdCapability{
 			instance.setMagicRestore(((NBTTagCompound)nbtTag).getDouble("magicRestore"));
 			instance.setPhysicalDefense(((NBTTagCompound)nbtTag).getDouble("physicalDefense"));
 			instance.setMagicDefense(((NBTTagCompound)nbtTag).getDouble("magicDefense"));
+			instance.setGiftBoxFlag(((NBTTagCompound)nbtTag).getBoolean("giftBoxFlag"));
 		}
 		@Override
 		public NBTBase writeNBT(Capability<ShepherdCapability> capability, ShepherdCapability instance, EnumFacing side) {
@@ -118,6 +123,7 @@ public class ShepherdCapability{
 			nbtTag.setDouble("magicRestore", instance.getMagicRestore());
 			nbtTag.setDouble("physicalDefense", instance.getPhysicalDefense());
 			nbtTag.setDouble("magicDefense", instance.getMagicDefense());
+			nbtTag.setBoolean("giftBoxFlag", instance.isGiftBoxFlag());
 			return nbtTag;
 		}
 	}

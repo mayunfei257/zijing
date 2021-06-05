@@ -156,14 +156,22 @@ public class ZijingEvent {
         	if(ShepherdProvider.hasCapabilityFromPlayer(player)){
     			ShepherdCapability newCapb = ShepherdProvider.getCapabilityFromPlayer(player);
     			EntityUtil.setPlayerAllValue(player, newCapb);
+    			
+    			if(!newCapb.isGiftBoxFlag()) {
+        			ItemStack itemGiftBox = new ItemStack(BaseControl.itemGiftBox0, 1);
+        			player.world.spawnEntity(new EntityItem(player.world, player.posX, player.posY, player.posZ, itemGiftBox));
+        			newCapb.setGiftBoxFlag(true);
+    			}
         	}
         }
     }
 
     @SubscribeEvent
     public void attachCapability(AttachCapabilitiesEvent<Entity> event){
-        if(event.getObject() instanceof EntityPlayer && !ShepherdProvider.hasCapabilityFromPlayer(event.getObject()))
+    	Entity player = event.getObject();
+        if(player instanceof EntityPlayer && !ShepherdProvider.hasCapabilityFromPlayer(player)) {
     		event.addCapability(new ResourceLocation(ShepherdCapability.NAME), new ShepherdProvider());
+        }
     }
 
 	public static final KeyBinding key1 = new KeyBinding("key.zijingmod", Keyboard.KEY_R, "key.categories.misc");

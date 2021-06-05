@@ -34,6 +34,7 @@ import com.zijing.entity.render.RenderSuperSnowman;
 import com.zijing.entity.render.RenderZhenling;
 import com.zijing.items.ItemDanShenshu;
 import com.zijing.items.ItemDanZiling;
+import com.zijing.items.ItemGiftBox;
 import com.zijing.items.ItemGuhuaNiunai;
 import com.zijing.items.ItemQiankunDai;
 import com.zijing.items.ItemZijing;
@@ -118,6 +119,7 @@ public class BaseControl{
 	public static Item itemDanShenshu;
 	public static ItemZilingZhu itemZilingZhu;
 	public static Item itemQiankunDai;
+	public static Item itemGiftBox0;
 	//card
 	public static Item itemCardFengyin;
 	public static Item itemCardChuansong;
@@ -169,6 +171,7 @@ public class BaseControl{
 		itemDanShenshu = new ItemDanShenshu();
 		itemZilingZhu = new ItemZilingZhu();
 		itemQiankunDai = new ItemQiankunDai();
+		itemGiftBox0 = new ItemGiftBox(0);
 		//card
 		itemCardFengyin = new ItemCardFengyin();
 		itemCardChuansong = new ItemCardChuansong();
@@ -248,6 +251,7 @@ public class BaseControl{
 		GameData.register_impl(itemDanShenshu);
 		GameData.register_impl(itemZilingZhu);
 		GameData.register_impl(itemQiankunDai);
+		GameData.register_impl(itemGiftBox0);
 		//card
 		GameData.register_impl(itemCardFengyin);
 		GameData.register_impl(itemCardChuansong);
@@ -309,6 +313,7 @@ public class BaseControl{
 		itemResourceLoad(itemDanShenshu);
 		itemResourceLoad(itemZilingZhu);
 		itemResourceLoad(itemQiankunDai);
+		itemResourceLoad(itemGiftBox0);
 		//card
 		itemResourceLoad(itemCardFengyin);
 		itemResourceLoad(itemCardChuansong);
